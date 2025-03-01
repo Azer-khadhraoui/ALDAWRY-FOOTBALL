@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);
+</string>
+  </property>
+  <widget class="QLabel" name="dashboard_2">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>40</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+     <fontweight>Thin</fontweight>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>Player</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>20</y>
+     <width>3</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #4C5C75;</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="menu">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>1151</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: #192231;
+color: #D3D3D3;
+border-bottom: 2px solid #4C5C75;
+
+border-radius: 30px;
+
+</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_3">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>20</y>
+     <width>3</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #4C5C75;</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>1120</x>
+     <y>40</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>user.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dashboard_3">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>40</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+     <fontweight>Thin</fontweight>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(158, 158, 158);</string>
+   </property>
+   <property name="text">
+    <string>Match</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dashboard_7">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>40</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+     <fontweight>Thin</fontweight>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(158, 158, 158);</string>
+   </property>
+   <property name="text">
+    <string>Competition</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dashboard_4">
+   <property name="geometry">
+    <rect>
+     <x>960</x>
+     <y>40</y>
+     <width>61</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+     <fontweight>Thin</fontweight>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+color: rgb(158, 158, 158);</string>
+   </property>
+   <property name="text">
+    <string>Team</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>30</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../../../../../Pictures/proj QT/logo football.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>20</y>
+     <width>3</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(40, 40, 40);
+border: 2px solid #4C5C75;</string>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>1110</x>
+     <y>40</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../../../../../Pictures/icons/user.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="menu_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>111</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: #0A1628;
+color: #FFFFFF;
+border-bottom: 3px solid #00FF7F;
+
+border-radius: 30px;
+
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>1110</x>
+     <y>40</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../../../../../Pictures/proj QT/user.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>651</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>50</y>
+      <width>341</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    background-color: #1E1E2D;  /* Dark matte background */
+
+
+ 
+
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="lineEdit_7">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>10</y>
+       <width>211</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">    background-color: #141821;  /* Slightly lighter for contrast */
+    border: 2px solid #cccccc;  /* Keep borders subtle */
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    color: white;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>20</y>
+       <width>18</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../../../../Pictures/proj QT/trier.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>31</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>11</width>
+        <height>11</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>../../../../../Pictures/proj QT/search.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <zorder>frame</zorder>
+    <zorder>lineEdit_7</zorder>
+    <zorder>label_5</zorder>
+   </widget>
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>611</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* Style for the specific QTableView named tableView */
+#tableView {
+    background-color: #1C1F2A; /* Matches the dark background of your UI */
+    border: 1px solid #2A2D3A; /* Subtle border for definition */
+    border-radius: 5px; /* Rounded corners to match your UI */
+    color: white; /* White text for readability on dark background */
+    gridline-color: #2A2D3A; /* Dark grid lines for better visibility */
+    selection-background-color: #4A5970; /* Slightly lighter blue-gray for selected rows */
+    selection-color: white; /* White text for selected items */
+    alternate-background-color: #192231; /* Alternate row color for better readability */
+}
+
+/* Style for headers (horizontal and vertical) of tableView */
+#tableView QHeaderView::section {
+    background-color: #2E3B4E; /* Slightly lighter header background */
+    border: 1px solid #4C5C75; /* Matching border color from your UI */
+    border-radius: 3px; /* Subtle rounding */
+    color: white; /* White text for headers */
+    padding: 5px; /* Padding for better spacing */
+    font-weight: bold; /* Bold headers for emphasis */
+    margin: 0px; /* Remove extra margins */
+}
+
+/* Style for items (cells) in tableView */
+#tableView::item {
+    padding: 5px; /* Padding inside cells */
+}
+
+/* Style for scroll bars of tableView */
+#tableView::verticalScrollBar, #tableView::horizontalScrollBar {
+    background-color: #1C1F2A; /* Dark background for scroll bars */
+    width: 15px; /* Width of vertical scroll bar */
+    height: 15px; /* Height of horizontal scroll bar */
+}
+
+#tableView QScrollBar::handle:vertical, #tableView QScrollBar::handle:horizontal {
+    background-color: #4C5C75; /* Scroll handle color matching your UI lines */
+    border-radius: 7px; /* Rounded scroll handle */
+    min-height: 20px;
+    min-width: 20px;
+}
+
+#tableView QScrollBar::add-line, #tableView QScrollBar::sub-line {
+    background: none; /* Remove arrows */
+    border: none;
+}
+
+#tableView QScrollBar::add-page, #tableView QScrollBar::sub-page {
+    background: none; /* Transparent background for scroll areas */
+}
+
+/* Focus frame (when an item in tableView is focused) */
+#tableView:focus {
+    border: 2px solid #00FF7F; /* Green outline for focus, matching your logo */
+}
+
+/* Disabled state for tableView */
+#tableView:disabled {
+    color: #808080; /* Gray text for disabled state */
+    background-color: #151A24; /* Slightly darker background for disabled state */
+}</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>580</y>
+      <width>141</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Download PDF</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>120</y>
+     <width>122</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #2C2F3F;  /* Elegant dark background */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #5A5F69;
+    border-radius: 6px;
+    padding: 8px 15px;
+    min-width: 90px;
+    transition: all 0.3s ease-in-out;</string>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame_3">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>220</y>
+     <width>431</width>
+     <height>501</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QListWidget" name="azer">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>160</y>
+      <width>291</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: #2E3B4E;
+border: 1px solid #4C5C75;
+
+border-radius: 30px;
+
+</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>70</y>
+      <width>191</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 90px;
+background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(13, 27, 42, 255), stop:1 rgba(27, 38, 59, 255));</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dashboard_6">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>330</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Sans Serif Collection</family>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;
+    color: red;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8); /* Gold glow */
+</string>
+    </property>
+    <property name="text">
+     <string>Player Of The Week</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>330</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>461</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../../../../../Downloads/Unazeaztitled-1.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>azer</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>listWidget_2</zorder>
+   <zorder>dashboard_6</zorder>
+   <zorder>label_6</zorder>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>120</y>
+     <width>122</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #2C2F3F;  /* Elegant dark background */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #5A5F69;
+    border-radius: 6px;
+    padding: 8px 15px;
+    min-width: 90px;
+    transition: all 0.3s ease-in-out;</string>
+   </property>
+   <property name="text">
+    <string>Stats</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>120</y>
+     <width>122</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #2C2F3F;  /* Elegant dark background */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #5A5F69;
+    border-radius: 6px;
+    padding: 8px 15px;
+    min-width: 90px;
+    transition: all 0.3s ease-in-out;</string>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_8">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>120</y>
+     <width>122</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #2C2F3F;  /* Elegant dark background */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #5A5F69;
+    border-radius: 6px;
+    padding: 8px 15px;
+    min-width: 90px;
+    transition: all 0.3s ease-in-out;</string>
+   </property>
+   <property name="text">
+    <string>Modify</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_9">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>120</y>
+     <width>122</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #2C2F3F;  /* Elegant dark background */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #5A5F69;
+    border-radius: 6px;
+    padding: 8px 15px;
+    min-width: 90px;
+    transition: all 0.3s ease-in-out;</string>
+   </property>
+   <property name="text">
+    <string>Display</string>
+   </property>
+  </widget>
+  <zorder>menu</zorder>
+  <zorder>menu_2</zorder>
+  <zorder>dashboard_2</zorder>
+  <zorder>line_2</zorder>
+  <zorder>line_3</zorder>
+  <zorder>label_4</zorder>
+  <zorder>dashboard_3</zorder>
+  <zorder>dashboard_7</zorder>
+  <zorder>dashboard_4</zorder>
+  <zorder>line</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label</zorder>
+  <zorder>label_17</zorder>
+  <zorder>frame_6</zorder>
+  <zorder>pushButton_5</zorder>
+  <zorder>frame_3</zorder>
+  <zorder>pushButton_6</zorder>
+  <zorder>pushButton_7</zorder>
+  <zorder>pushButton_8</zorder>
+  <zorder>pushButton_9</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

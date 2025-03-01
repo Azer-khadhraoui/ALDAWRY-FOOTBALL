@@ -1,0 +1,9 @@
+# ninja log v6
+4	1994	7625415947108983	joueur_autogen/timestamp	5df87f2290265ee3
+4	1994	7625415947108983	joueur_autogen/mocs_compilation.cpp	5df87f2290265ee3
+4	1994	7625415947108983	C:/Users/wiki/Downloads/joueur (2)/joueur/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/joueur_autogen/timestamp	5df87f2290265ee3
+4	1994	7625415947108983	C:/Users/wiki/Downloads/joueur (2)/joueur/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/joueur_autogen/mocs_compilation.cpp	5df87f2290265ee3
+2020	5200	7625415948016177	CMakeFiles/joueur.dir/joueur_autogen/mocs_compilation.cpp.obj	3b9a4d656e837c2a
+2023	5204	7625415948040460	CMakeFiles/joueur.dir/main.cpp.obj	5cf7e117bb9faf8a
+2026	5891	7625415948076822	CMakeFiles/joueur.dir/mainwindow.cpp.obj	62777186fb8ac29f
+5892	6891	7625415986735324	joueur.exe	5c51170dad67de10

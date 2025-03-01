@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-4544b73e1555ffa421b8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "joueur",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "joueur::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-joueur-Debug-40aeb58e6e58e9019dae.json",
+					"name" : "joueur",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "joueur_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-joueur_autogen-Debug-0ad3352c623b907e0d5e.json",
+					"name" : "joueur_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "joueur_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-joueur_autogen_timestamp_deps-Debug-276cc312d9db156452b7.json",
+					"name" : "joueur_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/wiki/Downloads/joueur (2)/joueur/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/wiki/Downloads/joueur (2)/joueur"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
