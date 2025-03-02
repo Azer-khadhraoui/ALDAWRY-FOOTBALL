@@ -4,6 +4,8 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
 #include "joueur.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,11 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    
-    // Charger les équipes disponibles dans le combobox
-    loadTeams();
-    
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
+    connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
+    loadTeams();
 }
 
 MainWindow::~MainWindow()
@@ -47,6 +47,21 @@ void MainWindow::loadTeams()
     }
 }
 
+void MainWindow::on_toolButtonImage_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Sélectionner une image", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadOnly)) {
+            img_joueur = file.readAll();
+            file.close();
+            QMessageBox::information(this, "Succès", "Image chargée avec succès.");
+        } else {
+            QMessageBox::critical(this, "Erreur", "Impossible de lire le fichier image.");
+        }
+    }
+}
+
 void MainWindow::on_button1_clicked()
 {
     // Vérifier si une équipe est sélectionnée
@@ -74,7 +89,6 @@ void MainWindow::on_button1_clicked()
     
     QDate date_of_birth = ui->dateEdit->date();
     QString nationality = ui->lineEdit_9->text();
-    QByteArray img_joueur; // Vous devez ajouter un moyen de récupérer l'image
     
     // Validation des champs
     if (first_name.isEmpty() || last_name.isEmpty() || position.isEmpty()) {
@@ -93,6 +107,7 @@ void MainWindow::on_button1_clicked()
         ui->lineEdit_5->clear();
         ui->lineEdit_8->clear();
         ui->lineEdit_9->clear();
+        img_joueur.clear(); // Réinitialiser l'image
     } else {
         QMessageBox::critical(this, "Erreur", "Impossible d'ajouter le joueur dans la base de données.");
     }
