@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -49,23 +48,23 @@ public:
     QFrame *frame_6;
     QWidget *widget;
     QGridLayout *gridLayout_3;
-    QLabel *label_7;
-    QLineEdit *lineEdit_3;
-    QLabel *label_8;
-    QLineEdit *lineEdit_4;
-    QLabel *label_12;
     QDateEdit *dateEdit;
-    QLabel *label_9;
-    QComboBox *comboBox;
-    QLabel *label_10;
-    QComboBox *comboBox_2;
-    QLabel *label_11;
-    QLineEdit *lineEdit_5;
-    QLabel *label_13;
-    QComboBox *comboBox_3;
-    QLabel *label_14;
-    QToolButton *toolButton;
+    QLineEdit *lineEdit_4;
     QPushButton *button1;
+    QLineEdit *lineEdit_9;
+    QLabel *label_8;
+    QLabel *label_12;
+    QLineEdit *lineEdit_5;
+    QToolButton *toolButton;
+    QLineEdit *lineEdit_3;
+    QLineEdit *lineEdit_8;
+    QLabel *label_10;
+    QLabel *label_14;
+    QLabel *label_11;
+    QLineEdit *lineEdit_6;
+    QLabel *label_7;
+    QLabel *label_13;
+    QLabel *label_9;
     QFrame *frame_3;
     QListWidget *azer;
     QListWidget *listWidget_2;
@@ -233,17 +232,9 @@ public:
 "padding: 15px;"));
         gridLayout_3 = new QGridLayout(widget);
         gridLayout_3->setObjectName("gridLayout_3");
-        label_7 = new QLabel(widget);
-        label_7->setObjectName("label_7");
-        label_7->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_7, 0, 0, 1, 1);
-
-        lineEdit_3 = new QLineEdit(widget);
-        lineEdit_3->setObjectName("lineEdit_3");
-        lineEdit_3->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
+        dateEdit = new QDateEdit(widget);
+        dateEdit->setObjectName("dateEdit");
+        dateEdit->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
 "border: 1px solid #2A2D3A;\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
@@ -251,15 +242,7 @@ public:
 "margin-left: 15px;\n"
 "margin-right:15px;"));
 
-        gridLayout_3->addWidget(lineEdit_3, 1, 0, 1, 1);
-
-        label_8 = new QLabel(widget);
-        label_8->setObjectName("label_8");
-        label_8->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_8, 2, 0, 1, 1);
+        gridLayout_3->addWidget(dateEdit, 5, 0, 1, 1);
 
         lineEdit_4 = new QLineEdit(widget);
         lineEdit_4->setObjectName("lineEdit_4");
@@ -273,6 +256,39 @@ public:
 
         gridLayout_3->addWidget(lineEdit_4, 3, 0, 1, 1);
 
+        button1 = new QPushButton(widget);
+        button1->setObjectName("button1");
+        button1->setStyleSheet(QString::fromUtf8("background-color: rgba(50, 150, 250, 0.8);\n"
+"color: white;\n"
+"font-size: 12px;\n"
+"border-radius: 5px;\n"
+"padding: 6px 12px;\n"
+"margin-left:500px;\n"
+"margin-right:20px;\n"
+"margin-bottom:10px;"));
+
+        gridLayout_3->addWidget(button1, 18, 0, 1, 1);
+
+        lineEdit_9 = new QLineEdit(widget);
+        lineEdit_9->setObjectName("lineEdit_9");
+        lineEdit_9->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
+"border: 1px solid #2A2D3A;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"color: white;\n"
+"margin-left: 15px;\n"
+"margin-right:15px;"));
+
+        gridLayout_3->addWidget(lineEdit_9, 13, 0, 1, 1);
+
+        label_8 = new QLabel(widget);
+        label_8->setObjectName("label_8");
+        label_8->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_8, 2, 0, 1, 1);
+
         label_12 = new QLabel(widget);
         label_12->setObjectName("label_12");
         label_12->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
@@ -280,69 +296,6 @@ public:
 "padding-bottom: 5px;background-color:transparent;"));
 
         gridLayout_3->addWidget(label_12, 4, 0, 1, 1);
-
-        dateEdit = new QDateEdit(widget);
-        dateEdit->setObjectName("dateEdit");
-        dateEdit->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
-"border: 1px solid #2A2D3A;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"color: white;\n"
-"margin-left: 15px;\n"
-"margin-right:15px;"));
-
-        gridLayout_3->addWidget(dateEdit, 5, 0, 1, 1);
-
-        label_9 = new QLabel(widget);
-        label_9->setObjectName("label_9");
-        label_9->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_9, 6, 0, 1, 1);
-
-        comboBox = new QComboBox(widget);
-        comboBox->addItem(QString());
-        comboBox->setObjectName("comboBox");
-        comboBox->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
-"border: 1px solid #2A2D3A;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"color: white;\n"
-"margin-left: 15px;\n"
-"margin-right:15px;"));
-
-        gridLayout_3->addWidget(comboBox, 7, 0, 1, 1);
-
-        label_10 = new QLabel(widget);
-        label_10->setObjectName("label_10");
-        label_10->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_10, 8, 0, 1, 1);
-
-        comboBox_2 = new QComboBox(widget);
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->setObjectName("comboBox_2");
-        comboBox_2->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
-"border: 1px solid #2A2D3A;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"color: white;\n"
-"margin-left: 15px;\n"
-"margin-right:15px;"));
-
-        gridLayout_3->addWidget(comboBox_2, 9, 0, 1, 1);
-
-        label_11 = new QLabel(widget);
-        label_11->setObjectName("label_11");
-        label_11->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_11, 10, 0, 1, 1);
 
         lineEdit_5 = new QLineEdit(widget);
         lineEdit_5->setObjectName("lineEdit_5");
@@ -354,36 +307,7 @@ public:
 "margin-left: 15px;\n"
 "margin-right:15px;"));
 
-        gridLayout_3->addWidget(lineEdit_5, 11, 0, 1, 1);
-
-        label_13 = new QLabel(widget);
-        label_13->setObjectName("label_13");
-        label_13->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_13, 12, 0, 1, 1);
-
-        comboBox_3 = new QComboBox(widget);
-        comboBox_3->addItem(QString());
-        comboBox_3->setObjectName("comboBox_3");
-        comboBox_3->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
-"border: 1px solid #2A2D3A;\n"
-"border-radius: 5px;\n"
-"padding: 5px;\n"
-"color: white;\n"
-"margin-left: 15px;\n"
-"margin-right:15px;"));
-
-        gridLayout_3->addWidget(comboBox_3, 13, 0, 1, 1);
-
-        label_14 = new QLabel(widget);
-        label_14->setObjectName("label_14");
-        label_14->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_3->addWidget(label_14, 14, 0, 1, 1);
+        gridLayout_3->addWidget(lineEdit_5, 9, 0, 1, 1);
 
         toolButton = new QToolButton(widget);
         toolButton->setObjectName("toolButton");
@@ -396,20 +320,91 @@ public:
 "margin-right:15px;\n"
 "margin-bottom:15px;"));
 
-        gridLayout_3->addWidget(toolButton, 15, 0, 1, 1);
+        gridLayout_3->addWidget(toolButton, 17, 0, 1, 1);
 
-        button1 = new QPushButton(widget);
-        button1->setObjectName("button1");
-        button1->setStyleSheet(QString::fromUtf8("background-color: rgba(50, 150, 250, 0.8);\n"
-"color: white;\n"
-"font-size: 12px;\n"
+        lineEdit_3 = new QLineEdit(widget);
+        lineEdit_3->setObjectName("lineEdit_3");
+        lineEdit_3->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
+"border: 1px solid #2A2D3A;\n"
 "border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"margin-left:500px;\n"
-"margin-right:20px;\n"
-"margin-bottom:10px;"));
+"padding: 5px;\n"
+"color: white;\n"
+"margin-left: 15px;\n"
+"margin-right:15px;"));
 
-        gridLayout_3->addWidget(button1, 16, 0, 1, 1);
+        gridLayout_3->addWidget(lineEdit_3, 1, 0, 1, 1);
+
+        lineEdit_8 = new QLineEdit(widget);
+        lineEdit_8->setObjectName("lineEdit_8");
+        lineEdit_8->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
+"border: 1px solid #2A2D3A;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"color: white;\n"
+"margin-left: 15px;\n"
+"margin-right:15px;"));
+
+        gridLayout_3->addWidget(lineEdit_8, 11, 0, 1, 1);
+
+        label_10 = new QLabel(widget);
+        label_10->setObjectName("label_10");
+        label_10->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_10, 8, 0, 1, 1);
+
+        label_14 = new QLabel(widget);
+        label_14->setObjectName("label_14");
+        label_14->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_14, 14, 0, 1, 1);
+
+        label_11 = new QLabel(widget);
+        label_11->setObjectName("label_11");
+        label_11->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_11, 10, 0, 1, 1);
+
+        lineEdit_6 = new QLineEdit(widget);
+        lineEdit_6->setObjectName("lineEdit_6");
+        lineEdit_6->setStyleSheet(QString::fromUtf8("background-color: #1C1F2A;\n"
+"border: 1px solid #2A2D3A;\n"
+"border-radius: 5px;\n"
+"padding: 5px;\n"
+"color: white;\n"
+"margin-left: 15px;\n"
+"margin-right:15px;"));
+
+        gridLayout_3->addWidget(lineEdit_6, 7, 0, 1, 1);
+
+        label_7 = new QLabel(widget);
+        label_7->setObjectName("label_7");
+        label_7->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_7, 0, 0, 1, 1);
+
+        label_13 = new QLabel(widget);
+        label_13->setObjectName("label_13");
+        label_13->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_13, 12, 0, 1, 1);
+
+        label_9 = new QLabel(widget);
+        label_9->setObjectName("label_9");
+        label_9->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_3->addWidget(label_9, 6, 0, 1, 1);
 
         frame_3 = new QFrame(centralwidget);
         frame_3->setObjectName("frame_3");
@@ -495,23 +490,16 @@ public:
         pushButton_8->setText(QCoreApplication::translate("MainWindow", "Modify", nullptr));
         pushButton_7->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         pushButton_6->setText(QCoreApplication::translate("MainWindow", "Stats", nullptr));
-        label_7->setText(QCoreApplication::translate("MainWindow", "First_Name", nullptr));
+        button1->setText(QCoreApplication::translate("MainWindow", "Confirm", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Last_Name", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Date_Of_Birth", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "Team", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "RMD", nullptr));
-
-        label_10->setText(QCoreApplication::translate("MainWindow", "Position", nullptr));
-        comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "LW", nullptr));
-        comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "RW", nullptr));
-
-        label_11->setText(QCoreApplication::translate("MainWindow", "Jersey_Nb", nullptr));
-        label_13->setText(QCoreApplication::translate("MainWindow", "Nationality", nullptr));
-        comboBox_3->setItemText(0, QCoreApplication::translate("MainWindow", "BR", nullptr));
-
-        label_14->setText(QCoreApplication::translate("MainWindow", "Insert player photo", nullptr));
         toolButton->setText(QCoreApplication::translate("MainWindow", "...", nullptr));
-        button1->setText(QCoreApplication::translate("MainWindow", "Confirm", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "Position", nullptr));
+        label_14->setText(QCoreApplication::translate("MainWindow", "Insert player photo", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Jersey_Nb", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "First_Name", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Nationality", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Team", nullptr));
         dashboard_6->setText(QCoreApplication::translate("MainWindow", "Player Of The Week", nullptr));
         label_6->setText(QString());
     } // retranslateUi

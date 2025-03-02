@@ -27,11 +27,13 @@ CONFIG += c++11
 CONFIG+=console
 
 SOURCES += \
+    joueur.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp
 
 HEADERS += \
+    joueur.h \
         mainwindow.h \
     connection.h
 
