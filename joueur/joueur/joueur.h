@@ -16,7 +16,7 @@ private:
     QString nationality;
     int goals;
     int assists;
-    int injured; // Changer bool à int
+    int injured;
     int yellow_card;
     int red_card;
     QString status;
@@ -24,10 +24,9 @@ private:
 
 public:
     joueur();
-    joueur(int id_player, int id_team, QString first_name, QString last_name,
+    joueur(int id_team, QString first_name, QString last_name,
            QString position, int jersey_nb, QDate date_of_birth, QString nationality,
-           int goals, int assists, int injured, int yellow_card, int red_card,
-           QString status, QByteArray img_joueur);
+           QByteArray img_joueur = QByteArray());
 
     int getIdPlayer() const;
     int getIdTeam() const;
@@ -39,13 +38,13 @@ public:
     QString getNationality() const;
     int getGoals() const;
     int getAssists() const;
-    int isInjured() const; // Changer bool à int
+    int isInjured() const;
     int getYellowCard() const;
     int getRedCard() const;
     QString getStatus() const;
     QByteArray getImgJoueur() const;
 
-    void setIdPlayer(int id);
+   
     void setIdTeam(int id);
     void setFirstName(QString first_name);
     void setLastName(QString last_name);
@@ -55,7 +54,7 @@ public:
     void setNationality(QString nationality);
     void setGoals(int goals);
     void setAssists(int assists);
-    void setInjured(int injured); // Changer bool à int
+    void setInjured(int injured);
     void setYellowCard(int yellow_card);
     void setRedCard(int red_card);
     void setStatus(QString status);
@@ -63,7 +62,6 @@ public:
 
     QString toString() const;
 
-    // Déclaration de la fonction ajouterDansBD
     bool ajouterDansBD();
 };
 

@@ -2,11 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "joueur.h"
+#include <QComboBox>
+#include <QMap>
 
-QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -18,9 +17,11 @@ public:
 
 private slots:
     void on_button1_clicked();
+    void loadTeams(); // Méthode pour charger les équipes
 
 private:
     Ui::MainWindow *ui;
+    QMap<QString, int> teamMap; // Stocke les noms d'équipes et leurs IDs
 };
 
 #endif // MAINWINDOW_H
