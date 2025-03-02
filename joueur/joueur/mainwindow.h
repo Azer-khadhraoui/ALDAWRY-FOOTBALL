@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QByteArray>
+#include <QPixmap>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

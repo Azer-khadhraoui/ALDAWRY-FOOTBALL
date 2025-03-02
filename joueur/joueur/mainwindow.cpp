@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QFile>
+#include <QPixmap>
 #include "joueur.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -55,6 +56,9 @@ void MainWindow::on_toolButtonImage_clicked()
         if (file.open(QIODevice::ReadOnly)) {
             img_joueur = file.readAll();
             file.close();
+            QPixmap pixmap;
+            pixmap.loadFromData(img_joueur);
+            ui->label_2->setPixmap(pixmap.scaled(ui->label_2->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
             QMessageBox::information(this, "Succès", "Image chargée avec succès.");
         } else {
             QMessageBox::critical(this, "Erreur", "Impossible de lire le fichier image.");
@@ -108,6 +112,7 @@ void MainWindow::on_button1_clicked()
         ui->lineEdit_8->clear();
         ui->lineEdit_9->clear();
         img_joueur.clear(); // Réinitialiser l'image
+        ui->label_2->clear(); // Réinitialiser l'affichage de l'image
     } else {
         QMessageBox::critical(this, "Erreur", "Impossible d'ajouter le joueur dans la base de données.");
     }
