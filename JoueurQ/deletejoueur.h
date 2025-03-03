@@ -3,8 +3,10 @@
 
 #include <QDialog>
 #include <QLineEdit>
-#include <QVBoxLayout>
-#include <QLabel>
+#include <QPushButton>
+
+// Nous n'utiliserons plus la déclaration forward de Ui::Delete_Joueur_2
+// Nous allons créer l'interface manuellement
 
 class DeleteJoueur : public QDialog
 {
@@ -19,7 +21,9 @@ private slots:
     void acceptDialog();
 
 private:
-    QLineEdit *lineEdit;
+    QLineEdit *lineEditId;
+    QPushButton *pushButtonSupprimer;
+    QPushButton *pushButtonAnnuler;
     int joueurId;
 };
 

@@ -9,6 +9,7 @@
 #include <QPixmap>
 #include "joueur.h"
 #include "deletejoueur.h"
+#include "modifyjoueur.h" // Ajoutez cet include en haut du fichier
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -174,24 +175,26 @@ void MainWindow::on_buttonDelete_clicked()
     DeleteJoueur deleteDialog(this);
     
     if (deleteDialog.exec() == QDialog::Accepted) {
-        int id = deleteDialog.getJoueurId();
-        
-        if (id > 0) {
-            QSqlQuery query;
-            query.prepare("DELETE FROM joueur WHERE id_player = :id"); // Changé "id" en "id_player"
-            query.bindValue(":id", id);
-            
-            if (query.exec()) {
-                if (query.numRowsAffected() > 0) {
-                    QMessageBox::information(this, tr("Succès"), tr("Le joueur avec l'ID %1 a été supprimé avec succès.").arg(id));
-                    // Recharger la liste des joueurs pour mettre à jour l'affichage
-                    loadPlayers();
-                } else {
-                    QMessageBox::warning(this, tr("Avertissement"), tr("Aucun joueur trouvé avec l'ID %1.").arg(id));
-                }
-            } else {
-                QMessageBox::critical(this, tr("Erreur"), tr("Impossible de supprimer le joueur: %1").arg(query.lastError().text()));
-            }
-        }
+        // Le joueur a été supprimé avec succès dans la boîte de dialogue
+        // Vous pouvez donc simplement mettre à jour votre interface
+        loadPlayers(); // Pour rafraîchir la liste des joueurs
+    }
+}
+
+void MainWindow::on_buttonModify_clicked()
+{
+    ModifyJoueur modifyDialog(this);
+    
+    // Si l'utilisateur a sélectionné un joueur dans le tableau, préchargez son ID
+    QModelIndexList selection = ui->tableWidget->selectionModel()->selectedRows();
+    if (!selection.isEmpty()) {
+        int row = selection.first().row();
+        int joueurId = ui->tableWidget->item(row, 0)->text().toInt(); // La colonne 0 contient l'ID
+        modifyDialog.setJoueurId(joueurId);
+    }
+    
+    if (modifyDialog.exec() == QDialog::Accepted) {
+        // Recharger la liste des joueurs pour afficher les modifications
+        loadPlayers();
     }
 }

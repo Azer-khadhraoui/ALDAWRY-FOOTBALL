@@ -31,13 +31,15 @@ SOURCES += \
     joueur.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    modifyjoueur.cpp
 
 HEADERS += \
     deletejoueur.h \
     joueur.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    modifyjoueur.h
 
 FORMS += \
     Delete_Joueur_2.ui \

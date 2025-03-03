@@ -1,33 +1,42 @@
 #include "deletejoueur.h"
+#include "joueur.h"
 #include <QMessageBox>
-#include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
 
 DeleteJoueur::DeleteJoueur(QWidget *parent) :
     QDialog(parent),
     joueurId(0)
 {
     setWindowTitle("Supprimer un joueur");
-    resize(300, 150);
-
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    setMinimumWidth(300);
     
-    QLabel *label = new QLabel("Entrez l'ID du joueur à supprimer:", this);
-    layout->addWidget(label);
+    // Créer l'interface manuellement
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     
-    lineEdit = new QLineEdit(this);
-    layout->addWidget(lineEdit);
+    QLabel *label = new QLabel("ID du joueur à supprimer:", this);
+    mainLayout->addWidget(label);
     
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &DeleteJoueur::acceptDialog);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    layout->addWidget(buttonBox);
+    lineEditId = new QLineEdit(this);
+    mainLayout->addWidget(lineEditId);
     
-    setLayout(layout);
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    pushButtonSupprimer = new QPushButton("Supprimer", this);
+    pushButtonAnnuler = new QPushButton("Annuler", this);
+    buttonLayout->addWidget(pushButtonSupprimer);
+    buttonLayout->addWidget(pushButtonAnnuler);
+    
+    mainLayout->addLayout(buttonLayout);
+    
+    // Connexions
+    connect(pushButtonSupprimer, &QPushButton::clicked, this, &DeleteJoueur::acceptDialog);
+    connect(pushButtonAnnuler, &QPushButton::clicked, this, &QDialog::reject);
 }
 
 DeleteJoueur::~DeleteJoueur()
 {
-    // Les widgets sont détruits automatiquement car ils ont this comme parent
+    // Les widgets sont automatiquement détruits car ils ont this comme parent
 }
 
 int DeleteJoueur::getJoueurId() const
@@ -38,12 +47,18 @@ int DeleteJoueur::getJoueurId() const
 void DeleteJoueur::acceptDialog()
 {
     bool ok;
-    joueurId = lineEdit->text().toInt(&ok);
+    joueurId = lineEditId->text().toInt(&ok);
     
     if (!ok || joueurId <= 0) {
         QMessageBox::warning(this, "Erreur", "Veuillez entrer un ID valide (nombre entier positif).");
         return;
     }
     
-    accept();
+    // Utiliser la méthode statique de la classe joueur pour supprimer
+    if (joueur::supprimer(joueurId)) {
+        QMessageBox::information(this, "Succès", "Le joueur a été supprimé avec succès.");
+        accept(); // Fermer la boîte de dialogue avec succès
+    } else {
+        QMessageBox::warning(this, "Erreur", "Impossible de supprimer le joueur. Vérifiez l'ID et réessayez.");
+    }
 }

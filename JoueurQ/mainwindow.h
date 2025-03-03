@@ -22,6 +22,7 @@ private slots:
     void on_button1_clicked();
     void on_toolButtonImage_clicked();
     void on_buttonDelete_clicked(); // Ajoutez cette ligne pour déclarer la fonction
+    void on_buttonModify_clicked();
 
 private:
     Ui::MainWindow *ui;
