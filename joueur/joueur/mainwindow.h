@@ -28,6 +28,7 @@ private:
     QByteArray img_joueur; // Variable pour stocker l'image du joueur
 
     void loadTeams();
+    void loadPlayers(); // Nouvelle fonction pour charger les joueurs dans le tableau
 };
 
 #endif // MAINWINDOW_H

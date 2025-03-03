@@ -15,12 +15,14 @@
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
 
@@ -66,13 +68,8 @@ public:
     QLineEdit *lineEdit_4;
     QLabel *label_12;
     QLabel *label_11;
-    QFrame *frame_3;
-    QListWidget *azer;
-    QListWidget *listWidget_2;
-    QLabel *dashboard_6;
-    QLineEdit *lineEdit;
-    QLabel *label_6;
     QLabel *label_2;
+    QTableWidget *tableWidget;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -220,12 +217,12 @@ public:
 "transition: all 0.3s ease-in-out;"));
         frame_6 = new QFrame(centralwidget);
         frame_6->setObjectName("frame_6");
-        frame_6->setGeometry(QRect(20, 140, 651, 641));
+        frame_6->setGeometry(QRect(20, 140, 631, 641));
         frame_6->setFrameShape(QFrame::Shape::StyledPanel);
         frame_6->setFrameShadow(QFrame::Shadow::Raised);
         widget = new QWidget(frame_6);
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 10, 651, 641));
+        widget->setGeometry(QRect(0, 10, 631, 641));
         widget->setStyleSheet(QString::fromUtf8("background-color: #0F111A;\n"
 "color: #FFFFFF;\n"
 "font-family: 'Segoe UI', Arial, sans-serif;\n"
@@ -401,51 +398,12 @@ public:
 
         gridLayout_3->addWidget(label_11, 11, 0, 1, 1);
 
-        frame_3 = new QFrame(centralwidget);
-        frame_3->setObjectName("frame_3");
-        frame_3->setGeometry(QRect(730, 320, 411, 441));
-        frame_3->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_3->setFrameShadow(QFrame::Shadow::Raised);
-        azer = new QListWidget(frame_3);
-        azer->setObjectName("azer");
-        azer->setGeometry(QRect(60, 130, 291, 281));
-        azer->setStyleSheet(QString::fromUtf8("background: #2E3B4E;\n"
-"border: 1px solid #4C5C75;\n"
-"border-radius: 30px;"));
-        listWidget_2 = new QListWidget(frame_3);
-        listWidget_2->setObjectName("listWidget_2");
-        listWidget_2->setGeometry(QRect(110, 30, 191, 201));
-        listWidget_2->setStyleSheet(QString::fromUtf8("border-radius: 90px;\n"
-"background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(13, 27, 42, 255), stop:1 rgba(27, 38, 59, 255));"));
-        dashboard_6 = new QLabel(frame_3);
-        dashboard_6->setObjectName("dashboard_6");
-        dashboard_6->setGeometry(QRect(120, 330, 171, 31));
-        QFont font2;
-        font2.setFamilies({QString::fromUtf8("Sans Serif Collection")});
-        font2.setPointSize(10);
-        font2.setBold(true);
-        dashboard_6->setFont(font2);
-        dashboard_6->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color: red;\n"
-"font-weight: bold;\n"
-"text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8);"));
-        lineEdit = new QLineEdit(frame_3);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(90, 330, 231, 31));
-        label_6 = new QLabel(frame_3);
-        label_6->setObjectName("label_6");
-        label_6->setGeometry(QRect(0, -90, 461, 271));
-        label_6->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_6->setPixmap(QPixmap(QString::fromUtf8("../../../../../../Downloads/Unazeaztitled-1.png")));
-        label_6->setScaledContents(true);
-        azer->raise();
-        lineEdit->raise();
-        listWidget_2->raise();
-        dashboard_6->raise();
-        label_6->raise();
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(750, 120, 341, 161));
+        label_2->setGeometry(QRect(740, 100, 341, 161));
+        tableWidget = new QTableWidget(centralwidget);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->setGeometry(QRect(660, 290, 531, 451));
         MainWindow->setCentralWidget(centralwidget);
         menu->raise();
         menu_2->raise();
@@ -459,13 +417,13 @@ public:
         line_2->raise();
         line_3->raise();
         frame_6->raise();
-        frame_3->raise();
         pushButton_5->raise();
         pushButton_9->raise();
         pushButton_6->raise();
         pushButton_8->raise();
         pushButton_7->raise();
         label_2->raise();
+        tableWidget->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
@@ -499,9 +457,7 @@ public:
         button1->setText(QCoreApplication::translate("MainWindow", "Confirm", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Date_Of_Birth", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Jersey_Nb", nullptr));
-        dashboard_6->setText(QCoreApplication::translate("MainWindow", "Player Of The Week", nullptr));
-        label_6->setText(QString());
-        label_2->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label_2->setText(QString());
     } // retranslateUi
 
 };

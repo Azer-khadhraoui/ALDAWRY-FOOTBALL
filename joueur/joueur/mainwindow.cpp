@@ -17,6 +17,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
     loadTeams();
+
+    // Définir les en-têtes de colonnes pour le tableau
+    ui->tableWidget->setColumnCount(13); // 13 colonnes pour les attributs du joueur
+    ui->tableWidget->setHorizontalHeaderLabels({
+        "ID Joueur", "ID Équipe", "Prénom", "Nom", "Position", "Numéro", "Date de naissance",
+        "Nationalité", "Buts", "Passes", "Blessé", "Carton Jaune", "Carton Rouge"
+    });
+
+    loadPlayers(); // Charger les joueurs au démarrage
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +55,43 @@ void MainWindow::loadTeams()
         // Aucune équipe trouvée
         QMessageBox::warning(this, "Attention", "Aucune équipe n'a été trouvée dans la base de données.");
     }
+}
+
+void MainWindow::loadPlayers()
+{
+    // Vider le tableau
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
+
+    // Exécuter la requête pour récupérer les joueurs
+    QSqlQuery query("SELECT id_player, id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, goals, assists, injured, yellow_card, red_card FROM joueur");
+
+    // Parcourir les résultats de la requête
+    int row = 0;
+    while (query.next()) {
+        // Ajouter une nouvelle ligne au tableau
+        ui->tableWidget->insertRow(row);
+
+        // Remplir chaque colonne avec les données de la requête
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // id_team
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // first_name
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // last_name
+        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // position
+        ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value(6).toString())); // date_of_birth
+        ui->tableWidget->setItem(row, 7, new QTableWidgetItem(query.value(7).toString())); // nationality
+        ui->tableWidget->setItem(row, 8, new QTableWidgetItem(query.value(8).toString())); // goals
+        ui->tableWidget->setItem(row, 9, new QTableWidgetItem(query.value(9).toString())); // assists
+        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toString())); // injured
+        ui->tableWidget->setItem(row, 11, new QTableWidgetItem(query.value(11).toString())); // yellow_card
+        ui->tableWidget->setItem(row, 12, new QTableWidgetItem(query.value(12).toString())); // red_card
+
+        row++;
+    }
+
+    // Optionnel : ajuster la taille des colonnes pour s'adapter au contenu
+    ui->tableWidget->resizeColumnsToContents();
 }
 
 void MainWindow::on_toolButtonImage_clicked()
@@ -113,6 +159,9 @@ void MainWindow::on_button1_clicked()
         ui->lineEdit_9->clear();
         img_joueur.clear(); // Réinitialiser l'image
         ui->label_2->clear(); // Réinitialiser l'affichage de l'image
+
+        // Mettre à jour le tableau des joueurs
+        loadPlayers();
     } else {
         QMessageBox::critical(this, "Erreur", "Impossible d'ajouter le joueur dans la base de données.");
     }

@@ -365,7 +365,7 @@ transition: all 0.3s ease-in-out;</string>
      <rect>
       <x>20</x>
       <y>140</y>
-      <width>651</width>
+      <width>631</width>
       <height>641</height>
      </rect>
     </property>
@@ -380,7 +380,7 @@ transition: all 0.3s ease-in-out;</string>
       <rect>
        <x>0</x>
        <y>10</y>
-       <width>651</width>
+       <width>631</width>
        <height>641</height>
       </rect>
      </property>
@@ -607,125 +607,27 @@ padding-bottom: 5px;background-color:transparent;</string>
      </layout>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_3">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>320</y>
-      <width>411</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Shape::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Shadow::Raised</enum>
-    </property>
-    <widget class="QListWidget" name="azer">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>130</y>
-       <width>291</width>
-       <height>281</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background: #2E3B4E;
-border: 1px solid #4C5C75;
-border-radius: 30px;</string>
-     </property>
-    </widget>
-    <widget class="QListWidget" name="listWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>30</y>
-       <width>191</width>
-       <height>201</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-radius: 90px;
-background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(13, 27, 42, 255), stop:1 rgba(27, 38, 59, 255));</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="dashboard_6">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>330</y>
-       <width>171</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Sans Serif Collection</family>
-       <pointsize>10</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: transparent;
-color: red;
-font-weight: bold;
-text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8);</string>
-     </property>
-     <property name="text">
-      <string>Player Of The Week</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>330</y>
-       <width>231</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>-90</y>
-       <width>461</width>
-       <height>271</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: transparent;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../../../../../../Downloads/Unazeaztitled-1.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <zorder>azer</zorder>
-    <zorder>lineEdit</zorder>
-    <zorder>listWidget_2</zorder>
-    <zorder>dashboard_6</zorder>
-    <zorder>label_6</zorder>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>120</y>
+      <x>740</x>
+      <y>100</y>
       <width>341</width>
       <height>161</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>290</y>
+      <width>531</width>
+      <height>451</height>
+     </rect>
     </property>
    </widget>
    <zorder>menu</zorder>
@@ -740,13 +642,13 @@ text-shadow: 0px 0px 8px rgba(255, 215, 0, 0.8);</string>
    <zorder>line_2</zorder>
    <zorder>line_3</zorder>
    <zorder>frame_6</zorder>
-   <zorder>frame_3</zorder>
    <zorder>pushButton_5</zorder>
    <zorder>pushButton_9</zorder>
    <zorder>pushButton_6</zorder>
    <zorder>pushButton_8</zorder>
    <zorder>pushButton_7</zorder>
    <zorder>label_2</zorder>
+   <zorder>tableWidget</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
