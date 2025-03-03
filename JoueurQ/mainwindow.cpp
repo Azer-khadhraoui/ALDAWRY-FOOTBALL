@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QPixmap>
 #include "joueur.h"
+#include "deletejoueur.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
+    connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked); // Connexion du bouton supprimer
     loadTeams();
 
     // Définir les en-têtes de colonnes pour le tableau
@@ -164,5 +166,32 @@ void MainWindow::on_button1_clicked()
         loadPlayers();
     } else {
         QMessageBox::critical(this, "Erreur", "Impossible d'ajouter le joueur dans la base de données.");
+    }
+}
+
+void MainWindow::on_buttonDelete_clicked()
+{
+    DeleteJoueur deleteDialog(this);
+    
+    if (deleteDialog.exec() == QDialog::Accepted) {
+        int id = deleteDialog.getJoueurId();
+        
+        if (id > 0) {
+            QSqlQuery query;
+            query.prepare("DELETE FROM joueur WHERE id_player = :id"); // Changé "id" en "id_player"
+            query.bindValue(":id", id);
+            
+            if (query.exec()) {
+                if (query.numRowsAffected() > 0) {
+                    QMessageBox::information(this, tr("Succès"), tr("Le joueur avec l'ID %1 a été supprimé avec succès.").arg(id));
+                    // Recharger la liste des joueurs pour mettre à jour l'affichage
+                    loadPlayers();
+                } else {
+                    QMessageBox::warning(this, tr("Avertissement"), tr("Aucun joueur trouvé avec l'ID %1.").arg(id));
+                }
+            } else {
+                QMessageBox::critical(this, tr("Erreur"), tr("Impossible de supprimer le joueur: %1").arg(query.lastError().text()));
+            }
+        }
     }
 }

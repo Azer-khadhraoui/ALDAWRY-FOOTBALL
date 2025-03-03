@@ -27,17 +27,20 @@ CONFIG += c++11
 CONFIG+=console
 
 SOURCES += \
+    deletejoueur.cpp \
     joueur.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp
 
 HEADERS += \
+    deletejoueur.h \
     joueur.h \
         mainwindow.h \
     connection.h
 
 FORMS += \
+    Delete_Joueur_2.ui \
         mainwindow.ui\
 modify_joueur.ui
 

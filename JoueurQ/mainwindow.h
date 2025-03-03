@@ -21,6 +21,7 @@ public:
 private slots:
     void on_button1_clicked();
     void on_toolButtonImage_clicked();
+    void on_buttonDelete_clicked(); // Ajoutez cette ligne pour déclarer la fonction
 
 private:
     Ui::MainWindow *ui;
