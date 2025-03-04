@@ -8,7 +8,7 @@ joueur::joueur() {}
 joueur::joueur(int id_team, QString first_name, QString last_name,
                QString position, int jersey_nb, QDate date_of_birth, QString nationality,
                QByteArray img_joueur)
-    : id_team(id_team), first_name(first_name), last_name(first_name),
+    : id_team(id_team), first_name(first_name), last_name(last_name),
       position(position), jersey_nb(jersey_nb), date_of_birth(date_of_birth), nationality(nationality),
       goals(0), assists(0), injured(0), yellow_card(0), red_card(0), status(0), img_joueur(img_joueur) {}
 

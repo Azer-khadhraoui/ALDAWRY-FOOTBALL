@@ -9,7 +9,7 @@
 #include <QPixmap>
 #include "joueur.h"
 #include "deletejoueur.h"
-#include "modifyjoueur.h" // Ajoutez cet include en haut du fichier
+#include "modifyjoueur.h" 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,11 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked); // Connexion du bouton supprimer
     loadTeams();
 
-    // Définir les en-têtes de colonnes pour le tableau
-    ui->tableWidget->setColumnCount(13); // 13 colonnes pour les attributs du joueur
+    
+    ui->tableWidget->setColumnCount(14); 
     ui->tableWidget->setHorizontalHeaderLabels({
-        "ID Joueur", "ID Équipe", "Prénom", "Nom", "Position", "Numéro", "Date de naissance",
-        "Nationalité", "Buts", "Passes", "Blessé", "Carton Jaune", "Carton Rouge"
+        "ID Player", "ID Team", "First Name", "Last name", "Position", "jersey number", "Date of birth",
+        "Nationality", "goals", "assists", "injury", "Yellow Card", "Red Card", "Status"
     });
 
     loadPlayers(); // Charger les joueurs au démarrage
@@ -67,7 +67,7 @@ void MainWindow::loadPlayers()
     ui->tableWidget->setRowCount(0);
 
     // Exécuter la requête pour récupérer les joueurs
-    QSqlQuery query("SELECT id_player, id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, goals, assists, injured, yellow_card, red_card FROM joueur");
+    QSqlQuery query("SELECT id_player, id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, goals, assists, injured, yellow_card, red_card, status FROM joueur");
 
     // Parcourir les résultats de la requête
     int row = 0;
@@ -89,6 +89,29 @@ void MainWindow::loadPlayers()
         ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toString())); // injured
         ui->tableWidget->setItem(row, 11, new QTableWidgetItem(query.value(11).toString())); // yellow_card
         ui->tableWidget->setItem(row, 12, new QTableWidgetItem(query.value(12).toString())); // red_card
+
+        // Ajout du status
+        int status = query.value("status").toInt();
+        QString statusText;
+        
+        switch(status) {
+            case 0:
+                statusText = "Actif";
+                break;
+            case 1:
+                statusText = "Blessé";
+                break;
+            case 2:
+                statusText = "Suspendu";
+                break;
+            case 3:
+                statusText = "Transféré";
+                break;
+            default:
+                statusText = "Inconnu";
+        }
+        
+        ui->tableWidget->setItem(row, 13, new QTableWidgetItem(statusText)); // Colonne 13 (index 0-base)
 
         row++;
     }

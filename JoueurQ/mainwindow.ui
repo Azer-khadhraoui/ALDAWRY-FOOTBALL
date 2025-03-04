@@ -296,7 +296,7 @@ QTabBar::tab:!selected {
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>-20</y>
+        <y>-10</y>
         <width>651</width>
         <height>641</height>
        </rect>
@@ -410,23 +410,6 @@ margin-right:15px;</string>
          </property>
         </widget>
        </item>
-       <item row="16" column="0">
-        <widget class="QToolButton" name="toolButton">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 3px;
-color: white;
-margin-left: 15px;
-margin-right:15px;
-margin-bottom:15px;</string>
-         </property>
-         <property name="text">
-          <string>...</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_7">
          <property name="styleSheet">
@@ -536,6 +519,23 @@ margin-bottom:10px;</string>
          </property>
         </widget>
        </item>
+       <item row="15" column="0">
+        <widget class="QToolButton" name="toolButton">
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 3px;
+color: white;
+margin-left: 15px;
+margin-right:15px;
+margin-bottom:15px;</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QLabel" name="label_2">
@@ -559,8 +559,8 @@ margin-bottom:10px;</string>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>500</x>
-        <y>40</y>
+        <x>340</x>
+        <y>50</y>
         <width>341</width>
         <height>41</height>
        </rect>
@@ -655,8 +655,8 @@ margin-bottom:10px;</string>
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>760</x>
-        <y>500</y>
+        <x>770</x>
+        <y>520</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -672,8 +672,8 @@ border-radius: 5px ;</string>
      <widget class="QPushButton" name="buttonModify">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>500</y>
+        <x>670</x>
+        <y>520</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -691,8 +691,8 @@ border-radius: 5px ;</string>
        <rect>
         <x>20</x>
         <y>120</y>
-        <width>881</width>
-        <height>361</height>
+        <width>1011</width>
+        <height>381</height>
        </rect>
       </property>
      </widget>

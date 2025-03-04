@@ -44,10 +44,10 @@ public:
     int getStatus() const;
     QByteArray getImgJoueur() const;
 
-    // Méthode statique pour supprimer un joueur par son ID
+    
     static bool supprimer(int id);
     
-    // Méthode statique pour modifier complètement un joueur
+    
     static bool modifier(int id_player, int id_team, const QString& first_name, const QString& last_name,
                          const QString& position, int jersey_nb, const QDate& date_of_birth, 
                          const QString& nationality, int goals, int assists, int injured,
