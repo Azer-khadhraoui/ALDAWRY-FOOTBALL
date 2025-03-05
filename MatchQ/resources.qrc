@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>search.png</file>
+        <file>trier.png</file>
+        <file>user.png</file>
+        <file>logo football.png</file>
+    </qresource>
+</RCC>
