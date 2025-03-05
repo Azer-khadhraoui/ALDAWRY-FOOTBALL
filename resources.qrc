@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>logo football.png</file>
+        <file>rendu-3d-terrain-de-football-en.png</file>
+        <file>user.png</file>
+        <file>vini.png</file>
+        <file>search.png</file>
+        <file>trier.png</file>
+        <file>guardiola.png</file>
+        <file>BAR.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddCompetitionForm</class>
+ <widget class="QWidget" name="AddCompetitionForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add New Competition</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+
+  <!-- Competition Name -->
+  <widget class="QLabel" name="label_comp_name">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Competition Name:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_comp_name">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>30</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+padding: 6px 10px;
+font-size: 14px;
+color: white;</string>
+   </property>
+  </widget>
+
+  <!-- Competition Type -->
+  <widget class="QLabel" name="label_comp_type">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Competition Type:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_comp_type">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>80</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+color: white;</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>League</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Tournament</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Cup</string>
+    </property>
+   </item>
+  </widget>
+
+  <!-- Start Date -->
+  <widget class="QLabel" name="label_start_date">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>130</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Start Date:</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit_start_date">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>130</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+color: white;</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+
+  <!-- End Date -->
+  <widget class="QLabel" name="label_end_date">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>180</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>End Date:</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit_end_date">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>180</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+color: white;</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+
+  <!-- Number of Teams -->
+  <widget class="QLabel" name="label_numbers_teams">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>230</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Number of Teams:</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_numbers_teams">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>230</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+color: white;</string>
+   </property>
+   <property name="minimum">
+    <number>2</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+  </widget>
+
+  <!-- Reward -->
+  <widget class="QLabel" name="label_reward">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>280</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #D3D3D3; font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Reward:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_reward">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>280</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #141821;
+border: 2px solid #cccccc;
+border-radius: 6px;
+padding: 6px 10px;
+font-size: 14px;
+color: white;</string>
+   </property>
+  </widget>
+
+  <!-- Submit Button -->
+  <widget class="QPushButton" name="pushButton_submit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>340</y>
+     <width>100</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #20242e;
+color: white;
+border-radius: 5px;
+padding: 6px 12px;
+border: 1px solid #666666;
+font-size: 14px;</string>
+   </property>
+   <property name="text">
+    <string>Submit</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

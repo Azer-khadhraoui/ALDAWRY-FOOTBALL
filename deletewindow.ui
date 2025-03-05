@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>deletewindow</class>
+ <widget class="QDialog" name="deletewindow">
+    <property name="geometry">
+     <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>400</width>
+        <height>200</height>
+     </rect>
+    </property>
+    <property name="windowTitle">
+     <string>Delete Item</string>
+    </property>
+    <widget class="QWidget" name="centralwidget">
+     <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Enter ID:</string>
+            </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="deleteButton">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+         </widget>
+        </item>
+     </layout>
+    </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

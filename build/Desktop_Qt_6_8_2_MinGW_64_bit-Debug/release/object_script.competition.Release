@@ -1,0 +1,10 @@
+release/addcompetitionwindow.o
+release/competition.o
+release/deletewindow.o
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/qrc_resources.o
+release/moc_addcompetitionwindow.o
+release/moc_deletewindow.o
+release/moc_mainwindow.o
