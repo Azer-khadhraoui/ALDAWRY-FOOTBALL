@@ -11,10 +11,12 @@
 #include "joueur.h"
 #include "deletejoueur.h"
 #include "modifyjoueur.h" 
+#include <QItemSelection>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)  
+    , ui(new Ui::MainWindow)
+    , currentDisplayedPlayerId(-1)  // Initialiser à -1 (pas de joueur affiché)
 {
     ui->setupUi(this);
     
@@ -43,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadTeams();
     loadPlayers();
+
+    connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::selectionChanged, 
+        this, &MainWindow::onTableSelectionChanged);
 }
 
 MainWindow::~MainWindow()
@@ -344,8 +349,8 @@ void MainWindow::on_buttonDelete_clicked()
     int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
     
     // Get player name for confirmation message
-    QString firstName = ui->tableWidget->item(row, 2)->text();
-    QString lastName = ui->tableWidget->item(row, 3)->text();
+    QString firstName = ui->tableWidget->item(row, 1)->text();
+    QString lastName = ui->tableWidget->item(row, 2)->text();
     
     // Ask user for confirmation
     QMessageBox::StandardButton confirmation;
@@ -360,6 +365,12 @@ void MainWindow::on_buttonDelete_clicked()
     // Try to delete the player
     if (joueur::supprimer(joueurId)) {
         QMessageBox::information(this, "Success", "Player has been successfully deleted.");
+        
+        // If the deleted player was being displayed, hide the details frame
+        if (currentDisplayedPlayerId == joueurId) {
+            ui->formFrame->setVisible(false);
+            currentDisplayedPlayerId = -1;
+        }
         
         // Clear search field to show all players
         ui->lineEdit_10->clear();
@@ -391,6 +402,11 @@ void MainWindow::on_buttonModify_clicked()
         
         // Reload player list to reflect changes
         loadPlayers();
+        
+        // Refresh player details if the modified player is currently displayed
+        if (currentDisplayedPlayerId == joueurId) {
+            refreshPlayerDetails();
+        }
     }
 }
 
@@ -415,8 +431,22 @@ void MainWindow::on_buttonViewDetails_clicked()
     int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
     int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
     
+    // Store the current displayed player ID
+    currentDisplayedPlayerId = joueurId;
+    
+    // Load the player details
+    refreshPlayerDetails();
+}
+
+void MainWindow::refreshPlayerDetails()
+{
+    // If no player is selected to display
+    if (currentDisplayedPlayerId <= 0) {
+        ui->formFrame->setVisible(false);
+        return;
+    }
+    
     // Clear any existing content in the formFrame
-    // Delete all widgets from the frame
     qDeleteAll(ui->formFrame->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly));
     
     // Create a layout for the frame if it doesn't already have one
@@ -435,7 +465,7 @@ void MainWindow::on_buttonViewDetails_clicked()
                   "FROM joueur j "
                   "JOIN equipe e ON j.id_team = e.id_team "
                   "WHERE j.id_player = :id");
-    query.bindValue(":id", joueurId);
+    query.bindValue(":id", currentDisplayedPlayerId);
     
     if (query.exec() && query.next()) {
         // Create title label
@@ -507,10 +537,11 @@ void MainWindow::on_buttonViewDetails_clicked()
         // Make the frame visible if it's not already
         ui->formFrame->setVisible(true);
         
-        // Optional: Add a "Close Details" button if needed
+        // Add a "Close Details" button
         QPushButton *closeButton = new QPushButton("Hide Details");
         connect(closeButton, &QPushButton::clicked, [this]() {
             ui->formFrame->setVisible(false);
+            currentDisplayedPlayerId = -1; // Reset current ID
         });
         
         frameLayout->addWidget(closeButton, 0, Qt::AlignRight);
@@ -519,5 +550,27 @@ void MainWindow::on_buttonViewDetails_clicked()
         ui->formFrame->updateGeometry();
     } else {
         QMessageBox::warning(this, "Error", "Could not retrieve player details.");
+        ui->formFrame->setVisible(false);
+        currentDisplayedPlayerId = -1; // Reset current ID
+    }
+}
+
+void MainWindow::onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected);
+    
+    // Only update if details are already being shown
+    if (ui->formFrame->isVisible() && !selected.isEmpty()) {
+        // Get the selected row index
+        int row = selected.indexes().first().row();
+        
+        // Get the player ID from the first column
+        int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
+        
+        // Update the current displayed player ID
+        currentDisplayedPlayerId = joueurId;
+        
+        // Refresh the details view
+        refreshPlayerDetails();
     }
 }

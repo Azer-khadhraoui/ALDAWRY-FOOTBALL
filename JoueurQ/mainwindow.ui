@@ -244,7 +244,7 @@ border: 2px solid #4C5C75;</string>
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>110</y>
+      <y>90</y>
       <width>1071</width>
       <height>661</height>
      </rect>
@@ -564,10 +564,10 @@ margin-right:15px;</string>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>340</x>
-        <y>40</y>
-        <width>341</width>
-        <height>51</height>
+        <x>70</x>
+        <y>50</y>
+        <width>381</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -589,8 +589,8 @@ margin-right:15px;</string>
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>321</width>
-         <height>31</height>
+         <width>361</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -606,8 +606,8 @@ margin-right:15px;</string>
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>770</x>
-        <y>520</y>
+        <x>240</x>
+        <y>510</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -623,8 +623,8 @@ border-radius: 5px ;</string>
      <widget class="QPushButton" name="buttonModify">
       <property name="geometry">
        <rect>
-        <x>670</x>
-        <y>520</y>
+        <x>110</x>
+        <y>510</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -650,9 +650,9 @@ border-radius: 5px ;</string>
      <widget class="QPushButton" name="buttonViewDetails">
       <property name="geometry">
        <rect>
-        <x>560</x>
-        <y>520</y>
-        <width>83</width>
+        <x>350</x>
+        <y>510</y>
+        <width>161</width>
         <height>29</height>
        </rect>
       </property>
@@ -661,7 +661,7 @@ border-radius: 5px ;</string>
 border-radius: 5px ;</string>
       </property>
       <property name="text">
-       <string>view</string>
+       <string>view details</string>
       </property>
      </widget>
      <widget class="QFrame" name="formFrame">
@@ -672,6 +672,9 @@ border-radius: 5px ;</string>
         <width>461</width>
         <height>371</height>
        </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::Box</enum>
       </property>
       <layout class="QFormLayout" name="formLayout"/>
      </widget>
