@@ -241,12 +241,36 @@ void MainWindow::on_button1_clicked()
 
 void MainWindow::on_buttonDelete_clicked()
 {
-    DeleteJoueur deleteDialog(this);
+    // Vérifier qu'un joueur est sélectionné
+    if (!validateTableSelection()) {
+        return;
+    }
     
-    if (deleteDialog.exec() == QDialog::Accepted) {
-        // Le joueur a été supprimé avec succès dans la boîte de dialogue
-        // Vous pouvez donc simplement mettre à jour votre interface
-        loadPlayers(); // Pour rafraîchir la liste des joueurs
+    // Récupérer l'ID du joueur sélectionné
+    int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
+    int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
+    
+    // Récupérer le nom du joueur pour le message de confirmation
+    QString firstName = ui->tableWidget->item(row, 2)->text();
+    QString lastName = ui->tableWidget->item(row, 3)->text();
+    
+    // Demander confirmation à l'utilisateur
+    QMessageBox::StandardButton confirmation;
+    confirmation = QMessageBox::question(this, "Confirm Deletion", 
+        "Are you sure you want to delete player " + firstName + " " + lastName + " (ID: " + QString::number(joueurId) + ")?",
+        QMessageBox::Yes | QMessageBox::No);
+        
+    if (confirmation == QMessageBox::No) {
+        return;
+    }
+    
+    // Essayer de supprimer le joueur
+    if (joueur::supprimer(joueurId)) {
+        QMessageBox::information(this, "Success", "Player has been successfully deleted.");
+        // Recharger la liste des joueurs
+        loadPlayers();
+    } else {
+        QMessageBox::critical(this, "Error", "Could not delete the player. Please try again.");
     }
 }
 
