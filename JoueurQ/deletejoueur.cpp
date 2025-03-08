@@ -46,19 +46,50 @@ int DeleteJoueur::getJoueurId() const
 
 void DeleteJoueur::acceptDialog()
 {
+    // Validate player ID
     bool ok;
-    joueurId = lineEditId->text().toInt(&ok);
+    QString idText = lineEditId->text().trimmed();
     
-    if (!ok || joueurId <= 0) {
-        QMessageBox::warning(this, "Erreur", "Veuillez entrer un ID valide (nombre entier positif).");
+    // Check if empty
+    if (idText.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please enter a player ID.");
+        lineEditId->setFocus();
         return;
     }
     
-    // Utiliser la méthode statique de la classe joueur pour supprimer
+    joueurId = idText.toInt(&ok);
+    
+    // Check if valid integer
+    if (!ok) {
+        QMessageBox::warning(this, "Error", "Player ID must be a number.");
+        lineEditId->clear();
+        lineEditId->setFocus();
+        return;
+    }
+    
+    // Check if positive
+    if (joueurId <= 0) {
+        QMessageBox::warning(this, "Error", "Player ID must be a positive number.");
+        lineEditId->clear();
+        lineEditId->setFocus();
+        return;
+    }
+    
+    // Confirm deletion
+    QMessageBox::StandardButton confirmation;
+    confirmation = QMessageBox::question(this, "Confirm Deletion", 
+        "Are you sure you want to delete player with ID: " + QString::number(joueurId) + "?",
+        QMessageBox::Yes | QMessageBox::No);
+        
+    if (confirmation == QMessageBox::No) {
+        return;
+    }
+    
+    // Attempt to delete player
     if (joueur::supprimer(joueurId)) {
-        QMessageBox::information(this, "Succès", "Le joueur a été supprimé avec succès.");
-        accept(); // Fermer la boîte de dialogue avec succès
+        QMessageBox::information(this, "Success", "Player has been successfully deleted.");
+        accept();
     } else {
-        QMessageBox::warning(this, "Erreur", "Impossible de supprimer le joueur. Vérifiez l'ID et réessayez.");
+        QMessageBox::warning(this, "Error", "Could not delete player. Please check the ID and try again.");
     }
 }

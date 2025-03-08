@@ -31,6 +31,7 @@ private:
 
     void loadTeams();
     void loadPlayers(); // Nouvelle fonction pour charger les joueurs dans le tableau
+    bool validateTableSelection(); // Helper method to validate table selection
 };
 
 #endif // MAINWINDOW_H

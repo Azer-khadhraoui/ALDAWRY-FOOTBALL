@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
         "ID Player", "ID Team", "First Name", "Last name", "Position", "jersey number", "Date of birth",
         "Nationality", "goals", "assists", "injury", "Yellow Card", "Red Card", "Status"
     });
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     loadPlayers(); // Charger les joueurs au démarrage
 }
@@ -66,6 +67,9 @@ void MainWindow::loadPlayers()
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
 
+    // Rendre le tableau non éditable (ajouter cette ligne)
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     // Exécuter la requête pour récupérer les joueurs
     QSqlQuery query("SELECT id_player, id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, goals, assists, injured, yellow_card, red_card, status FROM joueur");
 
@@ -82,37 +86,37 @@ void MainWindow::loadPlayers()
         ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // last_name
         ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // position
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value(6).toString())); // date_of_birth
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value(6).toDate().toString("dd/MM/yyyy"))); // date_of_birth
         ui->tableWidget->setItem(row, 7, new QTableWidgetItem(query.value(7).toString())); // nationality
         ui->tableWidget->setItem(row, 8, new QTableWidgetItem(query.value(8).toString())); // goals
         ui->tableWidget->setItem(row, 9, new QTableWidgetItem(query.value(9).toString())); // assists
-        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toString())); // injured
+        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toInt() == 1 ? "Yes" : "No")); // injured
         ui->tableWidget->setItem(row, 11, new QTableWidgetItem(query.value(11).toString())); // yellow_card
         ui->tableWidget->setItem(row, 12, new QTableWidgetItem(query.value(12).toString())); // red_card
-
-        // Ajout du status
-        int status = query.value("status").toInt();
+        
+        // Conversion du statut entier en texte
+        int status = query.value(13).toInt();
         QString statusText;
         
         switch(status) {
             case 0:
-                statusText = "Actif";
+                statusText = "Active";
                 break;
             case 1:
-                statusText = "Blessé";
+                statusText = "Injured";
                 break;
             case 2:
-                statusText = "Suspendu";
+                statusText = "Suspended";
                 break;
             case 3:
-                statusText = "Transféré";
+                statusText = "Transferred";
                 break;
             default:
-                statusText = "Inconnu";
+                statusText = "Unknown";
         }
         
-        ui->tableWidget->setItem(row, 13, new QTableWidgetItem(statusText)); // Colonne 13 (index 0-base)
-
+        ui->tableWidget->setItem(row, 13, new QTableWidgetItem(statusText)); // status
+        
         row++;
     }
 
@@ -140,56 +144,98 @@ void MainWindow::on_toolButtonImage_clicked()
 
 void MainWindow::on_button1_clicked()
 {
-    // Vérifier si une équipe est sélectionnée
+    // Step 1: Verify team selection
     if (ui->comboBoxTeam->currentIndex() < 0) {
-        QMessageBox::warning(this, "Erreur", "Veuillez sélectionner une équipe.");
+        QMessageBox::warning(this, "Error", "Please select a team.");
         return;
     }
     
-    // Récupérer l'ID de l'équipe sélectionnée
+    // Step 2: Get team ID
     QString teamName = ui->comboBoxTeam->currentText();
     int id_team = teamMap[teamName];
     
-    // Récupérer les autres informations du joueur
-    QString first_name = ui->lineEdit_3->text();
-    QString last_name = ui->lineEdit_4->text();
-    QString position = ui->lineEdit_5->text();
+    // Step 3: Get and validate player information
+    QString first_name = ui->lineEdit_3->text().trimmed();
+    QString last_name = ui->lineEdit_4->text().trimmed();
+    QString position = ui->lineEdit_5->text().trimmed();
+    QString nationality = ui->lineEdit_9->text().trimmed();
     
-    // Vérifier que le numéro de maillot est un nombre valide
+    // Step 4: Field validation
+    
+    // Check for empty fields
+    if (first_name.isEmpty() || last_name.isEmpty() || position.isEmpty() || nationality.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please fill all required fields (First Name, Last Name, Position, Nationality).");
+        return;
+    }
+    
+    // Validate name format (only letters and spaces)
+    QRegularExpression nameRegex("^[A-Za-z\\s'-]+$");
+    if (!nameRegex.match(first_name).hasMatch()) {
+        QMessageBox::warning(this, "Error", "First name contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed.");
+        ui->lineEdit_3->setFocus();
+        return;
+    }
+    
+    if (!nameRegex.match(last_name).hasMatch()) {
+        QMessageBox::warning(this, "Error", "Last name contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed.");
+        ui->lineEdit_4->setFocus();
+        return;
+    }
+    
+    // Validate position (only specific values)
+    QStringList validPositions = {"Goalkeeper", "Defender", "Midfielder", "Forward"};
+    if (!validPositions.contains(position, Qt::CaseInsensitive)) {
+        QMessageBox::warning(this, "Error", "Invalid position. Please enter: Goalkeeper, Defender, Midfielder, or Forward.");
+        ui->lineEdit_5->setFocus();
+        return;
+    }
+    
+    // Validate jersey number
     bool ok;
     int jersey_nb = ui->lineEdit_8->text().toInt(&ok);
-    if (!ok || jersey_nb <= 0) {
-        QMessageBox::warning(this, "Erreur", "Le numéro de maillot doit être un nombre positif.");
+    if (!ok || jersey_nb <= 0 || jersey_nb > 99) {
+        QMessageBox::warning(this, "Error", "Jersey number must be a positive integer between 1 and 99.");
+        ui->lineEdit_8->setFocus();
         return;
     }
     
+    // Validate nationality
+    if (!nameRegex.match(nationality).hasMatch()) {
+        QMessageBox::warning(this, "Error", "Nationality contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed.");
+        ui->lineEdit_9->setFocus();
+        return;
+    }
+    
+    // Validate birth date
     QDate date_of_birth = ui->dateEdit->date();
-    QString nationality = ui->lineEdit_9->text();
+    QDate currentDate = QDate::currentDate();
+    QDate minDate = currentDate.addYears(-50); // No players older than 50
+    QDate maxDate = currentDate.addYears(-16); // No players younger than 16
     
-    // Validation des champs
-    if (first_name.isEmpty() || last_name.isEmpty() || position.isEmpty()) {
-        QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs obligatoires.");
+    if (date_of_birth > maxDate || date_of_birth < minDate) {
+        QMessageBox::warning(this, "Error", "Invalid date of birth. Player must be between 16 and 50 years old.");
+        ui->dateEdit->setFocus();
         return;
     }
     
-    // Créer et ajouter le joueur
+    // Step 5: Create and add player
     joueur newPlayer(id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, img_joueur);
     
     if (newPlayer.ajouterDansBD()) {
-        QMessageBox::information(this, "Succès", "Le joueur a été ajouté avec succès.");
-        // Nettoyer les champs de saisie
+        QMessageBox::information(this, "Success", "Player has been successfully added.");
+        // Clear input fields
         ui->lineEdit_3->clear();
         ui->lineEdit_4->clear();
         ui->lineEdit_5->clear();
         ui->lineEdit_8->clear();
         ui->lineEdit_9->clear();
-        img_joueur.clear(); // Réinitialiser l'image
-        ui->label_2->clear(); // Réinitialiser l'affichage de l'image
+        img_joueur.clear();
+        ui->label_2->clear();
 
-        // Mettre à jour le tableau des joueurs
+        // Update player table
         loadPlayers();
     } else {
-        QMessageBox::critical(this, "Erreur", "Impossible d'ajouter le joueur dans la base de données.");
+        QMessageBox::critical(this, "Error", "Unable to add player to the database.");
     }
 }
 
@@ -206,18 +252,31 @@ void MainWindow::on_buttonDelete_clicked()
 
 void MainWindow::on_buttonModify_clicked()
 {
+    // Check if a player is selected
+    if (!validateTableSelection()) {
+        return;
+    }
+    
     ModifyJoueur modifyDialog(this);
     
-    // Si l'utilisateur a sélectionné un joueur dans le tableau, préchargez son ID
-    QModelIndexList selection = ui->tableWidget->selectionModel()->selectedRows();
-    if (!selection.isEmpty()) {
-        int row = selection.first().row();
-        int joueurId = ui->tableWidget->item(row, 0)->text().toInt(); // La colonne 0 contient l'ID
-        modifyDialog.setJoueurId(joueurId);
-    }
+    // Get selected player's ID
+    int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
+    int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
+    modifyDialog.setJoueurId(joueurId);
     
     if (modifyDialog.exec() == QDialog::Accepted) {
-        // Recharger la liste des joueurs pour afficher les modifications
+        // Reload player list to reflect changes
         loadPlayers();
     }
+}
+
+// Add this method to MainWindow class to validate table selection
+bool MainWindow::validateTableSelection()
+{
+    QModelIndexList selection = ui->tableWidget->selectionModel()->selectedRows();
+    if (selection.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please select a player from the table first.");
+        return false;
+    }
+    return true;
 }
