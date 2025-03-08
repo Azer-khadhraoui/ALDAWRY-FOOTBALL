@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked);
     connect(ui->lineEdit_10, &QLineEdit::textChanged, this, &MainWindow::onSearchTextChanged); // Connect search field
+    connect(ui->buttonViewDetails, &QPushButton::clicked, this, &MainWindow::on_buttonViewDetails_clicked);
     
     // Set placeholder text for search field
     ui->lineEdit_10->setPlaceholderText("Search players by name, nationality, position...");
@@ -79,11 +80,17 @@ void MainWindow::loadPlayers()
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
 
-    // Make the table non-editable
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    // Reduce number of columns to essential attributes
+    ui->tableWidget->setColumnCount(7); // Reduced from 14
+    ui->tableWidget->setHorizontalHeaderLabels({
+        "ID", "First Name", "Last Name", "Position", "Team", "Jersey", "Status"
+    });
 
-    // Execute query to retrieve players
-    QSqlQuery query("SELECT id_player, id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, goals, assists, injured, yellow_card, red_card, status FROM joueur");
+    // Execute query to retrieve players with team name
+    QSqlQuery query("SELECT j.id_player, j.first_name, j.last_name, j.position, "
+                    "e.team_name, j.jersey_nb, j.status "
+                    "FROM joueur j "
+                    "JOIN equipe e ON j.id_team = e.id_team");
 
     // Loop through query results
     int row = 0;
@@ -91,23 +98,16 @@ void MainWindow::loadPlayers()
         // Add new row to table
         ui->tableWidget->insertRow(row);
 
-        // Fill each column with query data
+        // Fill each column with query data (reduced set)
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // id_team
-        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // first_name
-        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // last_name
-        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // position
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // last_name
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
+        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value(6).toDate().toString("dd/MM/yyyy"))); // date_of_birth
-        ui->tableWidget->setItem(row, 7, new QTableWidgetItem(query.value(7).toString())); // nationality
-        ui->tableWidget->setItem(row, 8, new QTableWidgetItem(query.value(8).toString())); // goals
-        ui->tableWidget->setItem(row, 9, new QTableWidgetItem(query.value(9).toString())); // assists
-        ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toInt() == 1 ? "Yes" : "No")); // injured
-        ui->tableWidget->setItem(row, 11, new QTableWidgetItem(query.value(11).toString())); // yellow_card
-        ui->tableWidget->setItem(row, 12, new QTableWidgetItem(query.value(12).toString())); // red_card
         
         // Convert integer status to text
-        int status = query.value(13).toInt();
+        int status = query.value(6).toInt();
         QString statusText;
         
         switch(status) {
@@ -127,7 +127,7 @@ void MainWindow::loadPlayers()
                 statusText = "Unknown";
         }
         
-        ui->tableWidget->setItem(row, 13, new QTableWidgetItem(statusText)); // status
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
         
         row++;
     }
@@ -154,13 +154,15 @@ void MainWindow::onSearchTextChanged(const QString &text)
     ui->tableWidget->setRowCount(0);
     
     // Build query with search conditions (search in multiple fields)
-    QString searchQuery = "SELECT id_player, id_team, first_name, last_name, position, jersey_nb, "
-                         "date_of_birth, nationality, goals, assists, injured, yellow_card, red_card, status "
-                         "FROM joueur "
-                         "WHERE first_name LIKE :search "
-                         "OR last_name LIKE :search "
-                         "OR nationality LIKE :search "
-                         "OR position LIKE :search";
+    QString searchQuery = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
+                          "e.team_name, j.jersey_nb, j.status "
+                          "FROM joueur j "
+                          "JOIN equipe e ON j.id_team = e.id_team "
+                          "WHERE j.first_name LIKE :search "
+                          "OR j.last_name LIKE :search "
+                          "OR j.nationality LIKE :search "
+                          "OR j.position LIKE :search "
+                          "OR e.team_name LIKE :search";
     
     QSqlQuery query;
     query.prepare(searchQuery);
@@ -172,23 +174,16 @@ void MainWindow::onSearchTextChanged(const QString &text)
         while (query.next()) {
             ui->tableWidget->insertRow(row);
             
-            // Fill each column with query data
+            // Fill each column with query data (reduced set)
             ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
-            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // id_team
-            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // first_name
-            ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // last_name
-            ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // position
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // last_name
+            ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
+            ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
             ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-            ui->tableWidget->setItem(row, 6, new QTableWidgetItem(query.value(6).toDate().toString("dd/MM/yyyy"))); // date_of_birth
-            ui->tableWidget->setItem(row, 7, new QTableWidgetItem(query.value(7).toString())); // nationality
-            ui->tableWidget->setItem(row, 8, new QTableWidgetItem(query.value(8).toString())); // goals
-            ui->tableWidget->setItem(row, 9, new QTableWidgetItem(query.value(9).toString())); // assists
-            ui->tableWidget->setItem(row, 10, new QTableWidgetItem(query.value(10).toInt() == 1 ? "Yes" : "No")); // injured
-            ui->tableWidget->setItem(row, 11, new QTableWidgetItem(query.value(11).toString())); // yellow_card
-            ui->tableWidget->setItem(row, 12, new QTableWidgetItem(query.value(12).toString())); // red_card
             
             // Convert integer status to text
-            int status = query.value(13).toInt();
+            int status = query.value(6).toInt();
             QString statusText;
             
             switch(status) {
@@ -208,7 +203,7 @@ void MainWindow::onSearchTextChanged(const QString &text)
                     statusText = "Unknown";
             }
             
-            ui->tableWidget->setItem(row, 13, new QTableWidgetItem(statusText)); // status
+            ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
             
             row++;
         }
@@ -407,4 +402,122 @@ bool MainWindow::validateTableSelection()
         return false;
     }
     return true;
+}
+
+void MainWindow::on_buttonViewDetails_clicked()
+{
+    // Check if a player is selected
+    if (!validateTableSelection()) {
+        return;
+    }
+    
+    // Get ID of selected player
+    int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
+    int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
+    
+    // Clear any existing content in the formFrame
+    // Delete all widgets from the frame
+    qDeleteAll(ui->formFrame->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly));
+    
+    // Create a layout for the frame if it doesn't already have one
+    QLayout *existingLayout = ui->formFrame->layout();
+    if (existingLayout) {
+        delete existingLayout;  // Remove any existing layout
+    }
+    
+    // Create new layout for the frame
+    QVBoxLayout *frameLayout = new QVBoxLayout(ui->formFrame);
+    ui->formFrame->setLayout(frameLayout);
+    
+    // Query all player details
+    QSqlQuery query;
+    query.prepare("SELECT j.*, e.team_name "
+                  "FROM joueur j "
+                  "JOIN equipe e ON j.id_team = e.id_team "
+                  "WHERE j.id_player = :id");
+    query.bindValue(":id", joueurId);
+    
+    if (query.exec() && query.next()) {
+        // Create title label
+        QLabel *titleLabel = new QLabel("Player Details");
+        QFont titleFont = titleLabel->font();
+        titleFont.setBold(true);
+        titleFont.setPointSize(titleFont.pointSize() + 2);
+        titleLabel->setFont(titleFont);
+        titleLabel->setAlignment(Qt::AlignCenter);
+        frameLayout->addWidget(titleLabel);
+        
+        // Create a horizontal layout for the form and image
+        QHBoxLayout *contentLayout = new QHBoxLayout();
+        
+        // Create form layout for player details
+        QFormLayout *formLayout = new QFormLayout();
+        
+        formLayout->addRow("ID:", new QLabel(query.value("id_player").toString()));
+        formLayout->addRow("Team:", new QLabel(query.value("team_name").toString()));
+        formLayout->addRow("First Name:", new QLabel(query.value("first_name").toString()));
+        formLayout->addRow("Last Name:", new QLabel(query.value("last_name").toString()));
+        formLayout->addRow("Position:", new QLabel(query.value("position").toString()));
+        formLayout->addRow("Jersey Number:", new QLabel(query.value("jersey_nb").toString()));
+        formLayout->addRow("Date of Birth:", new QLabel(query.value("date_of_birth").toDate().toString("dd/MM/yyyy")));
+        formLayout->addRow("Nationality:", new QLabel(query.value("nationality").toString()));
+        formLayout->addRow("Goals:", new QLabel(query.value("goals").toString()));
+        formLayout->addRow("Assists:", new QLabel(query.value("assists").toString()));
+        
+        QString injured = query.value("injured").toInt() == 1 ? "Yes" : "No";
+        formLayout->addRow("Injured:", new QLabel(injured));
+        
+        formLayout->addRow("Yellow Cards:", new QLabel(query.value("yellow_card").toString()));
+        formLayout->addRow("Red Cards:", new QLabel(query.value("red_card").toString()));
+        
+        // Convert status to text
+        int status = query.value("status").toInt();
+        QString statusText;
+        switch(status) {
+            case 0: statusText = "Active"; break;
+            case 1: statusText = "Injured"; break;
+            case 2: statusText = "Suspended"; break;
+            case 3: statusText = "Transferred"; break;
+            default: statusText = "Unknown";
+        }
+        formLayout->addRow("Status:", new QLabel(statusText));
+        
+        // Add player image if available
+        QLabel *imageLabel = new QLabel();
+        imageLabel->setMinimumSize(150, 180);
+        imageLabel->setMaximumSize(150, 180);
+        imageLabel->setAlignment(Qt::AlignCenter);
+        imageLabel->setFrameShape(QFrame::Box);
+        QByteArray imageData = query.value("img_joueur").toByteArray();
+        if (!imageData.isEmpty()) {
+            QPixmap pixmap;
+            pixmap.loadFromData(imageData);
+            imageLabel->setPixmap(pixmap.scaled(150, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        } else {
+            imageLabel->setText("No Image");
+        }
+        
+        // Add the form layout and image to the horizontal layout
+        contentLayout->addLayout(formLayout, 3);  // Give the form more space
+        contentLayout->addWidget(imageLabel, 1);  // Give the image less space
+        
+        // Add the content layout to the frame layout
+        frameLayout->addLayout(contentLayout);
+        
+        // Make the frame visible if it's not already
+        ui->formFrame->setVisible(true);
+        
+        // Optional: Add a "Close Details" button if needed
+        QPushButton *closeButton = new QPushButton("Hide Details");
+        connect(closeButton, &QPushButton::clicked, [this]() {
+            ui->formFrame->setVisible(false);
+        });
+        
+        frameLayout->addWidget(closeButton, 0, Qt::AlignRight);
+        
+        // Make sure to apply the layout
+        ui->formFrame->updateGeometry();
+    } else {
+        QMessageBox::warning(this, "Error", "Could not retrieve player details.");
+    }
 }

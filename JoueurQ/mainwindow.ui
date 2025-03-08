@@ -286,7 +286,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -642,10 +642,38 @@ border-radius: 5px ;</string>
        <rect>
         <x>20</x>
         <y>120</y>
-        <width>1011</width>
+        <width>511</width>
         <height>381</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QPushButton" name="buttonViewDetails">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>520</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #192231;
+border-radius: 5px ;</string>
+      </property>
+      <property name="text">
+       <string>view</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="formFrame">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>130</y>
+        <width>461</width>
+        <height>371</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout"/>
      </widget>
     </widget>
    </widget>

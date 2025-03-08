@@ -23,7 +23,8 @@ private slots:
     void on_toolButtonImage_clicked();
     void on_buttonDelete_clicked();
     void on_buttonModify_clicked();
-    void onSearchTextChanged(const QString &text); 
+    void onSearchTextChanged(const QString &text);
+    void on_buttonViewDetails_clicked(); // Nouvelle méthode pour afficher les détails
 
 private:
     Ui::MainWindow *ui;
