@@ -23,6 +23,7 @@ private slots:
     void on_toolButtonImage_clicked();
     void on_buttonDelete_clicked();
     void on_buttonModify_clicked();
+    void onSearchTextChanged(const QString &text); 
 
 private:
     Ui::MainWindow *ui;

@@ -27,7 +27,7 @@ ModifyJoueur::ModifyJoueur(QWidget *parent) :
     labelId = new QLabel("Player ID:", this);
     lineEditId = new QLineEdit(this);
     lineEditId->setReadOnly(true); // Make ID field read-only
-    lineEditId->setStyleSheet("background-color: #f0f0f0;"); // Grey background to indicate read-only
+    lineEditId->setStyleSheet("background-color:rgb(239, 67, 67);"); // Grey background to indicate read-only
     buttonLoad = new QPushButton("Load", this);
     idLayout->addWidget(labelId);
     idLayout->addWidget(lineEditId);
@@ -37,67 +37,67 @@ ModifyJoueur::ModifyJoueur(QWidget *parent) :
     // Hide the load button since we're setting the ID directly
     buttonLoad->setVisible(false);
     
-    // Formulaire principal pour tous les attributs
+    // Main form for all attributes
     QFormLayout *formLayout = new QFormLayout();
     
-    // Chargement des équipes
+    // Team loading
     comboBoxTeam = new QComboBox(this);
     loadTeamsIntoComboBox();
-    formLayout->addRow("Équipe:", comboBoxTeam);
+    formLayout->addRow("Team:", comboBoxTeam);
     
-    // Informations personnelles
+    // Personal information
     lineEditFirstName = new QLineEdit(this);
-    formLayout->addRow("Prénom:", lineEditFirstName);
+    formLayout->addRow("First Name:", lineEditFirstName);
     
     lineEditLastName = new QLineEdit(this);
-    formLayout->addRow("Nom:", lineEditLastName);
+    formLayout->addRow("Last Name:", lineEditLastName);
     
     comboBoxPosition = new QComboBox(this);
-    comboBoxPosition->addItems({"Gardien", "Défenseur", "Milieu", "Attaquant"});
+    comboBoxPosition->addItems({"Goalkeeper", "Defender", "Midfielder", "Forward"});
     formLayout->addRow("Position:", comboBoxPosition);
     
     spinBoxJerseyNb = new QSpinBox(this);
     spinBoxJerseyNb->setRange(1, 99);
-    formLayout->addRow("Numéro de maillot:", spinBoxJerseyNb);
+    formLayout->addRow("Jersey Number:", spinBoxJerseyNb);
     
     dateEditBirth = new QDateEdit(this);
     dateEditBirth->setCalendarPopup(true);
     dateEditBirth->setDisplayFormat("dd/MM/yyyy");
-    formLayout->addRow("Date de naissance:", dateEditBirth);
+    formLayout->addRow("Date of Birth:", dateEditBirth);
     
     lineEditNationality = new QLineEdit(this);
-    formLayout->addRow("Nationalité:", lineEditNationality);
+    formLayout->addRow("Nationality:", lineEditNationality);
     
-    // Statistiques
+    // Statistics
     spinBoxGoals = new QSpinBox(this);
     spinBoxGoals->setRange(0, 999);
-    formLayout->addRow("Buts:", spinBoxGoals);
+    formLayout->addRow("Goals:", spinBoxGoals);
     
     spinBoxAssists = new QSpinBox(this);
     spinBoxAssists->setRange(0, 999);
-    formLayout->addRow("Passes décisives:", spinBoxAssists);
+    formLayout->addRow("Assists:", spinBoxAssists);
     
     comboBoxInjured = new QComboBox(this);
-    comboBoxInjured->addItem("Non blessé", 0);
-    comboBoxInjured->addItem("Blessé", 1);
-    formLayout->addRow("État de blessure:", comboBoxInjured);
+    comboBoxInjured->addItem("Not Injured", 0);
+    comboBoxInjured->addItem("Injured", 1);
+    formLayout->addRow("Injury Status:", comboBoxInjured);
     
     spinBoxYellowCard = new QSpinBox(this);
     spinBoxYellowCard->setRange(0, 99);
-    formLayout->addRow("Cartons jaunes:", spinBoxYellowCard);
+    formLayout->addRow("Yellow Cards:", spinBoxYellowCard);
     
     spinBoxRedCard = new QSpinBox(this);
     spinBoxRedCard->setRange(0, 99);
-    formLayout->addRow("Cartons rouges:", spinBoxRedCard);
+    formLayout->addRow("Red Cards:", spinBoxRedCard);
     
     comboBoxStatus = new QComboBox(this);
-    comboBoxStatus->addItem("Actif", 0);
-    comboBoxStatus->addItem("Blessé", 1);
-    comboBoxStatus->addItem("Suspendu", 2);
-    comboBoxStatus->addItem("Transféré", 3);
-    formLayout->addRow("Statut:", comboBoxStatus);
+    comboBoxStatus->addItem("Active", 0);
+    comboBoxStatus->addItem("Injured", 1);
+    comboBoxStatus->addItem("Suspended", 2);
+    comboBoxStatus->addItem("Transferred", 3);
+    formLayout->addRow("Status:", comboBoxStatus);
     
-    // Section pour l'image
+    // Image section
     QHBoxLayout *imageLayout = new QHBoxLayout();
     labelImage = new QLabel(this);
     labelImage->setMinimumSize(100, 120);
@@ -105,17 +105,17 @@ ModifyJoueur::ModifyJoueur(QWidget *parent) :
     labelImage->setScaledContents(true);
     labelImage->setFrameShape(QFrame::Box);
     
-    buttonSelectImage = new QPushButton("Sélectionner une image", this);
+    buttonSelectImage = new QPushButton("Select Image", this);
     imageLayout->addWidget(labelImage);
     imageLayout->addWidget(buttonSelectImage);
     formLayout->addRow("Image:", imageLayout);
     
     mainLayout->addLayout(formLayout);
     
-    // Boutons
+    // Buttons
     QHBoxLayout *buttonLayout = new QHBoxLayout();
-    pushButtonModifier = new QPushButton("Modifier", this);
-    pushButtonAnnuler = new QPushButton("Annuler", this);
+    pushButtonModifier = new QPushButton("Update", this);
+    pushButtonAnnuler = new QPushButton("Cancel", this);
     buttonLayout->addWidget(pushButtonModifier);
     buttonLayout->addWidget(pushButtonAnnuler);
     mainLayout->addLayout(buttonLayout);
@@ -224,7 +224,7 @@ void ModifyJoueur::loadJoueurData()
             labelImage->setPixmap(pixmap);
         } else {
             labelImage->clear();
-            labelImage->setText("Aucune image");
+            labelImage->setText("No image");
         }
         
         QMessageBox::information(this, "Success", "Player data loaded successfully.");
@@ -235,22 +235,22 @@ void ModifyJoueur::loadJoueurData()
 
 void ModifyJoueur::selectImage()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Sélectionner une image", "", "Images (*.png *.jpg *.jpeg)");
+    QString fileName = QFileDialog::getOpenFileName(this, "Select Image", "", "Images (*.png *.jpg *.jpeg)");
     if (!fileName.isEmpty()) {
         QPixmap pixmap(fileName);
         
         if (!pixmap.isNull()) {
-            // Afficher l'image
+            // Display the image
             labelImage->setPixmap(pixmap.scaled(100, 120, Qt::KeepAspectRatio));
             
-            // Convertir en QByteArray pour stockage
+            // Convert to QByteArray for storage
             QByteArray byteArray;
             QBuffer buffer(&byteArray);
             buffer.open(QIODevice::WriteOnly);
             pixmap.save(&buffer, "JPG");
             imageData = byteArray;
         } else {
-            QMessageBox::warning(this, "Erreur", "Impossible de charger l'image sélectionnée.");
+            QMessageBox::warning(this, "Error", "Unable to load the selected image.");
         }
     }
 }

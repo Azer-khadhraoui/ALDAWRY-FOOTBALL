@@ -602,25 +602,6 @@ margin-right:15px;</string>
     color: white;</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_20">
-       <property name="geometry">
-        <rect>
-         <x>300</x>
-         <y>20</y>
-         <width>18</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>../../../../../Pictures/proj QT/trier.png</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
-       </property>
-      </widget>
      </widget>
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
