@@ -286,7 +286,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -310,57 +310,6 @@ border-radius: 15px;
 padding: 15px;</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="13" column="0">
-        <widget class="QLineEdit" name="lineEdit_9">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLineEdit" name="lineEdit_8">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Insert player photo</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_12">
          <property name="styleSheet">
@@ -370,43 +319,6 @@ padding-bottom: 5px;background-color:transparent;</string>
          </property>
          <property name="text">
           <string>Date_Of_Birth</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Nationality</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Jersey_Nb</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="lineEdit_3">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
          </property>
         </widget>
        </item>
@@ -422,20 +334,8 @@ padding-bottom: 5px;background-color:transparent;</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Position</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
+       <item row="5" column="0">
+        <widget class="QDateEdit" name="dateEdit">
          <property name="styleSheet">
           <string notr="true">background-color: #1C1F2A;
 border: 1px solid #2A2D3A;
@@ -459,8 +359,8 @@ padding-bottom: 5px;background-color:transparent;</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QLineEdit" name="lineEdit_5">
+       <item row="11" column="0">
+        <widget class="QLineEdit" name="lineEdit_8">
          <property name="styleSheet">
           <string notr="true">background-color: #1C1F2A;
 border: 1px solid #2A2D3A;
@@ -472,15 +372,54 @@ margin-right:15px;</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_9">
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="lineEdit_4">
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 5px;
+color: white;
+margin-left: 15px;
+margin-right:15px;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLineEdit" name="lineEdit_9">
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 5px;
+color: white;
+margin-left: 15px;
+margin-right:15px;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="lineEdit_3">
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 5px;
+color: white;
+margin-left: 15px;
+margin-right:15px;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_11">
          <property name="styleSheet">
           <string notr="true">color: #A0A8B7;
 font-weight: bold;
 padding-bottom: 5px;background-color:transparent;</string>
          </property>
          <property name="text">
-          <string>Team</string>
+          <string>Jersey_Nb</string>
          </property>
         </widget>
        </item>
@@ -502,6 +441,59 @@ margin-right:15px;</string>
          </item>
         </widget>
        </item>
+       <item row="15" column="0">
+        <widget class="QToolButton" name="toolButton">
+         <property name="styleSheet">
+          <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 3px;
+color: white;
+margin-left: 15px;
+margin-right:15px;
+margin-bottom:15px;</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+         </property>
+         <property name="text">
+          <string>Position</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="styleSheet">
+          <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+         </property>
+         <property name="text">
+          <string>Nationality</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="styleSheet">
+          <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+         </property>
+         <property name="text">
+          <string>Insert player photo</string>
+         </property>
+        </widget>
+       </item>
        <item row="17" column="0">
         <widget class="QPushButton" name="button1">
          <property name="styleSheet">
@@ -519,21 +511,34 @@ margin-bottom:10px;</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="0">
-        <widget class="QToolButton" name="toolButton">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+         </property>
+         <property name="text">
+          <string>Team</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QComboBox" name="comboBoxPosition">
          <property name="styleSheet">
           <string notr="true">background-color: #1C1F2A;
 border: 1px solid #2A2D3A;
 border-radius: 5px;
-padding: 3px;
+padding: 5px;
 color: white;
 margin-left: 15px;
-margin-right:15px;
-margin-bottom:15px;</string>
+margin-right:15px;</string>
          </property>
-         <property name="text">
-          <string>...</string>
-         </property>
+         <item>
+          <property name="text">
+           <string>Goalkeeper</string>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -560,9 +565,9 @@ margin-bottom:15px;</string>
       <property name="geometry">
        <rect>
         <x>340</x>
-        <y>50</y>
+        <y>40</y>
         <width>341</width>
-        <height>41</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -582,10 +587,10 @@ margin-bottom:15px;</string>
       <widget class="QLineEdit" name="lineEdit_10">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>10</x>
          <y>10</y>
-         <width>211</width>
-         <height>23</height>
+         <width>321</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -615,41 +620,6 @@ margin-bottom:15px;</string>
        <property name="scaledContents">
         <bool>true</bool>
        </property>
-      </widget>
-      <widget class="QFrame" name="frame_7">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>10</y>
-         <width>31</width>
-         <height>25</height>
-        </rect>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Shape::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Shadow::Raised</enum>
-       </property>
-       <widget class="QLabel" name="label_21">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>11</width>
-          <height>11</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap>../../../../../Pictures/proj QT/search.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton_3">

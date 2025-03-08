@@ -13,23 +13,29 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow)  
 {
     ui->setupUi(this);
+    
+    
+    ui->comboBoxPosition->clear();
+    ui->comboBoxPosition->addItems({"Goalkeeper", "Defender", "Midfielder", "Forward"});
+    
+    // Autres initialisations existantes
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
-    connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked); // Connexion du bouton supprimer
-    loadTeams();
-
+    connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked);
     
-    ui->tableWidget->setColumnCount(14); 
+    ui->tableWidget->setColumnCount(14);
     ui->tableWidget->setHorizontalHeaderLabels({
         "ID Player", "ID Team", "First Name", "Last name", "Position", "jersey number", "Date of birth",
         "Nationality", "goals", "assists", "injury", "Yellow Card", "Red Card", "Status"
     });
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);  // Rendre le tableau non éditable
 
-    loadPlayers(); // Charger les joueurs au démarrage
+    loadTeams();
+    loadPlayers();
 }
 
 MainWindow::~MainWindow()
@@ -157,14 +163,17 @@ void MainWindow::on_button1_clicked()
     // Step 3: Get and validate player information
     QString first_name = ui->lineEdit_3->text().trimmed();
     QString last_name = ui->lineEdit_4->text().trimmed();
-    QString position = ui->lineEdit_5->text().trimmed();
+    
+    // Récupérer la position depuis le comboBox au lieu du lineEdit
+    QString position = ui->comboBoxPosition->currentText();
+    
     QString nationality = ui->lineEdit_9->text().trimmed();
     
     // Step 4: Field validation
     
     // Check for empty fields
-    if (first_name.isEmpty() || last_name.isEmpty() || position.isEmpty() || nationality.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Please fill all required fields (First Name, Last Name, Position, Nationality).");
+    if (first_name.isEmpty() || last_name.isEmpty() || nationality.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please fill all required fields (First Name, Last Name, Nationality).");
         return;
     }
     
@@ -182,13 +191,7 @@ void MainWindow::on_button1_clicked()
         return;
     }
     
-    // Validate position (only specific values)
-    QStringList validPositions = {"Goalkeeper", "Defender", "Midfielder", "Forward"};
-    if (!validPositions.contains(position, Qt::CaseInsensitive)) {
-        QMessageBox::warning(this, "Error", "Invalid position. Please enter: Goalkeeper, Defender, Midfielder, or Forward.");
-        ui->lineEdit_5->setFocus();
-        return;
-    }
+    // La validation de position n'est plus nécessaire car limitée par le comboBox
     
     // Validate jersey number
     bool ok;
@@ -226,7 +229,7 @@ void MainWindow::on_button1_clicked()
         // Clear input fields
         ui->lineEdit_3->clear();
         ui->lineEdit_4->clear();
-        ui->lineEdit_5->clear();
+        // Ne pas effacer comboBoxPosition car il contient toujours des valeurs valides
         ui->lineEdit_8->clear();
         ui->lineEdit_9->clear();
         img_joueur.clear();
