@@ -571,6 +571,32 @@ void MainWindow::refreshPlayerDetails()
         // Add the content layout to the frame layout
         frameLayout->addLayout(contentLayout);
         
+        // Créer un header stylisé avec le nom du joueur
+        QString playerFullName = query.value("first_name").toString() + " " + query.value("last_name").toString();
+        QLabel *playerNameHeader = new QLabel(playerFullName);
+        QFont headerFont = playerNameHeader->font();
+        headerFont.setBold(true);
+        headerFont.setPointSize(16);  // Police plus grande
+        playerNameHeader->setFont(headerFont);
+        playerNameHeader->setAlignment(Qt::AlignCenter);
+        
+        // Ajouter un style avec la couleur de l'équipe (exemple)
+        playerNameHeader->setStyleSheet("background-color:rgba(0, 1, 8, 0.35); padding: 5px; border-radius: 3px;");
+        
+        frameLayout->addWidget(playerNameHeader);
+        
+        // Ajouter l'équipe sous le nom
+        QLabel *teamLabel = new QLabel("Team: " + query.value("team_name").toString());
+        teamLabel->setAlignment(Qt::AlignCenter);
+        teamLabel->setStyleSheet("font-style: italic;");
+        frameLayout->addWidget(teamLabel);
+        
+        // Ajouter un séparateur
+        QFrame *line = new QFrame();
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        frameLayout->addWidget(line);
+        
         // Make the frame visible if it's not already
         ui->formFrame->setVisible(true);
         
