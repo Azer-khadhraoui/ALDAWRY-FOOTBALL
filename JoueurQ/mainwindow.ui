@@ -246,7 +246,7 @@ border: 2px solid #4C5C75;</string>
       <x>90</x>
       <y>100</y>
       <width>1051</width>
-      <height>651</height>
+      <height>661</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -494,23 +494,6 @@ padding-bottom: 5px;background-color:transparent;</string>
          </property>
         </widget>
        </item>
-       <item row="17" column="0">
-        <widget class="QPushButton" name="button1">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgba(50, 150, 250, 0.8);
-color: white;
-font-size: 12px;
-border-radius: 5px;
-padding: 6px 12px;
-margin-left:500px;
-margin-right:20px;
-margin-bottom:10px;</string>
-         </property>
-         <property name="text">
-          <string>Confirm</string>
-         </property>
-        </widget>
-       </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_9">
          <property name="styleSheet">
@@ -539,6 +522,23 @@ margin-right:15px;</string>
            <string>Goalkeeper</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="16" column="0" rowspan="2">
+        <widget class="QPushButton" name="button1">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(50, 150, 250, 0.8);
+color: white;
+font-size: 12px;
+border-radius: 5px;
+padding: 6px 12px;
+margin-left:500px;
+margin-right:20px;
+margin-bottom:10px;</string>
+         </property>
+         <property name="text">
+          <string>Confirm</string>
+         </property>
         </widget>
        </item>
       </layout>

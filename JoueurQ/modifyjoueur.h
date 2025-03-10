@@ -23,6 +23,7 @@ private slots:
     void acceptDialog();
     void loadJoueurData(); // Pour charger les données du joueur
     void selectImage();    // Pour sélectionner une nouvelle image
+    void onStatusChanged(int index); // Ajoutez ce slot
 
 private:
     void loadTeamsIntoComboBox();  // Charger la liste des équipes

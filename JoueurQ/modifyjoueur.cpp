@@ -125,6 +125,31 @@ ModifyJoueur::ModifyJoueur(QWidget *parent) :
     connect(pushButtonModifier, &QPushButton::clicked, this, &ModifyJoueur::acceptDialog);
     connect(pushButtonAnnuler, &QPushButton::clicked, this, &QDialog::reject);
     connect(buttonSelectImage, &QPushButton::clicked, this, &ModifyJoueur::selectImage);
+    connect(comboBoxStatus, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ModifyJoueur::onStatusChanged);
+    
+    // Connexion bidirectionnelle entre Status et Injured
+    connect(comboBoxInjured, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) {
+        // Si on change à "Injured" (index 1)
+        if (index == 1) {
+            // Mettre le statut à "Injured"
+            for (int i = 0; i < comboBoxStatus->count(); i++) {
+                if (comboBoxStatus->itemData(i).toInt() == 1) { // 1 = Injured
+                    comboBoxStatus->setCurrentIndex(i);
+                    break;
+                }
+            }
+        }
+        // Si on change à "Not Injured" (index 0) et que le statut était "Injured"
+        else if (comboBoxStatus->currentData().toInt() == 1) {
+            // Mettre le statut à "Active"
+            for (int i = 0; i < comboBoxStatus->count(); i++) {
+                if (comboBoxStatus->itemData(i).toInt() == 0) { // 0 = Active
+                    comboBoxStatus->setCurrentIndex(i);
+                    break;
+                }
+            }
+        }
+    });
 }
 
 ModifyJoueur::~ModifyJoueur()
@@ -341,5 +366,16 @@ void ModifyJoueur::acceptDialog()
         accept();
     } else {
         QMessageBox::critical(this, "Error", "Could not update player information.");
+    }
+}
+
+void ModifyJoueur::onStatusChanged(int index)
+{
+    // Si le statut est "Injured" (index 1), cochez la case injured
+    if (comboBoxStatus->itemData(index).toInt() == 1) {
+        comboBoxInjured->setCurrentIndex(1);
+    } else {
+        // Si c'est un autre statut, décochez la case injured
+        comboBoxInjured->setCurrentIndex(0);
     }
 }
