@@ -564,7 +564,7 @@ margin-right:15px;</string>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>140</x>
         <y>50</y>
         <width>381</width>
         <height>61</height>
@@ -677,6 +677,16 @@ border-radius: 5px ;</string>
        <enum>QFrame::Shape::Box</enum>
       </property>
       <layout class="QFormLayout" name="formLayout"/>
+     </widget>
+     <widget class="QComboBox" name="comboBoxTri">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
      </widget>
     </widget>
    </widget>

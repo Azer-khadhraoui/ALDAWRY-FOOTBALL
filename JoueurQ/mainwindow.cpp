@@ -24,12 +24,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBoxPosition->clear();
     ui->comboBoxPosition->addItems({"Goalkeeper", "Defender", "Midfielder", "Forward"});
     
+    // Initialiser les options de tri
+    ui->comboBoxTri->clear();
+    ui->comboBoxTri->addItem("Default (No Sorting)", "none");
+    ui->comboBoxTri->addItem("Name (A-Z)", "name_asc");
+    ui->comboBoxTri->addItem("Name (Z-A)", "name_desc");
+    ui->comboBoxTri->addItem("Team", "team");
+    ui->comboBoxTri->addItem("Position", "position");
+    ui->comboBoxTri->addItem("Goals (High-Low)", "goals_desc");
+    ui->comboBoxTri->addItem("Goals (Low-High)", "goals_asc");
+    
     // Connect buttons
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_buttonDelete_clicked);
     connect(ui->lineEdit_10, &QLineEdit::textChanged, this, &MainWindow::onSearchTextChanged); // Connect search field
     connect(ui->buttonViewDetails, &QPushButton::clicked, this, &MainWindow::on_buttonViewDetails_clicked);
+    connect(ui->comboBoxTri, &QComboBox::currentIndexChanged, this, &MainWindow::onSortingChanged);
     
     // Set placeholder text for search field
     ui->lineEdit_10->setPlaceholderText("Search players by name, nationality, position...");
@@ -144,21 +155,42 @@ void MainWindow::loadPlayers()
     if (statusBar()) {
         statusBar()->showMessage(QString("%1 players in total").arg(row));
     }
+    onSortingChanged(ui->comboBoxTri->currentIndex());
 }
 
 void MainWindow::onSearchTextChanged(const QString &text)
 {
-    // If search text is empty, show all players
+    // Si le champ de recherche est vide, montrer tous les joueurs
     if (text.isEmpty()) {
         loadPlayers();
         return;
     }
     
-    // Clear the table
+    // Récupérer l'identifiant de tri actuel
+    int index = ui->comboBoxTri->currentIndex();
+    QString sortOption = ui->comboBoxTri->itemData(index).toString();
+    
+    // Déterminer la clause ORDER BY selon l'option de tri
+    QString orderByClause;
+    if (sortOption == "name_asc") {
+        orderByClause = " ORDER BY j.last_name ASC, j.first_name ASC";
+    } else if (sortOption == "name_desc") {
+        orderByClause = " ORDER BY j.last_name DESC, j.first_name DESC";
+    } else if (sortOption == "team") {
+        orderByClause = " ORDER BY e.team_name ASC, j.last_name ASC";
+    } else if (sortOption == "position") {
+        orderByClause = " ORDER BY j.position ASC, j.last_name ASC";
+    } else if (sortOption == "goals_desc") {
+        orderByClause = " ORDER BY j.goals DESC, j.last_name ASC";
+    } else if (sortOption == "goals_asc") {
+        orderByClause = " ORDER BY j.goals ASC, j.last_name ASC";
+    }
+    
+    // Vider le tableau
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
     
-    // Build query with search conditions (search in multiple fields)
+    // Construire la requête avec les conditions de recherche
     QString searchQuery = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
                           "e.team_name, j.jersey_nb, j.status "
                           "FROM joueur j "
@@ -168,10 +200,15 @@ void MainWindow::onSearchTextChanged(const QString &text)
                           "OR j.nationality LIKE :search "
                           "OR j.position LIKE :search "
                           "OR e.team_name LIKE :search";
+                          
+    // Ajouter la clause ORDER BY si nécessaire
+    if (!orderByClause.isEmpty()) {
+        searchQuery += orderByClause;
+    }
     
     QSqlQuery query;
     query.prepare(searchQuery);
-    query.bindValue(":search", "%" + text + "%"); // Use % for wildcard matching
+    query.bindValue(":search", "%" + text + "%"); // Utiliser % pour la correspondance partielle
     
     if (query.exec()) {
         // Populate table with search results
@@ -572,5 +609,85 @@ void MainWindow::onTableSelectionChanged(const QItemSelection &selected, const Q
         
         // Refresh the details view
         refreshPlayerDetails();
+    }
+}
+
+void MainWindow::onSortingChanged(int index)
+{
+    // Récupérer l'identifiant de tri sélectionné
+    QString sortOption = ui->comboBoxTri->itemData(index).toString();
+    
+    // Construire la requête SQL en fonction de l'option de tri
+    QString baseQuery = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
+                       "e.team_name, j.jersey_nb, j.status ";
+    
+    QString fromClause = "FROM joueur j "
+                         "JOIN equipe e ON j.id_team = e.id_team ";
+    
+    QString orderByClause;
+    
+    // Déterminer la clause ORDER BY en fonction de l'option sélectionnée
+    if (sortOption == "name_asc") {
+        orderByClause = "ORDER BY j.last_name ASC, j.first_name ASC";
+    } else if (sortOption == "name_desc") {
+        orderByClause = "ORDER BY j.last_name DESC, j.first_name DESC";
+    } else if (sortOption == "team") {
+        orderByClause = "ORDER BY e.team_name ASC, j.last_name ASC";
+    } else if (sortOption == "position") {
+        orderByClause = "ORDER BY j.position ASC, j.last_name ASC";
+    } else if (sortOption == "goals_desc") {
+        orderByClause = "ORDER BY j.goals DESC, j.last_name ASC";
+    } else if (sortOption == "goals_asc") {
+        orderByClause = "ORDER BY j.goals ASC, j.last_name ASC";
+    }
+    // Si "none", pas de ORDER BY nécessaire
+    
+    // Construire la requête complète
+    QString completeQuery = baseQuery + fromClause;
+    if (!orderByClause.isEmpty()) {
+        completeQuery += orderByClause;
+    }
+    
+    // Effacer le tableau existant
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
+    
+    // Exécuter la requête
+    QSqlQuery query(completeQuery);
+    
+    // Remplir le tableau avec les résultats triés
+    int row = 0;
+    while (query.next()) {
+        ui->tableWidget->insertRow(row);
+        
+        // Fill each column with query data (reduced set)
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // last_name
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
+        ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
+        ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
+        
+        // Convert integer status to text
+        int status = query.value(6).toInt();
+        QString statusText;
+        switch(status) {
+            case 0: statusText = "Active"; break;
+            case 1: statusText = "Injured"; break;
+            case 2: statusText = "Suspended"; break;
+            case 3: statusText = "Transferred"; break;
+            default: statusText = "Unknown";
+        }
+        ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
+        
+        row++;
+    }
+    
+    // Optional: resize columns to fit content
+    ui->tableWidget->resizeColumnsToContents();
+    
+    // Update status bar with total count
+    if (statusBar()) {
+        statusBar()->showMessage(QString("%1 players in total").arg(row));
     }
 }

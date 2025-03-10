@@ -27,7 +27,7 @@ private slots:
     void onSearchTextChanged(const QString &text);
     void on_buttonViewDetails_clicked(); // Nouvelle méthode pour afficher les détails
     void onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-
+    void onSortingChanged(int index); 
 private:
     Ui::MainWindow *ui;
     QMap<QString, int> teamMap;
