@@ -13,7 +13,6 @@
 #include "modifyjoueur.h" 
 #include <QItemSelection>
 
-
 #include <QPainter>
 #include <QFileDialog>
 
@@ -382,7 +381,7 @@ void MainWindow::on_button1_clicked()
 }
 
 void MainWindow::on_buttonDelete_clicked()
-{
+{   
     // Check if a player is selected
     if (!validateTableSelection()) {
         return;
@@ -401,7 +400,7 @@ void MainWindow::on_buttonDelete_clicked()
     confirmation = QMessageBox::question(this, "Confirm Deletion", 
         "Are you sure you want to delete player " + firstName + " " + lastName + " (ID: " + QString::number(joueurId) + ")?",
         QMessageBox::Yes | QMessageBox::No);
-        
+    
     if (confirmation == QMessageBox::No) {
         return;
     }
@@ -762,6 +761,14 @@ QString MainWindow::generatePlayerHTML(int playerId)
     int yellowCards = query.value("yellow_card").toInt();
     int redCards = query.value("red_card").toInt();
     
+    // Récupérer l'image
+    QByteArray imageData = query.value("img_joueur").toByteArray();
+    QString imageBase64;
+    if (!imageData.isEmpty()) {
+        // Convertir l'image en base64 pour l'inclure dans le HTML
+        imageBase64 = QString("data:image/jpeg;base64,") + imageData.toBase64();
+    }
+    
     // Convertir le statut en texte et définir une couleur
     int status = query.value("status").toInt();
     QString statusText;
@@ -803,38 +810,45 @@ QString MainWindow::generatePlayerHTML(int playerId)
         positionColor = "#6c757d"; // Gris
     }
     
-    // Construire le HTML avec des styles améliorés
-    QString html = "<html><head><style>";
-    html += "body { font-family: Arial, sans-serif; margin: 0; padding: 20px; font-size: 14pt; line-height: 1.5; color: #333; background-color: #fff; }";
-    html += "h1 { color: white; text-align: center; font-size: 28pt; margin: 0; padding: 10px 0; }";
-    html += "h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; font-size: 22pt; margin-top: 30px; margin-bottom: 15px; }";
+    // Construire le HTML avec des styles améliorés pour éviter les coupures de texte
+    QString html = "<!DOCTYPE html><html><head><meta charset='utf-8'><style>";
+    html += "* { box-sizing: border-box; }";
+    html += "body { font-family: Arial, sans-serif; margin: 0 auto; padding: 10px; font-size: 10pt; line-height: 1.4; color: #333; background-color: #fff; text-align: center; max-width: 100%; word-wrap: break-word; }";
+    html += "h1 { color: white; text-align: center; font-size: 22pt; margin: 0; padding: 10px 0; }";
+    html += "h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; font-size: 16pt; margin-top: 20px; text-align: center; }";
     
     // En-tête avec dégradé
-    html += ".player-header { background: linear-gradient(135deg, #1a365d 0%, #2980b9 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; }";
-    html += ".player-header p { color: white; font-size: 16pt; margin: 10px 0 0 0; }";
-    html += ".player-details { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }";
+    html += ".player-header { background: linear-gradient(135deg, #1a365d 0%, #2980b9 100%); color: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 3px 5px rgba(0,0,0,0.1); margin: 0 auto 15px auto; width: 100%; }";
+    html += ".player-header p { color: white; font-size: 12pt; margin: 8px 0 0 0; }";
+    html += ".player-details { background-color: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin: 0 auto; width: 100%; }";
     
-    // Tableaux stylisés
-    html += "table { width: 100%; border-collapse: collapse; margin: 25px 0; box-shadow: 0 2px 3px rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; }";
-    html += "th, td { padding: 15px; text-align: left; border-bottom: 1px solid #e1e1e1; }";
+    // Tableaux stylisés avec table-layout: fixed pour éviter les coupures
+    html += "table { width: 100%; border-collapse: collapse; margin: 15px auto; box-shadow: 0 2px 3px rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; table-layout: fixed; }";
+    html += "th, td { padding: 8px; text-align: left; border-bottom: 1px solid #e1e1e1; word-wrap: break-word; white-space: normal; }";
+    html += "th, td { padding: 8px; text-align: left; border-bottom: 1px solid #e1e1e1; word-wrap: break-word; white-space: normal; }";
     html += "th { background-color: #f8f9fa; width: 35%; font-weight: bold; color: #495057; }";
+    html += "td { width: 65%; }";
     html += "tr:last-child td, tr:last-child th { border-bottom: none; }";
     html += "tr:nth-child(even) { background-color: #f8f9fa; }";
     
     // Mise en forme spéciale pour certaines informations
-    html += ".status { font-weight: bold; color: " + statusColor + "; padding: 5px 10px; background-color: " + statusColor + "20; border-radius: 4px; display: inline-block; }";
-    html += ".position { font-weight: bold; color: " + positionColor + "; padding: 5px 10px; background-color: " + positionColor + "20; border-radius: 4px; display: inline-block; }";
-    html += ".jersey { font-weight: bold; font-size: 16pt; display: inline-block; background-color: #e9ecef; color: #495057; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; }";
+    html += ".status { font-weight: bold; color: " + statusColor + "; padding: 3px 8px; background-color: " + statusColor + "20; border-radius: 4px; display: inline-block; }";
+    html += ".position { font-weight: bold; color: " + positionColor + "; padding: 3px 8px; background-color: " + positionColor + "20; border-radius: 4px; display: inline-block; }";
+    html += ".jersey { font-weight: bold; font-size: 12pt; display: inline-block; background-color: #e9ecef; color: #495057; width: 25px; height: 25px; line-height: 25px; text-align: center; border-radius: 50%; }";
+    
+    // Style pour l'image du joueur
+    html += ".player-image { text-align: center; margin: 8px auto; }";
+    html += ".player-image img { max-width: 120px; height: auto; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }";
     
     // Statistiques avec style
-    html += ".statistics { margin-top: 30px; }";
-    html += ".stats-container { display: flex; justify-content: space-between; margin: 20px 0; }";
-    html += ".stat-box { text-align: center; flex: 1; padding: 15px; background-color: #f8f9fa; border-radius: 8px; margin: 0 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }";
-    html += ".stat-value { font-size: 24pt; font-weight: bold; color: #2c3e50; }";
-    html += ".stat-label { font-size: 12pt; color: #6c757d; margin-top: 5px; }";
+    html += ".statistics { margin-top: 15px; }";
+    html += ".stats-container { display: block; width: 100%; margin: 15px auto; text-align: center; }";
+    html += ".stat-box { display: inline-block; width: 22%; margin: 0 1%; vertical-align: top; }";
+    html += ".stat-value { font-size: 16pt; font-weight: bold; color: #2c3e50; }";
+    html += ".stat-label { font-size: 9pt; color: #6c757d; margin-top: 3px; }";
     
     // Pied de page
-    html += ".footer { text-align: center; margin-top: 40px; padding-top: 20px; color: #6c757d; font-size: 11pt; border-top: 1px solid #e1e1e1; }";
+    html += ".footer { text-align: center; margin-top: 20px; padding-top: 10px; color: #6c757d; font-size: 9pt; border-top: 1px solid #e1e1e1; }";
     html += "</style></head><body>";
     
     // En-tête du joueur
@@ -843,6 +857,14 @@ QString MainWindow::generatePlayerHTML(int playerId)
     html += QString("<p><span class='position'>%1</span> | <span class='jersey'>#%2</span> | <strong>%3</strong></p>").arg(position, QString::number(jerseyNumber), team);
     html += "</div>";
     
+    // Image du joueur
+    if (!imageData.isEmpty()) {
+        html += "<div class='player-image'>";
+        // Spécifier la largeur et la hauteur directement dans la balise img
+        html += "<img src='" + imageBase64 + "' width='150' alt='Player Image'>";
+        html += "</div>";
+    }
+    
     // Détails du joueur
     html += "<div class='player-details'>";
     html += "<h2>Player Information</h2>";
@@ -850,25 +872,33 @@ QString MainWindow::generatePlayerHTML(int playerId)
     html += QString("<tr><th>Player ID</th><td>%1</td></tr>").arg(playerId);
     html += QString("<tr><th>Full Name</th><td>%1 %2</td></tr>").arg(firstName, lastName);
     html += QString("<tr><th>Team</th><td>%1</td></tr>").arg(team);
-    html += QString("<tr><th>Position</th><td><span class='position'>%1</span></td></tr>").arg(position);
+    
+    // Pour la position, utiliser un span avec class mais aussi réduire le padding
+    html += "<tr><th>Position</th><td><span class='position' style='padding:2px 5px;'>" + position + "</span></td></tr>";
+    
     html += QString("<tr><th>Jersey Number</th><td><span class='jersey'>#%1</span></td></tr>").arg(jerseyNumber);
-    html += QString("<tr><th>Date of Birth</th><td>%1 (%2 years old)</td></tr>")
+    
+    // Simplifier l'affichage de la date de naissance pour éviter les coupures
+    int age = QDate::currentDate().year() - birthDate.year() - 
+              (QDate::currentDate().dayOfYear() < birthDate.dayOfYear() ? 1 : 0);
+    html += QString("<tr><th>Birth Date</th><td>%1 (%2 yrs)</td></tr>")
             .arg(birthDate.toString("dd/MM/yyyy"))
-            .arg(QDate::currentDate().year() - birthDate.year() - (QDate::currentDate().dayOfYear() < birthDate.dayOfYear() ? 1 : 0));
+            .arg(age);
+            
     html += QString("<tr><th>Nationality</th><td>%1</td></tr>").arg(nationality);
-    html += QString("<tr><th>Status</th><td><span class='status'>%1</span></td></tr>").arg(statusText);
-    html += QString("<tr><th>Currently Injured</th><td>%1</td></tr>").arg(isInjured ? "<span style='color:#dc3545; font-weight:bold;'>Yes</span>" : "No");
+    html += QString("<tr><th>Status</th><td><span class='status' style='padding:2px 5px;'>%1</span></td></tr>").arg(statusText);
+    html += QString("<tr><th>Injured</th><td>%1</td></tr>").arg(isInjured ? "Yes" : "No");
     html += "</table>";
     
     // Statistiques avec affichage visuel
     html += "<h2>Player Statistics</h2>";
     
     // Afficher les statistiques dans des boîtes
-    html += "<div class='stats-container'>";
-    html += QString("<div class='stat-box'><div class='stat-value'>%1</div><div class='stat-label'>Goals</div></div>").arg(goals);
-    html += QString("<div class='stat-box'><div class='stat-value'>%1</div><div class='stat-label'>Assists</div></div>").arg(assists);
-    html += QString("<div class='stat-box'><div class='stat-value'>%1</div><div class='stat-label'>Yellow Cards</div></div>").arg(yellowCards);
-    html += QString("<div class='stat-box'><div class='stat-value'>%1</div><div class='stat-label'>Red Cards</div></div>").arg(redCards);
+    html += "<div class='stats-container' style='display:block; text-align:center;'>";
+    html += QString("<div class='stat-box' style='display:inline-block; width:22%; margin:0 1%;'><div class='stat-value'>%1</div><div class='stat-label'>Goals</div></div>").arg(goals);
+    html += QString("<div class='stat-box' style='display:inline-block; width:22%; margin:0 1%;'><div class='stat-value'>%1</div><div class='stat-label'>Assists</div></div>").arg(assists);
+    html += QString("<div class='stat-box' style='display:inline-block; width:22%; margin:0 1%;'><div class='stat-value'>%1</div><div class='stat-label'>Yellow Cards</div></div>").arg(yellowCards);
+    html += QString("<div class='stat-box' style='display:inline-block; width:22%; margin:0 1%;'><div class='stat-value'>%1</div><div class='stat-label'>Red Cards</div></div>").arg(redCards);
     html += "</div>";
     
     // Table des statistiques détaillées
@@ -891,62 +921,229 @@ QString MainWindow::generatePlayerHTML(int playerId)
 
 void MainWindow::exportPlayerToPDF(int playerId)
 {
-    QString html = generatePlayerHTML(playerId);
-    
-    // Demander à l'utilisateur où enregistrer le PDF
+    // 🔹 Récupération des informations du joueur
     QSqlQuery query;
-    query.prepare("SELECT first_name, last_name FROM joueur WHERE id_player = :id");
+    query.prepare("SELECT j.*, e.team_name FROM joueur j JOIN equipe e ON j.id_team = e.id_team WHERE j.id_player = :id");
     query.bindValue(":id", playerId);
-    
-    QString playerName = "player";
-    if (query.exec() && query.next()) {
-        playerName = query.value("first_name").toString() + "_" + query.value("last_name").toString();
+
+    if (!query.exec() || !query.next()) {
+        QMessageBox::warning(this, "Error", "Player not found");
+        return;
     }
+
+    // 🔹 Récupération des données du joueur
+    QString firstName = query.value("first_name").toString();
+    QString lastName = query.value("last_name").toString();
+    QString team = query.value("team_name").toString();
+    QString position = query.value("position").toString();
+    int jerseyNumber = query.value("jersey_nb").toInt();
+    QDate birthDate = query.value("date_of_birth").toDate();
+    QString nationality = query.value("nationality").toString();
+    int goals = query.value("goals").toInt();
+    int assists = query.value("assists").toInt();
+    int yellowCards = query.value("yellow_card").toInt();
+    int redCards = query.value("red_card").toInt();
+    bool isInjured = query.value("injured").toInt() == 1;
+
+    // 🔹 Récupération de l'image
+    QByteArray imageData = query.value("img_joueur").toByteArray();
+    QPixmap playerImage;
+    bool hasImage = false;
     
-    QString defaultFileName = playerName + "_profile.pdf";
-    QString fileName = QFileDialog::getSaveFileName(this, "Export PDF", 
-                                               QDir::homePath() + "/" + defaultFileName, 
-                                               "PDF Files (*.pdf)");
-    
-    if (fileName.isEmpty()) {
-        return;  // L'utilisateur a annulé
+    if (!imageData.isEmpty()) {
+        hasImage = playerImage.loadFromData(imageData);
     }
-    
-    // Créer le PDF
+
+    // 🔹 Sélection du fichier PDF
+    QString defaultFileName = firstName + "_" + lastName + "_Profile.pdf";
+    QString fileName = QFileDialog::getSaveFileName(this, "Export PDF", QDir::homePath() + "/" + defaultFileName, "PDF Files (*.pdf)");
+
+    if (fileName.isEmpty()) return;
+
+    // 🔹 Création du PDF
     QPdfWriter pdfWriter(fileName);
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-    
-    // Augmenter la résolution à 600 DPI pour une meilleure qualité
-    pdfWriter.setResolution(600);
-    
-    // Réduire les marges pour maximiser l'espace
-    pdfWriter.setPageMargins(QMarginsF(15, 15, 15, 15));
-    
+    pdfWriter.setResolution(300);
+    pdfWriter.setPageMargins(QMarginsF(20, 20, 20, 20));
+
     QPainter painter(&pdfWriter);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    // 📌 Définition des polices et couleurs
+    QFont titleFont("Arial", 26, QFont::Bold);
+    QFont sectionFont("Arial", 18, QFont::Bold);
+    QFont normalFont("Arial", 14);
+    QColor headerColor(26, 54, 93);  // Bleu foncé
+    QColor lineColor(180, 180, 180); // Gris clair
+    QColor backgroundColor(240, 240, 240); // Fond clair
+
+    // 🔹 Espacement XXL entre toutes les lignes 📏
+    int y = 120;
+    int lineSpacing = 85; // Super espacement entre chaque ligne
+
+    // Positions horizontales des champs et valeurs (avec plus d'espace entre eux)
+    int labelX = 50;      // Position X pour les labels (ex: "Yellow Card:")
+    int valueX = 550;     // Position X pour les valeurs (ex: "5") - AUGMENTÉE pour plus d'espace
+
+    // 📌 Dessin du cadre principal
+    painter.setBrush(backgroundColor);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(20, 20, pdfWriter.width() - 40, pdfWriter.height() - 40);
+
+    // 📌 Titre principal (Nom du joueur)
+    painter.setFont(titleFont);
+    painter.setPen(headerColor);
     
-    // Créer un document HTML pour le rendu
-    QTextDocument document;
+    // Centrer le titre du joueur
+    QString playerFullName = firstName + " " + lastName;
+    QFontMetrics titleMetrics(titleFont); // Correction ici
+    int titleWidth = titleMetrics.horizontalAdvance(playerFullName);
+    int titleX = (pdfWriter.width() - titleWidth) / 2.2;
     
-    // La clé est d'ajuster la taille de base et le style avant de définir le HTML
-    document.setDefaultFont(QFont("Arial", 11));
+    painter.drawText(titleX, y, playerFullName);
+    y += lineSpacing + 30; // ÉNORME espace après le titre
+
+    // 📌 Image du joueur avec un cadre et une ombre
+    if (hasImage) {
+        QPixmap scaledImage = playerImage.scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        int imageX = (pdfWriter.width() - scaledImage.width()) / 2;
+        
+        // Ombre portée (effet simple)
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(100, 100, 100, 80));
+        painter.drawRect(imageX + 5, y + 5, scaledImage.width(), scaledImage.height());
+        
+        // Image
+        painter.setBrush(Qt::NoBrush);
+        painter.drawPixmap(imageX, y, scaledImage);
+        
+        // Cadre
+        painter.setPen(QPen(Qt::black, 2));
+        painter.drawRect(imageX, y, scaledImage.width(), scaledImage.height());
+        
+        y += scaledImage.height() + 50; // Grand espace après l'image
+    } else {
+        painter.setFont(normalFont);
+        painter.drawText((pdfWriter.width() / 2) - 80, y, "No Image Available");
+        y += lineSpacing;
+    }
+
+    // 📌 Sous-titre (position, numéro, équipe)
+    painter.setFont(normalFont);
+    QString subtitle = position + " | #" + QString::number(jerseyNumber) + " | " + team;
+    QFontMetrics normalMetrics(normalFont); // Correction ici aussi
+    int subtitleWidth = normalMetrics.horizontalAdvance(subtitle);
+    int subtitleX = (pdfWriter.width() - subtitleWidth) / 2;
     
-    // Définir le contenu HTML après avoir configuré la police par défaut
-    document.setHtml(html);
+    painter.drawText(subtitleX, y, subtitle);
+    y += lineSpacing;
+
+    // 📌 Ligne de séparation décorative
+    painter.setPen(QPen(lineColor, 3));
+    painter.drawLine(50, y, 550, y);
+    y += lineSpacing;
+
+    // 📌 Informations du joueur
+    painter.setFont(sectionFont);
+    painter.setPen(headerColor);
+    painter.drawText(labelX, y, "Player Information");
+    y += lineSpacing;
+
+    painter.setFont(normalFont);
+    painter.setPen(Qt::black);
+
+    QStringList labels = {"Player ID:", "Full Name:", "Team:", "Position:", "Jersey Number:", "Birth Date:", "Nationality:", "Injured:"};
+    QStringList values = {QString::number(playerId), 
+                          firstName + " " + lastName, 
+                          team, 
+                          position, 
+                          "#" + QString::number(jerseyNumber), 
+                          birthDate.toString("dd/MM/yyyy"), 
+                          nationality, 
+                          isInjured ? "Yes" : "No"};
+
+    for (int i = 0; i < labels.size(); i++) {
+        painter.drawText(labelX, y, labels[i]);
+        painter.drawText(valueX, y, values[i]);
+        y += lineSpacing;
+    }
+
+    // 📌 Ligne de séparation
+    painter.setPen(QPen(lineColor, 3));
+    painter.drawLine(50, y, 550, y);
+    y += lineSpacing;
+
+    // 📌 Statistiques du joueur
+    painter.setFont(sectionFont);
+    painter.setPen(headerColor);
+    painter.drawText(labelX, y, "Player Statistics");
+    y += lineSpacing;
+
+    painter.setFont(normalFont);
+    painter.setPen(Qt::black);
+
+    // Ajout de sections visuelles pour les statistiques
+    int statBoxWidth = 110;
+    int statSpacing = 20;
+    int statStartX = (pdfWriter.width() - (4 * statBoxWidth + 3 * statSpacing)) / 2;
     
-    // Configurer la taille de page pour qu'elle corresponde au PDF
-    QPageLayout pageLayout = pdfWriter.pageLayout();
-    qreal pageWidth = pageLayout.paintRect().width();
+    // Dessiner des boîtes pour les statistiques
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
     
-    // Définir la taille du document pour qu'il s'adapte à la largeur de page
-    // Ne PAS définir la hauteur pour permettre au contenu de s'étendre naturellement
-    document.setPageSize(QSizeF(pageWidth, -1));
+    // Goals
+    painter.setBrush(QColor(240, 240, 250));
+    painter.setPen(QPen(headerColor, 1));
+    painter.drawRect(statStartX, y, statBoxWidth, 80);
+    painter.drawText(statStartX + 5, y + 35, QString::number(goals));
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(statStartX + 5, y + 60, "Goals");
     
-    // Dessiner le document sur le PDF - ceci est la partie clé
-    document.drawContents(&painter);
+    // Assists
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
+    painter.setBrush(QColor(240, 250, 240));
+    painter.drawRect(statStartX + statBoxWidth + statSpacing, y, statBoxWidth, 80);
+    painter.drawText(statStartX + statBoxWidth + statSpacing + 5, y + 35, QString::number(assists));
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(statStartX + statBoxWidth + statSpacing + 5, y + 60, "Assists");
     
-    // Fermer le peintre pour finaliser l'écriture
+    // Yellow Cards
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
+    painter.setBrush(QColor(255, 252, 230));
+    painter.drawRect(statStartX + 2 * (statBoxWidth + statSpacing), y, statBoxWidth, 80);
+    painter.drawText(statStartX + 2 * (statBoxWidth + statSpacing) + 5, y + 35, QString::number(yellowCards));
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(statStartX + 2 * (statBoxWidth + statSpacing) + 5, y + 60, "Yellow Cards");
+    
+    // Red Cards
+    painter.setFont(QFont("Arial", 16, QFont::Bold));
+    painter.setBrush(QColor(255, 230, 230));
+    painter.drawRect(statStartX + 3 * (statBoxWidth + statSpacing), y, statBoxWidth, 80);
+    painter.drawText(statStartX + 3 * (statBoxWidth + statSpacing) + 5, y + 35, QString::number(redCards));
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(statStartX + 3 * (statBoxWidth + statSpacing) + 5, y + 60, "Red Cards");
+    
+    y += 100; // Espace après les boîtes de statistiques
+    
+    // Tableau détaillé des statistiques
+    painter.setFont(normalFont);
+    QStringList statsLabels = {"Goals:", "Assists:", "Yellow Cards:", "Red Cards:"};
+    QStringList statsValues = {QString::number(goals), QString::number(assists), QString::number(yellowCards), QString::number(redCards)};
+
+    for (int i = 0; i < statsLabels.size(); i++) {
+        painter.drawText(labelX, y, statsLabels[i]);
+        painter.drawText(valueX, y, statsValues[i]);
+        y += lineSpacing;
+    }
+
+    // 📌 Pied de page décoré
+    painter.setPen(Qt::gray);
+    painter.drawLine(50, y + 30, 550, y + 30);
+    painter.setFont(QFont("Arial", 10));
+    painter.drawText(50, y + 60, "Generated on " + QDate::currentDate().toString("dd/MM/yyyy") + " by AL DAWRY Football Management System");
+
+    // 🔹 Fin du dessin
     painter.end();
-    
-    // Informer l'utilisateur que l'export est terminé
-    QMessageBox::information(this, "Export PDF", "Player profile has been exported to:\n" + fileName);
+
+    // 🔹 Message de confirmation
+    QMessageBox::information(this, "Export PDF", "Player profile successfully exported to:\n" + fileName);
 }
