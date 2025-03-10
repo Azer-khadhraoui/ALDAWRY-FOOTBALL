@@ -244,9 +244,9 @@ border: 2px solid #4C5C75;</string>
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>90</y>
-      <width>1071</width>
-      <height>661</height>
+      <y>100</y>
+      <width>1051</width>
+      <height>651</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -286,7 +286,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -668,9 +668,9 @@ border-radius: 5px ;</string>
       <property name="geometry">
        <rect>
         <x>580</x>
-        <y>130</y>
+        <y>50</y>
         <width>461</width>
-        <height>371</height>
+        <height>491</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -681,9 +681,9 @@ border-radius: 5px ;</string>
      <widget class="QComboBox" name="comboBoxTri">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
         <y>70</y>
-        <width>101</width>
+        <width>121</width>
         <height>31</height>
        </rect>
       </property>
