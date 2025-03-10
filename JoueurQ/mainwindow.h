@@ -40,7 +40,7 @@ private:
     void refreshPlayerDetails(); // Nouvelle méthode pour rafraîchir les détails
     void exportPlayerToPDF(int playerId);
     
-    QString generatePlayerHTML(int playerId);
+    
 };
 
 #endif // MAINWINDOW_H
