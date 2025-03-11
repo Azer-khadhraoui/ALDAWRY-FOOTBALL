@@ -1008,26 +1008,26 @@ void MainWindow::setupStatisticsTab()
     QVBoxLayout *mainLayout = new QVBoxLayout(statTab);
     
     // Titre principal
-    QLabel *titleLabel = new QLabel("Statistiques des Joueurs");
+    QLabel *titleLabel = new QLabel("Player Statistics");
     QFont titleFont = titleLabel->font();
     titleFont.setPointSize(16);
     titleFont.setBold(true);
     titleLabel->setFont(titleFont);
     titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setStyleSheet("color: #143F6B; margin-bottom: 15px;");
+    titleLabel->setStyleSheet("color:rgb(193, 224, 255); margin-bottom: 15px;");
     mainLayout->addWidget(titleLabel);
     
     // Section résumé
     QHBoxLayout *summaryLayout = new QHBoxLayout();
     
     // Carte du nombre total de joueurs
-    QFrame *totalPlayersCard = createStatsCard("Joueurs Total", QString::number(joueur::getTotalPlayers()), "background:rgb(6, 243, 97);");
+    QFrame *totalPlayersCard = createStatsCard("Total Players", QString::number(joueur::getTotalPlayers()), "background:rgb(6, 243, 97);");
     summaryLayout->addWidget(totalPlayersCard);
     
     // Cartes du total des cartes
     QMap<QString, int> cardStats = joueur::getCardStats();
-    QFrame *yellowCardCard = createStatsCard("Cartons Jaunes", QString::number(cardStats["Jaunes"]), "background:rgb(243, 219, 3);");
-    QFrame *redCardCard = createStatsCard("Cartons Rouges", QString::number(cardStats["Rouges"]), "background:rgb(224, 3, 25);");
+    QFrame *yellowCardCard = createStatsCard("Yellow Cards", QString::number(cardStats["Jaunes"]), "background:rgb(243, 219, 3);");
+    QFrame *redCardCard = createStatsCard("Red Cards", QString::number(cardStats["Rouges"]), "background:rgb(224, 3, 25);");
     summaryLayout->addWidget(yellowCardCard);
     summaryLayout->addWidget(redCardCard);
     
@@ -1037,12 +1037,12 @@ void MainWindow::setupStatisticsTab()
     QHBoxLayout *tablesLayout = new QHBoxLayout();
     
     // Tableau des meilleurs buteurs
-    QGroupBox *topScorersGroup = new QGroupBox("Meilleurs Buteurs");
+    QGroupBox *topScorersGroup = new QGroupBox("Top Goalscorers");
     topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
     QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
     QTableWidget *scorersTable = new QTableWidget(0, 2);
     scorersTable->setObjectName("scorersTable");
-    scorersTable->setHorizontalHeaderLabels({"Joueur", "Buts"});
+    scorersTable->setHorizontalHeaderLabels({"Player", "Goals"});
     scorersTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -1052,12 +1052,12 @@ void MainWindow::setupStatisticsTab()
     tablesLayout->addWidget(topScorersGroup);
     
     // Tableau des meilleurs passeurs
-    QGroupBox *topAssistsGroup = new QGroupBox("Meilleurs Passeurs");
+    QGroupBox *topAssistsGroup = new QGroupBox("Top Assists");
     topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
     QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
     QTableWidget *assistsTable = new QTableWidget(0, 2);
     assistsTable->setObjectName("assistsTable");
-    assistsTable->setHorizontalHeaderLabels({"Joueur", "Passes"});
+    assistsTable->setHorizontalHeaderLabels({"Player", "Assists"});
     assistsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -1067,12 +1067,12 @@ void MainWindow::setupStatisticsTab()
     tablesLayout->addWidget(topAssistsGroup);
     
     // Tableau des joueurs par position
-    QGroupBox *positionsGroup = new QGroupBox("Joueurs par Position");
+    QGroupBox *positionsGroup = new QGroupBox("Players by Position");
     positionsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
     QVBoxLayout *positionsLayout = new QVBoxLayout(positionsGroup);
     QTableWidget *positionsTable = new QTableWidget(0, 2);
     positionsTable->setObjectName("positionsTable");
-    positionsTable->setHorizontalHeaderLabels({"Position", "Nombre"});
+    positionsTable->setHorizontalHeaderLabels({"Position", "Count"});
     positionsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     positionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     positionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -1084,13 +1084,13 @@ void MainWindow::setupStatisticsTab()
     mainLayout->addLayout(tablesLayout);
     
     // Bouton de rafraîchissement
-    QPushButton *refreshBtn = new QPushButton("Rafraîchir les statistiques");
+    QPushButton *refreshBtn = new QPushButton("Refresh Statistics");
     refreshBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
                              "QPushButton:hover { background-color: #3a76d8; }");
     mainLayout->addWidget(refreshBtn);
     
     // Ajouter l'onglet
-    ui->tabWidget->addTab(statTab, "Statistiques");
+    ui->tabWidget->addTab(statTab, "Statistics");
     
     // Connexion du signal pour rafraîchir les statistiques
     connect(refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshStatistics);
@@ -1181,13 +1181,13 @@ void MainWindow::refreshStatistics()
             scorersTable->setItem(i, 0, nameItem);
             scorersTable->setItem(i, 1, goalsItem);
             
-            // Colorer les 3 meilleurs buteurs
-            if (i < 3 && scorersList[i].second > 0) {
+            // Appliquer les couleurs UNIQUEMENT aux 3 premiers
+            if (i < 3) {
                 QColor color;
                 switch (i) {
-                    case 0: color = QColor(255, 215, 0, 50); break; // Or
-                    case 1: color = QColor(192, 192, 192, 40); break; // Argent
-                    case 2: color = QColor(205, 127, 50, 40); break; // Bronze
+                    case 0: color = QColor(255, 215, 0, 100); break; // Or
+                    case 1: color = QColor(192, 192, 192, 150); break; // Argent
+                    case 2: color = QColor(205, 127, 50, 100); break; // Bronze
                 }
                 nameItem->setBackground(color);
                 goalsItem->setBackground(color);
@@ -1209,13 +1209,13 @@ void MainWindow::refreshStatistics()
             assistsTable->setItem(i, 0, nameItem);
             assistsTable->setItem(i, 1, assistsItem);
             
-            // Colorer les 3 meilleurs passeurs
-            if (i < 3 && assistsList[i].second > 0) {
+            // Appliquer les couleurs UNIQUEMENT aux 3 premiers
+            if (i < 3) {
                 QColor color;
                 switch (i) {
-                    case 0: color = QColor(255, 215, 0, 50); break; // Or
-                    case 1: color = QColor(192, 192, 192, 40); break; // Argent
-                    case 2: color = QColor(205, 127, 50, 40); break; // Bronze
+                    case 0: color = QColor(255, 215, 0, 100); break; // Or
+                    case 1: color = QColor(192, 192, 192, 100); break; // Argent
+                    case 2: color = QColor(205, 127, 50, 100); break; // Bronze
                 }
                 nameItem->setBackground(color);
                 assistsItem->setBackground(color);
