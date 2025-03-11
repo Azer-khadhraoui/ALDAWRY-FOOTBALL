@@ -123,3 +123,112 @@ int joueur::getStatus() const
 {
     return status;
 }
+
+QList<QPair<QString, int>> joueur::getTopScorers(int limit)
+{
+    QList<QPair<QString, int>> result;
+    QSqlQuery query;
+    
+    // Nous utilisons une requête plus simple et nous affichons tous les joueurs, même avec 0 buts
+    query.prepare("SELECT first_name, last_name, goals FROM joueur ORDER BY goals DESC LIMIT :limit");
+    query.bindValue(":limit", limit);
+    
+    qDebug() << "Executing top scorers query...";
+    if (!query.exec()) {
+        qDebug() << "Error retrieving top scorers:" << query.lastError().text();
+        return result;
+    }
+    
+    while (query.next()) {
+        QString playerName = query.value(0).toString() + " " + query.value(1).toString();
+        int goals = query.value(2).toInt();
+        qDebug() << "Top scorer:" << playerName << "with" << goals << "goals";
+        result.append(qMakePair(playerName, goals));
+    }
+    
+    qDebug() << "Found" << result.size() << "top scorers";
+    return result;
+}
+
+QList<QPair<QString, int>> joueur::getTopAssists(int limit)
+{
+    QList<QPair<QString, int>> result;
+    QSqlQuery query;
+    
+    // Nous utilisons une requête plus simple et nous affichons tous les joueurs, même avec 0 passes
+    query.prepare("SELECT first_name, last_name, assists FROM joueur ORDER BY assists DESC LIMIT :limit");
+    query.bindValue(":limit", limit);
+    
+    qDebug() << "Executing top assists query...";
+    if (!query.exec()) {
+        qDebug() << "Error retrieving top assists:" << query.lastError().text();
+        return result;
+    }
+    
+    while (query.next()) {
+        QString playerName = query.value(0).toString() + " " + query.value(1).toString();
+        int assists = query.value(2).toInt();
+        qDebug() << "Top assist maker:" << playerName << "with" << assists << "assists";
+        result.append(qMakePair(playerName, assists));
+    }
+    
+    qDebug() << "Found" << result.size() << "top assist makers";
+    return result;
+}
+
+QMap<QString, int> joueur::getPositionStats()
+{
+    QMap<QString, int> result;
+    QSqlQuery query;
+    
+    qDebug() << "Executing position stats query...";
+    if (!query.exec("SELECT position, COUNT(*) FROM joueur GROUP BY position")) {
+        qDebug() << "Error retrieving position stats:" << query.lastError().text();
+        return result;
+    }
+    
+    while (query.next()) {
+        QString position = query.value(0).toString();
+        int count = query.value(1).toInt();
+        qDebug() << "Position:" << position << "with" << count << "players";
+        result.insert(position, count);
+    }
+    
+    return result;
+}
+
+QMap<QString, int> joueur::getCardStats()
+{
+    QMap<QString, int> result;
+    QSqlQuery query;
+    
+    qDebug() << "Calculating card statistics...";
+    
+    // Récupérer le total des cartes jaunes
+    if (query.exec("SELECT SUM(yellow_card) FROM joueur") && query.next()) {
+        int yellowCards = query.value(0).isNull() ? 0 : query.value(0).toInt();
+        result.insert("Jaunes", yellowCards);
+        qDebug() << "Total yellow cards:" << yellowCards;
+    }
+    
+    // Récupérer le total des cartes rouges
+    if (query.exec("SELECT SUM(red_card) FROM joueur") && query.next()) {
+        int redCards = query.value(0).isNull() ? 0 : query.value(0).toInt();
+        result.insert("Rouges", redCards);
+        qDebug() << "Total red cards:" << redCards;
+    }
+    
+    return result;
+}
+
+int joueur::getTotalPlayers()
+{
+    QSqlQuery query("SELECT COUNT(*) FROM joueur");
+    if (query.next()) {
+        int count = query.value(0).toInt();
+        qDebug() << "Total players found:" << count;
+        return count;
+    }
+    qDebug() << "Error retrieving total players count";
+    return 0;
+}

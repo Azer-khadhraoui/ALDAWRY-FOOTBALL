@@ -6,6 +6,7 @@
 #include <QByteArray>
 #include <QPixmap>
 #include <QItemSelection>
+#include <QFrame>  // Ajoutez cette ligne pour inclure QFrame
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,8 @@ private slots:
     void on_buttonViewDetails_clicked(); // Nouvelle méthode pour afficher les détails
     void onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void onSortingChanged(int index); 
+    void refreshStatistics();
+
 private:
     Ui::MainWindow *ui;
     QMap<QString, int> teamMap;
@@ -39,8 +42,8 @@ private:
     bool validateTableSelection();
     void refreshPlayerDetails(); // Nouvelle méthode pour rafraîchir les détails
     void exportPlayerToPDF(int playerId);
-    
-    
+    void setupStatisticsTab();
+    QFrame* createStatsCard(const QString &title, const QString &value, const QString &style);
 };
 
 #endif // MAINWINDOW_H

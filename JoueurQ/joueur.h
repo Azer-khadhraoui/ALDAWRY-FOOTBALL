@@ -71,6 +71,13 @@ public:
     QString toString() const;
 
     bool ajouterDansBD();
+
+    // Méthodes pour les statistiques
+    static QList<QPair<QString, int>> getTopScorers(int limit);
+    static QList<QPair<QString, int>> getTopAssists(int limit);
+    static QMap<QString, int> getPositionStats();
+    static QMap<QString, int> getCardStats();
+    static int getTotalPlayers();
 };
 
 #endif // JOUEUR_H

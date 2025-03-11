@@ -8,6 +8,13 @@
 #include <QFile>
 #include <QPixmap>
 #include <QRegularExpression>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QTableWidget>
+#include <QHeaderView>
+#include <QPushButton>
 #include "joueur.h"
 #include "deletejoueur.h"
 #include "modifyjoueur.h" 
@@ -62,6 +69,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadTeams();
     loadPlayers();
+    
+    // Ajouter ceci pour initialiser l'onglet statistiques
+    setupStatisticsTab();
 
     connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::selectionChanged, 
         this, &MainWindow::onTableSelectionChanged);
@@ -964,3 +974,308 @@ void MainWindow::exportPlayerToPDF(int playerId)
     // 🔹 Message de confirmation
     QMessageBox::information(this, "Export PDF", "Player profile successfully exported to:\n" + fileName);
 }
+
+QFrame* MainWindow::createStatsCard(const QString &title, const QString &value, const QString &style)
+{
+    QFrame *card = new QFrame();
+    card->setFrameShape(QFrame::Box);
+    card->setFrameShadow(QFrame::Raised);
+    card->setLineWidth(1);
+    card->setStyleSheet("QFrame { border-radius: 8px; padding: 15px; " + style + " }");
+    
+    QVBoxLayout *layout = new QVBoxLayout(card);
+    
+    QLabel *valueLabel = new QLabel(value);
+    QFont valueFont = valueLabel->font();
+    valueFont.setPointSize(24);
+    valueFont.setBold(true);
+    valueLabel->setFont(valueFont);
+    valueLabel->setAlignment(Qt::AlignCenter);
+    
+    QLabel *titleLabel = new QLabel(title);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    
+    layout->addWidget(valueLabel);
+    layout->addWidget(titleLabel);
+    
+    return card;
+}
+
+void MainWindow::setupStatisticsTab()
+{
+    // Création de l'onglet statistiques
+    QWidget *statTab = new QWidget();
+    QVBoxLayout *mainLayout = new QVBoxLayout(statTab);
+    
+    // Titre principal
+    QLabel *titleLabel = new QLabel("Statistiques des Joueurs");
+    QFont titleFont = titleLabel->font();
+    titleFont.setPointSize(16);
+    titleFont.setBold(true);
+    titleLabel->setFont(titleFont);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("color: #143F6B; margin-bottom: 15px;");
+    mainLayout->addWidget(titleLabel);
+    
+    // Section résumé
+    QHBoxLayout *summaryLayout = new QHBoxLayout();
+    
+    // Carte du nombre total de joueurs
+    QFrame *totalPlayersCard = createStatsCard("Joueurs Total", QString::number(joueur::getTotalPlayers()), "background:rgb(6, 243, 97);");
+    summaryLayout->addWidget(totalPlayersCard);
+    
+    // Cartes du total des cartes
+    QMap<QString, int> cardStats = joueur::getCardStats();
+    QFrame *yellowCardCard = createStatsCard("Cartons Jaunes", QString::number(cardStats["Jaunes"]), "background:rgb(243, 219, 3);");
+    QFrame *redCardCard = createStatsCard("Cartons Rouges", QString::number(cardStats["Rouges"]), "background:rgb(224, 3, 25);");
+    summaryLayout->addWidget(yellowCardCard);
+    summaryLayout->addWidget(redCardCard);
+    
+    mainLayout->addLayout(summaryLayout);
+    
+    // Conteneur pour les tableaux de statistiques
+    QHBoxLayout *tablesLayout = new QHBoxLayout();
+    
+    // Tableau des meilleurs buteurs
+    QGroupBox *topScorersGroup = new QGroupBox("Meilleurs Buteurs");
+    topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+    QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
+    QTableWidget *scorersTable = new QTableWidget(0, 2);
+    scorersTable->setObjectName("scorersTable");
+    scorersTable->setHorizontalHeaderLabels({"Joueur", "Buts"});
+    scorersTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    scorersTable->setAlternatingRowColors(true);
+    scorersTable->verticalHeader()->setVisible(false);
+    scorersLayout->addWidget(scorersTable);
+    tablesLayout->addWidget(topScorersGroup);
+    
+    // Tableau des meilleurs passeurs
+    QGroupBox *topAssistsGroup = new QGroupBox("Meilleurs Passeurs");
+    topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+    QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
+    QTableWidget *assistsTable = new QTableWidget(0, 2);
+    assistsTable->setObjectName("assistsTable");
+    assistsTable->setHorizontalHeaderLabels({"Joueur", "Passes"});
+    assistsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    assistsTable->setAlternatingRowColors(true);
+    assistsTable->verticalHeader()->setVisible(false);
+    assistsLayout->addWidget(assistsTable);
+    tablesLayout->addWidget(topAssistsGroup);
+    
+    // Tableau des joueurs par position
+    QGroupBox *positionsGroup = new QGroupBox("Joueurs par Position");
+    positionsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+    QVBoxLayout *positionsLayout = new QVBoxLayout(positionsGroup);
+    QTableWidget *positionsTable = new QTableWidget(0, 2);
+    positionsTable->setObjectName("positionsTable");
+    positionsTable->setHorizontalHeaderLabels({"Position", "Nombre"});
+    positionsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    positionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    positionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    positionsTable->setAlternatingRowColors(true);
+    positionsTable->verticalHeader()->setVisible(false);
+    positionsLayout->addWidget(positionsTable);
+    tablesLayout->addWidget(positionsGroup);
+    
+    mainLayout->addLayout(tablesLayout);
+    
+    // Bouton de rafraîchissement
+    QPushButton *refreshBtn = new QPushButton("Rafraîchir les statistiques");
+    refreshBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
+                             "QPushButton:hover { background-color: #3a76d8; }");
+    mainLayout->addWidget(refreshBtn);
+    
+    // Ajouter l'onglet
+    ui->tabWidget->addTab(statTab, "Statistiques");
+    
+    // Connexion du signal pour rafraîchir les statistiques
+    connect(refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshStatistics);
+    
+    // Initialiser les statistiques
+    refreshStatistics();
+}
+
+void MainWindow::refreshStatistics()
+{
+    qDebug() << "Rafraîchissement des statistiques...";
+    
+    // Utiliser les mêmes données que le tableau principal
+    QSqlQuery query("SELECT j.id_player, j.first_name, j.last_name, j.position, "
+                   "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card "
+                   "FROM joueur j "
+                   "JOIN equipe e ON j.id_team = e.id_team");
+    
+    // Structures pour stocker les statistiques
+    QList<QPair<QString, int>> scorersList;
+    QList<QPair<QString, int>> assistsList;
+    QMap<QString, int> positionMap;
+    int totalYellowCards = 0;
+    int totalRedCards = 0;
+    int playerCount = 0;
+    
+    // Parcourir les résultats pour extraire les statistiques
+    while (query.next()) {
+        playerCount++;
+        
+        // Information du joueur
+        QString firstName = query.value("first_name").toString();
+        QString lastName = query.value("last_name").toString();
+        QString fullName = firstName + " " + lastName;
+        QString position = query.value("position").toString();
+        
+        // Stats
+        int goals = query.value("goals").toInt();
+        int assists = query.value("assists").toInt();
+        int yellowCards = query.value("yellow_card").toInt();
+        int redCards = query.value("red_card").toInt();
+        
+        // Cumuler les statistiques
+        scorersList.append(qMakePair(fullName, goals));
+        assistsList.append(qMakePair(fullName, assists));
+        
+        // Ajouter à la carte des positions
+        if (positionMap.contains(position)) {
+            positionMap[position]++;
+        } else {
+            positionMap[position] = 1;
+        }
+        
+        // Cumuler les cartons
+        totalYellowCards += yellowCards;
+        totalRedCards += redCards;
+    }
+    
+    // Trier les joueurs par buts (du plus au moins)
+    std::sort(scorersList.begin(), scorersList.end(), 
+              [](const QPair<QString, int>& a, const QPair<QString, int>& b) {
+                  return a.second > b.second;
+              });
+    
+    // Trier les joueurs par passes (du plus au moins)
+    std::sort(assistsList.begin(), assistsList.end(), 
+              [](const QPair<QString, int>& a, const QPair<QString, int>& b) {
+                  return a.second > b.second;
+              });
+    
+    // Limiter les listes aux 10 premiers
+    while (scorersList.size() > 10) scorersList.removeLast();
+    while (assistsList.size() > 10) assistsList.removeLast();
+    
+    // Mettre à jour les tableaux avec les données
+    
+    // 1. Meilleurs buteurs
+    QTableWidget *scorersTable = ui->tabWidget->findChild<QTableWidget*>("scorersTable");
+    if (scorersTable) {
+        scorersTable->clearContents();
+        scorersTable->setRowCount(scorersList.size());
+        
+        for (int i = 0; i < scorersList.size(); i++) {
+            QTableWidgetItem *nameItem = new QTableWidgetItem(scorersList[i].first);
+            QTableWidgetItem *goalsItem = new QTableWidgetItem(QString::number(scorersList[i].second));
+            goalsItem->setTextAlignment(Qt::AlignCenter);
+            
+            scorersTable->setItem(i, 0, nameItem);
+            scorersTable->setItem(i, 1, goalsItem);
+            
+            // Colorer les 3 meilleurs buteurs
+            if (i < 3 && scorersList[i].second > 0) {
+                QColor color;
+                switch (i) {
+                    case 0: color = QColor(255, 215, 0, 50); break; // Or
+                    case 1: color = QColor(192, 192, 192, 40); break; // Argent
+                    case 2: color = QColor(205, 127, 50, 40); break; // Bronze
+                }
+                nameItem->setBackground(color);
+                goalsItem->setBackground(color);
+            }
+        }
+    }
+    
+    // 2. Meilleurs passeurs
+    QTableWidget *assistsTable = ui->tabWidget->findChild<QTableWidget*>("assistsTable");
+    if (assistsTable) {
+        assistsTable->clearContents();
+        assistsTable->setRowCount(assistsList.size());
+        
+        for (int i = 0; i < assistsList.size(); i++) {
+            QTableWidgetItem *nameItem = new QTableWidgetItem(assistsList[i].first);
+            QTableWidgetItem *assistsItem = new QTableWidgetItem(QString::number(assistsList[i].second));
+            assistsItem->setTextAlignment(Qt::AlignCenter);
+            
+            assistsTable->setItem(i, 0, nameItem);
+            assistsTable->setItem(i, 1, assistsItem);
+            
+            // Colorer les 3 meilleurs passeurs
+            if (i < 3 && assistsList[i].second > 0) {
+                QColor color;
+                switch (i) {
+                    case 0: color = QColor(255, 215, 0, 50); break; // Or
+                    case 1: color = QColor(192, 192, 192, 40); break; // Argent
+                    case 2: color = QColor(205, 127, 50, 40); break; // Bronze
+                }
+                nameItem->setBackground(color);
+                assistsItem->setBackground(color);
+            }
+        }
+    }
+    
+    // 3. Joueurs par position
+    QTableWidget *positionsTable = ui->tabWidget->findChild<QTableWidget*>("positionsTable");
+    if (positionsTable) {
+        positionsTable->clearContents();
+        positionsTable->setRowCount(positionMap.size());
+        
+        int row = 0;
+        QMapIterator<QString, int> i(positionMap);
+        while (i.hasNext()) {
+            i.next();
+            
+            QTableWidgetItem *posItem = new QTableWidgetItem(i.key());
+            QTableWidgetItem *countItem = new QTableWidgetItem(QString::number(i.value()));
+            countItem->setTextAlignment(Qt::AlignCenter);
+            
+            positionsTable->setItem(row, 0, posItem);
+            positionsTable->setItem(row, 1, countItem);
+            
+            // Couleurs différentes selon la position
+            QColor color;
+            if (i.key() == "Goalkeeper") {
+                color = QColor(255, 255, 150, 80); 
+            } else if (i.key() == "Defender") {
+                color = QColor(150, 150, 255, 80); 
+            } else if (i.key() == "Midfielder") {
+                color = QColor(150, 255, 150, 80); 
+            } else if (i.key() == "Forward") {
+                color = QColor(255, 150, 150, 80); 
+            }
+            
+            posItem->setBackground(color);
+            countItem->setBackground(color);
+            
+            row++;
+        }
+    }
+    
+    // 4. Mise à jour des cartes de statistiques
+    QList<QFrame*> cards = ui->tabWidget->findChildren<QFrame*>();
+    for (QFrame* card : cards) {
+        QList<QLabel*> labels = card->findChildren<QLabel*>();
+        if (labels.size() == 2) {
+            QString title = labels[1]->text();
+            QLabel* valueLabel = labels[0];
+            
+            if (title == "Joueurs Total") {
+                valueLabel->setText(QString::number(playerCount));
+            } else if (title == "Cartons Jaunes") {
+                valueLabel->setText(QString::number(totalYellowCards));
+            } else if (title == "Cartons Rouges") {
+                valueLabel->setText(QString::number(totalRedCards));
+            }
+        }
+    }
+}
+
