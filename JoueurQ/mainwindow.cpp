@@ -1083,6 +1083,29 @@ void MainWindow::setupStatisticsTab()
     
     mainLayout->addLayout(tablesLayout);
     
+    // Ajouter un filtre d'équipe
+    QHBoxLayout *filterLayout = new QHBoxLayout();
+    QLabel *filterLabel = new QLabel("Filter by team:");
+    QComboBox *teamFilterComboBox = new QComboBox();
+    teamFilterComboBox->setObjectName("teamFilterComboBox");
+    teamFilterComboBox->addItem("All Teams", "all");
+
+    // Remplir avec les équipes disponibles
+    QSqlQuery teamsQuery("SELECT team_name FROM equipe ORDER BY team_name");
+    while (teamsQuery.next()) {
+        QString teamName = teamsQuery.value(0).toString();
+        teamFilterComboBox->addItem(teamName, teamName);
+    }
+
+    filterLayout->addWidget(filterLabel);
+    filterLayout->addWidget(teamFilterComboBox);
+    filterLayout->addStretch();
+
+    // Connexion du changement de filtre
+    connect(teamFilterComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshStatistics);
+
+    mainLayout->addLayout(filterLayout);
+    
     // Bouton de rafraîchissement
     QPushButton *refreshBtn = new QPushButton("Refresh Statistics");
     refreshBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
@@ -1101,14 +1124,37 @@ void MainWindow::setupStatisticsTab()
 
 void MainWindow::refreshStatistics()
 {
-    qDebug() << "Rafraîchissement des statistiques...";
+    // Obtenir le filtre d'équipe sélectionné
+    QComboBox *teamFilterComboBox = ui->tabWidget->findChild<QComboBox*>("teamFilterComboBox");
+    QString teamFilter = "all";
+    if (teamFilterComboBox) {
+        teamFilter = teamFilterComboBox->currentData().toString();
+    }
     
+    // Modifier la requête SQL selon le filtre
+    QString queryStr = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
+                      "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card "
+                      "FROM joueur j "
+                      "JOIN equipe e ON j.id_team = e.id_team";
+                      
+    if (teamFilter != "all") {
+        queryStr += " WHERE e.team_name = :team_name";
+    }
+    
+    QSqlQuery query;
+    query.prepare(queryStr);
+    
+    if (teamFilter != "all") {
+        query.bindValue(":team_name", teamFilter);
+    }
+    
+    if (!query.exec()) {
+        qDebug() << "Erreur de requête:" << query.lastError().text();
+        return;
+    }
+    
+    // Le reste du code reste identique...
     // Utiliser les mêmes données que le tableau principal
-    QSqlQuery query("SELECT j.id_player, j.first_name, j.last_name, j.position, "
-                   "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card "
-                   "FROM joueur j "
-                   "JOIN equipe e ON j.id_team = e.id_team");
-    
     // Structures pour stocker les statistiques
     QList<QPair<QString, int>> scorersList;
     QList<QPair<QString, int>> assistsList;
