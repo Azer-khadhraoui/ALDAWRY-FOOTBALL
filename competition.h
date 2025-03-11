@@ -47,6 +47,8 @@ public:
     QSqlQueryModel* show_competitions_by_type(QString);
     static void extractDataFromDatabase(QStringList&, QList<qreal>&);
     static void extractDataFromDatabaseType(QStringList&, QList<qreal>&, QString);
+    static void extractDataFromDatabaseMatches(QStringList&, QList<qreal>&);
+    static void extractDataFromDatabaseMatchesType(QStringList&, QList<qreal>&, QString);
 
 private:
     int id;

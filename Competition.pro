@@ -36,6 +36,7 @@ SOURCES += \
         mainwindow.cpp \
     connection.cpp \
     statistics.cpp \
+    statistics2.cpp \
     updateform.cpp
 
 HEADERS += \
@@ -45,6 +46,7 @@ HEADERS += \
         mainwindow.h \
     connection.h \
     statistics.h \
+    statistics2.h \
     updateform.h
 
 FORMS += \
@@ -52,6 +54,7 @@ FORMS += \
 	deletewindow.ui \
 	mainwindow.ui \
 	statistics.ui \
+	statistics2.ui \
 	updateform.ui
 RESOURCES += \
 	resources.qrc

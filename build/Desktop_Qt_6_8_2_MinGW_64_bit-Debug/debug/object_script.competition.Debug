@@ -5,10 +5,12 @@ debug/main.o
 debug/mainwindow.o
 debug/connection.o
 debug/statistics.o
+debug/statistics2.o
 debug/updateform.o
 debug/qrc_resources.o
 debug/moc_addcompetitionwindow.o
 debug/moc_deletewindow.o
 debug/moc_mainwindow.o
 debug/moc_statistics.o
+debug/moc_statistics2.o
 debug/moc_updateform.o

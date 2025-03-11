@@ -50,14 +50,38 @@
     <widget class="QChartView" name="chartWidget" native="true"/>
    </item>
    <item>
-    <widget class="QPushButton" name="exportButton">
-     <property name="styleSheet">
-      <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
-     </property>
-     <property name="text">
-      <string>Export Chart</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="previousButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Previous</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="nextButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Next</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exportButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Export Chart</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

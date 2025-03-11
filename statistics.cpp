@@ -10,6 +10,8 @@
 #include <QPainter>
 #include "competition.h"
 #include <QDebug>
+#include <QDateTime>
+#include "statistics2.h"
 
 statistics::statistics(QWidget *parent) :
     QDialog(parent),
@@ -201,4 +203,20 @@ void statistics::on_exportButton_clicked()
 }
 
 
+
+
+void statistics::on_previousButton_clicked()
+{
+    statistics2 *s = new statistics2();
+    s->show();
+    this->close();
+}
+
+
+void statistics::on_nextButton_clicked()
+{
+    statistics2 *s = new statistics2();
+    s->show();
+    this->close();
+}
 

@@ -102,7 +102,7 @@ QSqlQueryModel* competition::show_competitions_by_date() {
     model->setQuery("SELECT * FROM competition ORDER BY start_date");
     if (model->lastError().isValid()) {
         qDebug() << "Error executing query:" << model->lastError();
-        return nullptr;  // Return null if the query failed
+        return nullptr;  
     }
 
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
@@ -119,7 +119,7 @@ QSqlQueryModel* competition::show_competitions_by_nb_teams() {
     model->setQuery("SELECT * FROM competition ORDER BY nb_teams");
     if (model->lastError().isValid()) {
         qDebug() << "Error executing query:" << model->lastError();
-        return nullptr;  // Return null if the query failed
+        return nullptr;  
     }
 
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
@@ -136,7 +136,7 @@ QSqlQueryModel* competition::show_competitions_by_type(QString type) {
     model->setQuery("SELECT * FROM competition WHERE comp_type LIKE '%" + type + "%'");
     if (model->lastError().isValid()) {
         qDebug() << "Error executing query:" << model->lastError();
-        return nullptr;  // Return null if the query failed
+        return nullptr;  
     }
 
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
@@ -169,5 +169,47 @@ void competition::extractDataFromDatabaseType(QStringList &categories, QList<qre
         qreal teamCount = query.value(1).toDouble();
         categories << competitionName;
         teams << teamCount;
+    }
+}
+
+void competition::extractDataFromDatabaseMatches(QStringList &categories, QList<qreal> &matches) {
+    QSqlQuery query;
+    query.exec("SELECT comp_name, nb_teams, comp_type FROM competition");
+    while (query.next()) {
+        QString competitionName = query.value(0).toString();
+        int teamCount = query.value(1).toInt();
+        QString competitionType = query.value(2).toString();
+        int matchCount = 0;
+
+        if (competitionType.toLower() == "league") {
+            matchCount = (teamCount * (teamCount - 1)) / 2; 
+        } else if (competitionType.toLower() == "tournament") {
+            matchCount = teamCount - 1; 
+        }
+
+        categories << competitionName;
+        matches << matchCount;
+    }
+}
+
+void competition::extractDataFromDatabaseMatchesType(QStringList &categories, QList<qreal> &matches, QString type) {
+    QSqlQuery query;
+    query.prepare("SELECT comp_name, nb_teams, comp_type FROM competition WHERE comp_type = :type");
+    query.bindValue(":type", type);
+    query.exec();
+    while (query.next()) {
+        QString competitionName = query.value(0).toString();
+        int teamCount = query.value(1).toInt();
+        QString competitionType = query.value(2).toString();
+        int matchCount = 0;
+
+        if (competitionType.toLower() == "league") {
+            matchCount = (teamCount * (teamCount - 1)) / 2; 
+        } else if (competitionType.toLower() == "tournament") {
+            matchCount = teamCount - 1; 
+        }
+
+        categories << competitionName;
+        matches << matchCount;
     }
 }

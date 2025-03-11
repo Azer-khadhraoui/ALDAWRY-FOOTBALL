@@ -17,6 +17,10 @@ public:
 private slots:
     void on_exportButton_clicked();
 
+    void on_previousButton_clicked();
+
+    void on_nextButton_clicked();
+
 private:
     Ui::statistics *ui;
     QChart *chart;

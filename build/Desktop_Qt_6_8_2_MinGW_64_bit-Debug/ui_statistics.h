@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
@@ -27,6 +28,9 @@ public:
     QComboBox *comboBox;
     QLabel *dateTimeLabel;
     QChartView *chartWidget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *previousButton;
+    QPushButton *nextButton;
     QPushButton *exportButton;
 
     void setupUi(QDialog *statistics)
@@ -55,10 +59,25 @@ public:
 
         verticalLayout->addWidget(chartWidget);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName("horizontalLayout");
+        previousButton = new QPushButton(statistics);
+        previousButton->setObjectName("previousButton");
+
+        horizontalLayout->addWidget(previousButton);
+
+        nextButton = new QPushButton(statistics);
+        nextButton->setObjectName("nextButton");
+
+        horizontalLayout->addWidget(nextButton);
+
         exportButton = new QPushButton(statistics);
         exportButton->setObjectName("exportButton");
 
-        verticalLayout->addWidget(exportButton);
+        horizontalLayout->addWidget(exportButton);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
 
         retranslateUi(statistics);
@@ -75,6 +94,10 @@ public:
         comboBox->setItemText(2, QCoreApplication::translate("statistics", "Tournement", nullptr));
 
         dateTimeLabel->setStyleSheet(QCoreApplication::translate("statistics", "color: #E0E0E0; padding: 5px;", nullptr));
+        previousButton->setStyleSheet(QCoreApplication::translate("statistics", "background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;", nullptr));
+        previousButton->setText(QCoreApplication::translate("statistics", "Previous", nullptr));
+        nextButton->setStyleSheet(QCoreApplication::translate("statistics", "background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;", nullptr));
+        nextButton->setText(QCoreApplication::translate("statistics", "Next", nullptr));
         exportButton->setStyleSheet(QCoreApplication::translate("statistics", "background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;", nullptr));
         exportButton->setText(QCoreApplication::translate("statistics", "Export Chart", nullptr));
     } // retranslateUi
