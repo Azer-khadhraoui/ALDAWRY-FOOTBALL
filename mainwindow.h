@@ -19,16 +19,18 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_refresh_clicked(); // Example slot for a refresh button (optional)
 
     void on_pushButton_3_clicked();
 
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     competition c;             // Competition object
     void updateTableView();
+    void on_searchTextChanged(const QString &search);
 };
 
 #endif // MAINWINDOW_H

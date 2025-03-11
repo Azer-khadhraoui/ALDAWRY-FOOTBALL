@@ -32,19 +32,22 @@ SOURCES += \
     deletewindow.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp 
+    connection.cpp \
+    updateform.cpp
 
 HEADERS += \
     addcompetitionwindow.h \
     competition.h \
     deletewindow.h \
         mainwindow.h \
-    connection.h 
+    connection.h \
+    updateform.h
 
 FORMS += \
 	addcompetitionwindow.ui \
 	deletewindow.ui \
 	mainwindow.ui \
+	statistics.ui \
 	updateform.ui
 RESOURCES += \
 	resources.qrc

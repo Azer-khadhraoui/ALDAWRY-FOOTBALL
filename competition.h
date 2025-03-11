@@ -5,6 +5,8 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QDate>
+#include <QSqlError>
+
 
 class competition
 {
@@ -36,7 +38,11 @@ public:
     bool delete_competition(int);
     QSqlQueryModel* show_competitions();
     competition get_competition(int);
-
+    bool exist_competition(int);
+    QSqlQueryModel* show_competitions_by_name(QString);
+    QSqlQueryModel* show_competitions_by_date();
+    QSqlQueryModel* show_competitions_by_nb_teams();
+    QSqlQueryModel* show_competitions_by_type(QString);
 private:
     int id;
     QString name;

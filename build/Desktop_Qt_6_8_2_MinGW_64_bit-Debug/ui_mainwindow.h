@@ -45,7 +45,7 @@ public:
     QLabel *label_2;
     QLineEdit *lineEdit;
     QComboBox *comboBox;
-    QPushButton *pushButton_3;
+    QComboBox *comboBox_2;
     QCalendarWidget *calendarWidget;
     QListWidget *listWidget_2;
     QLabel *label_6;
@@ -53,8 +53,10 @@ public:
     QLabel *label_8;
     QLabel *label_3;
     QLabel *label_5;
-    QTableView *tableView;
+    QPushButton *pushButton_3;
+    QTableView *test;
     QPushButton *pushButton;
+    QPushButton *pushButton_2;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -133,7 +135,7 @@ public:
         label_4->setScaledContents(true);
         frame = new QFrame(centralwidget);
         frame->setObjectName("frame");
-        frame->setGeometry(QRect(40, 140, 501, 51));
+        frame->setGeometry(QRect(40, 140, 591, 51));
         frame->setFrameShape(QFrame::Shape::StyledPanel);
         frame->setFrameShadow(QFrame::Shadow::Raised);
         label_2 = new QLabel(frame);
@@ -158,17 +160,14 @@ public:
         comboBox->addItem(QString());
         comboBox->addItem(QString());
         comboBox->addItem(QString());
-        comboBox->addItem(QString());
         comboBox->setObjectName("comboBox");
         comboBox->setGeometry(QRect(410, 10, 82, 28));
-        pushButton_3 = new QPushButton(centralwidget);
-        pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(240, 710, 80, 31));
-        pushButton_3->setStyleSheet(QString::fromUtf8("background-color: #20242e;\n"
-"color: white;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #666666;"));
+        comboBox_2 = new QComboBox(frame);
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->setObjectName("comboBox_2");
+        comboBox_2->setGeometry(QRect(500, 10, 82, 28));
         calendarWidget = new QCalendarWidget(centralwidget);
         calendarWidget->setObjectName("calendarWidget");
         calendarWidget->setGeometry(QRect(760, 160, 400, 261));
@@ -216,34 +215,24 @@ public:
         label_5->setAutoFillBackground(false);
         label_5->setPixmap(QPixmap(QString::fromUtf8(":/images/logo football.png")));
         label_5->setScaledContents(true);
-        tableView = new QTableView(centralwidget);
-        tableView->setObjectName("tableView");
-        tableView->setGeometry(QRect(40, 210, 501, 491));
+        pushButton_3 = new QPushButton(centralwidget);
+        pushButton_3->setObjectName("pushButton_3");
+        pushButton_3->setGeometry(QRect(40, 680, 80, 31));
+        pushButton_3->setStyleSheet(QString::fromUtf8("background-color: #20242e;\n"
+"color: white;\n"
+"border-radius: 5px;\n"
+"padding: 6px 12px;\n"
+"border: 1px solid #666666;"));
+        test = new QTableView(centralwidget);
+        test->setObjectName("test");
+        test->setGeometry(QRect(40, 210, 591, 451));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(340, 710, 83, 29));
+        pushButton->setGeometry(QRect(550, 680, 83, 29));
+        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2->setObjectName("pushButton_2");
+        pushButton_2->setGeometry(QRect(450, 680, 83, 29));
         MainWindow->setCentralWidget(centralwidget);
-        menu->raise();
-        menu_2->raise();
-        line->raise();
-        line_2->raise();
-        line_3->raise();
-        dashboard_2->raise();
-        dashboard_7->raise();
-        dashboard_3->raise();
-        dashboard_4->raise();
-        label_4->raise();
-        frame->raise();
-        calendarWidget->raise();
-        listWidget_2->raise();
-        label_6->raise();
-        label_7->raise();
-        label_8->raise();
-        label_3->raise();
-        label_5->raise();
-        tableView->raise();
-        pushButton_3->raise();
-        pushButton->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 1200, 25));
@@ -264,17 +253,21 @@ public:
         dashboard_7->setText(QCoreApplication::translate("MainWindow", "Competition", nullptr));
         dashboard_3->setText(QCoreApplication::translate("MainWindow", "Match", nullptr));
         dashboard_4->setText(QCoreApplication::translate("MainWindow", "Team", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "By date", nullptr));
-        comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "By number of teams", nullptr));
-        comboBox->setItemText(2, QCoreApplication::translate("MainWindow", "Ligue", nullptr));
-        comboBox->setItemText(3, QCoreApplication::translate("MainWindow", "i9sa2", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "NULL", nullptr));
+        comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "By date", nullptr));
+        comboBox->setItemText(2, QCoreApplication::translate("MainWindow", "By nb teams", nullptr));
 
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "NULL", nullptr));
+        comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "League", nullptr));
+        comboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "Tournement", nullptr));
+
         label_7->setText(QCoreApplication::translate("MainWindow", "86%", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "LaLiga", nullptr));
         label_3->setText(QString());
         label_5->setText(QString());
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Update", nullptr));
     } // retranslateUi
 
 };

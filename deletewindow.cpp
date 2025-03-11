@@ -19,7 +19,7 @@ void deletewindow::on_deleteButton_clicked()
     int id = ui->lineEdit->text().toInt();
     competition c;
     competition existingCompetition = c.get_competition(id);
-    if (existingCompetition.get_id() == 0) {
+    if (!c.exist_competition(id)) {
         QMessageBox::warning(this, "Error", "Competition ID does not exist");
         return;
     }
@@ -28,5 +28,6 @@ void deletewindow::on_deleteButton_clicked()
     } else {
         QMessageBox::warning(this, "Error", "Failed to delete competition");
     }
+    this->close();
 }
 

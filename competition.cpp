@@ -22,7 +22,7 @@ bool competition::add_competition() {
 }
 competition competition::get_competition(int id) {
     QSqlQuery query;
-    query.prepare("SELECT * FROM competition WHERE id = :id");
+    query.prepare("SELECT * FROM competition WHERE ID_COMPETITION = :id");
     query.bindValue(":id", id);
     query.exec();
     competition c;
@@ -39,7 +39,7 @@ competition competition::get_competition(int id) {
 }
 bool competition::update_competition(int id) {
     QSqlQuery query;
-    query.prepare("UPDATE competition SET name = :name, type = :type, date_debut = :date_debut, date_fin = :date_fin, nb_teams = :nb_teams, reward = :reward WHERE id_competition = :id");
+    query.prepare("UPDATE competition SET comp_name = :name, comp_type = :type, start_date = :date_debut, end_date = :date_fin, nb_teams = :nb_teams, reward = :reward WHERE id_competition = :id");
     query.bindValue(":id", id);
     query.bindValue(":name", name);
     query.bindValue(":type", type);
@@ -59,7 +59,87 @@ bool competition::delete_competition(int id) {
 QSqlQueryModel* competition::show_competitions() {
     QSqlQueryModel* model = new QSqlQueryModel();
     model->setQuery("SELECT * FROM competition");
-    model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
+    if (model->lastError().isValid()) {
+        qDebug() << "Error executing query:" << model->lastError();
+        return nullptr;  // Return null if the query failed
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("Name"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Type"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Start Date"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("End Date"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Number of Teams"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Reward"));
+    return model;
+}
+bool competition::exist_competition(int id) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM competition WHERE id_competition = :id");
+    query.bindValue(":id", id);
+    query.exec();
+    return query.next();
+}
+QSqlQueryModel* competition::show_competitions_by_name(QString name) {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM competition WHERE comp_name LIKE '%" + name + "%'");
+    if (model->lastError().isValid()) {
+        qDebug() << "Error executing query:" << model->lastError();
+        return nullptr;  // Return null if the query failed
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("Name"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Type"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Start Date"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("End Date"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Number of Teams"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Reward"));
+    return model;
+}
+QSqlQueryModel* competition::show_competitions_by_date() {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM competition ORDER BY start_date");
+    if (model->lastError().isValid()) {
+        qDebug() << "Error executing query:" << model->lastError();
+        return nullptr;  // Return null if the query failed
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("Name"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Type"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Start Date"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("End Date"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Number of Teams"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Reward"));
+    return model;
+}
+QSqlQueryModel* competition::show_competitions_by_nb_teams() {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM competition ORDER BY nb_teams");
+    if (model->lastError().isValid()) {
+        qDebug() << "Error executing query:" << model->lastError();
+        return nullptr;  // Return null if the query failed
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("Name"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("Type"));
+    model->setHeaderData(3,Qt::Horizontal,QObject::tr("Start Date"));
+    model->setHeaderData(4,Qt::Horizontal,QObject::tr("End Date"));
+    model->setHeaderData(5,Qt::Horizontal,QObject::tr("Number of Teams"));
+    model->setHeaderData(6,Qt::Horizontal,QObject::tr("Reward"));
+    return model;
+}
+QSqlQueryModel* competition::show_competitions_by_type(QString type) {
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM competition WHERE comp_type LIKE '%" + type + "%'");
+    if (model->lastError().isValid()) {
+        qDebug() << "Error executing query:" << model->lastError();
+        return nullptr;  // Return null if the query failed
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("Name"));
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("Type"));
     model->setHeaderData(3,Qt::Horizontal,QObject::tr("Start Date"));
