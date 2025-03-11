@@ -1036,35 +1036,47 @@ void MainWindow::setupStatisticsTab()
     // Conteneur pour les tableaux de statistiques
     QHBoxLayout *tablesLayout = new QHBoxLayout();
     
-    // Tableau des meilleurs buteurs
-    QGroupBox *topScorersGroup = new QGroupBox("Top Goalscorers");
-    topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
-    QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
-    QTableWidget *scorersTable = new QTableWidget(0, 2);
-    scorersTable->setObjectName("scorersTable");
-    scorersTable->setHorizontalHeaderLabels({"Player", "Goals"});
-    scorersTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    scorersTable->setAlternatingRowColors(true);
-    scorersTable->verticalHeader()->setVisible(false);
-    scorersLayout->addWidget(scorersTable);
-    tablesLayout->addWidget(topScorersGroup);
-    
-    // Tableau des meilleurs passeurs
-    QGroupBox *topAssistsGroup = new QGroupBox("Top Assists");
-    topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
-    QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
-    QTableWidget *assistsTable = new QTableWidget(0, 2);
-    assistsTable->setObjectName("assistsTable");
-    assistsTable->setHorizontalHeaderLabels({"Player", "Assists"});
-    assistsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    assistsTable->setAlternatingRowColors(true);
-    assistsTable->verticalHeader()->setVisible(false);
-    assistsLayout->addWidget(assistsTable);
-    tablesLayout->addWidget(topAssistsGroup);
+ // Dans setupStatisticsTab(), modifiez les tableaux
+
+// Tableau des meilleurs buteurs
+QGroupBox *topScorersGroup = new QGroupBox("Top Goalscorers");
+topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
+QTableWidget *scorersTable = new QTableWidget(0, 3); // 3 colonnes au lieu de 2
+scorersTable->setObjectName("scorersTable");
+scorersTable->setHorizontalHeaderLabels({"Photo", "Player", "Goals"});
+scorersTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+scorersTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+scorersTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+scorersTable->setColumnWidth(0, 50);
+scorersTable->setColumnWidth(2, 60);
+scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+scorersTable->setAlternatingRowColors(false);
+scorersTable->verticalHeader()->setVisible(false);
+scorersTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
+scorersLayout->addWidget(scorersTable);
+tablesLayout->addWidget(topScorersGroup);
+
+// Tableau des meilleurs passeurs
+QGroupBox *topAssistsGroup = new QGroupBox("Top Assists");
+topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
+QTableWidget *assistsTable = new QTableWidget(0, 3); // 3 colonnes au lieu de 2
+assistsTable->setObjectName("assistsTable");
+assistsTable->setHorizontalHeaderLabels({"Photo", "Player", "Assists"});
+assistsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+assistsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+assistsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+assistsTable->setColumnWidth(0, 50);
+assistsTable->setColumnWidth(2, 60);
+assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+assistsTable->setAlternatingRowColors(false);
+assistsTable->verticalHeader()->setVisible(false);
+assistsTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
+assistsLayout->addWidget(assistsTable);
+tablesLayout->addWidget(topAssistsGroup);
     
     // Tableau des joueurs par position
     QGroupBox *positionsGroup = new QGroupBox("Players by Position");
@@ -1076,7 +1088,7 @@ void MainWindow::setupStatisticsTab()
     positionsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     positionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     positionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    positionsTable->setAlternatingRowColors(true);
+    positionsTable->setAlternatingRowColors(false);
     positionsTable->verticalHeader()->setVisible(false);
     positionsLayout->addWidget(positionsTable);
     tablesLayout->addWidget(positionsGroup);
@@ -1131,9 +1143,9 @@ void MainWindow::refreshStatistics()
         teamFilter = teamFilterComboBox->currentData().toString();
     }
     
-    // Modifier la requête SQL selon le filtre
+    // Modifier la requête SQL pour inclure les images des joueurs
     QString queryStr = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
-                      "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card "
+                      "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card, j.img_joueur "
                       "FROM joueur j "
                       "JOIN equipe e ON j.id_team = e.id_team";
                       
@@ -1153,11 +1165,14 @@ void MainWindow::refreshStatistics()
         return;
     }
     
-    // Le reste du code reste identique...
-    // Utiliser les mêmes données que le tableau principal
-    // Structures pour stocker les statistiques
-    QList<QPair<QString, int>> scorersList;
-    QList<QPair<QString, int>> assistsList;
+    // Structures pour stocker les statistiques avec les images
+    struct PlayerStat {
+        QString name;
+        int value;
+        QByteArray imageData;
+    };
+    QList<PlayerStat> scorersList;
+    QList<PlayerStat> assistsList;
     QMap<QString, int> positionMap;
     int totalYellowCards = 0;
     int totalRedCards = 0;
@@ -1172,6 +1187,7 @@ void MainWindow::refreshStatistics()
         QString lastName = query.value("last_name").toString();
         QString fullName = firstName + " " + lastName;
         QString position = query.value("position").toString();
+        QByteArray imageData = query.value("img_joueur").toByteArray();
         
         // Stats
         int goals = query.value("goals").toInt();
@@ -1179,9 +1195,22 @@ void MainWindow::refreshStatistics()
         int yellowCards = query.value("yellow_card").toInt();
         int redCards = query.value("red_card").toInt();
         
-        // Cumuler les statistiques
-        scorersList.append(qMakePair(fullName, goals));
-        assistsList.append(qMakePair(fullName, assists));
+        // Ajouter aux listes avec les images
+        if (goals > 0) {
+            PlayerStat scorer;
+            scorer.name = fullName;
+            scorer.value = goals;
+            scorer.imageData = imageData;
+            scorersList.append(scorer);
+        }
+        
+        if (assists > 0) {
+            PlayerStat assister;
+            assister.name = fullName;
+            assister.value = assists;
+            assister.imageData = imageData;
+            assistsList.append(assister);
+        }
         
         // Ajouter à la carte des positions
         if (positionMap.contains(position)) {
@@ -1197,35 +1226,52 @@ void MainWindow::refreshStatistics()
     
     // Trier les joueurs par buts (du plus au moins)
     std::sort(scorersList.begin(), scorersList.end(), 
-              [](const QPair<QString, int>& a, const QPair<QString, int>& b) {
-                  return a.second > b.second;
+              [](const PlayerStat& a, const PlayerStat& b) {
+                  return a.value > b.value;
               });
     
     // Trier les joueurs par passes (du plus au moins)
     std::sort(assistsList.begin(), assistsList.end(), 
-              [](const QPair<QString, int>& a, const QPair<QString, int>& b) {
-                  return a.second > b.second;
+              [](const PlayerStat& a, const PlayerStat& b) {
+                  return a.value > b.value;
               });
     
     // Limiter les listes aux 10 premiers
     while (scorersList.size() > 10) scorersList.removeLast();
     while (assistsList.size() > 10) assistsList.removeLast();
     
-    // Mettre à jour les tableaux avec les données
-    
     // 1. Meilleurs buteurs
     QTableWidget *scorersTable = ui->tabWidget->findChild<QTableWidget*>("scorersTable");
     if (scorersTable) {
+        // Mettre à jour les colonnes pour inclure les photos
+        scorersTable->setColumnCount(3);
+        scorersTable->setHorizontalHeaderLabels({"Photo", "Player", "Goals"});
+        scorersTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+        scorersTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        scorersTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+        scorersTable->setColumnWidth(0, 50);
+        scorersTable->setColumnWidth(2, 60);
+        
         scorersTable->clearContents();
         scorersTable->setRowCount(scorersList.size());
+        scorersTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
         
         for (int i = 0; i < scorersList.size(); i++) {
-            QTableWidgetItem *nameItem = new QTableWidgetItem(scorersList[i].first);
-            QTableWidgetItem *goalsItem = new QTableWidgetItem(QString::number(scorersList[i].second));
+            // Image du joueur
+            QTableWidgetItem *photoItem = new QTableWidgetItem();
+            if (!scorersList[i].imageData.isEmpty()) {
+                QPixmap pixmap;
+                pixmap.loadFromData(scorersList[i].imageData);
+                photoItem->setData(Qt::DecorationRole, pixmap.scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            }
+            
+            QTableWidgetItem *nameItem = new QTableWidgetItem(scorersList[i].name);
+            QTableWidgetItem *goalsItem = new QTableWidgetItem(QString::number(scorersList[i].value));
             goalsItem->setTextAlignment(Qt::AlignCenter);
             
-            scorersTable->setItem(i, 0, nameItem);
-            scorersTable->setItem(i, 1, goalsItem);
+            scorersTable->setItem(i, 0, photoItem);
+            scorersTable->setItem(i, 1, nameItem);
+            scorersTable->setItem(i, 2, goalsItem);
             
             // Appliquer les couleurs UNIQUEMENT aux 3 premiers
             if (i < 3) {
@@ -1235,25 +1281,45 @@ void MainWindow::refreshStatistics()
                     case 1: color = QColor(192, 192, 192, 150); break; // Argent
                     case 2: color = QColor(205, 127, 50, 100); break; // Bronze
                 }
+                photoItem->setBackground(color);
                 nameItem->setBackground(color);
                 goalsItem->setBackground(color);
-            }
+            } 
         }
     }
     
     // 2. Meilleurs passeurs
     QTableWidget *assistsTable = ui->tabWidget->findChild<QTableWidget*>("assistsTable");
     if (assistsTable) {
+        // Mettre à jour les colonnes pour inclure les photos
+        assistsTable->setColumnCount(3);
+        assistsTable->setHorizontalHeaderLabels({"Photo", "Player", "Assists"});
+        assistsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+        assistsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+        assistsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+        assistsTable->setColumnWidth(0, 50);
+        assistsTable->setColumnWidth(2, 60);
+        
         assistsTable->clearContents();
         assistsTable->setRowCount(assistsList.size());
+        assistsTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
         
         for (int i = 0; i < assistsList.size(); i++) {
-            QTableWidgetItem *nameItem = new QTableWidgetItem(assistsList[i].first);
-            QTableWidgetItem *assistsItem = new QTableWidgetItem(QString::number(assistsList[i].second));
+            // Image du joueur
+            QTableWidgetItem *photoItem = new QTableWidgetItem();
+            if (!assistsList[i].imageData.isEmpty()) {
+                QPixmap pixmap;
+                pixmap.loadFromData(assistsList[i].imageData);
+                photoItem->setData(Qt::DecorationRole, pixmap.scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            }
+            
+            QTableWidgetItem *nameItem = new QTableWidgetItem(assistsList[i].name);
+            QTableWidgetItem *assistsItem = new QTableWidgetItem(QString::number(assistsList[i].value));
             assistsItem->setTextAlignment(Qt::AlignCenter);
             
-            assistsTable->setItem(i, 0, nameItem);
-            assistsTable->setItem(i, 1, assistsItem);
+            assistsTable->setItem(i, 0, photoItem);
+            assistsTable->setItem(i, 1, nameItem);
+            assistsTable->setItem(i, 2, assistsItem);
             
             // Appliquer les couleurs UNIQUEMENT aux 3 premiers
             if (i < 3) {
@@ -1263,9 +1329,10 @@ void MainWindow::refreshStatistics()
                     case 1: color = QColor(192, 192, 192, 100); break; // Argent
                     case 2: color = QColor(205, 127, 50, 100); break; // Bronze
                 }
+                photoItem->setBackground(color);
                 nameItem->setBackground(color);
                 assistsItem->setBackground(color);
-            }
+            } 
         }
     }
     
