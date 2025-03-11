@@ -74,6 +74,7 @@ void updateform::on_pushButton_submit_clicked()
     competition c1(id, name, type, date_debut, date_fin, nb_teams, reward);
     if(c1.update_competition(id)) {
         QMessageBox::information(this, "Success", "Competition updated successfully");
+        this->close();
     } else {
         QMessageBox::warning(this, "Error", "Failed to update competition.");
     }

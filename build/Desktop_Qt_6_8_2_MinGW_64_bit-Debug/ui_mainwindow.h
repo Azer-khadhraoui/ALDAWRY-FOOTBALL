@@ -57,6 +57,7 @@ public:
     QTableView *test;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
+    QPushButton *pushButton_4;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -217,7 +218,7 @@ public:
         label_5->setScaledContents(true);
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(40, 680, 80, 31));
+        pushButton_3->setGeometry(QRect(360, 680, 80, 31));
         pushButton_3->setStyleSheet(QString::fromUtf8("background-color: #20242e;\n"
 "color: white;\n"
 "border-radius: 5px;\n"
@@ -232,6 +233,9 @@ public:
         pushButton_2 = new QPushButton(centralwidget);
         pushButton_2->setObjectName("pushButton_2");
         pushButton_2->setGeometry(QRect(450, 680, 83, 29));
+        pushButton_4 = new QPushButton(centralwidget);
+        pushButton_4->setObjectName("pushButton_4");
+        pushButton_4->setGeometry(QRect(40, 680, 83, 29));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -268,6 +272,7 @@ public:
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Update", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Stats", nullptr));
     } // retranslateUi
 
 };

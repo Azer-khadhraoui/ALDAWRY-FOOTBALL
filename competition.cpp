@@ -148,3 +148,26 @@ QSqlQueryModel* competition::show_competitions_by_type(QString type) {
     model->setHeaderData(6,Qt::Horizontal,QObject::tr("Reward"));
     return model;
 }
+void competition::extractDataFromDatabase(QStringList &categories, QList<qreal> &teams) {
+    QSqlQuery query;
+    query.exec("SELECT comp_name, nb_teams FROM competition");
+    while (query.next()) {
+        QString competitionName = query.value(0).toString();
+        qreal teamCount = query.value(1).toDouble();
+        categories << competitionName;
+        teams << teamCount;
+    }
+}
+
+void competition::extractDataFromDatabaseType(QStringList &categories, QList<qreal> &teams, QString type) {
+    QSqlQuery query;
+    query.prepare("SELECT comp_name, nb_teams FROM competition WHERE comp_type = :type");
+    query.bindValue(":type", type);
+    query.exec();
+    while (query.next()) {
+        QString competitionName = query.value(0).toString();
+        qreal teamCount = query.value(1).toDouble();
+        categories << competitionName;
+        teams << teamCount;
+    }
+}

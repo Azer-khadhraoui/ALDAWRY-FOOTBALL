@@ -8,6 +8,8 @@ QT       += core gui sql
 QT += sql
 QT += core gui widgets
 QT += widgets
+QT += charts
+QT       += core gui charts
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = competition
@@ -33,6 +35,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    statistics.cpp \
     updateform.cpp
 
 HEADERS += \
@@ -41,6 +44,7 @@ HEADERS += \
     deletewindow.h \
         mainwindow.h \
     connection.h \
+    statistics.h \
     updateform.h
 
 FORMS += \

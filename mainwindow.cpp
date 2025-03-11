@@ -9,7 +9,7 @@
 #include "deletewindow.h"
 #include "connection.h"
 #include "updateform.h"
-
+#include "statistics.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -80,6 +80,15 @@ void MainWindow::on_pushButton_2_clicked()
 {
     updateform u;
     if (u.exec() == QDialog::Accepted) {
+    }
+    ui->test->setModel(c.show_competitions());
+}
+
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    statistics s;
+    if (s.exec() == QDialog::Accepted) {
     }
     ui->test->setModel(c.show_competitions());
 }

@@ -6,6 +6,8 @@
 #include <QSqlQueryModel>
 #include <QDate>
 #include <QSqlError>
+#include <QStringList>
+#include <QList>
 
 
 class competition
@@ -43,6 +45,9 @@ public:
     QSqlQueryModel* show_competitions_by_date();
     QSqlQueryModel* show_competitions_by_nb_teams();
     QSqlQueryModel* show_competitions_by_type(QString);
+    static void extractDataFromDatabase(QStringList&, QList<qreal>&);
+    static void extractDataFromDatabaseType(QStringList&, QList<qreal>&, QString);
+
 private:
     int id;
     QString name;
