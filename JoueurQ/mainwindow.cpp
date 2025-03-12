@@ -795,7 +795,10 @@ void MainWindow::exportPlayerToPDF(int playerId)
     if (!imageData.isEmpty()) {
         hasImage = playerImage.loadFromData(imageData);
     }
-
+// Générer le QR code
+QString qrText = QString("ID: %1\nName: %2 %3\nTeam: %4\nPosition: %5\nJersey: %6")
+.arg(playerId).arg(firstName).arg(lastName).arg(team).arg(position).arg(jerseyNumber);
+QPixmap qrCode = generateQRCode(qrText);
     // 🔹 Sélection du fichier PDF
     QString defaultFileName = firstName + "_" + lastName + "_Profile.pdf";
     QString fileName = QFileDialog::getSaveFileName(this, "Export PDF", QDir::homePath() + "/" + defaultFileName, "PDF Files (*.pdf)");
@@ -976,7 +979,10 @@ void MainWindow::exportPlayerToPDF(int playerId)
         painter.drawText(valueX, y, statsValues[i]);
         y += lineSpacing;
     }
-
+    QPixmap scaledQrCode = qrCode.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // Taille réduite
+    int qrX = (pdfWriter.width() - scaledQrCode.width()) / 2;
+    painter.drawPixmap(qrX, y, scaledQrCode);
+    y += scaledQrCode.height() + 50;
    
     painter.setPen(Qt::gray);
     painter.drawLine(50, y + 30, 550, y + 30);
