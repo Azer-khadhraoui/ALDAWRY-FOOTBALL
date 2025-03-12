@@ -2,11 +2,14 @@
 #include "ui_deletewindow.h"
 #include "competition.h"
 #include <QMessageBox>
-deletewindow::deletewindow(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::deletewindow)
+deletewindow::deletewindow(QWidget *parent, int id):
+    QDialog(parent), 
+    ui(new Ui::deletewindow),
+    m_id(id)
 {
     ui->setupUi(this);
+    ui->lineEdit->setText(QString::number(m_id));
+    ui->lineEdit->setReadOnly(true);
 }
 
 deletewindow::~deletewindow()

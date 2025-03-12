@@ -39,7 +39,6 @@ public:
     QPushButton *pushButton_submit;
     QLabel *label_comp_name_2;
     QLineEdit *lineEdit_id;
-    QPushButton *pushButton_submit_2;
 
     void setupUi(QWidget *updateform)
     {
@@ -146,15 +145,6 @@ public:
 "padding: 6px 10px;\n"
 "font-size: 14px;\n"
 "color: white;"));
-        pushButton_submit_2 = new QPushButton(updateform);
-        pushButton_submit_2->setObjectName("pushButton_submit_2");
-        pushButton_submit_2->setGeometry(QRect(130, 70, 100, 40));
-        pushButton_submit_2->setStyleSheet(QString::fromUtf8("background-color: #20242e;\n"
-"color: white;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #666666;\n"
-"font-size: 14px;"));
 
         retranslateUi(updateform);
 
@@ -176,7 +166,6 @@ public:
         label_reward->setText(QCoreApplication::translate("updateform", "Reward:", nullptr));
         pushButton_submit->setText(QCoreApplication::translate("updateform", "Submit", nullptr));
         label_comp_name_2->setText(QCoreApplication::translate("updateform", "ID:", nullptr));
-        pushButton_submit_2->setText(QCoreApplication::translate("updateform", "Generate", nullptr));
     } // retranslateUi
 
 };

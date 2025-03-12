@@ -33,6 +33,7 @@ private:
     competition c;             // Competition object
     void updateTableView();
     void on_searchTextChanged(const QString &search);
+    int mainwindow_id;
 };
 
 #endif // MAINWINDOW_H

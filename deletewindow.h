@@ -12,7 +12,7 @@ class deletewindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit deletewindow(QWidget *parent = nullptr);
+    explicit deletewindow(QWidget *parent = nullptr, int id=-1);
     ~deletewindow();
 
 private slots:
@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::deletewindow *ui;
+    int m_id;
 };
 
 #endif // DELETEWINDOW_H

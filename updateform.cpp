@@ -4,25 +4,20 @@
 #include "competition.h"
 #include <QMessageBox>
 #include <QDate>
+#include "mainwindow.h"
 
-updateform::updateform(QWidget *parent) :
+updateform::updateform(QWidget *parent, int id) :
 QDialog(parent),
-ui(new Ui::updateform) 
+ui(new Ui::updateform),
+m_id(id)
 {
     ui->setupUi(this);
-}
-updateform::~updateform()
-{
-    delete ui;
-}
+    
 
-void updateform::on_pushButton_submit_2_clicked()
-{
-    int id = ui->lineEdit_id->text().toInt();
-    competition c;
-    if(c.exist_competition(id)) {
-        competition c1;
-        c1=c.get_competition(id);
+    ui->lineEdit_id->setText(QString::number(m_id));
+    int idd = ui->lineEdit_id->text().toInt();
+    competition c1;
+        c1=c1.get_competition(idd);
         ui->lineEdit_id->setReadOnly(true);
         ui->lineEdit_comp_name->setText(c1.get_name());
         ui->comboBox_comp_type->setCurrentText(c1.get_type());
@@ -30,10 +25,13 @@ void updateform::on_pushButton_submit_2_clicked()
         ui->dateEdit_end_date->setDate(c1.get_date_fin());
         ui->spinBox_numbers_teams->setValue(c1.get_nb_teams());
         ui->lineEdit_reward->setText(c1.get_reward());
-    } else {
-        QMessageBox::warning(this, "Error", "Competition not found.");
-    }
 }
+updateform::~updateform()
+{
+    delete ui;
+}
+
+
 
 
 void updateform::on_pushButton_submit_clicked()

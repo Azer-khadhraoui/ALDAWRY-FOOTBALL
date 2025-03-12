@@ -10,9 +10,12 @@
 #include "connection.h"
 #include "updateform.h"
 #include "statistics.h"
+#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mainwindow_id(-1)
 {
     ui->setupUi(this);
     Connection conn;
@@ -38,6 +41,12 @@ MainWindow::MainWindow(QWidget *parent)
             ui->test->setModel(c.show_competitions_by_type("Tournament"));
         }
     });
+    connect(ui->test->selectionModel(), &QItemSelectionModel::currentRowChanged, this, [=](const QModelIndex &current, const QModelIndex &previous) {
+        if (current.isValid()) {
+            mainwindow_id = current.sibling(current.row(), 0).data().toInt();
+        }
+    });
+
 }
 
 void MainWindow::on_searchTextChanged(const QString &search)
@@ -69,7 +78,11 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    deletewindow d;
+    if (mainwindow_id == -1) {
+        QMessageBox::warning(this, "Selection Error", "Please select a competition to delete.");
+        return;
+    }
+    deletewindow d(this, mainwindow_id);
     if (d.exec() == QDialog::Accepted) {
     }
     ui->test->setModel(c.show_competitions());
@@ -77,8 +90,12 @@ void MainWindow::on_pushButton_clicked()
 
 
 void MainWindow::on_pushButton_2_clicked()
-{
-    updateform u;
+{   
+    if (mainwindow_id == -1) {
+        QMessageBox::warning(this, "Selection Error", "Please select a competition to update.");
+        return;
+    }
+    updateform u(this, mainwindow_id);
     if (u.exec() == QDialog::Accepted) {
     }
     ui->test->setModel(c.show_competitions());
@@ -87,6 +104,7 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_4_clicked()
 {
+    
     statistics s;
     if (s.exec() == QDialog::Accepted) {
     }
