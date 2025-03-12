@@ -615,14 +615,29 @@ void MainWindow::refreshPlayerDetails()
         } else {
             imageLabel->setText("No Image");
         }
+//qrcode
+QString qrText = QString("ID: %1\nName: %2\nTeam: %3\nPosition: %4\nJersey: %5")
+.arg(query.value("id_player").toString())
+.arg(playerFullName)
+
+.arg(query.value("team_name").toString())
+.arg(query.value("position").toString())
+.arg(query.value("jersey_nb").toString());
+QPixmap qrCode = generateQRCode(qrText);
+
+QLabel *qrLabel = new QLabel();
+
+qrLabel->setPixmap(qrCode.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));  // Taille réduite
+qrLabel->setAlignment(Qt::AlignCenter);
         
         // Add the form layout and image to the horizontal layout
         contentLayout->addLayout(formLayout, 3);  // Give the form more space
         contentLayout->addWidget(imageLabel, 1);  // Give the image less space
         
+        
         // Add the content layout to the frame layout
         frameLayout->addLayout(contentLayout);
-        
+        frameLayout->addWidget(qrLabel);
         // Make the frame visible if it's not already
         ui->formFrame->setVisible(true);
         
@@ -1392,3 +1407,36 @@ void MainWindow::refreshStatistics()
     }
 }
 
+QPixmap MainWindow::generateQRCode(const QString &text)
+{
+    using namespace qrcodegen;
+
+    // Générer le QR code
+    QrCode qr = QrCode::encodeText(text.toUtf8().constData(), QrCode::Ecc::MEDIUM);
+
+    // Taille du QR code (nombre de modules)
+    int size = qr.getSize();
+    int scale = 10;  // Échelle pour agrandir l'image (10 pixels par module)
+    int border = 4;  // Bordure autour du QR code (en modules)
+    int imgSize = (size + 2 * border) * scale;
+
+    // Créer une image QPixmap
+    QPixmap pixmap(imgSize, imgSize);
+    pixmap.fill(Qt::white);  // Fond blanc
+
+    QPainter painter(&pixmap);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(Qt::black);  // Couleur des modules noirs
+
+    // Dessiner les modules du QR code
+    for (int y = 0; y < size; y++) {
+        for (int x = 0; x < size; x++) {
+            if (qr.getModule(x, y)) {
+                painter.drawRect((x + border) * scale, (y + border) * scale, scale, scale);
+            }
+        }
+    }
+
+    painter.end();
+    return pixmap;
+}

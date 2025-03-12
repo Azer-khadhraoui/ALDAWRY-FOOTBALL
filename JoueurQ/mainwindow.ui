@@ -67,7 +67,7 @@ border-radius: 30px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../../../Pictures/proj QT/logo football.png</pixmap>
+     <pixmap resource="image.qrc">:/img/logo.jfif</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -607,7 +607,7 @@ margin-bottom:10px;</string>
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>510</y>
+        <y>530</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -624,7 +624,7 @@ border-radius: 5px ;</string>
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>510</y>
+        <y>530</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -651,7 +651,7 @@ border-radius: 5px ;</string>
       <property name="geometry">
        <rect>
         <x>330</x>
-        <y>510</y>
+        <y>530</y>
         <width>161</width>
         <height>29</height>
        </rect>
@@ -667,10 +667,10 @@ border-radius: 5px ;</string>
      <widget class="QFrame" name="formFrame">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>50</y>
+        <x>560</x>
+        <y>30</y>
         <width>461</width>
-        <height>491</height>
+        <height>551</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -693,6 +693,8 @@ border-radius: 5px ;</string>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>

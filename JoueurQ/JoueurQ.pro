@@ -32,14 +32,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
-    modifyjoueur.cpp
+    modifyjoueur.cpp \
+    qrcodegen.cpp
 
 HEADERS += \
     deletejoueur.h \
     joueur.h \
         mainwindow.h \
     connection.h \
-    modifyjoueur.h
+    modifyjoueur.h \
+    qrcodegen.hpp
 
 FORMS += \
     Delete_Joueur_2.ui \
@@ -52,3 +54,6 @@ modify_joueur.ui
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    image.qrc

@@ -6,7 +6,8 @@
 #include <QByteArray>
 #include <QPixmap>
 #include <QItemSelection>
-#include <QFrame>  // Ajoutez cette ligne pour inclure QFrame
+#include <QFrame> 
+ #include "qrcodegen.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,6 +45,7 @@ private:
     void exportPlayerToPDF(int playerId);
     void setupStatisticsTab();
     QFrame* createStatsCard(const QString &title, const QString &value, const QString &style);
+    QPixmap generateQRCode(const QString &text);
 };
 
 #endif // MAINWINDOW_H
