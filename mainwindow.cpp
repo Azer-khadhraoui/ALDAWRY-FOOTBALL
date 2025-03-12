@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_addButtonclicked);
     connect(ui->resetButton, &QPushButton::clicked, this, &MainWindow::on_resetButton_clicked);  // Connect the reset button
     connect(ui->searchBar, &QLineEdit::textChanged, this, &MainWindow::on_searchBar_textChanged);  // Connect the search bar
-    connect(ui->modifyButton, &QPushButton::clicked, this, &MainWindow::on_modifyButton_clicked);  // Connect the modify button
+
 
     // Enable sorting
     ui->tableWidget->setSortingEnabled(true);

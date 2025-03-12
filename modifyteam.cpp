@@ -13,7 +13,7 @@ ModifyTeam::ModifyTeam(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->toolButton_2, &QToolButton::clicked, this, &ModifyTeam::on_toolButton_2_clicked);
+
 }
 
 ModifyTeam::~ModifyTeam()
