@@ -17,7 +17,7 @@
 #include <QPushButton>
 #include "joueur.h"
 #include "deletejoueur.h"
-#include "modifyjoueur.h" 
+#include "modifyjoueur.h"
 #include <QItemSelection>
 
 #include <QPainter>
@@ -32,11 +32,11 @@ MainWindow::MainWindow(QWidget *parent)
     , currentDisplayedPlayerId(-1)  // Initialiser à -1 (pas de joueur affiché)
 {
     ui->setupUi(this);
-    
+
     // Initialize positions combobox
     ui->comboBoxPosition->clear();
     ui->comboBoxPosition->addItems({"Goalkeeper", "Defender", "Midfielder", "Forward"});
-    
+
     // Initialiser les options de tri
     ui->comboBoxTri->clear();
     ui->comboBoxTri->addItem("Default (No Sorting)", "none");
@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBoxTri->addItem("Position", "position");
     ui->comboBoxTri->addItem("Goals (High-Low)", "goals_desc");
     ui->comboBoxTri->addItem("Goals (Low-High)", "goals_asc");
-    
+
     // Connect buttons
     connect(ui->button1, &QPushButton::clicked, this, &MainWindow::on_button1_clicked);
     connect(ui->toolButton, &QToolButton::clicked, this, &MainWindow::on_toolButtonImage_clicked);
@@ -54,10 +54,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->lineEdit_10, &QLineEdit::textChanged, this, &MainWindow::onSearchTextChanged); // Connect search field
     connect(ui->buttonViewDetails, &QPushButton::clicked, this, &MainWindow::on_buttonViewDetails_clicked);
     connect(ui->comboBoxTri, &QComboBox::currentIndexChanged, this, &MainWindow::onSortingChanged);
-    
+
     // Set placeholder text for search field
     ui->lineEdit_10->setPlaceholderText("Search players by name, nationality, position...");
-    
+
     // Set up table
     ui->tableWidget->setColumnCount(14);
     ui->tableWidget->setHorizontalHeaderLabels({
@@ -69,11 +69,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadTeams();
     loadPlayers();
-    
+
     // Ajouter ceci pour initialiser l'onglet statistiques
     setupStatisticsTab();
 
-    connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::selectionChanged, 
+    connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::selectionChanged,
         this, &MainWindow::onTableSelectionChanged);
 }
 
@@ -87,19 +87,19 @@ void MainWindow::loadTeams()
     // Clear combobox and map
     ui->comboBoxTeam->clear();
     teamMap.clear();
-    
+
     // Load all teams from database
     QSqlQuery query("SELECT id_team, team_name FROM equipe ORDER BY team_name");
-    
+
     while (query.next()) {
         int id = query.value(0).toInt();
         QString name = query.value(1).toString();
-        
+
         // Add to combobox and map
         ui->comboBoxTeam->addItem(name);
         teamMap[name] = id;
     }
-    
+
     if (ui->comboBoxTeam->count() == 0) {
         // No teams found
         QMessageBox::warning(this, "Warning", "No teams were found in the database.");
@@ -130,18 +130,18 @@ void MainWindow::loadPlayers()
         // Add new row to table
         ui->tableWidget->insertRow(row);
 
-        
+
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
         ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
         ui->tableWidget->setItem(row, 2, new QTableWidgetItem(query.value(2).toString())); // last_name
         ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
         ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-        
+
         // Convert integer status to text
         int status = query.value(6).toInt();
         QString statusText;
-        
+
         switch(status) {
             case 0:
                 statusText = "Active";
@@ -158,15 +158,15 @@ void MainWindow::loadPlayers()
             default:
                 statusText = "Unknown";
         }
-        
+
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
-        
+
         row++;
     }
 
     // Optional: resize columns to fit content
     ui->tableWidget->resizeColumnsToContents();
-    
+
     // Update status bar with total count
     if (statusBar()) {
         statusBar()->showMessage(QString("%1 players in total").arg(row));
@@ -181,11 +181,11 @@ void MainWindow::onSearchTextChanged(const QString &text)
         loadPlayers();
         return;
     }
-    
+
     // Récupérer l'identifiant de tri actuel
     int index = ui->comboBoxTri->currentIndex();
     QString sortOption = ui->comboBoxTri->itemData(index).toString();
-    
+
     // Déterminer la clause ORDER BY selon l'option de tri
     QString orderByClause;
     if (sortOption == "name_asc") {
@@ -201,11 +201,11 @@ void MainWindow::onSearchTextChanged(const QString &text)
     } else if (sortOption == "goals_asc") {
         orderByClause = " ORDER BY j.goals ASC, j.last_name ASC";
     }
-    
+
     // Vider le tableau
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
-    
+
     // Construire la requête avec les conditions de recherche
     QString searchQuery = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
                           "e.team_name, j.jersey_nb, j.status "
@@ -216,22 +216,22 @@ void MainWindow::onSearchTextChanged(const QString &text)
                           "OR j.nationality LIKE :search "
                           "OR j.position LIKE :search "
                           "OR e.team_name LIKE :search";
-                          
+
     // Ajouter la clause ORDER BY si nécessaire
     if (!orderByClause.isEmpty()) {
         searchQuery += orderByClause;
     }
-    
+
     QSqlQuery query;
     query.prepare(searchQuery);
     query.bindValue(":search", "%" + text + "%"); // Utiliser % pour la correspondance partielle
-    
+
     if (query.exec()) {
         // Populate table with search results
         int row = 0;
         while (query.next()) {
             ui->tableWidget->insertRow(row);
-            
+
             // Fill each column with query data (reduced set)
             ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
             ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
@@ -239,11 +239,11 @@ void MainWindow::onSearchTextChanged(const QString &text)
             ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
             ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
             ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-            
+
             // Convert integer status to text
             int status = query.value(6).toInt();
             QString statusText;
-            
+
             switch(status) {
                 case 0:
                     statusText = "Active";
@@ -260,12 +260,12 @@ void MainWindow::onSearchTextChanged(const QString &text)
                 default:
                     statusText = "Unknown";
             }
-            
+
             ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
-            
+
             row++;
         }
-        
+
         // Update status bar with search results count
         if (statusBar()) {
             statusBar()->showMessage(QString("%1 player(s) found").arg(row));
@@ -300,28 +300,28 @@ void MainWindow::on_button1_clicked()
         QMessageBox::warning(this, "Error", "Please select a team.");
         return;
     }
-    
+
     // Step 2: Get team ID
     QString teamName = ui->comboBoxTeam->currentText();
     int id_team = teamMap[teamName];
-    
+
     // Step 3: Get and validate player information
     QString first_name = ui->lineEdit_3->text().trimmed();
     QString last_name = ui->lineEdit_4->text().trimmed();
-    
+
     // Get position from comboBox instead of lineEdit
     QString position = ui->comboBoxPosition->currentText();
-    
+
     QString nationality = ui->lineEdit_9->text().trimmed();
-    
+
     // Step 4: Field validation
-    
+
     // Check for empty fields
     if (first_name.isEmpty() || last_name.isEmpty() || nationality.isEmpty()) {
         QMessageBox::warning(this, "Error", "Please fill all required fields (First Name, Last Name, Nationality).");
         return;
     }
-    
+
     // Validate name format (only letters and spaces)
     QRegularExpression nameRegex("^[A-Za-z\\s'-]+$");
     if (!nameRegex.match(first_name).hasMatch()) {
@@ -329,15 +329,15 @@ void MainWindow::on_button1_clicked()
         ui->lineEdit_3->setFocus();
         return;
     }
-    
+
     if (!nameRegex.match(last_name).hasMatch()) {
         QMessageBox::warning(this, "Error", "Last name contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed.");
         ui->lineEdit_4->setFocus();
         return;
     }
-    
+
     // Position validation not needed anymore as it's limited by comboBox
-    
+
     // Validate jersey number
     bool ok;
     int jersey_nb = ui->lineEdit_8->text().toInt(&ok);
@@ -346,29 +346,29 @@ void MainWindow::on_button1_clicked()
         ui->lineEdit_8->setFocus();
         return;
     }
-    
+
     // Validate nationality
     if (!nameRegex.match(nationality).hasMatch()) {
         QMessageBox::warning(this, "Error", "Nationality contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed.");
         ui->lineEdit_9->setFocus();
         return;
     }
-    
+
     // Validate birth date
     QDate date_of_birth = ui->dateEdit->date();
     QDate currentDate = QDate::currentDate();
     QDate minDate = currentDate.addYears(-50); // No players older than 50
     QDate maxDate = currentDate.addYears(-16); // No players younger than 16
-    
+
     if (date_of_birth > maxDate || date_of_birth < minDate) {
         QMessageBox::warning(this, "Error", "Invalid date of birth. Player must be between 16 and 50 years old.");
         ui->dateEdit->setFocus();
         return;
     }
-    
+
     // Step 5: Create and add player
     joueur newPlayer(id_team, first_name, last_name, position, jersey_nb, date_of_birth, nationality, img_joueur);
-    
+
     if (newPlayer.ajouterDansBD()) {
         QMessageBox::information(this, "Success", "Player has been successfully added.");
         // Clear input fields
@@ -382,7 +382,7 @@ void MainWindow::on_button1_clicked()
 
         // Clear search field to show all players including the newly added one
         ui->lineEdit_10->clear();
-        
+
         // Update player table
         loadPlayers();
     } else {
@@ -391,43 +391,43 @@ void MainWindow::on_button1_clicked()
 }
 
 void MainWindow::on_buttonDelete_clicked()
-{   
+{
     // Check if a player is selected
     if (!validateTableSelection()) {
         return;
     }
-    
+
     // Get ID of selected player
     int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
     int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
-    
+
     // Get player name for confirmation message
     QString firstName = ui->tableWidget->item(row, 1)->text();
     QString lastName = ui->tableWidget->item(row, 2)->text();
-    
+
     // Ask user for confirmation
     QMessageBox::StandardButton confirmation;
-    confirmation = QMessageBox::question(this, "Confirm Deletion", 
+    confirmation = QMessageBox::question(this, "Confirm Deletion",
         "Are you sure you want to delete player " + firstName + " " + lastName + " (ID: " + QString::number(joueurId) + ")?",
         QMessageBox::Yes | QMessageBox::No);
-    
+
     if (confirmation == QMessageBox::No) {
         return;
     }
-    
+
     // Try to delete the player
     if (joueur::supprimer(joueurId)) {
         QMessageBox::information(this, "Success", "Player has been successfully deleted.");
-        
+
         // If the deleted player was being displayed, hide the details frame
         if (currentDisplayedPlayerId == joueurId) {
             ui->formFrame->setVisible(false);
             currentDisplayedPlayerId = -1;
         }
-        
+
         // Clear search field to show all players
         ui->lineEdit_10->clear();
-        
+
         // Reload player list
         loadPlayers();
     } else {
@@ -441,21 +441,21 @@ void MainWindow::on_buttonModify_clicked()
     if (!validateTableSelection()) {
         return;
     }
-    
+
     ModifyJoueur modifyDialog(this);
-    
+
     // Get selected player's ID
     int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
     int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
     modifyDialog.setJoueurId(joueurId);
-    
+
     if (modifyDialog.exec() == QDialog::Accepted) {
         // Clear search field to show all players
         ui->lineEdit_10->clear();
-        
+
         // Reload player list to reflect changes
         loadPlayers();
-        
+
         // Refresh player details if the modified player is currently displayed
         if (currentDisplayedPlayerId == joueurId) {
             refreshPlayerDetails();
@@ -479,14 +479,14 @@ void MainWindow::on_buttonViewDetails_clicked()
     if (!validateTableSelection()) {
         return;
     }
-    
+
     // Get ID of selected player
     int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
     int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
-    
+
     // Store the current displayed player ID
     currentDisplayedPlayerId = joueurId;
-    
+
     // Load the player details
     refreshPlayerDetails();
 }
@@ -498,20 +498,20 @@ void MainWindow::refreshPlayerDetails()
         ui->formFrame->setVisible(false);
         return;
     }
-    
+
     // Clear any existing content in the formFrame
     qDeleteAll(ui->formFrame->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly));
-    
+
     // Create a layout for the frame if it doesn't already have one
     QLayout *existingLayout = ui->formFrame->layout();
     if (existingLayout) {
         delete existingLayout;  // Remove any existing layout
     }
-    
+
     // Create new layout for the frame
     QVBoxLayout *frameLayout = new QVBoxLayout(ui->formFrame);
     ui->formFrame->setLayout(frameLayout);
-    
+
     // Query all player details
     QSqlQuery query;
     query.prepare("SELECT j.*, e.team_name "
@@ -519,7 +519,7 @@ void MainWindow::refreshPlayerDetails()
                   "JOIN equipe e ON j.id_team = e.id_team "
                   "WHERE j.id_player = :id");
     query.bindValue(":id", currentDisplayedPlayerId);
-    
+
     if (query.exec() && query.next()) {
         // Créer un header stylisé avec le nom du joueur
         QString playerFullName = query.value("first_name").toString() + " " + query.value("last_name").toString();
@@ -565,13 +565,13 @@ void MainWindow::refreshPlayerDetails()
         titleLabel->setFont(titleFont);
         titleLabel->setAlignment(Qt::AlignCenter);
         frameLayout->addWidget(titleLabel);
-        
+
         // Create a horizontal layout for the form and image
         QHBoxLayout *contentLayout = new QHBoxLayout();
-        
+
         // Create form layout for player details
         QFormLayout *formLayout = new QFormLayout();
-        
+
         formLayout->addRow("ID:", new QLabel(query.value("id_player").toString()));
         formLayout->addRow("Team:", new QLabel(query.value("team_name").toString()));
         formLayout->addRow("First Name:", new QLabel(query.value("first_name").toString()));
@@ -582,13 +582,13 @@ void MainWindow::refreshPlayerDetails()
         formLayout->addRow("Nationality:", new QLabel(query.value("nationality").toString()));
         formLayout->addRow("Goals:", new QLabel(query.value("goals").toString()));
         formLayout->addRow("Assists:", new QLabel(query.value("assists").toString()));
-        
+
         QString injured = query.value("injured").toInt() == 1 ? "Yes" : "No";
         formLayout->addRow("Injured:", new QLabel(injured));
-        
+
         formLayout->addRow("Yellow Cards:", new QLabel(query.value("yellow_card").toString()));
         formLayout->addRow("Red Cards:", new QLabel(query.value("red_card").toString()));
-        
+
         // Convert status to text
         int status = query.value("status").toInt();
         QString statusText;
@@ -600,7 +600,7 @@ void MainWindow::refreshPlayerDetails()
             default: statusText = "Unknown";
         }
         formLayout->addRow("Status:", new QLabel(statusText));
-        
+
         // Add player image if available
         QLabel *imageLabel = new QLabel();
         imageLabel->setMinimumSize(150, 180);
@@ -629,27 +629,27 @@ QLabel *qrLabel = new QLabel();
 
 qrLabel->setPixmap(qrCode.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));  // Taille réduite
 qrLabel->setAlignment(Qt::AlignCenter);
-        
+
         // Add the form layout and image to the horizontal layout
         contentLayout->addLayout(formLayout, 3);  // Give the form more space
         contentLayout->addWidget(imageLabel, 1);  // Give the image less space
-        
-        
+
+
         // Add the content layout to the frame layout
         frameLayout->addLayout(contentLayout);
         frameLayout->addWidget(qrLabel);
         // Make the frame visible if it's not already
         ui->formFrame->setVisible(true);
-        
+
         // Add a "Close Details" button
         QPushButton *closeButton = new QPushButton("Hide Details");
         connect(closeButton, &QPushButton::clicked, [this]() {
             ui->formFrame->setVisible(false);
             currentDisplayedPlayerId = -1; // Reset current ID
         });
-        
+
         frameLayout->addWidget(closeButton, 0, Qt::AlignRight);
-        
+
         // Make sure to apply the layout
         ui->formFrame->updateGeometry();
     } else {
@@ -662,18 +662,18 @@ qrLabel->setAlignment(Qt::AlignCenter);
 void MainWindow::onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected);
-    
+
     // Only update if details are already being shown
     if (ui->formFrame->isVisible() && !selected.isEmpty()) {
         // Get the selected row index
         int row = selected.indexes().first().row();
-        
+
         // Get the player ID from the first column
         int joueurId = ui->tableWidget->item(row, 0)->text().toInt();
-        
+
         // Update the current displayed player ID
         currentDisplayedPlayerId = joueurId;
-        
+
         // Refresh the details view
         refreshPlayerDetails();
     }
@@ -683,16 +683,16 @@ void MainWindow::onSortingChanged(int index)
 {
     // Récupérer l'identifiant de tri sélectionné
     QString sortOption = ui->comboBoxTri->itemData(index).toString();
-    
+
     // Construire la requête SQL en fonction de l'option de tri
     QString baseQuery = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
                        "e.team_name, j.jersey_nb, j.status ";
-    
+
     QString fromClause = "FROM joueur j "
                          "JOIN equipe e ON j.id_team = e.id_team ";
-    
+
     QString orderByClause;
-    
+
     // Déterminer la clause ORDER BY en fonction de l'option sélectionnée
     if (sortOption == "name_asc") {
         orderByClause = "ORDER BY j.last_name ASC, j.first_name ASC";
@@ -708,25 +708,25 @@ void MainWindow::onSortingChanged(int index)
         orderByClause = "ORDER BY j.goals ASC, j.last_name ASC";
     }
     // Si "none", pas de ORDER BY nécessaire
-    
+
     // Construire la requête complète
     QString completeQuery = baseQuery + fromClause;
     if (!orderByClause.isEmpty()) {
         completeQuery += orderByClause;
     }
-    
+
     // Effacer le tableau existant
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
-    
+
     // Exécuter la requête
     QSqlQuery query(completeQuery);
-    
+
     // Remplir le tableau avec les résultats triés
     int row = 0;
     while (query.next()) {
         ui->tableWidget->insertRow(row);
-        
+
         // Fill each column with query data (reduced set)
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(query.value(0).toString())); // id_player
         ui->tableWidget->setItem(row, 1, new QTableWidgetItem(query.value(1).toString())); // first_name
@@ -734,7 +734,7 @@ void MainWindow::onSortingChanged(int index)
         ui->tableWidget->setItem(row, 3, new QTableWidgetItem(query.value(3).toString())); // position
         ui->tableWidget->setItem(row, 4, new QTableWidgetItem(query.value(4).toString())); // team_name
         ui->tableWidget->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // jersey_nb
-        
+
         // Convert integer status to text
         int status = query.value(6).toInt();
         QString statusText;
@@ -746,13 +746,13 @@ void MainWindow::onSortingChanged(int index)
             default: statusText = "Unknown";
         }
         ui->tableWidget->setItem(row, 6, new QTableWidgetItem(statusText)); // status
-        
+
         row++;
     }
-    
+
     // Optional: resize columns to fit content
     ui->tableWidget->resizeColumnsToContents();
-    
+
     // Update status bar with total count
     if (statusBar()) {
         statusBar()->showMessage(QString("%1 players in total").arg(row));
@@ -791,7 +791,7 @@ void MainWindow::exportPlayerToPDF(int playerId)
     QByteArray imageData = query.value("img_joueur").toByteArray();
     QPixmap playerImage;
     bool hasImage = false;
-    
+
     if (!imageData.isEmpty()) {
         hasImage = playerImage.loadFromData(imageData);
     }
@@ -838,35 +838,35 @@ QPixmap qrCode = generateQRCode(qrText);
     // 📌 Titre principal (Nom du joueur)
     painter.setFont(titleFont);
     painter.setPen(headerColor);
-    
+
     // Centrer le titre du joueur
     QString playerFullName = firstName + " " + lastName;
     QFontMetrics titleMetrics(titleFont); // Correction ici
     int titleWidth = titleMetrics.horizontalAdvance(playerFullName);
-    int titleX = (pdfWriter.width() - titleWidth) / 2.2;
-    
+    int titleX = (pdfWriter.width() - titleWidth) / 2.58;
+
     painter.drawText(titleX, y, playerFullName);
     y += lineSpacing + 30; // ÉNORME espace après le titre
 
     // 📌 Image du joueur avec un cadre et une ombre
     if (hasImage) {
-        QPixmap scaledImage = playerImage.scaled(180, 180, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap scaledImage = playerImage.scaled(500, 500, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         int imageX = (pdfWriter.width() - scaledImage.width()) / 2;
-        
+
         // Ombre portée (effet simple)
         painter.setPen(Qt::NoPen);
         painter.setBrush(QColor(100, 100, 100, 80));
         painter.drawRect(imageX + 5, y + 5, scaledImage.width(), scaledImage.height());
-        
+
         // Image
         painter.setBrush(Qt::NoBrush);
         painter.drawPixmap(imageX, y, scaledImage);
-        
+
         // Cadre
         painter.setPen(QPen(Qt::black, 2));
         painter.drawRect(imageX, y, scaledImage.width(), scaledImage.height());
-        
-        y += scaledImage.height() + 50; // Grand espace après l'image
+
+        y += scaledImage.height() + 55; // Grand espace après l'image
     } else {
         painter.setFont(normalFont);
         painter.drawText((pdfWriter.width() / 2) - 80, y, "No Image Available");
@@ -878,8 +878,8 @@ QPixmap qrCode = generateQRCode(qrText);
     QString subtitle = position + " | #" + QString::number(jerseyNumber) + " | " + team;
     QFontMetrics normalMetrics(normalFont); // Correction ici aussi
     int subtitleWidth = normalMetrics.horizontalAdvance(subtitle);
-    int subtitleX = (pdfWriter.width() - subtitleWidth) / 2;
-    
+    int subtitleX = (pdfWriter.width() - subtitleWidth) / 2.47;
+
     painter.drawText(subtitleX, y, subtitle);
     y += lineSpacing;
 
@@ -898,13 +898,13 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.setPen(Qt::black);
 
     QStringList labels = {"Player ID:", "Full Name:", "Team:", "Position:", "Jersey Number:", "Birth Date:", "Nationality:", "Injured:"};
-    QStringList values = {QString::number(playerId), 
-                          firstName + " " + lastName, 
-                          team, 
-                          position, 
-                          "#" + QString::number(jerseyNumber), 
-                          birthDate.toString("dd/MM/yyyy"), 
-                          nationality, 
+    QStringList values = {QString::number(playerId),
+                          firstName + " " + lastName,
+                          team,
+                          position,
+                          "#" + QString::number(jerseyNumber),
+                          birthDate.toString("dd/MM/yyyy"),
+                          nationality,
                           isInjured ? "Yes" : "No"};
 
     for (int i = 0; i < labels.size(); i++) {
@@ -928,13 +928,13 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.setPen(Qt::black);
 
     // Ajout de sections visuelles pour les statistiques
-    int statBoxWidth = 180;
-    int statSpacing = 50;
+    int statBoxWidth = 230;
+    int statSpacing = 100;
     int statStartX = (pdfWriter.width() - (4 * statBoxWidth + 3 * statSpacing)) / 2;
-    
+
     // Dessiner des boîtes pour les statistiques
     painter.setFont(QFont("Arial", 16, QFont::Bold));
-    
+
     // Goals
     painter.setBrush(QColor(240, 240, 250));
     painter.setPen(QPen(headerColor, 1));
@@ -942,7 +942,7 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.drawText(statStartX + 5, y + 35, QString::number(goals));
     painter.setFont(QFont("Arial", 10));
     painter.drawText(statStartX + 5, y + 60, "Goals");
-    
+
     // Assists
     painter.setFont(QFont("Arial", 16, QFont::Bold));
     painter.setBrush(QColor(240, 250, 240));
@@ -950,7 +950,7 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.drawText(statStartX + statBoxWidth + statSpacing + 5, y + 35, QString::number(assists));
     painter.setFont(QFont("Arial", 10));
     painter.drawText(statStartX + statBoxWidth + statSpacing + 5, y + 60, "Assists");
-    
+
     // Yellow Cards
     painter.setFont(QFont("Arial", 16, QFont::Bold));
     painter.setBrush(QColor(255, 252, 230));
@@ -958,7 +958,7 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.drawText(statStartX + 2 * (statBoxWidth + statSpacing) + 5, y + 35, QString::number(yellowCards));
     painter.setFont(QFont("Arial", 10));
     painter.drawText(statStartX + 2 * (statBoxWidth + statSpacing) + 5, y + 60, "Yellow Cards");
-    
+
     // Red Cards
     painter.setFont(QFont("Arial", 16, QFont::Bold));
     painter.setBrush(QColor(255, 230, 230));
@@ -966,9 +966,9 @@ QPixmap qrCode = generateQRCode(qrText);
     painter.drawText(statStartX + 3 * (statBoxWidth + statSpacing) + 5, y + 35, QString::number(redCards));
     painter.setFont(QFont("Arial", 10));
     painter.drawText(statStartX + 3 * (statBoxWidth + statSpacing) + 5, y + 60, "Red Cards");
-    
-    y += 100; // Espace après les boîtes de statistiques
-    
+
+    y += 300; // Espace après les boîtes de statistiques
+
     // Tableau détaillé des statistiques
     painter.setFont(normalFont);
     QStringList statsLabels = {"Goals:", "Assists:", "Yellow Cards:", "Red Cards:"};
@@ -983,11 +983,11 @@ QPixmap qrCode = generateQRCode(qrText);
     int qrX = (pdfWriter.width() - scaledQrCode.width()) / 2;
     painter.drawPixmap(qrX, y, scaledQrCode);
     y += scaledQrCode.height() + 50;
-   
+
     painter.setPen(Qt::gray);
     painter.drawLine(50, y + 30, 550, y + 30);
     painter.setFont(QFont("Arial", 10));
-    painter.drawText(50, y + 60, "Generated on " + QDate::currentDate().toString("dd/MM/yyyy") + " by AL DAWRY Football Management System");
+    painter.drawText(50, y + 80, "Generated on " + QDate::currentDate().toString("dd/MM/yyyy") + " by AL DAWRY Football Management System");
 
     // 🔹 Fin du dessin
     painter.end();
@@ -1003,22 +1003,22 @@ QFrame* MainWindow::createStatsCard(const QString &title, const QString &value, 
     card->setFrameShadow(QFrame::Raised);
     card->setLineWidth(1);
     card->setStyleSheet("QFrame { border-radius: 8px; padding: 15px; " + style + " }");
-    
+
     QVBoxLayout *layout = new QVBoxLayout(card);
-    
+
     QLabel *valueLabel = new QLabel(value);
     QFont valueFont = valueLabel->font();
     valueFont.setPointSize(24);
     valueFont.setBold(true);
     valueLabel->setFont(valueFont);
     valueLabel->setAlignment(Qt::AlignCenter);
-    
+
     QLabel *titleLabel = new QLabel(title);
     titleLabel->setAlignment(Qt::AlignCenter);
-    
+
     layout->addWidget(valueLabel);
     layout->addWidget(titleLabel);
-    
+
     return card;
 }
 
@@ -1027,7 +1027,7 @@ void MainWindow::setupStatisticsTab()
     // Création de l'onglet statistiques
     QWidget *statTab = new QWidget();
     QVBoxLayout *mainLayout = new QVBoxLayout(statTab);
-    
+
     // Titre principal
     QLabel *titleLabel = new QLabel("Player Statistics");
     QFont titleFont = titleLabel->font();
@@ -1037,26 +1037,26 @@ void MainWindow::setupStatisticsTab()
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet("color:rgb(193, 224, 255); margin-bottom: 15px;");
     mainLayout->addWidget(titleLabel);
-    
+
     // Section résumé
     QHBoxLayout *summaryLayout = new QHBoxLayout();
-    
+
     // Carte du nombre total de joueurs
     QFrame *totalPlayersCard = createStatsCard("Total Players", QString::number(joueur::getTotalPlayers()), "background:rgb(6, 243, 97);");
     summaryLayout->addWidget(totalPlayersCard);
-    
+
     // Cartes du total des cartes
     QMap<QString, int> cardStats = joueur::getCardStats();
     QFrame *yellowCardCard = createStatsCard("Yellow Cards", QString::number(cardStats["Jaunes"]), "background:rgb(243, 219, 3);");
     QFrame *redCardCard = createStatsCard("Red Cards", QString::number(cardStats["Rouges"]), "background:rgb(224, 3, 25);");
     summaryLayout->addWidget(yellowCardCard);
     summaryLayout->addWidget(redCardCard);
-    
+
     mainLayout->addLayout(summaryLayout);
-    
+
     // Conteneur pour les tableaux de statistiques
     QHBoxLayout *tablesLayout = new QHBoxLayout();
-    
+
  // Dans setupStatisticsTab(), modifiez les tableaux
 
 // Tableau des meilleurs buteurs
@@ -1098,7 +1098,7 @@ assistsTable->verticalHeader()->setVisible(false);
 assistsTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
 assistsLayout->addWidget(assistsTable);
 tablesLayout->addWidget(topAssistsGroup);
-    
+
     // Tableau des joueurs par position
     QGroupBox *positionsGroup = new QGroupBox("Players by Position");
     positionsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
@@ -1113,9 +1113,9 @@ tablesLayout->addWidget(topAssistsGroup);
     positionsTable->verticalHeader()->setVisible(false);
     positionsLayout->addWidget(positionsTable);
     tablesLayout->addWidget(positionsGroup);
-    
+
     mainLayout->addLayout(tablesLayout);
-    
+
     // Ajouter un filtre d'équipe
     QHBoxLayout *filterLayout = new QHBoxLayout();
     QLabel *filterLabel = new QLabel("Filter by team:");
@@ -1138,19 +1138,19 @@ tablesLayout->addWidget(topAssistsGroup);
     connect(teamFilterComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshStatistics);
 
     mainLayout->addLayout(filterLayout);
-    
+
     // Bouton de rafraîchissement
     QPushButton *refreshBtn = new QPushButton("Refresh Statistics");
     refreshBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
                              "QPushButton:hover { background-color: #3a76d8; }");
     mainLayout->addWidget(refreshBtn);
-    
+
     // Ajouter l'onglet
     ui->tabWidget->addTab(statTab, "Statistics");
-    
+
     // Connexion du signal pour rafraîchir les statistiques
     connect(refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshStatistics);
-    
+
     // Initialiser les statistiques
     refreshStatistics();
 }
@@ -1163,29 +1163,29 @@ void MainWindow::refreshStatistics()
     if (teamFilterComboBox) {
         teamFilter = teamFilterComboBox->currentData().toString();
     }
-    
+
     // Modifier la requête SQL pour inclure les images des joueurs
     QString queryStr = "SELECT j.id_player, j.first_name, j.last_name, j.position, "
                       "e.team_name, j.jersey_nb, j.status, j.goals, j.assists, j.yellow_card, j.red_card, j.img_joueur "
                       "FROM joueur j "
                       "JOIN equipe e ON j.id_team = e.id_team";
-                      
+
     if (teamFilter != "all") {
         queryStr += " WHERE e.team_name = :team_name";
     }
-    
+
     QSqlQuery query;
     query.prepare(queryStr);
-    
+
     if (teamFilter != "all") {
         query.bindValue(":team_name", teamFilter);
     }
-    
+
     if (!query.exec()) {
         qDebug() << "Erreur de requête:" << query.lastError().text();
         return;
     }
-    
+
     // Structures pour stocker les statistiques avec les images
     struct PlayerStat {
         QString name;
@@ -1198,24 +1198,24 @@ void MainWindow::refreshStatistics()
     int totalYellowCards = 0;
     int totalRedCards = 0;
     int playerCount = 0;
-    
+
     // Parcourir les résultats pour extraire les statistiques
     while (query.next()) {
         playerCount++;
-        
+
         // Information du joueur
         QString firstName = query.value("first_name").toString();
         QString lastName = query.value("last_name").toString();
         QString fullName = firstName + " " + lastName;
         QString position = query.value("position").toString();
         QByteArray imageData = query.value("img_joueur").toByteArray();
-        
+
         // Stats
         int goals = query.value("goals").toInt();
         int assists = query.value("assists").toInt();
         int yellowCards = query.value("yellow_card").toInt();
         int redCards = query.value("red_card").toInt();
-        
+
         // Ajouter aux listes avec les images
         if (goals > 0) {
             PlayerStat scorer;
@@ -1224,7 +1224,7 @@ void MainWindow::refreshStatistics()
             scorer.imageData = imageData;
             scorersList.append(scorer);
         }
-        
+
         if (assists > 0) {
             PlayerStat assister;
             assister.name = fullName;
@@ -1232,35 +1232,35 @@ void MainWindow::refreshStatistics()
             assister.imageData = imageData;
             assistsList.append(assister);
         }
-        
+
         // Ajouter à la carte des positions
         if (positionMap.contains(position)) {
             positionMap[position]++;
         } else {
             positionMap[position] = 1;
         }
-        
+
         // Cumuler les cartons
         totalYellowCards += yellowCards;
         totalRedCards += redCards;
     }
-    
+
     // Trier les joueurs par buts (du plus au moins)
-    std::sort(scorersList.begin(), scorersList.end(), 
+    std::sort(scorersList.begin(), scorersList.end(),
               [](const PlayerStat& a, const PlayerStat& b) {
                   return a.value > b.value;
               });
-    
+
     // Trier les joueurs par passes (du plus au moins)
-    std::sort(assistsList.begin(), assistsList.end(), 
+    std::sort(assistsList.begin(), assistsList.end(),
               [](const PlayerStat& a, const PlayerStat& b) {
                   return a.value > b.value;
               });
-    
+
     // Limiter les listes aux 10 premiers
     while (scorersList.size() > 10) scorersList.removeLast();
     while (assistsList.size() > 10) assistsList.removeLast();
-    
+
     // 1. Meilleurs buteurs
     QTableWidget *scorersTable = ui->tabWidget->findChild<QTableWidget*>("scorersTable");
     if (scorersTable) {
@@ -1272,11 +1272,11 @@ void MainWindow::refreshStatistics()
         scorersTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
         scorersTable->setColumnWidth(0, 50);
         scorersTable->setColumnWidth(2, 60);
-        
+
         scorersTable->clearContents();
         scorersTable->setRowCount(scorersList.size());
         scorersTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
-        
+
         for (int i = 0; i < scorersList.size(); i++) {
             // Image du joueur
             QTableWidgetItem *photoItem = new QTableWidgetItem();
@@ -1285,15 +1285,15 @@ void MainWindow::refreshStatistics()
                 pixmap.loadFromData(scorersList[i].imageData);
                 photoItem->setData(Qt::DecorationRole, pixmap.scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             }
-            
+
             QTableWidgetItem *nameItem = new QTableWidgetItem(scorersList[i].name);
             QTableWidgetItem *goalsItem = new QTableWidgetItem(QString::number(scorersList[i].value));
             goalsItem->setTextAlignment(Qt::AlignCenter);
-            
+
             scorersTable->setItem(i, 0, photoItem);
             scorersTable->setItem(i, 1, nameItem);
             scorersTable->setItem(i, 2, goalsItem);
-            
+
             // Appliquer les couleurs UNIQUEMENT aux 3 premiers
             if (i < 3) {
                 QColor color;
@@ -1305,10 +1305,10 @@ void MainWindow::refreshStatistics()
                 photoItem->setBackground(color);
                 nameItem->setBackground(color);
                 goalsItem->setBackground(color);
-            } 
+            }
         }
     }
-    
+
     // 2. Meilleurs passeurs
     QTableWidget *assistsTable = ui->tabWidget->findChild<QTableWidget*>("assistsTable");
     if (assistsTable) {
@@ -1320,11 +1320,11 @@ void MainWindow::refreshStatistics()
         assistsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
         assistsTable->setColumnWidth(0, 50);
         assistsTable->setColumnWidth(2, 60);
-        
+
         assistsTable->clearContents();
         assistsTable->setRowCount(assistsList.size());
         assistsTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
-        
+
         for (int i = 0; i < assistsList.size(); i++) {
             // Image du joueur
             QTableWidgetItem *photoItem = new QTableWidgetItem();
@@ -1333,15 +1333,15 @@ void MainWindow::refreshStatistics()
                 pixmap.loadFromData(assistsList[i].imageData);
                 photoItem->setData(Qt::DecorationRole, pixmap.scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             }
-            
+
             QTableWidgetItem *nameItem = new QTableWidgetItem(assistsList[i].name);
             QTableWidgetItem *assistsItem = new QTableWidgetItem(QString::number(assistsList[i].value));
             assistsItem->setTextAlignment(Qt::AlignCenter);
-            
+
             assistsTable->setItem(i, 0, photoItem);
             assistsTable->setItem(i, 1, nameItem);
             assistsTable->setItem(i, 2, assistsItem);
-            
+
             // Appliquer les couleurs UNIQUEMENT aux 3 premiers
             if (i < 3) {
                 QColor color;
@@ -1353,47 +1353,47 @@ void MainWindow::refreshStatistics()
                 photoItem->setBackground(color);
                 nameItem->setBackground(color);
                 assistsItem->setBackground(color);
-            } 
+            }
         }
     }
-    
+
     // 3. Joueurs par position
     QTableWidget *positionsTable = ui->tabWidget->findChild<QTableWidget*>("positionsTable");
     if (positionsTable) {
         positionsTable->clearContents();
         positionsTable->setRowCount(positionMap.size());
-        
+
         int row = 0;
         QMapIterator<QString, int> i(positionMap);
         while (i.hasNext()) {
             i.next();
-            
+
             QTableWidgetItem *posItem = new QTableWidgetItem(i.key());
             QTableWidgetItem *countItem = new QTableWidgetItem(QString::number(i.value()));
             countItem->setTextAlignment(Qt::AlignCenter);
-            
+
             positionsTable->setItem(row, 0, posItem);
             positionsTable->setItem(row, 1, countItem);
-            
+
             // Couleurs différentes selon la position
             QColor color;
             if (i.key() == "Goalkeeper") {
-                color = QColor(255, 255, 150, 80); 
+                color = QColor(255, 255, 150, 80);
             } else if (i.key() == "Defender") {
-                color = QColor(150, 150, 255, 80); 
+                color = QColor(150, 150, 255, 80);
             } else if (i.key() == "Midfielder") {
-                color = QColor(150, 255, 150, 80); 
+                color = QColor(150, 255, 150, 80);
             } else if (i.key() == "Forward") {
-                color = QColor(255, 150, 150, 80); 
+                color = QColor(255, 150, 150, 80);
             }
-            
+
             posItem->setBackground(color);
             countItem->setBackground(color);
-            
+
             row++;
         }
     }
-    
+
     // 4. Mise à jour des cartes de statistiques
     QList<QFrame*> cards = ui->tabWidget->findChildren<QFrame*>();
     for (QFrame* card : cards) {
@@ -1401,7 +1401,7 @@ void MainWindow::refreshStatistics()
         if (labels.size() == 2) {
             QString title = labels[1]->text();
             QLabel* valueLabel = labels[0];
-            
+
             if (title == "Joueurs Total") {
                 valueLabel->setText(QString::number(playerCount));
             } else if (title == "Cartons Jaunes") {

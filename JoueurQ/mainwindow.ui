@@ -565,7 +565,7 @@ margin-bottom:10px;</string>
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>50</y>
+        <y>30</y>
         <width>381</width>
         <height>61</height>
        </rect>
@@ -606,8 +606,8 @@ margin-bottom:10px;</string>
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>200</x>
-        <y>530</y>
+        <x>220</x>
+        <y>550</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -623,8 +623,8 @@ border-radius: 5px ;</string>
      <widget class="QPushButton" name="buttonModify">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>530</y>
+        <x>80</x>
+        <y>550</y>
         <width>83</width>
         <height>29</height>
        </rect>
@@ -640,18 +640,18 @@ border-radius: 5px ;</string>
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>120</y>
+        <x>30</x>
+        <y>110</y>
         <width>491</width>
-        <height>381</height>
+        <height>421</height>
        </rect>
       </property>
      </widget>
      <widget class="QPushButton" name="buttonViewDetails">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>530</y>
+        <x>360</x>
+        <y>550</y>
         <width>161</width>
         <height>29</height>
        </rect>
@@ -682,7 +682,7 @@ border-radius: 5px ;</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>40</y>
         <width>121</width>
         <height>31</height>
        </rect>
