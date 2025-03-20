@@ -2347,48 +2347,71 @@ void MainWindow::displayPlayerDetails(int playerId, const QString &position)
         
         // Mettre à jour les widgets avec les informations du joueur
         detailNameLabel->setText(firstName + " " + lastName);
+        
+        // Afficher l'équipe et la position comme avant
         detailTeamPosLabel->setText(teamName + " | " + position + " (" + playerPosition + ")");
         
-        // Statistiques formatées
-        QString statsText = QString("Goals: %1 | Assists: %2 | YC: %3 | RC: %4")
+        // Statistiques en texte simple pour optimiser l'espace
+        QString statsText = QString("Goals: %1  |  Assists: %2  |  YC: %3  |  RC: %4")
             .arg(goals).arg(assists).arg(yellowCards).arg(redCards);
+            
         detailStatsLabel->setText(statsText);
+        detailStatsLabel->setTextFormat(Qt::PlainText);
         
-        // Image du joueur
+        // Image du joueur - version ronde dans le panneau de détails
         if (!imageData.isEmpty()) {
             QPixmap playerPixmap;
             if (playerPixmap.loadFromData(imageData)) {
-                // Créer une image circulaire
-                QPixmap circularPixmap(100, 100);
+                // Créer une image circulaire avec une bordure
+                QPixmap circularPixmap(70, 70);
                 circularPixmap.fill(Qt::transparent);
                 
                 QPainter painter(&circularPixmap);
                 painter.setRenderHint(QPainter::Antialiasing);
                 
+                // Créer un chemin circulaire pour découper l'image
                 QPainterPath path;
-                path.addEllipse(0, 0, 100, 100);
+                path.addEllipse(0, 0, 70, 70);
                 painter.setClipPath(path);
                 
-                QPixmap scaledPixmap = playerPixmap.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                QPixmap scaledPixmap = playerPixmap.scaled(70, 70, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
                 
-                int x = (scaledPixmap.width() - 100) / 2;
-                int y = (scaledPixmap.height() - 100) / 2;
+                int x = (scaledPixmap.width() - 70) / 2;
+                int y = (scaledPixmap.height() - 70) / 2;
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
                 
-                painter.drawPixmap(0, 0, scaledPixmap, x, y, 100, 100);
+                painter.drawPixmap(0, 0, scaledPixmap, x, y, 70, 70);
+                
+                // Dessiner une bordure circulaire
+                painter.setClipping(false);
+                painter.setPen(QPen(QColor(255, 255, 255), 2));
+                painter.drawEllipse(1, 1, 68, 68);
                 
                 detailImageLabel->setPixmap(circularPixmap);
                 detailImageLabel->setText("");
+                detailImageLabel->setStyleSheet("background: transparent; border: none;");
             }
         } else {
             // Image par défaut avec les initiales
             detailImageLabel->setText(firstName.isEmpty() || lastName.isEmpty() ? "?" : 
                                      QString(firstName[0]) + QString(lastName[0]));
             detailImageLabel->setPixmap(QPixmap());
+            detailImageLabel->setStyleSheet(
+                "background-color: rgba(52, 152, 219, 0.5);"
+                "color: white;"
+                "font-weight: bold;"
+                "border-radius: 35px;"
+                "border: 2px solid white;"
+            );
         }
     } else {
         qDebug() << "Error fetching player details:" << query.lastError().text();
+        detailNameLabel->setText("Error loading player details");
+        detailTeamPosLabel->setText("");
+        detailStatsLabel->setText("");
+        detailImageLabel->setText("?");
+        detailImageLabel->setPixmap(QPixmap());
     }
 }
 
