@@ -2411,12 +2411,8 @@ void MainWindow::displayTeamOfCompetition(const QString &competitionName)
         QString position; // Position réelle du joueur
     };
     
-    // Obtenir tous les joueurs de la compétition et les classer par type de poste
-    QMap<QString, QList<BestPlayer>> playersByType;
-    playersByType["Goalkeeper"] = QList<BestPlayer>();
-    playersByType["Defender"] = QList<BestPlayer>();
-    playersByType["Midfielder"] = QList<BestPlayer>();
-    playersByType["Forward"] = QList<BestPlayer>();
+    // Obtenir tous les joueurs de la compétition
+    QList<BestPlayer> allPlayers;
     
     QSqlQuery query;
     query.prepare(
@@ -2436,7 +2432,7 @@ void MainWindow::displayTeamOfCompetition(const QString &competitionName)
         return;
     }
     
-    // Collecter tous les joueurs par type de poste
+    // Collecter tous les joueurs
     while (query.next()) {
         BestPlayer player;
         player.id = query.value("id_player").toInt();
@@ -2448,73 +2444,153 @@ void MainWindow::displayTeamOfCompetition(const QString &competitionName)
         int assists = query.value("assists").toInt();
         player.score = goals * 2 + assists;
         
-        // Classer le joueur dans son type de poste
-        if (player.position.contains("Goalkeeper")) {
-            playersByType["Goalkeeper"].append(player);
-        } else if (player.position.contains("Defender") || player.position.contains("Back")) {
-            playersByType["Defender"].append(player);
-        } else if (player.position.contains("Midfielder")) {
-            playersByType["Midfielder"].append(player);
-        } else if (player.position.contains("Forward") || player.position.contains("Striker") || player.position.contains("Winger")) {
-            playersByType["Forward"].append(player);
-        } else {
-            // En cas de doute, classer selon le premier mot de la position
+        allPlayers.append(player);
+    }
+    
+    // Trier tous les joueurs par score décroissant
+    std::sort(allPlayers.begin(), allPlayers.end(), [](const BestPlayer &a, const BestPlayer &b) {
+        return a.score > b.score;
+    });
+    
+    // Classification des positions et leur correspondance aux joueurs
+    QMap<QString, QStringList> eligiblePositions;
+    eligiblePositions["GK"] = QStringList({"Goalkeeper"});
+    eligiblePositions["LB"] = QStringList({"Defender", "Left Back"});
+    eligiblePositions["CB"] = QStringList({"Defender", "Center Back"});
+    eligiblePositions["CB2"] = QStringList({"Defender", "Center Back"});
+    eligiblePositions["RB"] = QStringList({"Defender", "Right Back"});
+    eligiblePositions["LM"] = QStringList({"Midfielder", "Left Midfielder"});
+    eligiblePositions["CM"] = QStringList({"Midfielder", "Central Midfielder"});
+    eligiblePositions["RM"] = QStringList({"Midfielder", "Right Midfielder"});
+    eligiblePositions["LW"] = QStringList({"Forward", "Left Winger"});
+    eligiblePositions["ST"] = QStringList({"Forward", "Striker"});
+    eligiblePositions["RW"] = QStringList({"Forward", "Right Winger"});
+    
+    // Map pour stocker le meilleur joueur pour chaque position
+    QMap<QString, BestPlayer> selectedPlayers;
+    QSet<int> usedPlayerIds; // Pour éviter les joueurs en double
+    
+    // Passer à travers tous les joueurs et les assigner aux positions
+    // par ordre de score décroissant, en respectant le type de position
+    for (const BestPlayer &player : allPlayers) {
+        if (usedPlayerIds.contains(player.id)) {
+            continue; // Sauter les joueurs déjà utilisés
+        }
+        
+        // Pour éviter d'avoir des gardiens en position de joueur de champ ou vice-versa
+        bool isGoalkeeper = player.position.contains("Goalkeeper");
+        
+        // Trouver la meilleure position pour ce joueur
+        QString bestPosition;
+        
+        for (auto it = eligiblePositions.begin(); it != eligiblePositions.end(); ++it) {
+            QString posKey = it.key();
+            QStringList posTypes = it.value();
+            
+            // Skip cette position si elle est déjà attribuée
+            if (selectedPlayers.contains(posKey)) {
+                continue;
+            }
+            
+            // Si c'est un gardien, il ne peut jouer qu'en GK
+            if (isGoalkeeper && posKey != "GK") {
+                continue;
+            }
+            
+            // Si ce n'est pas un gardien, il ne peut pas jouer en GK
+            if (!isGoalkeeper && posKey == "GK") {
+                continue;
+            }
+            
+            // Vérifier si le joueur correspond à cette position
+            bool positionMatch = false;
+            for (const QString &posType : posTypes) {
+                if (player.position.contains(posType)) {
+                    positionMatch = true;
+                    break;
+                }
+            }
+            
+            if (positionMatch) {
+                bestPosition = posKey;
+                break; // Première position correspondante trouvée
+            }
+        }
+        
+        // Si une position a été trouvée, assigner le joueur
+        if (!bestPosition.isEmpty()) {
+            selectedPlayers[bestPosition] = player;
+            usedPlayerIds.insert(player.id);
+        }
+    }
+    
+    // Deuxième passe: remplir les postes encore vides
+    // avec les joueurs restants en respectant les catégories générales
+    if (selectedPlayers.size() < eligiblePositions.size()) {
+        // Grouper les positions par catégorie
+        QMap<QString, QList<QString>> categoryPositions;
+        categoryPositions["Goalkeeper"] = QList<QString>({"GK"});
+        categoryPositions["Defender"] = QList<QString>({"LB", "CB", "CB2", "RB"});
+        categoryPositions["Midfielder"] = QList<QString>({"LM", "CM", "RM"});
+        categoryPositions["Forward"] = QList<QString>({"LW", "ST", "RW"});
+        
+        // Pour chaque joueur non utilisé
+        for (const BestPlayer &player : allPlayers) {
+            if (usedPlayerIds.contains(player.id)) {
+                continue;
+            }
+            
+            // Déterminer sa catégorie générale
+            QString category;
             if (player.position.contains("Goalkeeper")) {
-                playersByType["Goalkeeper"].append(player);
-            } else if (player.position.contains("Defender")) {
-                playersByType["Defender"].append(player);
+                category = "Goalkeeper";
+            } else if (player.position.contains("Defender") || player.position.contains("Back")) {
+                category = "Defender";
             } else if (player.position.contains("Midfielder")) {
-                playersByType["Midfielder"].append(player);
+                category = "Midfielder";
             } else {
-                playersByType["Forward"].append(player); // Par défaut, considérer comme attaquant
+                category = "Forward"; // Par défaut
+            }
+            
+            // Chercher une position disponible dans sa catégorie
+            for (const QString &pos : categoryPositions[category]) {
+                if (!selectedPlayers.contains(pos)) {
+                    selectedPlayers[pos] = player;
+                    usedPlayerIds.insert(player.id);
+                    break;
+                }
             }
         }
     }
     
-    // Trier chaque liste de joueurs par score
-    for (auto it = playersByType.begin(); it != playersByType.end(); ++it) {
-        std::sort(it.value().begin(), it.value().end(), [](const BestPlayer &a, const BestPlayer &b) {
-            return a.score > b.score;
-        });
-    }
-    
-    // Définir la formation et les positions
-    QMap<QString, QString> positionTypes;
-    positionTypes["GK"] = "Goalkeeper";
-    positionTypes["LB"] = "Defender";
-    positionTypes["CB"] = "Defender";
-    positionTypes["CB2"] = "Defender"; // Deuxième défenseur central
-    positionTypes["RB"] = "Defender";
-    positionTypes["LM"] = "Midfielder";
-    positionTypes["CM"] = "Midfielder";
-    positionTypes["RM"] = "Midfielder";
-    positionTypes["LW"] = "Forward";
-    positionTypes["ST"] = "Forward";
-    positionTypes["RW"] = "Forward";
-    
-    // Map pour stocker le joueur sélectionné pour chaque position
-    QMap<QString, BestPlayer> selectedPlayers;
-    QSet<int> usedPlayerIds; // Pour éviter les doublons
-    
-    // Attribuer les joueurs aux positions en respectant leur type
-    for (auto it = positionTypes.begin(); it != positionTypes.end(); ++it) {
-        QString positionKey = it.key();
-        QString positionType = it.value();
+    // Troisième passe: si des positions sont encore vides, remplir
+    // avec n'importe quel joueur disponible (sauf gardien en joueur et vice-versa)
+    for (auto it = eligiblePositions.begin(); it != eligiblePositions.end(); ++it) {
+        QString posKey = it.key();
         
-        // Trouver le meilleur joueur disponible pour cette position
-        QList<BestPlayer> &availablePlayers = playersByType[positionType];
+        if (selectedPlayers.contains(posKey)) {
+            continue; // Position déjà attribuée
+        }
         
         // Chercher un joueur non utilisé
-        for (int i = 0; i < availablePlayers.size(); ++i) {
-            if (!usedPlayerIds.contains(availablePlayers[i].id)) {
-                selectedPlayers[positionKey] = availablePlayers[i];
-                usedPlayerIds.insert(availablePlayers[i].id);
-                break;
+        for (const BestPlayer &player : allPlayers) {
+            if (usedPlayerIds.contains(player.id)) {
+                continue;
             }
+            
+            // Vérifier la compatibilité gardien/joueur
+            if ((posKey == "GK" && !player.position.contains("Goalkeeper")) ||
+                (posKey != "GK" && player.position.contains("Goalkeeper"))) {
+                continue;
+            }
+            
+            selectedPlayers[posKey] = player;
+            usedPlayerIds.insert(player.id);
+            break;
         }
     }
     
-    // Mettre à jour l'interface pour les positions GK, LB, RB, LM, CM, RM, LW, ST, RW
+    // Mettre à jour l'interface pour toutes les positions sauf CB2
     for (auto it = selectedPlayers.begin(); it != selectedPlayers.end(); ++it) {
         QString positionKey = it.key();
         if (positionKey == "CB2") continue; // On traite CB2 séparément
@@ -2566,7 +2642,7 @@ void MainWindow::displayTeamOfCompetition(const QString &competitionName)
         }
     }
     
-    // Traitement spécial pour le deuxième défenseur central (CB)
+    // Traitement spécial pour le deuxième défenseur central (CB2)
     if (selectedPlayers.contains("CB2")) {
         BestPlayer player = selectedPlayers["CB2"];
         
