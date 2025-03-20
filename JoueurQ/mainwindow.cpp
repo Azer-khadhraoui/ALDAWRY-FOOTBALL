@@ -1999,26 +1999,26 @@ void MainWindow::setupTeamOfCompetitionTab()
     
     // Layout principal - Utiliser QGridLayout pour mieux contrôler l'espace
     QGridLayout *mainLayout = new QGridLayout(teamOfCompTab);
-    mainLayout->setSpacing(10);  // Réduire l'espacement
-    mainLayout->setContentsMargins(20, 20, 20, 20);  // Réduire les marges
+    mainLayout->setSpacing(10);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
 
     // Titre plus petit et compact
     QLabel *titleLabel = new QLabel("TEAM OF THE COMPETITION");
-    QFont titleFont("Segoe UI", 18, QFont::Bold); // Réduire la taille de la police
+    QFont titleFont("Segoe UI", 18, QFont::Bold);
     titleLabel->setFont(titleFont);
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet(
         "color: #f5f5f5;"
         "text-shadow: 1px 1px 2px #000000;"
-        "padding: 5px;"  // Réduire le padding
+        "padding: 5px;"
         "background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141e30, stop:1 #243b55);"
-        "border-radius: 5px;"  // Réduire le border-radius
+        "border-radius: 5px;"
     );
-    mainLayout->addWidget(titleLabel, 0, 0, 1, 2); // Ligne 0, Colonne 0, span 1 ligne, 2 colonnes
+    mainLayout->addWidget(titleLabel, 0, 0, 1, 2);
 
-    // Section de sélection compactée en forme de ligne horizontale
+    // Section de sélection compactée
     QHBoxLayout *selectorLayout = new QHBoxLayout();
-    selectorLayout->setSpacing(5); // Espacement minimal
+    selectorLayout->setSpacing(5);
     
     QLabel *competitionLabel = new QLabel("Competition:");
     competitionLabel->setStyleSheet("color: #f5f5f5; font-size: 14px;");
@@ -2030,11 +2030,11 @@ void MainWindow::setupTeamOfCompetitionTab()
         "QComboBox {"
         "   background-color: rgba(255, 255, 255, 0.2);"
         "   color: white;"
-        "   padding: 3px 10px;" // Réduire le padding
+        "   padding: 3px 10px;"
         "   border: 1px solid rgba(255, 255, 255, 0.3);"
-        "   border-radius: 3px;" // Réduire le border-radius
-        "   font-size: 12px;" // Réduire la police
-        "   min-height: 20px;" // Réduire la hauteur
+        "   border-radius: 3px;"
+        "   font-size: 12px;"
+        "   min-height: 20px;"
         "}"
     );
 
@@ -2052,10 +2052,10 @@ void MainWindow::setupTeamOfCompetitionTab()
         "QPushButton {"
         "   background-color: #3498db;"
         "   color: white;"
-        "   border-radius: 3px;" // Réduire le border-radius
-        "   font-size: 12px;" // Réduire la police
+        "   border-radius: 3px;"
+        "   font-size: 12px;"
         "   border: none;"
-        "   padding: 3px 8px;" // Réduire le padding
+        "   padding: 3px 8px;"
         "}"
     );
 
@@ -2063,9 +2063,9 @@ void MainWindow::setupTeamOfCompetitionTab()
     selectorLayout->addWidget(teamCompComboBox, 1);
     selectorLayout->addWidget(refreshButton);
     
-    mainLayout->addLayout(selectorLayout, 1, 0, 1, 2); // Ligne 1, Colonne 0, span 1 ligne, 2 colonnes
+    mainLayout->addLayout(selectorLayout, 1, 0, 1, 2);
 
-    // Conteneur du terrain de football - Prend maintenant presque tout l'espace
+    // Conteneur du terrain de football
     QFrame *fieldContainer = new QFrame();
     fieldContainer->setObjectName("fieldContainer");
     fieldContainer->setStyleSheet(
@@ -2073,14 +2073,14 @@ void MainWindow::setupTeamOfCompetitionTab()
         "   background-color: rgba(45, 52, 54, 0.5);"
         "   border-radius: 5px;"
         "   border: 1px solid rgba(255, 255, 255, 0.2);"
-        "   padding: 5px;" // Réduire le padding
+        "   padding: 5px;"
         "}"
     );
     fieldContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
     QVBoxLayout *fieldContainerLayout = new QVBoxLayout(fieldContainer);
-    fieldContainerLayout->setContentsMargins(5, 5, 5, 5); // Réduire les marges
-    fieldContainerLayout->setSpacing(5); // Réduire l'espacement
+    fieldContainerLayout->setContentsMargins(5, 5, 5, 5);
+    fieldContainerLayout->setSpacing(5);
     
     // Widget de défilement pour le terrain
     QScrollArea *scrollArea = new QScrollArea();
@@ -2090,15 +2090,15 @@ void MainWindow::setupTeamOfCompetitionTab()
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     scrollArea->setStyleSheet(
         "QScrollArea { background: transparent; border: none; }"
-        "QScrollBar:vertical { width: 8px; background: rgba(0, 0, 0, 0.2); }" // Scrollbar plus fine
-        "QScrollBar:horizontal { height: 8px; background: rgba(0, 0, 0, 0.2); }" // Scrollbar plus fine
+        "QScrollBar:vertical { width: 8px; background: rgba(0, 0, 0, 0.2); }"
+        "QScrollBar:horizontal { height: 8px; background: rgba(0, 0, 0, 0.2); }"
         "QScrollBar::handle:vertical, QScrollBar::handle:horizontal {"
         "   background: rgba(255, 255, 255, 0.3);"
         "   border-radius: 4px;"
         "}"
     );
     
-    // Terrain de football occupant plus d'espace
+    // Terrain de football
     QFrame *footballField = new QFrame();
     footballField->setObjectName("footballField");
     footballField->setStyleSheet(
@@ -2106,22 +2106,22 @@ void MainWindow::setupTeamOfCompetitionTab()
         "   background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #38b548, stop:1 #2ecc71);"
         "   border: 3px solid white;"
         "   border-radius: 8px;"
-        "   min-height: 800px;" // Augmenter la hauteur minimale
-        "   min-width: 600px;" // Définir une largeur minimale
+        "   min-height: 800px;"
+        "   min-width: 600px;"
         "}"
     );
     
-    // Layout du terrain avec plus d'espace vertical
+    // Layout du terrain
     QGridLayout *fieldLayout = new QGridLayout(footballField);
-    fieldLayout->setSpacing(40); // Augmenter l'espacement vertical entre les positions
-    fieldLayout->setContentsMargins(40, 40, 40, 40); // Augmenter les marges
+    fieldLayout->setSpacing(40);
+    fieldLayout->setContentsMargins(40, 40, 40, 40);
 
-    // Positionnement des joueurs avec beaucoup plus d'espace vertical
+    // Positionnement des joueurs
     // Gardien - Complètement en bas
     QFrame *goalkeeperPos = createPositionWidget("GK");
     fieldLayout->addWidget(goalkeeperPos, 12, 2, 1, 1);
 
-    // Défenseurs - Plus bas dans le terrain
+    // Défenseurs
     QFrame *defenderPos1 = createPositionWidget("LB");
     fieldLayout->addWidget(defenderPos1, 9, 0, 1, 1);
 
@@ -2134,7 +2134,7 @@ void MainWindow::setupTeamOfCompetitionTab()
     QFrame *defenderPos4 = createPositionWidget("RB");
     fieldLayout->addWidget(defenderPos4, 9, 4, 1, 1);
 
-    // Milieux - Au milieu du terrain
+    // Milieux
     QFrame *midPos1 = createPositionWidget("LM");
     fieldLayout->addWidget(midPos1, 6, 0, 1, 1);
 
@@ -2144,7 +2144,7 @@ void MainWindow::setupTeamOfCompetitionTab()
     QFrame *midPos3 = createPositionWidget("RM");
     fieldLayout->addWidget(midPos3, 6, 4, 1, 1);
 
-    // Attaquants - En haut du terrain
+    // Attaquants
     QFrame *attPos1 = createPositionWidget("LW");
     fieldLayout->addWidget(attPos1, 3, 0, 1, 1);
 
@@ -2154,20 +2154,96 @@ void MainWindow::setupTeamOfCompetitionTab()
     QFrame *attPos3 = createPositionWidget("RW");
     fieldLayout->addWidget(attPos3, 3, 4, 1, 1);
     
+    // La clé est ici: utiliser un timer pour créer les lignes APRÈS que tout soit initialisé
+    QTimer::singleShot(100, [=]() {
+        // Récupérer la position du gardien dans le layout
+        QFrame *gkFrame = footballField->findChild<QFrame*>("position_GK");
+        if (!gkFrame) return;
+        
+        // Position du gardien au centre de l'écran
+        QPoint gkCenter = gkFrame->mapTo(footballField, QPoint(gkFrame->width()/2, gkFrame->height()/2));
+        int centerX = gkCenter.x();
+        
+        qDebug() << "Gardien centré à X:" << centerX;
+        
+        // Surface de but en bas (centrée par rapport à la position du gardien)
+        QFrame *penaltyBox = new QFrame(footballField);
+        penaltyBox->setGeometry(QRect(centerX +50, 700, 200, 100));
+        penaltyBox->setStyleSheet("background: transparent; border: 2px solid white; border-bottom: none;");
+
+        // Surface de réparation en haut
+        QFrame *topPenaltyBox = new QFrame(footballField);
+        topPenaltyBox->setGeometry(QRect(centerX +50, -10, 200, 120));
+        topPenaltyBox->setStyleSheet("background: transparent; border: 2px solid white; border-top: none;");
+
+        // But en bas
+        QFrame *bottomGoalLine = new QFrame(footballField);
+        bottomGoalLine->setGeometry(QRect(centerX +80, 770, 140, 5));
+        bottomGoalLine->setStyleSheet("background: white;");
+
+        QFrame *bottomGoalNet = new QFrame(footballField);
+        bottomGoalNet->setGeometry(QRect(centerX +80, 775, 140, 25));
+        bottomGoalNet->setStyleSheet(
+            "background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px),"
+            "repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px);"
+            "border: 2px solid white;"
+            "border-top: none;"
+            "border-bottom-left-radius: 8px;"
+            "border-bottom-right-radius: 8px;"
+        );
+
+        // But en haut
+        QFrame *topGoalNet = new QFrame(footballField);
+        topGoalNet->setGeometry(QRect(centerX +80, 0, 140, 25));
+        topGoalNet->setStyleSheet(
+            "background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px),"
+            "repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px);"
+            "border: 2px solid white;"
+            "border-bottom: none;"
+            "border-top-left-radius: 8px;"
+            "border-top-right-radius: 8px;"
+        );
+
+        QFrame *topGoalLine = new QFrame(footballField);
+        topGoalLine->setGeometry(QRect(centerX + 80, 25, 140, 5));
+        topGoalLine->setStyleSheet("background: white;");
+
+        // Rond central aligné avec le gardien et le but
+        QFrame *centerCircleOuter = new QFrame(footballField);
+        centerCircleOuter->setGeometry(QRect(centerX +120, 350, 100, 100));
+        centerCircleOuter->setStyleSheet("background: transparent; border: 2px solid white; border-radius: 50px;");
+
+        QFrame *centerCircleInner = new QFrame(footballField);
+        centerCircleInner->setGeometry(QRect(centerX +156, 385, 30, 30));
+        centerCircleInner->setStyleSheet("background: transparent; border: 2px solid white; border-radius: 15px;");
+
+        // Ligne médiane
+        QFrame *midLine = new QFrame(footballField);
+        midLine->setGeometry(QRect(0, 400, 2000, 2));
+        midLine->setStyleSheet("background: white;");
+
+        // Points de penalty
+        QFrame *bottomPenaltySpot = new QFrame(footballField);
+        bottomPenaltySpot->setGeometry(QRect(centerX +150, 720, 10, 10));
+        bottomPenaltySpot->setStyleSheet("background: white; border-radius: 5px;");
+
+        QFrame *topPenaltySpot = new QFrame(footballField);
+        topPenaltySpot->setGeometry(QRect(centerX +150, 85, 10, 10));
+        topPenaltySpot->setStyleSheet("background: white; border-radius: 5px;");
+    });
+    
     // Définir le terrain comme widget de la scrollArea
     scrollArea->setWidget(footballField);
     fieldContainerLayout->addWidget(scrollArea);
     
-    // Supprimer la légende pour gagner de l'espace
-    
-    // Ajouter le terrain au layout principal - lui donner presque tout l'espace
+    // Ajouter le terrain au layout principal
     mainLayout->addWidget(fieldContainer, 2, 0, 1, 2);
-    mainLayout->setRowStretch(2, 10); // Donner beaucoup plus d'importance à cette ligne
+    mainLayout->setRowStretch(2, 10);
     
     // Section pour les détails du joueur - plus compacte
     QFrame *playerDetailFrame = new QFrame();
     playerDetailFrame->setObjectName("playerDetailFrame");
-    playerDetailFrame->setFixedHeight(100); // Réduire la hauteur
+    playerDetailFrame->setFixedHeight(100);
     playerDetailFrame->setStyleSheet(
         "background-color: rgba(45, 52, 54, 0.7);"
         "border-radius: 5px;"
@@ -2177,18 +2253,18 @@ void MainWindow::setupTeamOfCompetitionTab()
     
     // Layout des détails du joueur
     QHBoxLayout *playerDetailLayout = new QHBoxLayout(playerDetailFrame);
-    playerDetailLayout->setContentsMargins(5, 5, 5, 5); // Réduire les marges
+    playerDetailLayout->setContentsMargins(5, 5, 5, 5);
     
     // Image du joueur - plus petite
     QLabel *detailImageLabel = new QLabel();
     detailImageLabel->setObjectName("detailImageLabel");
-    detailImageLabel->setFixedSize(70, 70); // Réduire la taille
+    detailImageLabel->setFixedSize(70, 70);
     detailImageLabel->setAlignment(Qt::AlignCenter);
     detailImageLabel->setStyleSheet(
         "background-color: rgba(52, 152, 219, 0.3);"
         "border-radius: 35px;"
         "color: white;"
-        "font-size: 16px;" // Réduire la police
+        "font-size: 16px;"
         "font-weight: bold;"
         "border: 2px solid white;"
     );
@@ -2196,7 +2272,7 @@ void MainWindow::setupTeamOfCompetitionTab()
     
     // Informations du joueur
     QVBoxLayout *detailInfoLayout = new QVBoxLayout();
-    detailInfoLayout->setSpacing(3); // Réduire l'espacement
+    detailInfoLayout->setSpacing(3);
     
     // Labels des détails du joueur
     QLabel *detailNameLabel = new QLabel("Select a player");
@@ -2236,7 +2312,6 @@ void MainWindow::setupTeamOfCompetitionTab()
         }
     });
 }
-
 // Fonction pour créer un widget de position de joueur
 QFrame* MainWindow::createPositionWidget(const QString &position)
 {
