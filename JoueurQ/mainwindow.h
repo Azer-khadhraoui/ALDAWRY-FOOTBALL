@@ -56,6 +56,11 @@ private:
 void updatePlayerInfo(QSqlQuery query, QLabel *nameLabel, QLabel *teamLabel, QLabel *statsLabel, QLabel *imageLabel);
     QFrame* createStatsCard(const QString &title, const QString &value, const QString &style);
     QPixmap generateQRCode(const QString &text);
+    void setupTeamOfCompetitionTab();
+    QFrame* createPositionWidget(const QString &position);
+    void displayTeamOfCompetition(const QString &competitionName);
+    void displayPlayerDetails(int playerId, const QString &position);
+    bool eventFilter(QObject *obj, QEvent *event) override;
     
 };
 

@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QFileDialog>
-
+#include <QScrollArea> 
 #include <QPdfWriter>
 #include <QTextDocument>
 
@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Ajouter ceci pour initialiser l'onglet statistiques
     setupStatisticsTab();
     setupBestPlayerTab();
+    setupTeamOfCompetitionTab();
 
     connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::selectionChanged,
         this, &MainWindow::onTableSelectionChanged);
@@ -1526,6 +1527,8 @@ void MainWindow::refreshBestPlayer()
 // Nouvelle méthode pour mettre à jour les informations du joueur
 void MainWindow::updatePlayerInfo(QSqlQuery query, QLabel *nameLabel, QLabel *teamLabel, QLabel *statsLabel, QLabel *imageLabel)
 {
+        Q_UNUSED(query);
+    
     if (!nameLabel || !teamLabel || !statsLabel || !imageLabel) {
         qDebug() << "Labels not found in interface";
         return;
@@ -1983,4 +1986,677 @@ void MainWindow::setupBestPlayerTab()
 
     // Rafraîchir les informations du meilleur joueur
     refreshBestPlayer();
+}
+void MainWindow::setupTeamOfCompetitionTab()
+{
+    qDebug() << "Setting up Team of Competition tab...";
+    
+    // Créer un nouvel onglet avec un fond dégradé
+    QWidget *teamOfCompTab = new QWidget();
+    teamOfCompTab->setStyleSheet(
+        "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0f0c29, stop:0.5 #302b63, stop:1 #24243e);"
+    );
+    
+    // Layout principal - Utiliser QGridLayout pour mieux contrôler l'espace
+    QGridLayout *mainLayout = new QGridLayout(teamOfCompTab);
+    mainLayout->setSpacing(10);  // Réduire l'espacement
+    mainLayout->setContentsMargins(20, 20, 20, 20);  // Réduire les marges
+
+    // Titre plus petit et compact
+    QLabel *titleLabel = new QLabel("TEAM OF THE COMPETITION");
+    QFont titleFont("Segoe UI", 18, QFont::Bold); // Réduire la taille de la police
+    titleLabel->setFont(titleFont);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet(
+        "color: #f5f5f5;"
+        "text-shadow: 1px 1px 2px #000000;"
+        "padding: 5px;"  // Réduire le padding
+        "background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141e30, stop:1 #243b55);"
+        "border-radius: 5px;"  // Réduire le border-radius
+    );
+    mainLayout->addWidget(titleLabel, 0, 0, 1, 2); // Ligne 0, Colonne 0, span 1 ligne, 2 colonnes
+
+    // Section de sélection compactée en forme de ligne horizontale
+    QHBoxLayout *selectorLayout = new QHBoxLayout();
+    selectorLayout->setSpacing(5); // Espacement minimal
+    
+    QLabel *competitionLabel = new QLabel("Competition:");
+    competitionLabel->setStyleSheet("color: #f5f5f5; font-size: 14px;");
+    
+    // ComboBox pour la compétition
+    QComboBox *teamCompComboBox = new QComboBox();
+    teamCompComboBox->setObjectName("teamCompComboBox");
+    teamCompComboBox->setStyleSheet(
+        "QComboBox {"
+        "   background-color: rgba(255, 255, 255, 0.2);"
+        "   color: white;"
+        "   padding: 3px 10px;" // Réduire le padding
+        "   border: 1px solid rgba(255, 255, 255, 0.3);"
+        "   border-radius: 3px;" // Réduire le border-radius
+        "   font-size: 12px;" // Réduire la police
+        "   min-height: 20px;" // Réduire la hauteur
+        "}"
+    );
+
+    // Remplir avec les compétitions disponibles
+    QSqlQuery competitionQuery("SELECT comp_name FROM competition");
+    while (competitionQuery.next()) {
+        QString compName = competitionQuery.value(0).toString();
+        teamCompComboBox->addItem(compName);
+    }
+
+    // Bouton de rafraîchissement plus petit
+    QPushButton *refreshButton = new QPushButton("Show");
+    refreshButton->setCursor(Qt::PointingHandCursor);
+    refreshButton->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #3498db;"
+        "   color: white;"
+        "   border-radius: 3px;" // Réduire le border-radius
+        "   font-size: 12px;" // Réduire la police
+        "   border: none;"
+        "   padding: 3px 8px;" // Réduire le padding
+        "}"
+    );
+
+    selectorLayout->addWidget(competitionLabel);
+    selectorLayout->addWidget(teamCompComboBox, 1);
+    selectorLayout->addWidget(refreshButton);
+    
+    mainLayout->addLayout(selectorLayout, 1, 0, 1, 2); // Ligne 1, Colonne 0, span 1 ligne, 2 colonnes
+
+    // Conteneur du terrain de football - Prend maintenant presque tout l'espace
+    QFrame *fieldContainer = new QFrame();
+    fieldContainer->setObjectName("fieldContainer");
+    fieldContainer->setStyleSheet(
+        "QFrame#fieldContainer {"
+        "   background-color: rgba(45, 52, 54, 0.5);"
+        "   border-radius: 5px;"
+        "   border: 1px solid rgba(255, 255, 255, 0.2);"
+        "   padding: 5px;" // Réduire le padding
+        "}"
+    );
+    fieldContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    QVBoxLayout *fieldContainerLayout = new QVBoxLayout(fieldContainer);
+    fieldContainerLayout->setContentsMargins(5, 5, 5, 5); // Réduire les marges
+    fieldContainerLayout->setSpacing(5); // Réduire l'espacement
+    
+    // Widget de défilement pour le terrain
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setFrameShape(QFrame::NoFrame);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setStyleSheet(
+        "QScrollArea { background: transparent; border: none; }"
+        "QScrollBar:vertical { width: 8px; background: rgba(0, 0, 0, 0.2); }" // Scrollbar plus fine
+        "QScrollBar:horizontal { height: 8px; background: rgba(0, 0, 0, 0.2); }" // Scrollbar plus fine
+        "QScrollBar::handle:vertical, QScrollBar::handle:horizontal {"
+        "   background: rgba(255, 255, 255, 0.3);"
+        "   border-radius: 4px;"
+        "}"
+    );
+    
+    // Terrain de football occupant plus d'espace
+    QFrame *footballField = new QFrame();
+    footballField->setObjectName("footballField");
+    footballField->setStyleSheet(
+        "QFrame#footballField {"
+        "   background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #38b548, stop:1 #2ecc71);"
+        "   border: 3px solid white;"
+        "   border-radius: 8px;"
+        "   min-height: 800px;" // Augmenter la hauteur minimale
+        "   min-width: 600px;" // Définir une largeur minimale
+        "}"
+    );
+    
+    // Layout du terrain avec plus d'espace vertical
+    QGridLayout *fieldLayout = new QGridLayout(footballField);
+    fieldLayout->setSpacing(40); // Augmenter l'espacement vertical entre les positions
+    fieldLayout->setContentsMargins(40, 40, 40, 40); // Augmenter les marges
+
+    // Positionnement des joueurs avec beaucoup plus d'espace vertical
+    // Gardien - Complètement en bas
+    QFrame *goalkeeperPos = createPositionWidget("GK");
+    fieldLayout->addWidget(goalkeeperPos, 12, 2, 1, 1);
+
+    // Défenseurs - Plus bas dans le terrain
+    QFrame *defenderPos1 = createPositionWidget("LB");
+    fieldLayout->addWidget(defenderPos1, 9, 0, 1, 1);
+
+    QFrame *defenderPos2 = createPositionWidget("CB");
+    fieldLayout->addWidget(defenderPos2, 9, 1, 1, 1);
+
+    QFrame *defenderPos3 = createPositionWidget("CB");
+    fieldLayout->addWidget(defenderPos3, 9, 3, 1, 1);
+
+    QFrame *defenderPos4 = createPositionWidget("RB");
+    fieldLayout->addWidget(defenderPos4, 9, 4, 1, 1);
+
+    // Milieux - Au milieu du terrain
+    QFrame *midPos1 = createPositionWidget("LM");
+    fieldLayout->addWidget(midPos1, 6, 0, 1, 1);
+
+    QFrame *midPos2 = createPositionWidget("CM");
+    fieldLayout->addWidget(midPos2, 6, 2, 1, 1);
+
+    QFrame *midPos3 = createPositionWidget("RM");
+    fieldLayout->addWidget(midPos3, 6, 4, 1, 1);
+
+    // Attaquants - En haut du terrain
+    QFrame *attPos1 = createPositionWidget("LW");
+    fieldLayout->addWidget(attPos1, 3, 0, 1, 1);
+
+    QFrame *attPos2 = createPositionWidget("ST");
+    fieldLayout->addWidget(attPos2, 3, 2, 1, 1);
+
+    QFrame *attPos3 = createPositionWidget("RW");
+    fieldLayout->addWidget(attPos3, 3, 4, 1, 1);
+    
+    // Définir le terrain comme widget de la scrollArea
+    scrollArea->setWidget(footballField);
+    fieldContainerLayout->addWidget(scrollArea);
+    
+    // Supprimer la légende pour gagner de l'espace
+    
+    // Ajouter le terrain au layout principal - lui donner presque tout l'espace
+    mainLayout->addWidget(fieldContainer, 2, 0, 1, 2);
+    mainLayout->setRowStretch(2, 10); // Donner beaucoup plus d'importance à cette ligne
+    
+    // Section pour les détails du joueur - plus compacte
+    QFrame *playerDetailFrame = new QFrame();
+    playerDetailFrame->setObjectName("playerDetailFrame");
+    playerDetailFrame->setFixedHeight(100); // Réduire la hauteur
+    playerDetailFrame->setStyleSheet(
+        "background-color: rgba(45, 52, 54, 0.7);"
+        "border-radius: 5px;"
+        "border: 1px solid rgba(255, 255, 255, 0.2);"
+        "padding: 5px;"
+    );
+    
+    // Layout des détails du joueur
+    QHBoxLayout *playerDetailLayout = new QHBoxLayout(playerDetailFrame);
+    playerDetailLayout->setContentsMargins(5, 5, 5, 5); // Réduire les marges
+    
+    // Image du joueur - plus petite
+    QLabel *detailImageLabel = new QLabel();
+    detailImageLabel->setObjectName("detailImageLabel");
+    detailImageLabel->setFixedSize(70, 70); // Réduire la taille
+    detailImageLabel->setAlignment(Qt::AlignCenter);
+    detailImageLabel->setStyleSheet(
+        "background-color: rgba(52, 152, 219, 0.3);"
+        "border-radius: 35px;"
+        "color: white;"
+        "font-size: 16px;" // Réduire la police
+        "font-weight: bold;"
+        "border: 2px solid white;"
+    );
+    detailImageLabel->setText("?");
+    
+    // Informations du joueur
+    QVBoxLayout *detailInfoLayout = new QVBoxLayout();
+    detailInfoLayout->setSpacing(3); // Réduire l'espacement
+    
+    // Labels des détails du joueur
+    QLabel *detailNameLabel = new QLabel("Select a player");
+    detailNameLabel->setObjectName("detailNameLabel");
+    detailNameLabel->setStyleSheet("color: white; font-size: 14px; font-weight: bold;");
+    
+    QLabel *detailTeamPosLabel = new QLabel("");
+    detailTeamPosLabel->setObjectName("detailTeamPosLabel");
+    detailTeamPosLabel->setStyleSheet("color: #3498db; font-size: 12px;");
+    
+    QLabel *detailStatsLabel = new QLabel("");
+    detailStatsLabel->setObjectName("detailStatsLabel");
+    detailStatsLabel->setStyleSheet("color: #bdc3c7; font-size: 12px;");
+    
+    detailInfoLayout->addWidget(detailNameLabel);
+    detailInfoLayout->addWidget(detailTeamPosLabel);
+    detailInfoLayout->addWidget(detailStatsLabel);
+    
+    playerDetailLayout->addWidget(detailImageLabel);
+    playerDetailLayout->addLayout(detailInfoLayout, 1);
+    
+    // Ajouter le frame des détails au layout principal
+    mainLayout->addWidget(playerDetailFrame, 3, 0, 1, 2);
+    
+    // Ajouter l'onglet à l'interface
+    ui->tabWidget->addTab(teamOfCompTab, "Team of Competition");
+    
+    // Connecter le bouton de rafraîchissement
+    connect(refreshButton, &QPushButton::clicked, [=]() {
+        displayTeamOfCompetition(teamCompComboBox->currentText());
+    });
+    
+    // Chargement initial différé
+    QTimer::singleShot(500, [=]() {
+        if (teamCompComboBox->count() > 0) {
+            displayTeamOfCompetition(teamCompComboBox->currentText());
+        }
+    });
+}
+
+// Fonction pour créer un widget de position de joueur
+QFrame* MainWindow::createPositionWidget(const QString &position)
+{
+    QFrame *posFrame = new QFrame();
+    posFrame->setObjectName("position_" + position);
+    posFrame->setFixedSize(80, 80);
+    posFrame->setStyleSheet(
+        "background-color: rgba(255, 255, 255, 0.3);"
+        "border-radius: 40px;"
+        "border: 2px solid white;"
+    );
+    
+    QVBoxLayout *posLayout = new QVBoxLayout(posFrame);
+    posLayout->setContentsMargins(5, 5, 5, 5);
+    
+    // Image du joueur (à remplir dynamiquement)
+    QLabel *playerImage = new QLabel();
+    playerImage->setObjectName("image_" + position);
+    playerImage->setFixedSize(60, 60);
+    playerImage->setAlignment(Qt::AlignCenter);
+    playerImage->setStyleSheet(
+        "background-color: rgba(52, 152, 219, 0.5);"
+        "color: white;"
+        "font-weight: bold;"
+        "border-radius: 30px;"
+        "border: none;"
+    );
+    playerImage->setText(position);
+    
+    posLayout->addWidget(playerImage, 0, Qt::AlignCenter);
+    
+    // Stocker l'ID du joueur comme propriété
+    posFrame->setProperty("playerId", -1);
+    
+    // Connecter le clic pour afficher les détails
+    posFrame->setProperty("position", position);
+    posFrame->installEventFilter(this);
+    posFrame->setCursor(Qt::PointingHandCursor);
+    
+    return posFrame;
+}
+
+// Implémenter l'événement de clic sur une position
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        QFrame *posFrame = qobject_cast<QFrame*>(obj);
+        if (posFrame && posFrame->objectName().startsWith("position_")) {
+            int playerId = posFrame->property("playerId").toInt();
+            QString position = posFrame->property("position").toString();
+            
+            if (playerId > 0) {
+                displayPlayerDetails(playerId, position);
+            } else {
+                // Aucun joueur assigné à cette position
+                QLabel *detailNameLabel = ui->tabWidget->findChild<QLabel*>("detailNameLabel");
+                QLabel *detailTeamPosLabel = ui->tabWidget->findChild<QLabel*>("detailTeamPosLabel");
+                QLabel *detailStatsLabel = ui->tabWidget->findChild<QLabel*>("detailStatsLabel");
+                QLabel *detailImageLabel = ui->tabWidget->findChild<QLabel*>("detailImageLabel");
+                
+                if (detailNameLabel) detailNameLabel->setText("No player assigned");
+                if (detailTeamPosLabel) detailTeamPosLabel->setText("Position: " + position);
+                if (detailStatsLabel) detailStatsLabel->setText("");
+                if (detailImageLabel) {
+                    detailImageLabel->setPixmap(QPixmap());
+                    detailImageLabel->setText("?");
+                }
+            }
+            return true;
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
+}
+
+void MainWindow::displayPlayerDetails(int playerId, const QString &position)
+{
+    QLabel *detailNameLabel = ui->tabWidget->findChild<QLabel*>("detailNameLabel");
+    QLabel *detailTeamPosLabel = ui->tabWidget->findChild<QLabel*>("detailTeamPosLabel");
+    QLabel *detailStatsLabel = ui->tabWidget->findChild<QLabel*>("detailStatsLabel");
+    QLabel *detailImageLabel = ui->tabWidget->findChild<QLabel*>("detailImageLabel");
+    
+    if (!detailNameLabel || !detailTeamPosLabel || !detailStatsLabel || !detailImageLabel) {
+        qDebug() << "Detail widgets not found";
+        return;
+    }
+    
+    // Requête pour obtenir les détails du joueur
+    QSqlQuery query;
+    query.prepare(
+        "SELECT j.first_name, j.last_name, j.position, e.team_name, j.goals, j.assists, "
+        "j.yellow_card, j.red_card, j.img_joueur "
+        "FROM joueur j "
+        "JOIN equipe e ON j.id_team = e.id_team "
+        "WHERE j.id_player = :id"
+    );
+    query.bindValue(":id", playerId);
+    
+    if (query.exec() && query.next()) {
+        QString firstName = query.value("first_name").toString();
+        QString lastName = query.value("last_name").toString();
+        QString playerPosition = query.value("position").toString();
+        QString teamName = query.value("team_name").toString();
+        int goals = query.value("goals").toInt();
+        int assists = query.value("assists").toInt();
+        int yellowCards = query.value("yellow_card").toInt();
+        int redCards = query.value("red_card").toInt();
+        QByteArray imageData = query.value("img_joueur").toByteArray();
+        
+        // Mettre à jour les widgets avec les informations du joueur
+        detailNameLabel->setText(firstName + " " + lastName);
+        detailTeamPosLabel->setText(teamName + " | " + position + " (" + playerPosition + ")");
+        
+        // Statistiques formatées
+        QString statsText = QString("Goals: %1 | Assists: %2 | YC: %3 | RC: %4")
+            .arg(goals).arg(assists).arg(yellowCards).arg(redCards);
+        detailStatsLabel->setText(statsText);
+        
+        // Image du joueur
+        if (!imageData.isEmpty()) {
+            QPixmap playerPixmap;
+            if (playerPixmap.loadFromData(imageData)) {
+                // Créer une image circulaire
+                QPixmap circularPixmap(100, 100);
+                circularPixmap.fill(Qt::transparent);
+                
+                QPainter painter(&circularPixmap);
+                painter.setRenderHint(QPainter::Antialiasing);
+                
+                QPainterPath path;
+                path.addEllipse(0, 0, 100, 100);
+                painter.setClipPath(path);
+                
+                QPixmap scaledPixmap = playerPixmap.scaled(100, 100, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                
+                int x = (scaledPixmap.width() - 100) / 2;
+                int y = (scaledPixmap.height() - 100) / 2;
+                if (x < 0) x = 0;
+                if (y < 0) y = 0;
+                
+                painter.drawPixmap(0, 0, scaledPixmap, x, y, 100, 100);
+                
+                detailImageLabel->setPixmap(circularPixmap);
+                detailImageLabel->setText("");
+            }
+        } else {
+            // Image par défaut avec les initiales
+            detailImageLabel->setText(firstName.isEmpty() || lastName.isEmpty() ? "?" : 
+                                     QString(firstName[0]) + QString(lastName[0]));
+            detailImageLabel->setPixmap(QPixmap());
+        }
+    } else {
+        qDebug() << "Error fetching player details:" << query.lastError().text();
+    }
+}
+
+void MainWindow::displayTeamOfCompetition(const QString &competitionName)
+{
+    if (competitionName.isEmpty()) {
+        qDebug() << "No competition selected";
+        return;
+    }
+    
+    qDebug() << "Loading team for competition:" << competitionName;
+    
+    // Structure pour stocker les joueurs par poste
+    struct BestPlayer {
+        int id;
+        QString firstName;
+        QString lastName;
+        QByteArray imageData;
+        int score; // score basé sur les buts et passes décisives
+        QString position; // Position réelle du joueur
+    };
+    
+    // Obtenir tous les joueurs de la compétition et les classer par type de poste
+    QMap<QString, QList<BestPlayer>> playersByType;
+    playersByType["Goalkeeper"] = QList<BestPlayer>();
+    playersByType["Defender"] = QList<BestPlayer>();
+    playersByType["Midfielder"] = QList<BestPlayer>();
+    playersByType["Forward"] = QList<BestPlayer>();
+    
+    QSqlQuery query;
+    query.prepare(
+        "SELECT j.id_player, j.first_name, j.last_name, j.position, "
+        "j.goals, j.assists, j.img_joueur "
+        "FROM joueur j "
+        "JOIN equipe e ON j.id_team = e.id_team "
+        "JOIN participation p ON e.id_team = p.id_team "
+        "JOIN competition c ON p.id_competition = c.id_competition "
+        "WHERE c.comp_name = :competition_name "
+        "ORDER BY (j.goals * 2 + j.assists) DESC" // Tri par score décroissant
+    );
+    query.bindValue(":competition_name", competitionName);
+    
+    if (!query.exec()) {
+        qDebug() << "Error fetching players:" << query.lastError().text();
+        return;
+    }
+    
+    // Collecter tous les joueurs par type de poste
+    while (query.next()) {
+        BestPlayer player;
+        player.id = query.value("id_player").toInt();
+        player.firstName = query.value("first_name").toString();
+        player.lastName = query.value("last_name").toString();
+        player.position = query.value("position").toString();
+        player.imageData = query.value("img_joueur").toByteArray();
+        int goals = query.value("goals").toInt();
+        int assists = query.value("assists").toInt();
+        player.score = goals * 2 + assists;
+        
+        // Classer le joueur dans son type de poste
+        if (player.position.contains("Goalkeeper")) {
+            playersByType["Goalkeeper"].append(player);
+        } else if (player.position.contains("Defender") || player.position.contains("Back")) {
+            playersByType["Defender"].append(player);
+        } else if (player.position.contains("Midfielder")) {
+            playersByType["Midfielder"].append(player);
+        } else if (player.position.contains("Forward") || player.position.contains("Striker") || player.position.contains("Winger")) {
+            playersByType["Forward"].append(player);
+        } else {
+            // En cas de doute, classer selon le premier mot de la position
+            if (player.position.contains("Goalkeeper")) {
+                playersByType["Goalkeeper"].append(player);
+            } else if (player.position.contains("Defender")) {
+                playersByType["Defender"].append(player);
+            } else if (player.position.contains("Midfielder")) {
+                playersByType["Midfielder"].append(player);
+            } else {
+                playersByType["Forward"].append(player); // Par défaut, considérer comme attaquant
+            }
+        }
+    }
+    
+    // Trier chaque liste de joueurs par score
+    for (auto it = playersByType.begin(); it != playersByType.end(); ++it) {
+        std::sort(it.value().begin(), it.value().end(), [](const BestPlayer &a, const BestPlayer &b) {
+            return a.score > b.score;
+        });
+    }
+    
+    // Définir la formation et les positions
+    QMap<QString, QString> positionTypes;
+    positionTypes["GK"] = "Goalkeeper";
+    positionTypes["LB"] = "Defender";
+    positionTypes["CB"] = "Defender";
+    positionTypes["CB2"] = "Defender"; // Deuxième défenseur central
+    positionTypes["RB"] = "Defender";
+    positionTypes["LM"] = "Midfielder";
+    positionTypes["CM"] = "Midfielder";
+    positionTypes["RM"] = "Midfielder";
+    positionTypes["LW"] = "Forward";
+    positionTypes["ST"] = "Forward";
+    positionTypes["RW"] = "Forward";
+    
+    // Map pour stocker le joueur sélectionné pour chaque position
+    QMap<QString, BestPlayer> selectedPlayers;
+    QSet<int> usedPlayerIds; // Pour éviter les doublons
+    
+    // Attribuer les joueurs aux positions en respectant leur type
+    for (auto it = positionTypes.begin(); it != positionTypes.end(); ++it) {
+        QString positionKey = it.key();
+        QString positionType = it.value();
+        
+        // Trouver le meilleur joueur disponible pour cette position
+        QList<BestPlayer> &availablePlayers = playersByType[positionType];
+        
+        // Chercher un joueur non utilisé
+        for (int i = 0; i < availablePlayers.size(); ++i) {
+            if (!usedPlayerIds.contains(availablePlayers[i].id)) {
+                selectedPlayers[positionKey] = availablePlayers[i];
+                usedPlayerIds.insert(availablePlayers[i].id);
+                break;
+            }
+        }
+    }
+    
+    // Mettre à jour l'interface pour les positions GK, LB, RB, LM, CM, RM, LW, ST, RW
+    for (auto it = selectedPlayers.begin(); it != selectedPlayers.end(); ++it) {
+        QString positionKey = it.key();
+        if (positionKey == "CB2") continue; // On traite CB2 séparément
+        
+        BestPlayer player = it.value();
+        
+        // Trouver le widget de position
+        QFrame *posFrame = ui->tabWidget->findChild<QFrame*>("position_" + positionKey);
+        if (posFrame) {
+            // Stocker l'ID du joueur
+            posFrame->setProperty("playerId", player.id);
+            
+            // Mettre à jour l'image/texte
+            QLabel *playerImage = posFrame->findChild<QLabel*>("image_" + positionKey);
+            if (playerImage) {
+                if (!player.imageData.isEmpty()) {
+                    QPixmap pixmap;
+                    if (pixmap.loadFromData(player.imageData)) {
+                        // Créer une version circulaire de l'image
+                        QPixmap circularPixmap(60, 60);
+                        circularPixmap.fill(Qt::transparent);
+                        
+                        QPainter painter(&circularPixmap);
+                        painter.setRenderHint(QPainter::Antialiasing);
+                        
+                        QPainterPath path;
+                        path.addEllipse(0, 0, 60, 60);
+                        painter.setClipPath(path);
+                        
+                        QPixmap scaledPixmap = pixmap.scaled(60, 60, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                        
+                        int x = (scaledPixmap.width() - 60) / 2;
+                        int y = (scaledPixmap.height() - 60) / 2;
+                        if (x < 0) x = 0;
+                        if (y < 0) y = 0;
+                        
+                        painter.drawPixmap(0, 0, scaledPixmap, x, y, 60, 60);
+                        
+                        playerImage->setPixmap(circularPixmap);
+                        playerImage->setText("");
+                    }
+                } else {
+                    // Utiliser les initiales si pas d'image
+                    playerImage->setText(player.firstName.isEmpty() || player.lastName.isEmpty() ? 
+                                        positionKey : 
+                                        QString(player.firstName[0]) + QString(player.lastName[0]));
+                }
+            }
+        }
+    }
+    
+    // Traitement spécial pour le deuxième défenseur central (CB)
+    if (selectedPlayers.contains("CB2")) {
+        BestPlayer player = selectedPlayers["CB2"];
+        
+        // Trouver tous les widgets CB
+        QList<QFrame*> cbFrames = ui->tabWidget->findChildren<QFrame*>("position_CB");
+        
+        // Trouver un widget CB non utilisé
+        for (QFrame *frame : cbFrames) {
+            int framePlayerId = frame->property("playerId").toInt();
+            if (framePlayerId <= 0 || !usedPlayerIds.contains(framePlayerId)) {
+                // Widget trouvé, l'utiliser pour le deuxième CB
+                frame->setProperty("playerId", player.id);
+                
+                QLabel *playerImage = frame->findChild<QLabel*>("image_CB");
+                if (playerImage) {
+                    if (!player.imageData.isEmpty()) {
+                        QPixmap pixmap;
+                        if (pixmap.loadFromData(player.imageData)) {
+                            QPixmap circularPixmap(60, 60);
+                            circularPixmap.fill(Qt::transparent);
+                            
+                            QPainter painter(&circularPixmap);
+                            painter.setRenderHint(QPainter::Antialiasing);
+                            
+                            QPainterPath path;
+                            path.addEllipse(0, 0, 60, 60);
+                            painter.setClipPath(path);
+                            
+                            QPixmap scaledPixmap = pixmap.scaled(60, 60, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                            
+                            int x = (scaledPixmap.width() - 60) / 2;
+                            int y = (scaledPixmap.height() - 60) / 2;
+                            if (x < 0) x = 0;
+                            if (y < 0) y = 0;
+                            
+                            painter.drawPixmap(0, 0, scaledPixmap, x, y, 60, 60);
+                            
+                            playerImage->setPixmap(circularPixmap);
+                            playerImage->setText("");
+                        }
+                    } else {
+                        playerImage->setText(player.firstName.isEmpty() || player.lastName.isEmpty() ? 
+                                            "CB" : 
+                                            QString(player.firstName[0]) + QString(player.lastName[0]));
+                    }
+                }
+                
+                break;
+            }
+        }
+    }
+    
+    // Réinitialiser les positions qui n'ont pas de joueurs attribués
+    QStringList allPositions = {"GK", "LB", "CB", "RB", "LM", "CM", "RM", "LW", "ST", "RW"};
+    
+    for (const QString &position : allPositions) {
+        // Pour CB, on a plusieurs widgets
+        if (position == "CB") {
+            QList<QFrame*> cbFrames = ui->tabWidget->findChildren<QFrame*>("position_CB");
+            
+            for (QFrame *frame : cbFrames) {
+                int framePlayerId = frame->property("playerId").toInt();
+                
+                if (framePlayerId <= 0 || !usedPlayerIds.contains(framePlayerId)) {
+                    // Réinitialiser le widget
+                    frame->setProperty("playerId", -1);
+                    
+                    QLabel *playerImage = frame->findChild<QLabel*>("image_CB");
+                    if (playerImage) {
+                        playerImage->setText("CB");
+                        playerImage->setPixmap(QPixmap());
+                    }
+                }
+            }
+            continue;
+        }
+        
+        // Pour les autres positions
+        if (!selectedPlayers.contains(position)) {
+            QFrame *posFrame = ui->tabWidget->findChild<QFrame*>("position_" + position);
+            
+            if (posFrame) {
+                posFrame->setProperty("playerId", -1);
+                
+                QLabel *playerImage = posFrame->findChild<QLabel*>("image_" + position);
+                if (playerImage) {
+                    playerImage->setText(position);
+                    playerImage->setPixmap(QPixmap());
+                }
+            }
+        }
+    }
 }
