@@ -622,13 +622,14 @@ void MainWindow::refreshPlayerDetails()
             imageLabel->setText("No Image");
         }
 //qrcode
-QString qrText = QString("ID: %1\nName: %2\nTeam: %3\nPosition: %4\nJersey: %5")
+QString qrText = QString("ID: %1\nName: %2\nTeam: %3\nPosition: %4\nJersey: %5\nStatus: %6")
 .arg(query.value("id_player").toString())
 .arg(playerFullName)
 
 .arg(query.value("team_name").toString())
 .arg(query.value("position").toString())
-.arg(query.value("jersey_nb").toString());
+.arg(query.value("jersey_nb").toString())
+.arg(statusText);  // Ajout du statut
 QPixmap qrCode = generateQRCode(qrText);
 
 QLabel *qrLabel = new QLabel();
@@ -792,6 +793,17 @@ void MainWindow::exportPlayerToPDF(int playerId)
     int yellowCards = query.value("yellow_card").toInt();
     int redCards = query.value("red_card").toInt();
     bool isInjured = query.value("injured").toInt() == 1;
+    
+    // Récupérer le statut du joueur et le convertir en texte
+    int statusInt = query.value("status").toInt();
+    QString statusText;
+    switch(statusInt) {
+        case 0: statusText = "Active"; break;
+        case 1: statusText = "Injured"; break;
+        case 2: statusText = "Suspended"; break;
+        case 3: statusText = "Transferred"; break;
+        default: statusText = "Unknown";
+    }
 
     // 🔹 Récupération de l'image
     QByteArray imageData = query.value("img_joueur").toByteArray();
@@ -802,8 +814,8 @@ void MainWindow::exportPlayerToPDF(int playerId)
         hasImage = playerImage.loadFromData(imageData);
     }
 // Générer le QR code
-QString qrText = QString("ID: %1\nName: %2 %3\nTeam: %4\nPosition: %5\nJersey: %6")
-.arg(playerId).arg(firstName).arg(lastName).arg(team).arg(position).arg(jerseyNumber);
+QString qrText = QString("ID: %1\nName: %2 %3\nTeam: %4\nPosition: %5\nJersey: %6\nStatus: %7")
+.arg(playerId).arg(firstName).arg(lastName).arg(team).arg(position).arg(jerseyNumber).arg(statusText);
 QPixmap qrCode = generateQRCode(qrText);
     // 🔹 Sélection du fichier PDF
     QString defaultFileName = firstName + "_" + lastName + "_Profile.pdf";
