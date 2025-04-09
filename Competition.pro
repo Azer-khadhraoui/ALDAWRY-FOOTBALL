@@ -10,6 +10,8 @@ QT += core gui widgets
 QT += widgets
 QT += charts
 QT       += core gui charts
+QT += network
+QT += core gui sql network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = competition

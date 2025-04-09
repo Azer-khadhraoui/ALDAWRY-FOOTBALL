@@ -11,6 +11,8 @@ AddCompetitionWindow::AddCompetitionWindow(QWidget *parent) :
     ui(new Ui::AddCompetitionForm)
 {
     ui->setupUi(this);
+    ui->dateEdit_start_date->setDate(QDate::currentDate());
+    ui->dateEdit_end_date->setDate(QDate::currentDate());
 }
 
 AddCompetitionWindow::~AddCompetitionWindow()

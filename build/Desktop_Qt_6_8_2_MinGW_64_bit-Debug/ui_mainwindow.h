@@ -48,16 +48,15 @@ public:
     QComboBox *comboBox_2;
     QCalendarWidget *calendarWidget;
     QListWidget *listWidget_2;
-    QLabel *label_6;
-    QLabel *label_7;
-    QLabel *label_8;
-    QLabel *label_3;
     QLabel *label_5;
     QPushButton *pushButton_3;
     QTableView *test;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QPushButton *pushButton_4;
+    QLabel *comp_name;
+    QLabel *team_name;
+    QPushButton *pushButton_5;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -185,31 +184,6 @@ public:
 "border: 1px solid #666666;\n"
 "font-size: 16px;\n"
 "color: rgb(0, 216, 0);"));
-        label_6 = new QLabel(centralwidget);
-        label_6->setObjectName("label_6");
-        label_6->setGeometry(QRect(870, 550, 191, 161));
-        label_6->setPixmap(QPixmap(QString::fromUtf8(":/images/Downloads/BAR.png")));
-        label_6->setScaledContents(true);
-        label_7 = new QLabel(centralwidget);
-        label_7->setObjectName("label_7");
-        label_7->setGeometry(QRect(940, 500, 63, 20));
-        QFont font1;
-        font1.setPointSize(14);
-        font1.setBold(true);
-        label_7->setFont(font1);
-        label_7->setStyleSheet(QString::fromUtf8("color: rgb(0, 193, 0);"));
-        label_8 = new QLabel(centralwidget);
-        label_8->setObjectName("label_8");
-        label_8->setGeometry(QRect(780, 490, 91, 41));
-        QFont font2;
-        font2.setPointSize(16);
-        font2.setBold(true);
-        label_8->setFont(font2);
-        label_3 = new QLabel(centralwidget);
-        label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(872, 549, 181, 161));
-        label_3->setPixmap(QPixmap(QString::fromUtf8(":/images/BAR.png")));
-        label_3->setScaledContents(true);
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName("label_5");
         label_5->setGeometry(QRect(50, 40, 51, 51));
@@ -236,6 +210,24 @@ public:
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName("pushButton_4");
         pushButton_4->setGeometry(QRect(40, 680, 83, 29));
+        comp_name = new QLabel(centralwidget);
+        comp_name->setObjectName("comp_name");
+        comp_name->setGeometry(QRect(780, 480, 281, 41));
+        QFont font1;
+        font1.setPointSize(12);
+        font1.setBold(true);
+        comp_name->setFont(font1);
+        team_name = new QLabel(centralwidget);
+        team_name->setObjectName("team_name");
+        team_name->setGeometry(QRect(860, 580, 201, 51));
+        QFont font2;
+        font2.setPointSize(25);
+        font2.setBold(true);
+        team_name->setFont(font2);
+        team_name->setStyleSheet(QString::fromUtf8("color :rgb(0, 170, 0)"));
+        pushButton_5 = new QPushButton(centralwidget);
+        pushButton_5->setObjectName("pushButton_5");
+        pushButton_5->setGeometry(QRect(130, 680, 83, 29));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -265,14 +257,14 @@ public:
         comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "League", nullptr));
         comboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "Tournement", nullptr));
 
-        label_7->setText(QCoreApplication::translate("MainWindow", "86%", nullptr));
-        label_8->setText(QCoreApplication::translate("MainWindow", "LaLiga", nullptr));
-        label_3->setText(QString());
         label_5->setText(QString());
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Update", nullptr));
         pushButton_4->setText(QCoreApplication::translate("MainWindow", "Stats", nullptr));
+        comp_name->setText(QString());
+        team_name->setText(QString());
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Generate", nullptr));
     } // retranslateUi
 
 };

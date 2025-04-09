@@ -9,11 +9,10 @@
 #include <QStringList>
 #include <QList>
 
-
 class competition
 {
 public:
-    competition(){}
+    competition() {}
     competition(int, QString, QString, QDate, QDate, int, QString);
 
     // Getters
@@ -58,7 +57,6 @@ private:
     QDate date_fin;
     int nb_teams;
     QString reward;
-    
 };
 
 #endif // COMPETITION_H

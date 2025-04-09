@@ -67,7 +67,7 @@ statistics2::statistics2(QWidget *parent):
 
     // Y-axis (matches)
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, 30);
+    axisY->setRange(0, 500);
     axisY->setTitleText("Number of Matches");
     axisY->setLabelsColor(QColor("#E0E0E0"));
     axisY->setTitleBrush(QBrush(QColor("#E0E0E0")));
@@ -114,7 +114,7 @@ statistics2::statistics2(QWidget *parent):
             series->attachAxis(axisX);
 
             QValueAxis *axisY = new QValueAxis();
-            axisY->setRange(0, 30);
+            axisY->setRange(0, 500);
             axisY->setTitleText("Number of Matches");
             axisY->setLabelsColor(QColor("#E0E0E0"));
             axisY->setTitleBrush(QBrush(QColor("#E0E0E0")));
@@ -158,7 +158,7 @@ statistics2::statistics2(QWidget *parent):
             series->attachAxis(axisX);
 
             QValueAxis *axisY = new QValueAxis();
-            axisY->setRange(0, 30);
+            axisY->setRange(0, 500);
             axisY->setTitleText("Number of Matches");
             axisY->setLabelsColor(QColor("#E0E0E0"));
             axisY->setTitleBrush(QBrush(QColor("#E0E0E0")));
@@ -202,7 +202,7 @@ statistics2::statistics2(QWidget *parent):
             series->attachAxis(axisX);
 
             QValueAxis *axisY = new QValueAxis();
-            axisY->setRange(0, 30);
+            axisY->setRange(0, 50);
             axisY->setTitleText("Number of Matches");
             axisY->setLabelsColor(QColor("#E0E0E0"));
             axisY->setTitleBrush(QBrush(QColor("#E0E0E0")));
