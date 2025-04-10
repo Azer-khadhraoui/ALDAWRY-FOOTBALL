@@ -28,6 +28,7 @@
 #include <QScrollArea> 
 #include <QPdfWriter>
 #include <QTextDocument>
+#include <QMouseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -2001,100 +2002,66 @@ void MainWindow::setupBestPlayerTab()
 }
 void MainWindow::setupTeamOfCompetitionTab()
 {
-    qDebug() << "Setting up Team of Competition tab...";
-    
-    // Créer un nouvel onglet avec un fond dégradé
     QWidget *teamOfCompTab = new QWidget();
     teamOfCompTab->setStyleSheet(
         "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0f0c29, stop:0.5 #302b63, stop:1 #24243e);"
-    );
-    
-    // Layout principal - Utiliser QGridLayout pour mieux contrôler l'espace
+        );
+
     QGridLayout *mainLayout = new QGridLayout(teamOfCompTab);
     mainLayout->setSpacing(10);
     mainLayout->setContentsMargins(20, 20, 20, 20);
 
-    // Titre plus petit et compact
+    // Titre de l'onglet
     QLabel *titleLabel = new QLabel("TEAM OF THE COMPETITION");
     QFont titleFont("Segoe UI", 18, QFont::Bold);
     titleLabel->setFont(titleFont);
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet(
-        "color: #f5f5f5;"
-        "text-shadow: 1px 1px 2px #000000;"
-        "padding: 5px;"
-        "background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141e30, stop:1 #243b55);"
+        "color: #f5f5f5; padding: 5px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141e30, stop:1 #243b55);"
         "border-radius: 5px;"
-    );
+        );
     mainLayout->addWidget(titleLabel, 0, 0, 1, 2);
 
-    // Section de sélection compactée
+    // Sélecteur de compétition
     QHBoxLayout *selectorLayout = new QHBoxLayout();
-    selectorLayout->setSpacing(5);
-    
     QLabel *competitionLabel = new QLabel("Competition:");
     competitionLabel->setStyleSheet("color: #f5f5f5; font-size: 14px;");
-    
-    // ComboBox pour la compétition
+
     QComboBox *teamCompComboBox = new QComboBox();
     teamCompComboBox->setObjectName("teamCompComboBox");
     teamCompComboBox->setStyleSheet(
-        "QComboBox {"
-        "   background-color: rgba(255, 255, 255, 0.2);"
-        "   color: white;"
-        "   padding: 3px 10px;"
-        "   border: 1px solid rgba(255, 255, 255, 0.3);"
-        "   border-radius: 3px;"
-        "   font-size: 12px;"
-        "   min-height: 20px;"
-        "}"
-    );
+        "QComboBox { background-color: rgba(255, 255, 255, 0.2); color: white; padding: 3px 10px; "
+        "border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 3px; font-size: 12px; min-height: 20px; }"
+        );
 
-    // Remplir avec les compétitions disponibles
     QSqlQuery competitionQuery("SELECT comp_name FROM competition");
     while (competitionQuery.next()) {
         QString compName = competitionQuery.value(0).toString();
         teamCompComboBox->addItem(compName);
     }
 
-    // Bouton de rafraîchissement plus petit
     QPushButton *refreshButton = new QPushButton("Show");
     refreshButton->setCursor(Qt::PointingHandCursor);
     refreshButton->setStyleSheet(
-        "QPushButton {"
-        "   background-color: #3498db;"
-        "   color: white;"
-        "   border-radius: 3px;"
-        "   font-size: 12px;"
-        "   border: none;"
-        "   padding: 3px 8px;"
-        "}"
-    );
+        "QPushButton { background-color: #3498db; color: white; border-radius: 3px; font-size: 12px; border: none; padding: 3px 8px; }"
+        );
 
     selectorLayout->addWidget(competitionLabel);
     selectorLayout->addWidget(teamCompComboBox, 1);
     selectorLayout->addWidget(refreshButton);
-    
     mainLayout->addLayout(selectorLayout, 1, 0, 1, 2);
 
-    // Conteneur du terrain de football
+    // Conteneur du terrain
     QFrame *fieldContainer = new QFrame();
     fieldContainer->setObjectName("fieldContainer");
     fieldContainer->setStyleSheet(
-        "QFrame#fieldContainer {"
-        "   background-color: rgba(45, 52, 54, 0.5);"
-        "   border-radius: 5px;"
-        "   border: 1px solid rgba(255, 255, 255, 0.2);"
-        "   padding: 5px;"
-        "}"
-    );
-    fieldContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    
+        "QFrame#fieldContainer { background-color: rgba(45, 52, 54, 0.5); border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px; }"
+        );
+
     QVBoxLayout *fieldContainerLayout = new QVBoxLayout(fieldContainer);
     fieldContainerLayout->setContentsMargins(5, 5, 5, 5);
-    fieldContainerLayout->setSpacing(5);
-    
-    // Widget de défilement pour le terrain
+
+    // Zone défilante pour le terrain
     QScrollArea *scrollArea = new QScrollArea();
     scrollArea->setWidgetResizable(true);
     scrollArea->setFrameShape(QFrame::NoFrame);
@@ -2104,32 +2071,29 @@ void MainWindow::setupTeamOfCompetitionTab()
         "QScrollArea { background: transparent; border: none; }"
         "QScrollBar:vertical { width: 8px; background: rgba(0, 0, 0, 0.2); }"
         "QScrollBar:horizontal { height: 8px; background: rgba(0, 0, 0, 0.2); }"
-        "QScrollBar::handle:vertical, QScrollBar::handle:horizontal {"
-        "   background: rgba(255, 255, 255, 0.3);"
-        "   border-radius: 4px;"
-        "}"
-    );
-    
+        "QScrollBar::handle:vertical, QScrollBar::handle:horizontal { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }"
+        );
+
     // Terrain de football
-    QFrame *footballField = new QFrame();
+    QWidget *footballField = new QWidget();
     footballField->setObjectName("footballField");
-    footballField->setStyleSheet(
-        "QFrame#footballField {"
-        "   background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #38b548, stop:1 #2ecc71);"
-        "   border: 3px solid white;"
-        "   border-radius: 8px;"
-        "   min-height: 800px;"
-        "   min-width: 600px;"
-        "}"
-    );
-    
-    // Layout du terrain
+    footballField->setMinimumSize(1000, 800);
+    footballField->setStyleSheet("border: none;");
+
+    // Fond du terrain avec bandes
+    QWidget *terrainBackground = new QWidget(footballField);
+    terrainBackground->setObjectName("terrainBackground");
+    terrainBackground->setGeometry(0, 0, 1000, 800);
+    terrainBackground->lower();
+    terrainBackground->installEventFilter(this);
+
+    // Layout du terrain pour les positions des joueurs
     QGridLayout *fieldLayout = new QGridLayout(footballField);
     fieldLayout->setSpacing(40);
     fieldLayout->setContentsMargins(40, 40, 40, 40);
 
-    // Positionnement des joueurs
-    // Gardien - Complètement en bas
+    // IMPORTANT: Création et ajout des widgets de position
+    // Gardien
     QFrame *goalkeeperPos = createPositionWidget("GK");
     fieldLayout->addWidget(goalkeeperPos, 12, 2, 1, 1);
 
@@ -2165,94 +2129,13 @@ void MainWindow::setupTeamOfCompetitionTab()
 
     QFrame *attPos3 = createPositionWidget("RW");
     fieldLayout->addWidget(attPos3, 3, 4, 1, 1);
-    
-    // La clé est ici: utiliser un timer pour créer les lignes APRÈS que tout soit initialisé
-    QTimer::singleShot(100, [=]() {
-        // Récupérer la position du gardien dans le layout
-        QFrame *gkFrame = footballField->findChild<QFrame*>("position_GK");
-        if (!gkFrame) return;
-        
-        // Position du gardien au centre de l'écran
-        QPoint gkCenter = gkFrame->mapTo(footballField, QPoint(gkFrame->width()/2, gkFrame->height()/2));
-        int centerX = gkCenter.x();
-        
-        qDebug() << "Gardien centré à X:" << centerX;
-        
-        // Surface de but en bas (centrée par rapport à la position du gardien)
-        QFrame *penaltyBox = new QFrame(footballField);
-        penaltyBox->setGeometry(QRect(centerX +50, 700, 200, 100));
-        penaltyBox->setStyleSheet("background: transparent; border: 2px solid white; border-bottom: none;");
 
-        // Surface de réparation en haut
-        QFrame *topPenaltyBox = new QFrame(footballField);
-        topPenaltyBox->setGeometry(QRect(centerX +50, -10, 200, 120));
-        topPenaltyBox->setStyleSheet("background: transparent; border: 2px solid white; border-top: none;");
-
-        // But en bas
-        QFrame *bottomGoalLine = new QFrame(footballField);
-        bottomGoalLine->setGeometry(QRect(centerX +80, 770, 140, 5));
-        bottomGoalLine->setStyleSheet("background: white;");
-
-        QFrame *bottomGoalNet = new QFrame(footballField);
-        bottomGoalNet->setGeometry(QRect(centerX +80, 775, 140, 25));
-        bottomGoalNet->setStyleSheet(
-            "background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px),"
-            "repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px);"
-            "border: 2px solid white;"
-            "border-top: none;"
-            "border-bottom-left-radius: 8px;"
-            "border-bottom-right-radius: 8px;"
-        );
-
-        // But en haut
-        QFrame *topGoalNet = new QFrame(footballField);
-        topGoalNet->setGeometry(QRect(centerX +80, 0, 140, 25));
-        topGoalNet->setStyleSheet(
-            "background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px),"
-            "repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.4) 4px, rgba(255,255,255,0.4) 6px);"
-            "border: 2px solid white;"
-            "border-bottom: none;"
-            "border-top-left-radius: 8px;"
-            "border-top-right-radius: 8px;"
-        );
-
-        QFrame *topGoalLine = new QFrame(footballField);
-        topGoalLine->setGeometry(QRect(centerX + 80, 25, 140, 5));
-        topGoalLine->setStyleSheet("background: white;");
-
-        // Rond central aligné avec le gardien et le but
-        QFrame *centerCircleOuter = new QFrame(footballField);
-        centerCircleOuter->setGeometry(QRect(centerX +120, 350, 100, 100));
-        centerCircleOuter->setStyleSheet("background: transparent; border: 2px solid white; border-radius: 50px;");
-
-        QFrame *centerCircleInner = new QFrame(footballField);
-        centerCircleInner->setGeometry(QRect(centerX +156, 385, 30, 30));
-        centerCircleInner->setStyleSheet("background: transparent; border: 2px solid white; border-radius: 15px;");
-
-        // Ligne médiane
-        QFrame *midLine = new QFrame(footballField);
-        midLine->setGeometry(QRect(0, 400, 2000, 2));
-        midLine->setStyleSheet("background: white;");
-
-        // Points de penalty
-        QFrame *bottomPenaltySpot = new QFrame(footballField);
-        bottomPenaltySpot->setGeometry(QRect(centerX +150, 720, 10, 10));
-        bottomPenaltySpot->setStyleSheet("background: white; border-radius: 5px;");
-
-        QFrame *topPenaltySpot = new QFrame(footballField);
-        topPenaltySpot->setGeometry(QRect(centerX +150, 85, 10, 10));
-        topPenaltySpot->setStyleSheet("background: white; border-radius: 5px;");
-    });
-    
-    // Définir le terrain comme widget de la scrollArea
     scrollArea->setWidget(footballField);
     fieldContainerLayout->addWidget(scrollArea);
-    
-    // Ajouter le terrain au layout principal
     mainLayout->addWidget(fieldContainer, 2, 0, 1, 2);
     mainLayout->setRowStretch(2, 10);
-    
-    // Section pour les détails du joueur - plus compacte
+
+    // Panneau de détails du joueur
     QFrame *playerDetailFrame = new QFrame();
     playerDetailFrame->setObjectName("playerDetailFrame");
     playerDetailFrame->setFixedHeight(100);
@@ -2263,11 +2146,10 @@ void MainWindow::setupTeamOfCompetitionTab()
         "padding: 5px;"
     );
     
-    // Layout des détails du joueur
     QHBoxLayout *playerDetailLayout = new QHBoxLayout(playerDetailFrame);
     playerDetailLayout->setContentsMargins(5, 5, 5, 5);
     
-    // Image du joueur - plus petite
+    // Image du joueur
     QLabel *detailImageLabel = new QLabel();
     detailImageLabel->setObjectName("detailImageLabel");
     detailImageLabel->setFixedSize(70, 70);
@@ -2306,24 +2188,24 @@ void MainWindow::setupTeamOfCompetitionTab()
     playerDetailLayout->addWidget(detailImageLabel);
     playerDetailLayout->addLayout(detailInfoLayout, 1);
     
-    // Ajouter le frame des détails au layout principal
     mainLayout->addWidget(playerDetailFrame, 3, 0, 1, 2);
-    
-    // Ajouter l'onglet à l'interface
+
     ui->tabWidget->addTab(teamOfCompTab, "Team of Competition");
-    
-    // Connecter le bouton de rafraîchissement
+
+    // Connexions pour les actions
     connect(refreshButton, &QPushButton::clicked, [=]() {
         displayTeamOfCompetition(teamCompComboBox->currentText());
     });
-    
-    // Chargement initial différé
+
     QTimer::singleShot(500, [=]() {
         if (teamCompComboBox->count() > 0) {
             displayTeamOfCompetition(teamCompComboBox->currentText());
         }
     });
 }
+
+
+
 // Fonction pour créer un widget de position de joueur
 QFrame* MainWindow::createPositionWidget(const QString &position)
 {
@@ -2335,10 +2217,10 @@ QFrame* MainWindow::createPositionWidget(const QString &position)
         "border-radius: 40px;"
         "border: 2px solid white;"
     );
-    
+
     QVBoxLayout *posLayout = new QVBoxLayout(posFrame);
     posLayout->setContentsMargins(5, 5, 5, 5);
-    
+
     // Image du joueur (à remplir dynamiquement)
     QLabel *playerImage = new QLabel();
     playerImage->setObjectName("image_" + position);
@@ -2352,51 +2234,104 @@ QFrame* MainWindow::createPositionWidget(const QString &position)
         "border: none;"
     );
     playerImage->setText(position);
-    
+
     posLayout->addWidget(playerImage, 0, Qt::AlignCenter);
-    
+
     // Stocker l'ID du joueur comme propriété
     posFrame->setProperty("playerId", -1);
-    
+
     // Connecter le clic pour afficher les détails
     posFrame->setProperty("position", position);
     posFrame->installEventFilter(this);
     posFrame->setCursor(Qt::PointingHandCursor);
-    
+
     return posFrame;
 }
 
 // Implémenter l'événement de clic sur une position
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if (event->type() == QEvent::MouseButtonPress) {
-        QFrame *posFrame = qobject_cast<QFrame*>(obj);
-        if (posFrame && posFrame->objectName().startsWith("position_")) {
-            int playerId = posFrame->property("playerId").toInt();
-            QString position = posFrame->property("position").toString();
-            
-            if (playerId > 0) {
-                displayPlayerDetails(playerId, position);
-            } else {
-                // Aucun joueur assigné à cette position
-                QLabel *detailNameLabel = ui->tabWidget->findChild<QLabel*>("detailNameLabel");
-                QLabel *detailTeamPosLabel = ui->tabWidget->findChild<QLabel*>("detailTeamPosLabel");
-                QLabel *detailStatsLabel = ui->tabWidget->findChild<QLabel*>("detailStatsLabel");
-                QLabel *detailImageLabel = ui->tabWidget->findChild<QLabel*>("detailImageLabel");
-                
-                if (detailNameLabel) detailNameLabel->setText("No player assigned");
-                if (detailTeamPosLabel) detailTeamPosLabel->setText("Position: " + position);
-                if (detailStatsLabel) detailStatsLabel->setText("");
-                if (detailImageLabel) {
-                    detailImageLabel->setPixmap(QPixmap());
-                    detailImageLabel->setText("?");
+    // Gestion du dessin du terrain
+    if (watched->objectName() == "terrainBackground" && event->type() == QEvent::Paint) {
+        QWidget *field = qobject_cast<QWidget *>(watched);
+        QPainter painter(field);
+        
+        // Dessiner les bandes du terrain
+        int stripeHeight = 80;
+        QColor darkGreen(0, 90, 0);
+        QColor lightGreen(50, 180, 50);
+
+        for (int i = 0; i < field->height() / stripeHeight + 1; ++i) {
+            QColor color = (i % 2 == 0) ? darkGreen : lightGreen;
+            painter.fillRect(0, i * stripeHeight, field->width(), stripeHeight, color);
+        }
+        
+        // Dessiner les lignes du terrain
+        painter.setPen(QPen(Qt::white, 3));
+        
+        // Rectangle du terrain
+        painter.drawRect(30, 30, field->width() - 60, field->height() - 60);
+        
+        // Ligne médiane
+        painter.drawLine(30, field->height() / 2, field->width() - 30, field->height() / 2);
+        
+        // Rond central
+        painter.drawEllipse(field->width() / 2 - 75, field->height() / 2 - 75, 150, 150);
+        
+        // Surfaces de réparation
+        int penaltyBoxWidth = 300;
+        int penaltyBoxHeight = 150;
+        int penaltyBoxX = (field->width() - penaltyBoxWidth) / 2;
+        
+        // Surface du haut
+        painter.drawRect(penaltyBoxX, 30, penaltyBoxWidth, penaltyBoxHeight);
+        // Surface du bas
+        painter.drawRect(penaltyBoxX, field->height() - penaltyBoxHeight - 30, penaltyBoxWidth, penaltyBoxHeight);
+        
+        // Surfaces de but
+        int goalBoxWidth = 150;
+        int goalBoxHeight = 60;
+        int goalBoxX = (field->width() - goalBoxWidth) / 2;
+        
+        painter.drawRect(goalBoxX, 30, goalBoxWidth, goalBoxHeight);
+        painter.drawRect(goalBoxX, field->height() - goalBoxHeight - 30, goalBoxWidth, goalBoxHeight);
+        
+        // Points de penalty
+        painter.setBrush(Qt::white);
+        painter.drawEllipse(field->width() / 2 - 5, 30 + penaltyBoxHeight / 2 - 5, 10, 10);
+        painter.drawEllipse(field->width() / 2 - 5, field->height() - 30 - penaltyBoxHeight / 2 - 5, 10, 10);
+        
+        // Point central
+        painter.drawEllipse(field->width() / 2 - 5, field->height() / 2 - 5, 10, 10);
+        
+        return true;
+    }
+    
+    // Gestion des clics sur les positions des joueurs
+    if (event->type() == QEvent::MouseButtonPress && 
+        watched->objectName().startsWith("position_")) {
+        
+        // Vérification du type d'événement avant conversion
+        if (QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent*>(event)) {
+            if (mouseEvent->button() == Qt::LeftButton) {
+                QFrame *frame = qobject_cast<QFrame*>(watched);
+                if (frame) {
+                    int playerId = frame->property("playerId").toInt();
+                    QString position = frame->property("position").toString();
+                    
+                    if (playerId > 0) {
+                        // Afficher les détails du joueur sélectionné
+                        displayPlayerDetails(playerId, position);
+                    }
                 }
+                return true;
             }
-            return true;
         }
     }
-    return QMainWindow::eventFilter(obj, event);
+    
+    return QMainWindow::eventFilter(watched, event);
 }
+
 
 void MainWindow::displayPlayerDetails(int playerId, const QString &position)
 {
@@ -2404,12 +2339,12 @@ void MainWindow::displayPlayerDetails(int playerId, const QString &position)
     QLabel *detailTeamPosLabel = ui->tabWidget->findChild<QLabel*>("detailTeamPosLabel");
     QLabel *detailStatsLabel = ui->tabWidget->findChild<QLabel*>("detailStatsLabel");
     QLabel *detailImageLabel = ui->tabWidget->findChild<QLabel*>("detailImageLabel");
-    
+
     if (!detailNameLabel || !detailTeamPosLabel || !detailStatsLabel || !detailImageLabel) {
         qDebug() << "Detail widgets not found";
         return;
     }
-    
+
     // Requête pour obtenir les détails du joueur
     QSqlQuery query;
     query.prepare(
@@ -2420,7 +2355,7 @@ void MainWindow::displayPlayerDetails(int playerId, const QString &position)
         "WHERE j.id_player = :id"
     );
     query.bindValue(":id", playerId);
-    
+
     if (query.exec() && query.next()) {
         QString firstName = query.value("first_name").toString();
         QString lastName = query.value("last_name").toString();
@@ -2431,20 +2366,20 @@ void MainWindow::displayPlayerDetails(int playerId, const QString &position)
         int yellowCards = query.value("yellow_card").toInt();
         int redCards = query.value("red_card").toInt();
         QByteArray imageData = query.value("img_joueur").toByteArray();
-        
+
         // Mettre à jour les widgets avec les informations du joueur
         detailNameLabel->setText(firstName + " " + lastName);
-        
+
         // Afficher l'équipe et la position comme avant
         detailTeamPosLabel->setText(teamName + " | " + position + " (" + playerPosition + ")");
-        
+
         // Statistiques en texte simple pour optimiser l'espace
         QString statsText = QString("Goals: %1  |  Assists: %2  |  YC: %3  |  RC: %4")
             .arg(goals).arg(assists).arg(yellowCards).arg(redCards);
-            
+
         detailStatsLabel->setText(statsText);
         detailStatsLabel->setTextFormat(Qt::PlainText);
-        
+
         // Image du joueur - version ronde dans le panneau de détails
         if (!imageData.isEmpty()) {
             QPixmap playerPixmap;
@@ -2452,36 +2387,36 @@ void MainWindow::displayPlayerDetails(int playerId, const QString &position)
                 // Créer une image circulaire avec une bordure
                 QPixmap circularPixmap(70, 70);
                 circularPixmap.fill(Qt::transparent);
-                
+
                 QPainter painter(&circularPixmap);
                 painter.setRenderHint(QPainter::Antialiasing);
-                
+
                 // Créer un chemin circulaire pour découper l'image
                 QPainterPath path;
                 path.addEllipse(0, 0, 70, 70);
                 painter.setClipPath(path);
-                
+
                 QPixmap scaledPixmap = playerPixmap.scaled(70, 70, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-                
+
                 int x = (scaledPixmap.width() - 70) / 2;
                 int y = (scaledPixmap.height() - 70) / 2;
                 if (x < 0) x = 0;
                 if (y < 0) y = 0;
-                
+
                 painter.drawPixmap(0, 0, scaledPixmap, x, y, 70, 70);
-                
+
                 // Dessiner une bordure circulaire
                 painter.setClipping(false);
                 painter.setPen(QPen(QColor(255, 255, 255), 2));
                 painter.drawEllipse(1, 1, 68, 68);
-                
+
                 detailImageLabel->setPixmap(circularPixmap);
                 detailImageLabel->setText("");
                 detailImageLabel->setStyleSheet("background: transparent; border: none;");
             }
         } else {
             // Image par défaut avec les initiales
-            detailImageLabel->setText(firstName.isEmpty() || lastName.isEmpty() ? "?" : 
+            detailImageLabel->setText(firstName.isEmpty() || lastName.isEmpty() ? "?" :
                                      QString(firstName[0]) + QString(lastName[0]));
             detailImageLabel->setPixmap(QPixmap());
             detailImageLabel->setStyleSheet(
