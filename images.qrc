@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>logo football.png</file>
+        <file>reset.png</file>
+        <file>search.png</file>
+        <file>trier.png</file>
+        <file>Userr.png</file>
+        <file>abv.png</file>
+        <file>logo.png</file>
+        <file>money.png</file>
+        <file>terrain.png</file>
+        <file>5570834.jpg</file>
+        <file>5570834.png</file>
+        <file>BACK.png</file>
+        <file>ai.png</file>
+    </qresource>
+</RCC>
