@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,10 +16,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_sign_in_clicked(); // Connects to "Sign In" button
+    void on_sign_in_clicked();
 
 private:
     Ui::MainWindow *ui;
+    int currentEmployeeId;
+    QString currentEmployeeRole;
 };
 
 #endif // MAINWINDOW_H

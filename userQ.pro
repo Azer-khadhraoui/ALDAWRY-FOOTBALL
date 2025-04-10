@@ -8,6 +8,8 @@ QT       += core gui sql
 Qt += sql
 QT += printsupport
 QT += charts
+QT += core gui sql printsupport charts
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = userQ
@@ -27,6 +29,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    StatsWidget.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
@@ -34,18 +37,23 @@ SOURCES += \
     userwindow.cpp
 
 HEADERS += \
+    StatsWidget.h \
     mainwindow.h \
     connection.h \
     user.h \
     userwindow.h
 
 FORMS += \
-        mainwindow.ui \
-        Main.ui \
-        User.ui \
-        modify_user.ui
+    create_team.ui \
+    display_team.ui \
+    main.ui \
+    mainwindow.ui \
+    user.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc

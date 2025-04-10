@@ -38,6 +38,9 @@ public:
     bool updateEmployee();
     static QSqlQueryModel* displayEmployees();
 
+    bool authenticate(const QString& email, const QString& password); // Add this line
+
+
 private:
     int id;
     QString firstName;    // Maps to NOM_EMP
@@ -47,6 +50,10 @@ private:
     QDate dateOfBirth;    // Maps to DATEN
     QString role;         // Maps to ROLE
     QString password;     // Maps to MDP
+
+    // Validation helper functions
+    bool validatePhoneNumber(const QString& mobileNumber);
+    bool validateAge(const QDate& dob);
 };
 
 #endif // USER_H
