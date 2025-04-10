@@ -17,6 +17,7 @@ public:
 
 private slots:
     void on_sign_in_clicked();
+    void on_sign_in_2_clicked(); // For "recover pass" button
 
 private:
     Ui::MainWindow *ui;

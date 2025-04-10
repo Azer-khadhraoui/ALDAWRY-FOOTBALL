@@ -222,30 +222,6 @@ color: #b9b9b9; font-size: 14px; border: 2px solid qlineargradient(x1:0, y1:0, x
     <string>         Password</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>410</y>
-     <width>141</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-     <bold>false</bold>
-     <underline>false</underline>
-     <kerning>true</kerning>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(0, 0, 0); background-color:transparent;</string>
-   </property>
-   <property name="text">
-    <string>Forgot Password?</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="sign_in">
    <property name="geometry">
     <rect>
@@ -296,6 +272,23 @@ color: white; font-size: 14px; font-weight: bold; border: 1px solid white; borde
    </property>
    <property name="orientation">
     <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sign_in_2">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>420</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);
+color: white; font-size: 14px; font-weight: bold; border: 1px solid white; border-radius: 20px; padding: 6px 12px;</string>
+   </property>
+   <property name="text">
+    <string>recover pass</string>
    </property>
   </widget>
  </widget>

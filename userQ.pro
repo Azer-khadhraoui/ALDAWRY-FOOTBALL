@@ -28,11 +28,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+QT += network
+
 SOURCES += \
     StatsWidget.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    recoverpassword.cpp \
     user.cpp \
     userwindow.cpp
 
@@ -40,6 +43,7 @@ HEADERS += \
     StatsWidget.h \
     mainwindow.h \
     connection.h \
+    recoverpassword.h \
     user.h \
     userwindow.h
 
@@ -48,6 +52,7 @@ FORMS += \
     display_team.ui \
     main.ui \
     mainwindow.ui \
+    recoverpassword.ui  \
     user.ui
 
 # Default rules for deployment.

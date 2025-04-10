@@ -4,6 +4,8 @@
 #include "userwindow.h"
 #include <QMessageBox>
 #include <QStyle>
+#include "userwindow.h" // Assuming this is the next window after login
+#include "recoverpassword.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -15,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_2->setPlaceholderText("Password");
     ui->lineEdit_2->clear(); // Clear the default "Password" text
     ui->lineEdit_2->setEchoMode(QLineEdit::Password); // Hide password input
+    connect(ui->sign_in_2, &QPushButton::clicked, this, &MainWindow::on_sign_in_2_clicked);
+
+
 
 
 
@@ -162,4 +167,10 @@ void MainWindow::on_sign_in_clicked() {
         ui->lineEdit_2->clear();
         ui->lineEdit->setFocus();
     }
+}
+
+
+void MainWindow::on_sign_in_2_clicked() {
+    RecoverPasswordDialog dialog(this);
+    dialog.exec();
 }
