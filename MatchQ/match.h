@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QList>
 #include <QDateTime>
+#include <QStandardItemModel> // Include this for QStandardItemModel
 
 class Match {
 private:
@@ -28,6 +29,8 @@ public:
     Match();
     Match(int id, int compId, int teamA, int teamB, 
           const QString& stad, const QString& ref, const QDateTime& dateTime);
+    static bool setLineup(int matchId, int teamId, const QString& formation, const QList<int>& playerIds);
+    static QList<QString> getLineup(int matchId, int teamId, QString& formation);
 
     // Getters
     int getId() const { return id_match; }
@@ -60,6 +63,8 @@ public:
     void setTeamAName(const QString& name) { teamAName = name; }
     void setTeamBName(const QString& name) { teamBName = name; }
     void setCompetitionName(const QString& name) { competitionName = name; }
+    
+    bool operator==(const Match& other) const;
 
     // Database operations
     bool addMatch();
@@ -69,11 +74,20 @@ public:
     static QList<Match> searchMatches(const QString &text);
     static QList<Match> sortMatches(bool ascending);
     static QList<Match> sortMatchesByDateTime(bool ascending); // Add this line
+    static void generatePDF(const QString &filePath); // Add this line
+
+    // Function to generate match dates for a competition
+    static bool generateMatchDates(int competitionId, const QString &competitionType, const QDate &startDate, const QDate &endDate, int nbTeams);
 
     // Static methods to populate UI combo boxes
     static void loadTeamsIntoComboBoxes(QComboBox* team1Box, QComboBox* team2Box);
     static void loadCompetitionsIntoComboBox(QComboBox* compBox);
     static QList<Match> readAllMatches();
+
+    // Add the declaration for getMatchSummary
+    static QStandardItemModel* getMatchSummary(QObject* parent);
+
+    
 };
 
 #endif // MATCH_H

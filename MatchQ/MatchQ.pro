@@ -6,8 +6,11 @@
 
 QT       += core gui sql
 QT += sql
+QT += charts
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 
 TARGET = Atelier_Connexion
 TEMPLATE = app
@@ -27,17 +30,20 @@ CONFIG += c++11
 CONFIG +=console
 
 SOURCES += \
+    fieldwidget.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
     match.cpp
 
 HEADERS += \
+    fieldwidget.h \
         mainwindow.h \
     connection.h \
     match.h
 
 FORMS += \
+        fieldwidget.ui \
         mainwindow.ui
 
 # Default rules for deployment.

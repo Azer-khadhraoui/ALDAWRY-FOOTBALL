@@ -30,3 +30,4 @@ QSqlDatabase Connection::getDatabase()
 {
     return QSqlDatabase::database();
 }
+
