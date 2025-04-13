@@ -29,7 +29,14 @@
 #include <QPdfWriter>
 #include <QTextDocument>
 #include <QMouseEvent>
-
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QEventLoop>
+#include <QTextEdit>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -1076,47 +1083,45 @@ void MainWindow::setupStatisticsTab()
     // Conteneur pour les tableaux de statistiques
     QHBoxLayout *tablesLayout = new QHBoxLayout();
 
- // Dans setupStatisticsTab(), modifiez les tableaux
+    // Tableau des meilleurs buteurs
+    QGroupBox *topScorersGroup = new QGroupBox("Top Goalscorers");
+    topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+    QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
+    QTableWidget *scorersTable = new QTableWidget(0, 3);
+    scorersTable->setObjectName("scorersTable");
+    scorersTable->setHorizontalHeaderLabels({"Photo", "Player", "Goals"});
+    scorersTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+    scorersTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    scorersTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+    scorersTable->setColumnWidth(0, 50);
+    scorersTable->setColumnWidth(2, 60);
+    scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    scorersTable->setAlternatingRowColors(false);
+    scorersTable->verticalHeader()->setVisible(false);
+    scorersTable->verticalHeader()->setDefaultSectionSize(50);
+    scorersLayout->addWidget(scorersTable);
+    tablesLayout->addWidget(topScorersGroup);
 
-// Tableau des meilleurs buteurs
-QGroupBox *topScorersGroup = new QGroupBox("Top Goalscorers");
-topScorersGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
-QVBoxLayout *scorersLayout = new QVBoxLayout(topScorersGroup);
-QTableWidget *scorersTable = new QTableWidget(0, 3); // 3 colonnes au lieu de 2
-scorersTable->setObjectName("scorersTable");
-scorersTable->setHorizontalHeaderLabels({"Photo", "Player", "Goals"});
-scorersTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
-scorersTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-scorersTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
-scorersTable->setColumnWidth(0, 50);
-scorersTable->setColumnWidth(2, 60);
-scorersTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-scorersTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-scorersTable->setAlternatingRowColors(false);
-scorersTable->verticalHeader()->setVisible(false);
-scorersTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
-scorersLayout->addWidget(scorersTable);
-tablesLayout->addWidget(topScorersGroup);
-
-// Tableau des meilleurs passeurs
-QGroupBox *topAssistsGroup = new QGroupBox("Top Assists");
-topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
-QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
-QTableWidget *assistsTable = new QTableWidget(0, 3); // 3 colonnes au lieu de 2
-assistsTable->setObjectName("assistsTable");
-assistsTable->setHorizontalHeaderLabels({"Photo", "Player", "Assists"});
-assistsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
-assistsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-assistsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
-assistsTable->setColumnWidth(0, 50);
-assistsTable->setColumnWidth(2, 60);
-assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-assistsTable->setAlternatingRowColors(false);
-assistsTable->verticalHeader()->setVisible(false);
-assistsTable->verticalHeader()->setDefaultSectionSize(50); // Hauteur des lignes
-assistsLayout->addWidget(assistsTable);
-tablesLayout->addWidget(topAssistsGroup);
+    // Tableau des meilleurs passeurs
+    QGroupBox *topAssistsGroup = new QGroupBox("Top Assists");
+    topAssistsGroup->setStyleSheet("QGroupBox { font-weight: bold; }");
+    QVBoxLayout *assistsLayout = new QVBoxLayout(topAssistsGroup);
+    QTableWidget *assistsTable = new QTableWidget(0, 3);
+    assistsTable->setObjectName("assistsTable");
+    assistsTable->setHorizontalHeaderLabels({"Photo", "Player", "Assists"});
+    assistsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+    assistsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    assistsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+    assistsTable->setColumnWidth(0, 50);
+    assistsTable->setColumnWidth(2, 60);
+    assistsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    assistsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    assistsTable->setAlternatingRowColors(false);
+    assistsTable->verticalHeader()->setVisible(false);
+    assistsTable->verticalHeader()->setDefaultSectionSize(50);
+    assistsLayout->addWidget(assistsTable);
+    tablesLayout->addWidget(topAssistsGroup);
 
     // Tableau des joueurs par position
     QGroupBox *positionsGroup = new QGroupBox("Players by Position");
@@ -1164,16 +1169,24 @@ tablesLayout->addWidget(topAssistsGroup);
                              "QPushButton:hover { background-color: #3a76d8; }");
     mainLayout->addWidget(refreshBtn);
 
+    // Bouton pour générer un rapport
+    QPushButton *generateReportBtn = new QPushButton("Generate Report");
+    generateReportBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
+                                    "QPushButton:hover { background-color: #3a76d8; }");
+    mainLayout->addWidget(generateReportBtn);
+
     // Ajouter l'onglet
     ui->tabWidget->addTab(statTab, "Statistics");
 
     // Connexion du signal pour rafraîchir les statistiques
     connect(refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshStatistics);
 
+    // Connexion du bouton de rapport
+    connect(generateReportBtn, &QPushButton::clicked, this, &MainWindow::onGenerateReportClicked);
+
     // Initialiser les statistiques
     refreshStatistics();
 }
-
 void MainWindow::refreshStatistics()
 {
     // Obtenir le filtre d'équipe sélectionné
@@ -2780,4 +2793,392 @@ void MainWindow::displayTeamOfCompetition(const QString &competitionName)
             }
         }
     }
+}
+QJsonObject MainWindow::collectPlayerData(int playerId) {
+    QJsonObject data;
+    QSqlQuery query;
+    query.prepare("SELECT j.*, e.team_name "
+                  "FROM joueur j "
+                  "JOIN equipe e ON j.id_team = e.id_team "
+                  "WHERE j.id_player = :id");
+    query.bindValue(":id", playerId);
+    
+    if (query.exec() && query.next()) {
+        data["id_player"] = query.value("id_player").toInt();
+        data["first_name"] = query.value("first_name").toString();
+        data["last_name"] = query.value("last_name").toString();
+        data["team_name"] = query.value("team_name").toString();
+        data["position"] = query.value("position").toString();
+        data["jersey_nb"] = query.value("jersey_nb").toInt();
+        data["date_of_birth"] = query.value("date_of_birth").toDate().toString("yyyy-MM-dd");
+        data["nationality"] = query.value("nationality").toString();
+        data["goals"] = query.value("goals").toInt();
+        data["assists"] = query.value("assists").toInt();
+        data["yellow_card"] = query.value("yellow_card").toInt();
+        data["red_card"] = query.value("red_card").toInt();
+        data["injured"] = query.value("injured").toInt() == 1;
+        int status = query.value("status").toInt();
+        QString statusText;
+        switch(status) {
+            case 0: statusText = "Active"; break;
+            case 1: statusText = "Injured"; break;
+            case 2: statusText = "Suspended"; break;
+            case 3: statusText = "Transferred"; break;
+            default: statusText = "Unknown";
+        }
+        data["status"] = statusText;
+    } else {
+        qDebug() << "Error collecting player data:" << query.lastError().text();
+    }
+    return data;
+}
+QString MainWindow::generateReport(const QJsonObject &data) {
+    qDebug() << "Entering generateReport"; // Log pour vérifier
+    
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QUrl url("https://api.cohere.ai/v1/generate");
+    QNetworkRequest request(url);
+    
+    // Configurer les en-têtes
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QString apiKey = "GmzfYDb3sg1arIayokcJi2GiTi49XxgzfcxRV0Ff"; // Remplace par ta vraie clé Cohere
+    qDebug() << "API Key used:" << apiKey;
+    
+    if (apiKey.isEmpty()) {
+        qDebug() << "Error: API key not set";
+        QMessageBox::critical(this, "Configuration Error", "Cohere API key is not set.");
+        return "Error: API key not configured.";
+    }
+    request.setRawHeader("Authorization", ("Bearer " + apiKey.trimmed()).toUtf8());
+    
+    // Créer le prompt
+    QString prompt = QString("Generate a detailed performance report for a football player with the following details:\n"
+                            "Name: %1 %2\n"
+                            "Team: %3\n"
+                            "Position: %4\n"
+                            "Jersey Number: %5\n"
+                            "Goals: %6\n"
+                            "Assists: %7\n"
+                            "Yellow Cards: %8\n"
+                            "Red Cards: %9\n"
+                            "Injured: %10\n"
+                            "Status: %11\n"
+                            "Provide insights on their performance, strengths, and areas for improvement.")
+                            .arg(data["first_name"].toString())
+                            .arg(data["last_name"].toString())
+                            .arg(data["team_name"].toString())
+                            .arg(data["position"].toString())
+                            .arg(data["jersey_nb"].toInt())
+                            .arg(data["goals"].toInt())
+                            .arg(data["assists"].toInt())
+                            .arg(data["yellow_card"].toInt())
+                            .arg(data["red_card"].toInt())
+                            .arg(data["injured"].toBool() ? "Yes" : "No")
+                            .arg(data["status"].toString());
+    
+    QJsonObject payload;
+    payload["prompt"] = prompt;
+    payload["max_tokens"] = 200; // Limite pour un rapport court
+    QJsonDocument doc(payload);
+    QByteArray dataPayload = doc.toJson();
+    qDebug() << "Request payload:" << QString(dataPayload);
+    
+    // Envoyer la requête
+    QNetworkReply *reply = manager->post(request, dataPayload);
+    
+    // Attendre la réponse
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+    
+    // Traiter la réponse
+    QString reportText;
+    if (reply->error() == QNetworkReply::NoError) {
+        QByteArray responseData = reply->readAll();
+        qDebug() << "Raw API response:" << responseData;
+        QJsonDocument responseDoc = QJsonDocument::fromJson(responseData);
+        if (!responseDoc.isNull()) {
+            QJsonObject responseObj = responseDoc.object();
+            QJsonArray generations = responseObj["generations"].toArray();
+            if (!generations.isEmpty()) {
+                reportText = generations[0].toObject()["text"].toString();
+            } else {
+                reportText = "Error: Empty response from API.";
+            }
+        } else {
+            reportText = "Error: Invalid JSON response.";
+        }
+    } else {
+        reportText = "Error generating report: " + reply->errorString();
+        qDebug() << "API error:" << reply->errorString();
+        QMessageBox::warning(this, "API Error", reportText);
+    }
+    
+    reply->deleteLater();
+    return reportText;
+}
+void MainWindow::onGenerateReportClicked() {
+    // Vérifier si un joueur est sélectionné
+    if (!validateTableSelection()) {
+        QMessageBox::warning(this, "Selection Error", "Please select a player.");
+        return;
+    }
+    
+    // Obtenir l'ID du joueur sélectionné
+    int row = ui->tableWidget->selectionModel()->selectedRows().first().row();
+    int playerId = ui->tableWidget->item(row, 0)->text().toInt();
+    
+    // Collecter les données
+    QJsonObject playerData = collectPlayerData(playerId);
+    if (playerData.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Could not collect player data.");
+        return;
+    }
+    
+    // Générer le rapport
+    QString reportText = generateReport(playerData);
+    
+    // Afficher le rapport
+    displayReport(reportText);
+}
+void MainWindow::displayReport(const QString &reportText) {
+    // Créer un widget pour afficher le rapport avec un design extraordinaire
+    QWidget *reportTab = new QWidget();
+    reportTab->setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0A2647, stop:0.5 #144272, stop:1 #205295);");
+    
+    QVBoxLayout *mainLayout = new QVBoxLayout(reportTab);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(15);
+    
+    // En-tête compact
+    QFrame *headerFrame = new QFrame();
+    headerFrame->setFixedHeight(100);
+    headerFrame->setStyleSheet(
+        "QFrame {"
+        "    background-color: rgba(255, 255, 255, 0.15);"
+        "    border-radius: 15px;"
+        "    border: 1px solid rgba(255, 255, 255, 0.3);"
+        "}"
+    );
+    QHBoxLayout *headerLayout = new QHBoxLayout(headerFrame);
+    headerLayout->setContentsMargins(15, 8, 15, 8);
+    
+    // Logo
+    QLabel *logoLabel = new QLabel();
+    QPixmap logoPix = QPixmap(60, 60);
+    logoPix.fill(Qt::transparent);
+    QPainter painter(&logoPix);
+    painter.setRenderHint(QPainter::Antialiasing);
+    
+    QRadialGradient gradient(30, 30, 30);
+    gradient.setColorAt(0, QColor(255, 215, 0));
+    gradient.setColorAt(1, QColor(230, 126, 34));
+    
+    painter.setBrush(gradient);
+    painter.setPen(QPen(Qt::white, 2));
+    painter.drawEllipse(5, 5, 50, 50);
+    painter.setPen(QPen(Qt::white, 2));
+    painter.drawText(QRect(0, 0, 60, 60), Qt::AlignCenter, "AL\nDAWRY");
+    painter.end();
+    
+    logoLabel->setPixmap(logoPix);
+    logoLabel->setMaximumWidth(60);
+    
+    // Texte de titre
+    QVBoxLayout *titleLayout = new QVBoxLayout();
+    QLabel *titleLabel = new QLabel("PLAYER PERFORMANCE ANALYSIS");
+    titleLabel->setStyleSheet(
+        "font-size: 20px;"
+        "font-weight: bold;"
+        "color: white;"
+        "letter-spacing: 1px;"
+        "text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"
+    );
+    
+    QLabel *subtitleLabel = new QLabel("Advanced AI-Powered Insights");
+    subtitleLabel->setStyleSheet(
+        "font-size: 12px;"
+        "font-style: italic;"
+        "color: #9DE5FF;"
+    );
+    
+    titleLayout->addWidget(titleLabel);
+    titleLayout->addWidget(subtitleLabel);
+    
+    headerLayout->addWidget(logoLabel);
+    headerLayout->addLayout(titleLayout, 1);
+    
+    mainLayout->addWidget(headerFrame);
+    
+    // Corps du rapport - AGRANDI
+    QFrame *reportFrame = new QFrame();
+    reportFrame->setStyleSheet(
+        "QFrame {"
+        "    background-color: rgba(255, 255, 255, 0.92);"
+        "    border-radius: 15px;"
+        "    border: none;"
+        "}"
+    );
+    
+    // Ombre
+    QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect();
+    shadowEffect->setBlurRadius(15);
+    shadowEffect->setColor(QColor(0, 0, 0, 60));
+    shadowEffect->setOffset(0, 3);
+    reportFrame->setGraphicsEffect(shadowEffect);
+    
+    QVBoxLayout *reportLayout = new QVBoxLayout(reportFrame);
+    reportLayout->setContentsMargins(15, 15, 15, 15);
+    
+    // En-tête du rapport
+    QFrame *reportHeaderFrame = new QFrame();
+    reportHeaderFrame->setFixedHeight(40);
+    reportHeaderFrame->setStyleSheet(
+        "background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #3498db, stop:1 #2980b9);"
+        "border-top-left-radius: 10px;"
+        "border-top-right-radius: 10px;"
+        "border-bottom-left-radius: 0px;"
+        "border-bottom-right-radius: 0px;"
+    );
+    QHBoxLayout *reportHeaderLayout = new QHBoxLayout(reportHeaderFrame);
+    reportHeaderLayout->setContentsMargins(10, 0, 10, 0);
+    
+    QLabel *reportHeaderLabel = new QLabel("OFFICIAL PERFORMANCE REPORT");
+    reportHeaderLabel->setStyleSheet(
+        "color: white;"
+        "font-size: 14px;"
+        "font-weight: bold;"
+    );
+    
+    QLabel *dateLabel = new QLabel(QDate::currentDate().toString("dd MMM yyyy"));
+    dateLabel->setStyleSheet("color: white; font-size: 12px;");
+    
+    reportHeaderLayout->addWidget(reportHeaderLabel);
+    reportHeaderLayout->addWidget(dateLabel, 0, Qt::AlignRight);
+    
+    // Zone de texte du rapport - PLUS GRANDE
+    QTextEdit *reportTextEdit = new QTextEdit();
+    reportTextEdit->setReadOnly(true);
+    reportTextEdit->setFrameStyle(QFrame::NoFrame);
+    reportTextEdit->setMinimumHeight(550); // Hauteur augmentée encore plus
+    reportTextEdit->setStyleSheet(
+        "QTextEdit {"
+        "   background-color: white;"
+        "   color: #333333;"
+        "   font-size: 15px;" // Police plus grande
+        "   line-height: 1.7;" // Interlignage augmenté
+        "   padding: 25px;" // Padding augmenté
+        "   border: none;"
+        "}"
+    );
+    
+    // Formater le texte du rapport
+    QString formattedText = "<!DOCTYPE HTML><html><body style='font-family: Arial, sans-serif;'>";
+    formattedText += "<h2 style='color: #2c3e50; border-bottom: 1px solid #ecf0f1; padding-bottom: 10px;'>Player Assessment</h2>";
+    
+    // Segmenter le rapport en paragraphes et ajouter du style
+    QStringList paragraphs = reportText.split("\n\n");
+    for (const QString &paragraph : paragraphs) {
+        if (paragraph.trimmed().isEmpty()) continue;
+        
+        if (paragraph.contains("strengths", Qt::CaseInsensitive) || 
+            paragraph.contains("strong points", Qt::CaseInsensitive)) {
+            formattedText += "<h3 style='color: #27ae60; margin-top: 20px;'>Strengths Analysis</h3>";
+        } else if (paragraph.contains("weaknesses", Qt::CaseInsensitive) || 
+                   paragraph.contains("areas for improvement", Qt::CaseInsensitive) ||
+                   paragraph.contains("could improve", Qt::CaseInsensitive)) {
+            formattedText += "<h3 style='color: #e67e22; margin-top: 20px;'>Areas for Improvement</h3>";
+        } else if (paragraph.contains("conclusion", Qt::CaseInsensitive) || 
+                  paragraph.contains("summary", Qt::CaseInsensitive) ||
+                  paragraph.contains("overall", Qt::CaseInsensitive)) {
+            formattedText += "<h3 style='color: #2980b9; margin-top: 20px;'>Overall Assessment</h3>";
+        }
+        
+        // Mettre en évidence les mots clés
+        QString enhancedParagraph = paragraph;
+        enhancedParagraph.replace("goals", "<span style='color: #3498db; font-weight: bold;'>goals</span>");
+        enhancedParagraph.replace("assists", "<span style='color: #2ecc71; font-weight: bold;'>assists</span>");
+        enhancedParagraph.replace("cards", "<span style='color: #e74c3c; font-weight: bold;'>cards</span>");
+        enhancedParagraph.replace("yellow card", "<span style='color: #f39c12; font-weight: bold;'>yellow card</span>");
+        enhancedParagraph.replace("red card", "<span style='color: #c0392b; font-weight: bold;'>red card</span>");
+        enhancedParagraph.replace("performance", "<span style='color: #8e44ad; font-weight: bold;'>performance</span>");
+        
+        formattedText += "<p style='text-align: justify; margin: 10px 0; font-size: 16px;'>" + enhancedParagraph + "</p>";
+    }
+    
+    formattedText += "</body></html>";
+    reportTextEdit->setHtml(formattedText);
+    
+    // Pied de page
+    QFrame *footerFrame = new QFrame();
+    footerFrame->setFixedHeight(30);
+    footerFrame->setStyleSheet(
+        "background-color: #ecf0f1;"
+        "border-bottom-left-radius: 10px;"
+        "border-bottom-right-radius: 10px;"
+        "border-top: 1px solid #bdc3c7;"
+        "padding: 5px;"
+    );
+    QHBoxLayout *footerLayout = new QHBoxLayout(footerFrame);
+    footerLayout->setContentsMargins(10, 0, 10, 0);
+    
+    QLabel *disclaimerLabel = new QLabel("Generated by AI analysis - © AL DAWRY Football Management");
+    disclaimerLabel->setStyleSheet("color: #7f8c8d; font-size: 10px; font-style: italic;");
+    
+    footerLayout->addWidget(disclaimerLabel, 0, Qt::AlignCenter);
+    
+    // Assembler le corps du rapport
+    reportLayout->addWidget(reportHeaderFrame);
+    reportLayout->addWidget(reportTextEdit, 1);
+    reportLayout->addWidget(footerFrame);
+    
+    mainLayout->addWidget(reportFrame, 1);
+    
+    // Bouton de fermeture uniquement
+    QPushButton *closeBtn = new QPushButton("Close Report");
+    closeBtn->setCursor(Qt::PointingHandCursor);
+    closeBtn->setFixedHeight(38);
+    closeBtn->setStyleSheet(
+        "QPushButton {"
+        "   background-color: #7f8c8d;"
+        "   color: white;"
+        "   border: none;"
+        "   border-radius: 6px;"
+        "   font-weight: bold;"
+        "   font-size: 13px;"
+        "   padding: 0px 15px;"
+        "}"
+        "QPushButton:hover { background-color: #95a5a6; }"
+    );
+    
+    mainLayout->addWidget(closeBtn, 0, Qt::AlignRight);
+    
+    // Ajouter l'onglet et passer à celui-ci
+    int tabIndex = ui->tabWidget->addTab(reportTab, "Player Report");
+    ui->tabWidget->setCurrentIndex(tabIndex);
+    
+    // Animations d'entrée
+    QPropertyAnimation *headerAnim = new QPropertyAnimation(headerFrame, "geometry");
+    headerAnim->setDuration(500);
+    headerAnim->setStartValue(QRect(headerFrame->x(), headerFrame->y() - 30, headerFrame->width(), headerFrame->height()));
+    headerAnim->setEndValue(headerFrame->geometry());
+    headerAnim->setEasingCurve(QEasingCurve::OutBack);
+    
+    QPropertyAnimation *reportAnim = new QPropertyAnimation(reportFrame, "geometry");
+    reportAnim->setDuration(700);
+    reportAnim->setStartValue(QRect(reportFrame->x(), reportFrame->y() + 30, reportFrame->width(), reportFrame->height()));
+    reportAnim->setEndValue(reportFrame->geometry());
+    reportAnim->setEasingCurve(QEasingCurve::OutCubic);
+    
+    // Démarrer les animations
+    headerAnim->start(QPropertyAnimation::DeleteWhenStopped);
+    QTimer::singleShot(150, [=]() { reportAnim->start(QPropertyAnimation::DeleteWhenStopped); });
+    
+    // Connexion pour fermer l'onglet
+    connect(closeBtn, &QPushButton::clicked, [=]() {
+        int idx = ui->tabWidget->indexOf(reportTab);
+        if (idx != -1) {
+            ui->tabWidget->removeTab(idx);
+        }
+    });
 }

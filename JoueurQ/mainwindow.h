@@ -12,6 +12,9 @@
 #include <QLabel>
 #include <QGraphicsEffect>     // Ajouter cette ligne
 #include <QPropertyAnimation>
+#include <QJsonObject>
+#include <QNetworkAccessManager>
+
  #include "qrcodegen.hpp"
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +40,8 @@ private slots:
     void onSortingChanged(int index); 
     void refreshStatistics();
     void refreshBestPlayer(); 
+    void onGenerateReportClicked();
+    void displayReport(const QString &reportText);
 
 private:
     Ui::MainWindow *ui;
@@ -61,6 +66,8 @@ void updatePlayerInfo(QSqlQuery query, QLabel *nameLabel, QLabel *teamLabel, QLa
     void displayTeamOfCompetition(const QString &competitionName);
     void displayPlayerDetails(int playerId, const QString &position);
     bool eventFilter(QObject *obj, QEvent *event) override;
+    QJsonObject collectPlayerData(int playerId);
+    QString generateReport(const QJsonObject &data);
     
 };
 
