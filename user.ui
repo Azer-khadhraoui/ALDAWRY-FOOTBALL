@@ -272,10 +272,10 @@ border-radius: 5px;</string>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>100</y>
-      <width>971</width>
-      <height>651</height>
+      <x>20</x>
+      <y>90</y>
+      <width>1151</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -315,7 +315,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -594,7 +594,7 @@ padding-bottom: 5px;background-color:transparent;</string>
       <widget class="QLineEdit" name="lineEdit_10">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>10</x>
          <y>10</y>
          <width>211</width>
          <height>41</height>
@@ -628,40 +628,18 @@ padding-bottom: 5px;background-color:transparent;</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QFrame" name="frame_7">
+      <widget class="QPushButton" name="searchButton">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>10</y>
-         <width>31</width>
-         <height>25</height>
+         <x>240</x>
+         <y>20</y>
+         <width>80</width>
+         <height>24</height>
         </rect>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::Shape::StyledPanel</enum>
+       <property name="text">
+        <string>search</string>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Shadow::Raised</enum>
-       </property>
-       <widget class="QLabel" name="label_21">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>11</width>
-          <height>11</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap>../../../../../Pictures/proj QT/search.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton_3">
@@ -681,33 +659,10 @@ border-radius: 5px ;</string>
        <string>Delete</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
-      <property name="geometry">
-       <rect>
-        <x>240</x>
-        <y>40</y>
-        <width>191</width>
-        <height>24</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="searchButton">
-      <property name="geometry">
-       <rect>
-        <x>870</x>
-        <y>50</y>
-        <width>80</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>search</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pdfButton">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>130</x>
         <y>40</y>
         <width>80</width>
         <height>24</height>
@@ -720,7 +675,7 @@ border-radius: 5px ;</string>
      <widget class="QPushButton" name="statButton">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>240</x>
         <y>40</y>
         <width>80</width>
         <height>24</height>

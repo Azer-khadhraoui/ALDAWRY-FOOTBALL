@@ -32,20 +32,28 @@ QT += network
 
 SOURCES += \
     StatsWidget.cpp \
+    createteamwindow.cpp \
+    displayteamwindow.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
     recoverpassword.cpp \
+    team.cpp \
     user.cpp \
-    userwindow.cpp
+    userwindow.cpp\
+    sessionmanager.cpp
 
 HEADERS += \
     StatsWidget.h \
+    createteamwindow.h \
+    displayteamwindow.h \
     mainwindow.h \
     connection.h \
     recoverpassword.h \
+    team.h \
     user.h \
-    userwindow.h
+    userwindow.h\
+    sessionmanager.h
 
 FORMS += \
     create_team.ui \

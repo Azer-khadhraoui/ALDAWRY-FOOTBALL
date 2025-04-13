@@ -55,9 +55,15 @@ private:
     QMap<QString, QMap<QString, int>> roleByAge;
     int totalEmployees = 0;
 
+    void paintEvent(QPaintEvent *event) override;  // Declare paintEvent
+    void on_searchTextChanged(const QString &text); // New slot for dynamic search
+
+
     void collectStatistics();
 
+
     friend class StatsWidget;
+
 };
 
 #endif // USERWINDOW_H

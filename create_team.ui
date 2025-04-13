@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>637</width>
+    <height>667</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,8 +22,8 @@
      <rect>
       <x>50</x>
       <y>20</y>
-      <width>500</width>
-      <height>350</height>
+      <width>531</width>
+      <height>591</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -114,6 +114,23 @@ padding: 15px;</string>
       </widget>
      </item>
      <item row="9" column="0">
+      <widget class="QLabel" name="label_team_logo">
+       <property name="styleSheet">
+        <string notr="true">color: #A0A8B7; font-weight: bold; padding-bottom: 5px; background-color: transparent;</string>
+       </property>
+       <property name="text">
+        <string>Team Logo (File Path)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLineEdit" name="teamLogoEdit">
+       <property name="styleSheet">
+        <string notr="true">background-color: #1C1F2A; border: 1px solid #2A2D3A; border-radius: 5px; padding: 5px; color: white;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
       <widget class="QPushButton" name="createButton">
        <property name="styleSheet">
         <string notr="true">background-color: rgba(50, 150, 250, 0.8); color: white; font-size: 12px; border-radius: 5px; padding: 6px 12px;</string>

@@ -7,7 +7,7 @@
 
 class Employee {
 public:
-    Employee();
+    Employee() : id(-1), dateOfBirth(QDate()) {} // Default constructor
     Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password);
 
     // Getters
@@ -38,11 +38,10 @@ public:
     bool updateEmployee();
     static QSqlQueryModel* displayEmployees();
 
-    bool authenticate(const QString& email, const QString& password); // Add this line
-
+    bool authenticate(const QString& email, const QString& password);
 
 private:
-    int id;
+    int id;               // Maps to ID_EMP
     QString firstName;    // Maps to NOM_EMP
     QString lastName;     // Maps to PRENOM_EMP
     QString email;        // Maps to EMAIL_EMP

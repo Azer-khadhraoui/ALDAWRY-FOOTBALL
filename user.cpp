@@ -4,18 +4,10 @@
 #include <QDebug>
 #include <QRegularExpression> // Add this line to fix the QRegularExpression error
 
-Employee::Employee() : id(0) {}
+Employee::Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password)
+    : id(id), firstName(firstName), lastName(lastName), email(email), mobileNumber(mobileNumber), dateOfBirth(dob), role(role), password(password) {}
 
-Employee::Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password) {
-    this->id = id;
-    this->firstName = firstName;
-    this->lastName = lastName;
-    this->email = email;
-    this->mobileNumber = mobileNumber;
-    this->dateOfBirth = dob;
-    this->role = role;
-    this->password = password;
-}
+
 
 bool Employee::addEmployee() {
     // Validate for NOT NULL constraints

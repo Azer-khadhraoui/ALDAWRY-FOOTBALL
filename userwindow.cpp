@@ -16,6 +16,7 @@
 UserWindow::UserWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.isOpen()) {
         QMessageBox::critical(this, "Error", "Database connection lost. Please restart the application.");
@@ -524,98 +525,270 @@ void UserWindow::collectStatistics() {
         qDebug() << "Query failed:" << query.lastQuery() << "Error:" << query.lastError().text();
     }
 }
+// userwindow.cpp
+
 void UserWindow::drawStatistics(QPainter &painter) {
-    qDebug() << "Drawing statistics... Total employees:" << totalEmployees;
-    qDebug() << "Age categories:" << ageCategories;
-    qDebug() << "Role count:" << roleCount;
-    qDebug() << "Role by age:" << roleByAge;
+    if (totalEmployees == 0) {
+        painter.setFont(QFont("Arial", 12));
+        painter.setPen(Qt::white);
+        painter.drawText(rect(), Qt::AlignCenter, "No employee data available to display statistics.");
+        return;
+    }
 
-    int yPos = 20;
-    const int margin = 20;
-    const int barHeight = 30;
-    const int maxBarWidth = 600; // Increased from 400
+    int yPos = 30;
+    const int margin = 100; // Left margin
     const int rowHeight = 30;
+    const int chartWidth = 150;
+    const int chartHeight = 150;
+    const int sectionSpacing = 60; // Gap between pie charts
+    int availableWidth = width() - 2 * margin;
+    int chartSectionWidth = chartWidth + 150; // Space for chart + legend + labels
+    int tableSectionX = margin + chartSectionWidth + 30; // Start table to the right of charts
 
-    QFont titleFont("Arial", 16, QFont::Bold);
-    QFont subtitleFont("Arial", 12, QFont::Bold);
+    QFont titleFont("Arial", 18, QFont::Bold);
+    QFont subtitleFont("Arial", 14, QFont::Bold);
     QFont textFont("Arial", 10);
+    QFont legendFont("Arial", 8); // Reduced font size for legend
 
+    // Enhanced color palette for better contrast and accessibility
+    QList<QColor> colors = {
+        QColor("#FF5733"), // Vibrant Orange
+        QColor("#C70039"), // Deep Red
+        QColor("#900C3F"), // Dark Magenta
+        QColor("#581845"), // Deep Purple
+        QColor("#2ECC71"), // Bright Green
+        QColor("#3498DB")  // Bright Blue
+    };
+
+    // Title with Total Employees
     painter.setFont(titleFont);
-    painter.drawText(margin, yPos, "Employee Statistics");
+    painter.setPen(Qt::white);
+    painter.drawText(QRect(0, yPos, width(), 30), Qt::AlignCenter,
+                     QString("Employee Statistics (Total: %1)").arg(totalEmployees));
     yPos += 50;
 
+    // Age Distribution Pie Chart (Left Side)
+    int chartYPos = yPos; // Keep track of y position for charts
     painter.setFont(subtitleFont);
-    painter.drawText(margin, yPos, "Age Distribution");
-    yPos += 30;
+    painter.setPen(Qt::white);
+    painter.drawText(margin, chartYPos, "Age Distribution");
+    chartYPos += 25;
 
-    QList<QColor> colors = {Qt::red, Qt::green, Qt::blue, Qt::yellow};
+    // Removed the gray background for the chart
+    // painter.setBrush(QColor(50, 50, 50, 100));
+    // painter.setPen(Qt::NoPen);
+    // painter.drawRoundedRect(margin - 10, chartYPos - 10, chartWidth + 120, chartHeight + 50, 10, 10);
+
+    // Draw a shadow effect for the pie chart
+    QRect shadowRect(margin + 5, chartYPos + 5, chartWidth, chartHeight);
+    painter.setBrush(QColor(0, 0, 0, 50)); // Semi-transparent black for shadow
+    painter.setPen(Qt::NoPen);
+    painter.drawEllipse(shadowRect);
+
+    QRect agePieRect(margin, chartYPos, chartWidth, chartHeight);
+    int startAngle = 0;
     int colorIndex = 0;
 
+    // Draw pie chart
     for (auto it = ageCategories.constBegin(); it != ageCategories.constEnd(); ++it) {
-        qreal percentage = totalEmployees > 0 ? (qreal)it.value() / totalEmployees * 100 : 0;
-        int barWidth = totalEmployees > 0 ? (it.value() * maxBarWidth) / totalEmployees : 0;
-        qDebug() << "Drawing age category" << it.key() << ": count =" << it.value() << ", percentage =" << percentage << ", barWidth =" << barWidth;
+        int value = it.value();
+        if (value == 0) continue;
 
-        painter.setBrush(colors[colorIndex % colors.size()]);
-        painter.drawRect(margin, yPos, barWidth, barHeight);
-        painter.setFont(textFont);
-        painter.drawText(margin + barWidth + 10, yPos + barHeight / 2 + 5,
-                         QString("%1: %2 (%3%)").arg(it.key()).arg(it.value()).arg(percentage, 0, 'f', 1));
-        yPos += barHeight + 10;
+        int spanAngle = (360.0 * value / totalEmployees) * 16;
+        QColor color = colors[colorIndex % colors.size()];
+        painter.setBrush(color);
+        painter.setPen(Qt::black);
+        painter.drawPie(agePieRect, startAngle, spanAngle);
+        startAngle += spanAngle;
         colorIndex++;
     }
-    yPos += 30;
 
-    painter.setFont(subtitleFont);
-    painter.drawText(margin, yPos, "Role Distribution");
-    yPos += 30;
-
+    // Draw labels and legend
+    startAngle = 0;
     colorIndex = 0;
-    for (auto it = roleCount.constBegin(); it != roleCount.constEnd(); ++it) {
-        qreal percentage = totalEmployees > 0 ? (qreal)it.value() / totalEmployees * 100 : 0;
-        int barWidth = totalEmployees > 0 ? (it.value() * maxBarWidth) / totalEmployees : 0;
-        qDebug() << "Drawing role" << it.key() << ": count =" << it.value() << ", percentage =" << percentage << ", barWidth =" << barWidth;
+    int legendY = chartYPos;
+    int legendX = margin + chartWidth + 15;
+    painter.setFont(legendFont); // Use smaller font for legend
+    for (auto it = ageCategories.constBegin(); it != ageCategories.constEnd(); ++it) {
+        int value = it.value();
+        if (value == 0) continue;
 
-        painter.setBrush(colors[colorIndex % colors.size()]);
-        painter.drawRect(margin, yPos, barWidth, barHeight);
-        painter.drawText(margin + barWidth + 10, yPos + barHeight / 2 + 5,
-                         QString("%1: %2 (%3%)").arg(it.key()).arg(it.value()).arg(percentage, 0, 'f', 1));
-        yPos += barHeight + 10;
+        int spanAngle = (360.0 * value / totalEmployees) * 16;
+        QColor color = colors[colorIndex % colors.size()];
+
+        // Legend
+        painter.setBrush(color);
+        painter.setPen(Qt::white);
+        painter.drawRect(legendX, legendY, 12, 12);
+        painter.drawText(legendX + 20, legendY + 10, QString("%1 (%2)").arg(it.key()).arg(value));
+
+        // Label on pie chart
+        double angle = (startAngle + spanAngle / 2) / 16.0;
+        double radius = chartWidth / 2 + 25;
+        QPoint labelPos = agePieRect.center() + QPoint(
+                              qCos(angle * M_PI / 180.0) * radius,
+                              qSin(angle * M_PI / 180.0) * radius
+                              );
+        painter.setPen(Qt::white);
+        QString label = QString("%1 (%2)").arg(it.key()).arg(value);
+        QRect labelRect(labelPos.x() - 40, labelPos.y() - 10, 80, 20);
+        painter.drawText(labelRect, Qt::AlignCenter, label);
+
+        // Draw a line connecting the label to the pie slice
+        QPoint pieEdge = agePieRect.center() + QPoint(
+                             qCos(angle * M_PI / 180.0) * (chartWidth / 2),
+                             qSin(angle * M_PI / 180.0) * (chartHeight / 2)
+                             );
+        painter.drawLine(pieEdge, labelPos);
+
+        startAngle += spanAngle;
+        colorIndex++;
+        legendY += 20;
+    }
+
+    chartYPos += chartHeight + sectionSpacing;
+
+    // Role Distribution Pie Chart (Left Side, below Age Distribution)
+    painter.setFont(subtitleFont);
+    painter.setPen(Qt::white);
+    painter.drawText(margin, chartYPos, "Role Distribution");
+    chartYPos += 25;
+
+    // Removed the gray background for the chart
+    // painter.setBrush(QColor(50, 50, 50, 100));
+    // painter.setPen(Qt::NoPen);
+    // painter.drawRoundedRect(margin - 10, chartYPos - 10, chartWidth + 120, chartHeight + 50, 10, 10);
+
+    // Draw a shadow effect for the pie chart
+    shadowRect = QRect(margin + 5, chartYPos + 5, chartWidth, chartHeight);
+    painter.setBrush(QColor(0, 0, 0, 50));
+    painter.setPen(Qt::NoPen);
+    painter.drawEllipse(shadowRect);
+
+    QRect rolePieRect(margin, chartYPos, chartWidth, chartHeight);
+    startAngle = 0;
+    colorIndex = 0;
+
+    // Draw pie chart
+    for (auto it = roleCount.constBegin(); it != roleCount.constEnd(); ++it) {
+        int value = it.value();
+        if (value == 0) continue;
+
+        int spanAngle = (360.0 * value / totalEmployees) * 16;
+        QColor color = colors[colorIndex % colors.size()];
+        painter.setBrush(color);
+        painter.setPen(Qt::black);
+        painter.drawPie(rolePieRect, startAngle, spanAngle);
+        startAngle += spanAngle;
         colorIndex++;
     }
-    yPos += 30;
 
+    // Draw labels and legend
+    startAngle = 0;
+    colorIndex = 0;
+    legendY = chartYPos;
+    legendX = margin + chartWidth + 15;
+    painter.setFont(legendFont); // Use smaller font for legend
+    for (auto it = roleCount.constBegin(); it != roleCount.constEnd(); ++it) {
+        int value = it.value();
+        if (value == 0) continue;
+
+        int spanAngle = (360.0 * value / totalEmployees) * 16;
+        QColor color = colors[colorIndex % colors.size()];
+
+        // Legend
+        painter.setBrush(color);
+        painter.setPen(Qt::white);
+        painter.drawRect(legendX, legendY, 12, 12);
+        painter.drawText(legendX + 20, legendY + 10, QString("%1 (%2)").arg(it.key()).arg(value));
+
+        // Label on pie chart
+        double angle = (startAngle + spanAngle / 2) / 16.0;
+        double radius = chartWidth / 2 + 25;
+        QPoint labelPos = rolePieRect.center() + QPoint(
+                              qCos(angle * M_PI / 180.0) * radius,
+                              qSin(angle * M_PI / 180.0) * radius
+                              );
+        painter.setPen(Qt::white);
+        QString label = QString("%1 (%2)").arg(it.key()).arg(value);
+        QRect labelRect(labelPos.x() - 40, labelPos.y() - 10, 80, 20);
+        painter.drawText(labelRect, Qt::AlignCenter, label);
+
+        // Draw a line connecting the label to the pie slice
+        QPoint pieEdge = rolePieRect.center() + QPoint(
+                             qCos(angle * M_PI / 180.0) * (chartWidth / 2),
+                             qSin(angle * M_PI / 180.0) * (chartHeight / 2)
+                             );
+        painter.drawLine(pieEdge, labelPos);
+
+        startAngle += spanAngle;
+        colorIndex++;
+        legendY += 20;
+    }
+
+    // Role by Age Table (Right Side)
+    int tableYPos = yPos; // Start table at the same vertical level as the first chart
     painter.setFont(subtitleFont);
-    painter.drawText(margin, yPos, "Role Distribution by Age Category");
-    yPos += 30;
+    painter.setPen(Qt::white);
+    painter.drawText(tableSectionX, tableYPos, "Role Distribution by Age Category");
+    tableYPos += 25;
 
-    const int tableWidth = 600;
-    const int colWidth = tableWidth / 3;
+    // Calculate table dimensions with adjusted column widths
+    int tableWidth = availableWidth - chartSectionWidth - 30;
+    int colWidth = tableWidth / 3 + 20; // Increased column width to accommodate text
+    int tableHeight = (roleByAge.size() + 1) * rowHeight + 20;
 
-    painter.setFont(subtitleFont);
-    painter.setBrush(QColor(173, 216, 230));
-    painter.drawRect(margin, yPos, colWidth, rowHeight);
-    painter.drawRect(margin + colWidth, yPos, colWidth, rowHeight);
-    painter.drawRect(margin + 2 * colWidth, yPos, colWidth, rowHeight);
-    painter.setPen(Qt::black);
-    painter.drawText(margin, yPos, colWidth, rowHeight, Qt::AlignCenter, "Age Category");
-    painter.drawText(margin + colWidth, yPos, colWidth, rowHeight, Qt::AlignCenter, "Role");
-    painter.drawText(margin + 2 * colWidth, yPos, colWidth, rowHeight, Qt::AlignCenter, "Count");
-    yPos += rowHeight;
+    // Removed the gray background for the table
+    // painter.setBrush(QColor(50, 50, 50, 100));
+    // painter.setPen(Qt::NoPen);
+    // painter.drawRoundedRect(tableSectionX - 10, tableYPos - 10, tableWidth + 20, tableHeight, 10, 10);
 
+    // Table Header with a gradient effect
+    QLinearGradient headerGradient(tableSectionX, tableYPos, tableSectionX, tableYPos + rowHeight);
+    headerGradient.setColorAt(0, QColor("#555"));
+    headerGradient.setColorAt(1, QColor("#333"));
+    painter.setBrush(headerGradient);
+    painter.setPen(Qt::white);
+    painter.drawRect(tableSectionX, tableYPos, colWidth, rowHeight);
+    painter.drawRect(tableSectionX + colWidth, tableYPos, colWidth, rowHeight);
+    painter.drawRect(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight);
+    painter.drawText(tableSectionX, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Age Category");
+    painter.drawText(tableSectionX + colWidth, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Role");
+    painter.drawText(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Count");
+    tableYPos += rowHeight;
+
+    // Table Rows with enhanced styling
     painter.setFont(textFont);
+    bool alternate = false;
     for (auto ageIt = roleByAge.constBegin(); ageIt != roleByAge.constEnd(); ++ageIt) {
         for (auto roleIt = ageIt.value().constBegin(); roleIt != ageIt.value().constEnd(); ++roleIt) {
-            qDebug() << "Drawing table row: Age =" << ageIt.key() << ", Role =" << roleIt.key() << ", Count =" << roleIt.value();
-            painter.setBrush(Qt::white);
-            painter.drawRect(margin, yPos, colWidth, rowHeight);
-            painter.drawRect(margin + colWidth, yPos, colWidth, rowHeight);
-            painter.drawRect(margin + 2 * colWidth, yPos, colWidth, rowHeight);
-            painter.setPen(Qt::black);
-            painter.drawText(margin, yPos, colWidth, rowHeight, Qt::AlignCenter, ageIt.key());
-            painter.drawText(margin + colWidth, yPos, colWidth, rowHeight, Qt::AlignCenter, roleIt.key());
-            painter.drawText(margin + 2 * colWidth, yPos, colWidth, rowHeight, Qt::AlignCenter, QString::number(roleIt.value()));
-            yPos += rowHeight;
+            // Use a gradient for alternating rows
+            QLinearGradient rowGradient(tableSectionX, tableYPos, tableSectionX, tableYPos + rowHeight);
+            if (alternate) {
+                rowGradient.setColorAt(0, QColor(40, 40, 40));
+                rowGradient.setColorAt(1, QColor(30, 30, 30));
+            } else {
+                rowGradient.setColorAt(0, QColor(25, 25, 25));
+                rowGradient.setColorAt(1, QColor(15, 15, 15));
+            }
+            painter.setBrush(rowGradient);
+            painter.setPen(Qt::white);
+            painter.drawRect(tableSectionX, tableYPos, colWidth, rowHeight);
+            painter.drawRect(tableSectionX + colWidth, tableYPos, colWidth, rowHeight);
+            painter.drawRect(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight);
+            // Adjusted text drawing to ensure it fits within the cell
+            painter.drawText(tableSectionX + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, ageIt.key());
+            painter.drawText(tableSectionX + colWidth + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, roleIt.key());
+            painter.drawText(tableSectionX + 2 * colWidth + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, QString::number(roleIt.value()));
+            tableYPos += rowHeight;
+            alternate = !alternate;
         }
     }
+}
+
+void UserWindow::paintEvent(QPaintEvent *event) {
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    drawStatistics(painter);
+    QMainWindow::paintEvent(event);
 }
