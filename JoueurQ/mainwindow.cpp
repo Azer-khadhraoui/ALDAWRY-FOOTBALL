@@ -37,6 +37,7 @@
 #include <QJsonArray>
 #include <QEventLoop>
 #include <QTextEdit>
+#include <QScrollBar>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -2947,12 +2948,12 @@ void MainWindow::displayReport(const QString &reportText) {
     reportTab->setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0A2647, stop:0.5 #144272, stop:1 #205295);");
     
     QVBoxLayout *mainLayout = new QVBoxLayout(reportTab);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
-    mainLayout->setSpacing(15);
+    mainLayout->setContentsMargins(20, 10, 20, 10); // Marges réduites
+    mainLayout->setSpacing(10);
     
-    // En-tête compact
+    // En-tête très compact
     QFrame *headerFrame = new QFrame();
-    headerFrame->setFixedHeight(100);
+    headerFrame->setFixedHeight(60); // Hauteur encore plus réduite
     headerFrame->setStyleSheet(
         "QFrame {"
         "    background-color: rgba(255, 255, 255, 0.15);"
@@ -2961,43 +2962,45 @@ void MainWindow::displayReport(const QString &reportText) {
         "}"
     );
     QHBoxLayout *headerLayout = new QHBoxLayout(headerFrame);
-    headerLayout->setContentsMargins(15, 8, 15, 8);
+    headerLayout->setContentsMargins(10, 5, 10, 5);
     
-    // Logo
+    // Logo plus petit
     QLabel *logoLabel = new QLabel();
-    QPixmap logoPix = QPixmap(60, 60);
+    QPixmap logoPix = QPixmap(40, 40);
     logoPix.fill(Qt::transparent);
     QPainter painter(&logoPix);
     painter.setRenderHint(QPainter::Antialiasing);
     
-    QRadialGradient gradient(30, 30, 30);
+    QRadialGradient gradient(20, 20, 20);
     gradient.setColorAt(0, QColor(255, 215, 0));
     gradient.setColorAt(1, QColor(230, 126, 34));
     
     painter.setBrush(gradient);
     painter.setPen(QPen(Qt::white, 2));
-    painter.drawEllipse(5, 5, 50, 50);
+    painter.drawEllipse(4, 4, 32, 32);
     painter.setPen(QPen(Qt::white, 2));
-    painter.drawText(QRect(0, 0, 60, 60), Qt::AlignCenter, "AL\nDAWRY");
+    painter.drawText(QRect(0, 0, 40, 40), Qt::AlignCenter, "AL\nD");
     painter.end();
     
     logoLabel->setPixmap(logoPix);
-    logoLabel->setMaximumWidth(60);
+    logoLabel->setMaximumWidth(40);
     
     // Texte de titre
     QVBoxLayout *titleLayout = new QVBoxLayout();
+    titleLayout->setSpacing(0);
+    
     QLabel *titleLabel = new QLabel("PLAYER PERFORMANCE ANALYSIS");
     titleLabel->setStyleSheet(
-        "font-size: 20px;"
+        "font-size: 16px;"
         "font-weight: bold;"
         "color: white;"
         "letter-spacing: 1px;"
         "text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"
     );
     
-    QLabel *subtitleLabel = new QLabel("Advanced AI-Powered Insights");
+    QLabel *subtitleLabel = new QLabel("AI-Powered Insights");
     subtitleLabel->setStyleSheet(
-        "font-size: 12px;"
+        "font-size: 10px;"
         "font-style: italic;"
         "color: #9DE5FF;"
     );
@@ -3010,7 +3013,7 @@ void MainWindow::displayReport(const QString &reportText) {
     
     mainLayout->addWidget(headerFrame);
     
-    // Corps du rapport - AGRANDI
+    // Corps du rapport - MAXIMISÉ
     QFrame *reportFrame = new QFrame();
     reportFrame->setStyleSheet(
         "QFrame {"
@@ -3020,19 +3023,19 @@ void MainWindow::displayReport(const QString &reportText) {
         "}"
     );
     
-    // Ombre
+    // Ombre légère
     QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect();
-    shadowEffect->setBlurRadius(15);
-    shadowEffect->setColor(QColor(0, 0, 0, 60));
-    shadowEffect->setOffset(0, 3);
+    shadowEffect->setBlurRadius(10);
+    shadowEffect->setColor(QColor(0, 0, 0, 50));
+    shadowEffect->setOffset(0, 2);
     reportFrame->setGraphicsEffect(shadowEffect);
     
     QVBoxLayout *reportLayout = new QVBoxLayout(reportFrame);
-    reportLayout->setContentsMargins(15, 15, 15, 15);
+    reportLayout->setContentsMargins(10, 10, 10, 10);
     
-    // En-tête du rapport
+    // En-tête du rapport minimal
     QFrame *reportHeaderFrame = new QFrame();
-    reportHeaderFrame->setFixedHeight(40);
+    reportHeaderFrame->setFixedHeight(30);
     reportHeaderFrame->setStyleSheet(
         "background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #3498db, stop:1 #2980b9);"
         "border-top-left-radius: 10px;"
@@ -3046,35 +3049,60 @@ void MainWindow::displayReport(const QString &reportText) {
     QLabel *reportHeaderLabel = new QLabel("OFFICIAL PERFORMANCE REPORT");
     reportHeaderLabel->setStyleSheet(
         "color: white;"
-        "font-size: 14px;"
+        "font-size: 12px;"
         "font-weight: bold;"
     );
     
     QLabel *dateLabel = new QLabel(QDate::currentDate().toString("dd MMM yyyy"));
-    dateLabel->setStyleSheet("color: white; font-size: 12px;");
+    dateLabel->setStyleSheet("color: white; font-size: 10px;");
     
     reportHeaderLayout->addWidget(reportHeaderLabel);
     reportHeaderLayout->addWidget(dateLabel, 0, Qt::AlignRight);
     
-    // Zone de texte du rapport - PLUS GRANDE
+    // Zone de texte du rapport - MAXIMALEMENT AGRANDIE
     QTextEdit *reportTextEdit = new QTextEdit();
     reportTextEdit->setReadOnly(true);
     reportTextEdit->setFrameStyle(QFrame::NoFrame);
-    reportTextEdit->setMinimumHeight(550); // Hauteur augmentée encore plus
+    reportTextEdit->setMinimumHeight(650); // Hauteur encore plus grande
+    
+    // Configuration forcée des barres de défilement
+    reportTextEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn); // TOUJOURS afficher la barre
+    reportTextEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    reportTextEdit->setWordWrapMode(QTextOption::WordWrap); // S'assurer que le texte s'enroule
+    
     reportTextEdit->setStyleSheet(
         "QTextEdit {"
         "   background-color: white;"
         "   color: #333333;"
-        "   font-size: 15px;" // Police plus grande
-        "   line-height: 1.7;" // Interlignage augmenté
-        "   padding: 25px;" // Padding augmenté
+        "   font-size: 18px;" // Taille augmentée pour une meilleure lisibilité
+        "   line-height: 1.9;" // Interlignage augmenté
+        "   padding: 25px 30px;" // Padding maintenu large
         "   border: none;"
+        "}"
+        "QScrollBar:vertical {"
+        "   border: none;"
+        "   background: #f0f0f0;"
+        "   width: 15px;" // Largeur augmentée pour être plus visible
+        "   margin: 0px;"
+        "}"
+        "QScrollBar::handle:vertical {"
+        "   background: #3498db;"
+        "   min-height: 40px;" // Poignée plus grande
+        "   border-radius: 7px;"
+        "}"
+        "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {"
+        "   border: none;"
+        "   background: none;"
+        "   height: 0px;"
+        "}"
+        "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {"
+        "   background: none;"
         "}"
     );
     
     // Formater le texte du rapport
     QString formattedText = "<!DOCTYPE HTML><html><body style='font-family: Arial, sans-serif;'>";
-    formattedText += "<h2 style='color: #2c3e50; border-bottom: 1px solid #ecf0f1; padding-bottom: 10px;'>Player Assessment</h2>";
+    formattedText += "<h2 style='color: #2c3e50; border-bottom: 1px solid #ecf0f1; padding-bottom: 10px; font-size: 24px;'>Player Assessment</h2>";
     
     // Segmenter le rapport en paragraphes et ajouter du style
     QStringList paragraphs = reportText.split("\n\n");
@@ -3083,47 +3111,50 @@ void MainWindow::displayReport(const QString &reportText) {
         
         if (paragraph.contains("strengths", Qt::CaseInsensitive) || 
             paragraph.contains("strong points", Qt::CaseInsensitive)) {
-            formattedText += "<h3 style='color: #27ae60; margin-top: 20px;'>Strengths Analysis</h3>";
+            formattedText += "<h3 style='color: #27ae60; margin-top: 25px; font-size: 22px;'>Strengths Analysis</h3>";
         } else if (paragraph.contains("weaknesses", Qt::CaseInsensitive) || 
                    paragraph.contains("areas for improvement", Qt::CaseInsensitive) ||
                    paragraph.contains("could improve", Qt::CaseInsensitive)) {
-            formattedText += "<h3 style='color: #e67e22; margin-top: 20px;'>Areas for Improvement</h3>";
+            formattedText += "<h3 style='color: #e67e22; margin-top: 25px; font-size: 22px;'>Areas for Improvement</h3>";
         } else if (paragraph.contains("conclusion", Qt::CaseInsensitive) || 
                   paragraph.contains("summary", Qt::CaseInsensitive) ||
                   paragraph.contains("overall", Qt::CaseInsensitive)) {
-            formattedText += "<h3 style='color: #2980b9; margin-top: 20px;'>Overall Assessment</h3>";
+            formattedText += "<h3 style='color: #2980b9; margin-top: 25px; font-size: 22px;'>Overall Assessment</h3>";
         }
         
         // Mettre en évidence les mots clés
         QString enhancedParagraph = paragraph;
-        enhancedParagraph.replace("goals", "<span style='color: #3498db; font-weight: bold;'>goals</span>");
-        enhancedParagraph.replace("assists", "<span style='color: #2ecc71; font-weight: bold;'>assists</span>");
-        enhancedParagraph.replace("cards", "<span style='color: #e74c3c; font-weight: bold;'>cards</span>");
-        enhancedParagraph.replace("yellow card", "<span style='color: #f39c12; font-weight: bold;'>yellow card</span>");
-        enhancedParagraph.replace("red card", "<span style='color: #c0392b; font-weight: bold;'>red card</span>");
-        enhancedParagraph.replace("performance", "<span style='color: #8e44ad; font-weight: bold;'>performance</span>");
+        enhancedParagraph.replace("goals", "<span style='color: #3498db; font-weight: bold; font-size: 19px;'>goals</span>");
+        enhancedParagraph.replace("assists", "<span style='color: #2ecc71; font-weight: bold; font-size: 19px;'>assists</span>");
+        enhancedParagraph.replace("cards", "<span style='color: #e74c3c; font-weight: bold; font-size: 19px;'>cards</span>");
+        enhancedParagraph.replace("yellow card", "<span style='color: #f39c12; font-weight: bold; font-size: 19px;'>yellow card</span>");
+        enhancedParagraph.replace("red card", "<span style='color: #c0392b; font-weight: bold; font-size: 19px;'>red card</span>");
+        enhancedParagraph.replace("performance", "<span style='color: #8e44ad; font-weight: bold; font-size: 19px;'>performance</span>");
         
-        formattedText += "<p style='text-align: justify; margin: 10px 0; font-size: 16px;'>" + enhancedParagraph + "</p>";
+        formattedText += "<p style='text-align: justify; margin: 15px 0; font-size: 18px; line-height: 1.8;'>" + enhancedParagraph + "</p>";
     }
     
+    // Ajouter du contenu supplémentaire pour garantir le défilement
+    formattedText += "<div style='height: 140px;'></div><div style='text-align: center; color: #bdc3c7; padding-bottom: 20px;'>--- End of Report ---</div>";
     formattedText += "</body></html>";
+    
     reportTextEdit->setHtml(formattedText);
     
-    // Pied de page
+    // Pied de page minimal
     QFrame *footerFrame = new QFrame();
-    footerFrame->setFixedHeight(30);
+    footerFrame->setFixedHeight(20); // Encore plus petit
     footerFrame->setStyleSheet(
         "background-color: #ecf0f1;"
         "border-bottom-left-radius: 10px;"
         "border-bottom-right-radius: 10px;"
         "border-top: 1px solid #bdc3c7;"
-        "padding: 5px;"
+        "padding: 2px;"
     );
     QHBoxLayout *footerLayout = new QHBoxLayout(footerFrame);
     footerLayout->setContentsMargins(10, 0, 10, 0);
     
-    QLabel *disclaimerLabel = new QLabel("Generated by AI analysis - © AL DAWRY Football Management");
-    disclaimerLabel->setStyleSheet("color: #7f8c8d; font-size: 10px; font-style: italic;");
+    QLabel *disclaimerLabel = new QLabel("© AL DAWRY Football Management");
+    disclaimerLabel->setStyleSheet("color: #7f8c8d; font-size: 8px; font-style: italic;"); // Minimisé
     
     footerLayout->addWidget(disclaimerLabel, 0, Qt::AlignCenter);
     
@@ -3134,19 +3165,19 @@ void MainWindow::displayReport(const QString &reportText) {
     
     mainLayout->addWidget(reportFrame, 1);
     
-    // Bouton de fermeture uniquement
-    QPushButton *closeBtn = new QPushButton("Close Report");
+    // Bouton de fermeture très compact
+    QPushButton *closeBtn = new QPushButton("Close");
     closeBtn->setCursor(Qt::PointingHandCursor);
-    closeBtn->setFixedHeight(38);
+    closeBtn->setFixedSize(80, 25);
     closeBtn->setStyleSheet(
         "QPushButton {"
         "   background-color: #7f8c8d;"
         "   color: white;"
         "   border: none;"
-        "   border-radius: 6px;"
+        "   border-radius: 5px;"
         "   font-weight: bold;"
-        "   font-size: 13px;"
-        "   padding: 0px 15px;"
+        "   font-size: 10px;"
+        "   padding: 0;"
         "}"
         "QPushButton:hover { background-color: #95a5a6; }"
     );
@@ -3157,22 +3188,22 @@ void MainWindow::displayReport(const QString &reportText) {
     int tabIndex = ui->tabWidget->addTab(reportTab, "Player Report");
     ui->tabWidget->setCurrentIndex(tabIndex);
     
-    // Animations d'entrée
+    // Animations d'entrée rapides
     QPropertyAnimation *headerAnim = new QPropertyAnimation(headerFrame, "geometry");
-    headerAnim->setDuration(500);
+    headerAnim->setDuration(300); // Encore plus rapide
     headerAnim->setStartValue(QRect(headerFrame->x(), headerFrame->y() - 30, headerFrame->width(), headerFrame->height()));
     headerAnim->setEndValue(headerFrame->geometry());
     headerAnim->setEasingCurve(QEasingCurve::OutBack);
     
     QPropertyAnimation *reportAnim = new QPropertyAnimation(reportFrame, "geometry");
-    reportAnim->setDuration(700);
+    reportAnim->setDuration(300); // Encore plus rapide
     reportAnim->setStartValue(QRect(reportFrame->x(), reportFrame->y() + 30, reportFrame->width(), reportFrame->height()));
     reportAnim->setEndValue(reportFrame->geometry());
     reportAnim->setEasingCurve(QEasingCurve::OutCubic);
     
     // Démarrer les animations
     headerAnim->start(QPropertyAnimation::DeleteWhenStopped);
-    QTimer::singleShot(150, [=]() { reportAnim->start(QPropertyAnimation::DeleteWhenStopped); });
+    QTimer::singleShot(100, [=]() { reportAnim->start(QPropertyAnimation::DeleteWhenStopped); });
     
     // Connexion pour fermer l'onglet
     connect(closeBtn, &QPushButton::clicked, [=]() {
@@ -3181,4 +3212,19 @@ void MainWindow::displayReport(const QString &reportText) {
             ui->tabWidget->removeTab(idx);
         }
     });
+    
+    // Force le focus et le positionnement initial de la barre de défilement
+    QTimer::singleShot(300, [=]() {
+        reportTextEdit->setFocus();
+        reportTextEdit->verticalScrollBar()->setValue(0);
+        
+        // Forcer une mise à jour du layout pour s'assurer que la barre de défilement est correctement calculée
+        reportTextEdit->document()->adjustSize();
+    });
+    // Garantir que la barre de défilement fonctionne correctement
+QTimer::singleShot(500, [=]() {
+    // Force la mise à jour de la barre de défilement après le chargement complet
+    reportTextEdit->verticalScrollBar()->setRange(0, reportTextEdit->document()->size().height());
+    reportTextEdit->verticalScrollBar()->setValue(0);
+});
 }
