@@ -12,10 +12,11 @@
 #include <QFileDialog>
 #include <QTextDocument>
 #include <QDate>
+#include "sessionmanager.h"
+#include "mainwindow.h" // Add this line to include MainWindow definition
 
-UserWindow::UserWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+UserWindow::UserWindow(MainWindow *parent) : QMainWindow(parent), ui(new Ui::MainWindow), mainWindowParent(parent) {
     ui->setupUi(this);
-
 
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.isOpen()) {
@@ -46,6 +47,8 @@ UserWindow::UserWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->searchButton, &QPushButton::clicked, this, &UserWindow::on_searchButton_clicked);
     connect(ui->pdfButton, &QPushButton::clicked, this, &UserWindow::on_pdfButton_clicked);
     connect(ui->statButton, &QPushButton::clicked, this, &UserWindow::on_statButton_clicked);
+    connect(ui->pushButton, &QPushButton::clicked, this, &UserWindow::on_pushButton_clicked); // New connection for sign-out
+    connect(ui->lineEdit_10, &QLineEdit::textChanged, this, &UserWindow::on_searchTextChanged);
 }
 
 UserWindow::~UserWindow() {
@@ -280,121 +283,114 @@ void UserWindow::on_searchButton_clicked() {
 }
 
 void UserWindow::on_pdfButton_clicked() {
-    // Open a file dialog to let the user choose the save location
-    QString fileName = QFileDialog::getSaveFileName(this, "Save PDF", "", "PDF Files (*.pdf)");
-    if (fileName.isEmpty()) {
-        return; // User canceled the dialog
+    // Get the current user from SessionManager
+    const Employee& currentUser = SessionManager::instance().getCurrentUser();
+    if (!SessionManager::instance().isLoggedIn()) {
+        QMessageBox::critical(this, "Error", "No user is logged in.");
+        return;
     }
 
-    // Ensure the file has a .pdf extension
+    // Open a file dialog to let the user choose the save location
+    QString fileName = QFileDialog::getSaveFileName(this, "Save PDF", "", "PDF Files (*.pdf)");
+    if (fileName.isEmpty()) return;
+
     if (!fileName.endsWith(".pdf", Qt::CaseInsensitive)) {
         fileName += ".pdf";
     }
 
-    // Create a QPdfWriter to write the PDF
     QPdfWriter pdfWriter(fileName);
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
-    pdfWriter.setPageMargins(QMarginsF(30, 30, 30, 30)); // Set margins (left, top, right, bottom)
+    pdfWriter.setPageMargins(QMarginsF(30, 30, 30, 30));
 
-    // Create a QPainter to draw on the PDF
     QPainter painter(&pdfWriter);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Get the dimensions of the page (in painter units)
     int pageWidth = pdfWriter.width();
     int pageHeight = pdfWriter.height();
 
-    // Define formatting variables
-    int margin = 100; // Margin for the table
-    int rowHeight = 300; // Height of each row in the table
-    int fontSize = 10;
-    int titleFontSize = 14;
-    int colCount = 6; // Number of visible columns (excluding hidden ID column)
-    int colWidth = (pageWidth - 2 * margin) / colCount; // Width of each column
+    // Layout variables
+    int margin = 500;
+    int cardWidth = pageWidth - 2 * margin;
+    int cardHeight = 5500;
+    int cardX = margin;
+    int cardY = 500;
+    int yPos = cardY + 300;
+    int rowSpacing = 800;
+    int titleFontSize = 16;
+    int subtitleFontSize = 14;
+    int bodyFontSize = 12;
 
-    // Set up fonts
     QFont titleFont("Arial", titleFontSize, QFont::Bold);
-    QFont headerFont("Arial", fontSize, QFont::Bold);
-    QFont bodyFont("Arial", fontSize);
+    QFont subtitleFont("Arial", subtitleFontSize, QFont::Bold);
+    QFont bodyFont("Arial", bodyFontSize);
 
-    // Draw the title
+    // Draw title
     painter.setFont(titleFont);
     painter.setPen(Qt::black);
-    painter.drawText(margin, margin, "Employee List");
+    painter.drawText(0, 200, pageWidth, 300, Qt::AlignCenter, "User Profile");
 
-    // Move down for the table
-    int yPos = margin + rowHeight;
+    // Card shadow
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor(0, 0, 0, 50));
+    QRect shadowRect(cardX + 50, cardY + 50, cardWidth, cardHeight);
+    painter.drawRoundedRect(shadowRect, 150, 150);
 
-    // Get the model from the table view
-    QSqlQueryModel *model = qobject_cast<QSqlQueryModel*>(proxyModel->sourceModel());
-    if (!model) {
-        QMessageBox::critical(this, "Error", "Failed to access table data.");
-        return;
-    }
-
-    // Get the number of rows and columns
-    int rowCount = model->rowCount();
-    int totalColCount = model->columnCount(); // Total columns including hidden ID
-
-    // Draw the table headers with a colored background
-    painter.setFont(headerFont);
+    // Card background
+    painter.setBrush(QColor(240, 240, 240));
     painter.setPen(Qt::black);
-    painter.setBrush(QColor(173, 216, 230)); // Light blue background for headers
-    for (int col = 0; col < totalColCount; col++) {
-        if (col == 0) continue; // Skip the ID column (hidden)
-        int xPos = margin + (col - 1) * colWidth;
-        QRect headerRect(xPos, yPos, colWidth, rowHeight);
-        painter.drawRect(headerRect); // Draw the cell border
-        QString header = model->headerData(col, Qt::Horizontal).toString();
-        painter.drawText(headerRect, Qt::AlignCenter | Qt::AlignVCenter, header);
-    }
-    yPos += rowHeight;
+    QRect cardRect(cardX, cardY, cardWidth, cardHeight);
+    painter.drawRoundedRect(cardRect, 150, 150);
 
-    // Draw the table data with alternating row colors
+    // User full name
+    painter.setFont(subtitleFont);
+    painter.setPen(Qt::black);
+    QString userName = currentUser.getFirstName() + " " + currentUser.getLastName();
+    painter.drawText(cardX, yPos, cardWidth, rowSpacing, Qt::AlignCenter, userName);
+    yPos += rowSpacing + 200;
+
+    // Labels and values
+    QStringList labels = {"First Name:", "Last Name:", "Email:", "Mobile Number:", "Role:", "Date of Birth:"};
+    QStringList values = {
+        currentUser.getFirstName(),
+        currentUser.getLastName(),
+        currentUser.getEmail(),
+        currentUser.getMobileNumber(),
+        currentUser.getRole(),
+        currentUser.getDateOfBirth().toString("yyyy-MM-dd")
+    };
+
     painter.setFont(bodyFont);
-    for (int row = 0; row < rowCount; row++) {
-        // Set alternating row colors
-        if (row % 2 == 0) {
-            painter.setBrush(QColor(240, 240, 240)); // Light gray for even rows
-        } else {
-            painter.setBrush(Qt::white); // White for odd rows
-        }
+    for (int i = 0; i < labels.size(); ++i) {
+        // Bullet
+        painter.setBrush(QColor(0, 120, 215));
+        painter.setPen(Qt::NoPen);
+        painter.drawEllipse(cardX + 200, yPos + 50, 100, 100);
 
-        for (int col = 0; col < totalColCount; col++) {
-            if (col == 0) continue; // Skip the ID column
-            int xPos = margin + (col - 1) * colWidth;
-            QRect cellRect(xPos, yPos, colWidth, rowHeight);
-            painter.drawRect(cellRect); // Draw the cell border
-            painter.setPen(Qt::black);
-            QString data = model->data(model->index(row, col)).toString();
-            painter.drawText(cellRect, Qt::AlignCenter | Qt::AlignVCenter, data);
-        }
-        yPos += rowHeight;
+        // Label
+        painter.setPen(Qt::black);
+        int labelX = cardX + 350;
+        painter.drawText(labelX, yPos, 3000, rowSpacing, Qt::AlignLeft, labels[i]);
 
-        // Check if we need a new page
-        if (yPos > pageHeight - margin - rowHeight) {
-            pdfWriter.newPage();
-            yPos = margin;
-            // Redraw headers on the new page
-            painter.setFont(headerFont);
-            painter.setBrush(QColor(173, 216, 230)); // Light blue background for headers
-            for (int col = 0; col < totalColCount; col++) {
-                if (col == 0) continue;
-                int xPos = margin + (col - 1) * colWidth;
-                QRect headerRect(xPos, yPos, colWidth, rowHeight);
-                painter.drawRect(headerRect);
-                QString header = model->headerData(col, Qt::Horizontal).toString();
-                painter.drawText(headerRect, Qt::AlignCenter | Qt::AlignVCenter, header);
-            }
-            yPos += rowHeight;
-        }
+        // Value
+        QFont boldFont = bodyFont;
+        boldFont.setBold(true);
+        painter.setFont(boldFont);
+        int valueX = labelX + 2000;
+        painter.drawText(valueX, yPos, cardWidth - 2500, rowSpacing, Qt::AlignLeft, values[i]);
+
+        yPos += rowSpacing;
+        painter.setFont(bodyFont);
     }
 
-    // End painting
+    // Decorative line at bottom
+    painter.setPen(QPen(QColor(0, 120, 215), 50));
+    painter.drawLine(cardX + 200, yPos, cardX + cardWidth - 200, yPos);
+
     painter.end();
 
     QMessageBox::information(this, "Success", "PDF generated successfully at: " + fileName);
 }
+
 
 void UserWindow::on_statButton_clicked() {
     collectStatistics(); // Prepare the data
@@ -791,4 +787,73 @@ void UserWindow::paintEvent(QPaintEvent *event) {
     painter.setRenderHint(QPainter::Antialiasing);
     drawStatistics(painter);
     QMainWindow::paintEvent(event);
+}
+
+void UserWindow::on_pushButton_clicked() {
+    // Clear the session to log out the user
+    SessionManager::instance().clearSession();
+
+    // Re-show the parent MainWindow if it exists
+    if (mainWindowParent) {
+        // Clear the email and password fields in MainWindow
+        mainWindowParent->findChild<QLineEdit*>("lineEdit")->clear();
+        mainWindowParent->findChild<QLineEdit*>("lineEdit_2")->clear();
+        mainWindowParent->show();
+    } else {
+        // Fallback: Create a new MainWindow (shouldn't happen if parent is set)
+        MainWindow *mainWindow = new MainWindow();
+        mainWindow->show();
+    }
+
+    // Close the current UserWindow
+    this->close();
+}
+
+void UserWindow::on_searchTextChanged(const QString &text) {
+    if (!QSqlDatabase::database().isOpen()) {
+        QMessageBox::critical(this, "Error", "Database connection is not open.");
+        return;
+    }
+
+    QString searchTerm = text.trimmed();
+    QSqlQueryModel *sourceModel;
+
+    if (searchTerm.isEmpty()) {
+        sourceModel = Employee::displayEmployees();
+    } else {
+        // Custom query to search across multiple fields
+        QSqlQuery query;
+        QString queryStr = "SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, TO_CHAR(NUM), DATEN, ROLE "
+                           "FROM HOTSTUFF.EMPLOYE "
+                           "WHERE UPPER(NOM_EMP) LIKE UPPER(:term) "
+                           "OR UPPER(PRENOM_EMP) LIKE UPPER(:term) "
+                           "OR UPPER(EMAIL) LIKE UPPER(:term)";
+        query.prepare(queryStr);
+        query.bindValue(":term", "%" + searchTerm + "%");
+
+        if (query.exec()) {
+            sourceModel = new QSqlQueryModel();
+            sourceModel->setQuery(query);
+            sourceModel->setHeaderData(0, Qt::Horizontal, "ID");
+            sourceModel->setHeaderData(1, Qt::Horizontal, "First Name");
+            sourceModel->setHeaderData(2, Qt::Horizontal, "Last Name");
+            sourceModel->setHeaderData(3, Qt::Horizontal, "Email");
+            sourceModel->setHeaderData(4, Qt::Horizontal, "Mobile Number");
+            sourceModel->setHeaderData(5, Qt::Horizontal, "Date of Birth");
+            sourceModel->setHeaderData(6, Qt::Horizontal, "Role");
+        } else {
+            qDebug() << "Search query failed:" << query.lastError().text();
+            sourceModel = Employee::displayEmployees();
+        }
+    }
+
+    if (!sourceModel) {
+        QMessageBox::critical(this, "Error", "Search failed.");
+        return;
+    }
+
+    proxyModel->setSourceModel(sourceModel);
+    ui->tableView_3->setModel(proxyModel);
+    ui->tableView_3->hideColumn(0);
+    ui->tableView_3->resizeColumnsToContents();
 }

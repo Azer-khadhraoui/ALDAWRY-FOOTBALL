@@ -1,3 +1,4 @@
+// userwindow.h
 #ifndef USERWINDOW_H
 #define USERWINDOW_H
 
@@ -7,23 +8,19 @@
 #include <QMap>
 #include "User.h"
 #include "statswidget.h"
-
+#include "mainwindow.h" // Already included for MainWindow definition
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-
-
-// 🔽 Now define UserWindow below
 class UserWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit UserWindow(QWidget *parent = nullptr);
+    explicit UserWindow(MainWindow *parent = nullptr); // Update constructor to explicitly take MainWindow*
     ~UserWindow();
     void drawStatistics(QPainter &painter);
-
 
 private slots:
     void on_button1_clicked();
@@ -34,13 +31,14 @@ private slots:
     void on_pdfButton_clicked();
     void on_statButton_clicked();
     void populateModifyFields(const QModelIndex &index);
-
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     int selectedEmployeeId = 0;
     QSortFilterProxyModel *proxyModel;
-    statsWidget* statsView = nullptr; // ✅ Now this is valid
+    statsWidget* statsView = nullptr;
+    MainWindow *mainWindowParent; // Add this to store the parent MainWindow
 
     void refreshEmployeeTable();
     void clearModifyFields();
@@ -55,15 +53,12 @@ private:
     QMap<QString, QMap<QString, int>> roleByAge;
     int totalEmployees = 0;
 
-    void paintEvent(QPaintEvent *event) override;  // Declare paintEvent
-    void on_searchTextChanged(const QString &text); // New slot for dynamic search
-
+    void paintEvent(QPaintEvent *event) override;
+    void on_searchTextChanged(const QString &text);
 
     void collectStatistics();
 
-
     friend class StatsWidget;
-
 };
 
 #endif // USERWINDOW_H
