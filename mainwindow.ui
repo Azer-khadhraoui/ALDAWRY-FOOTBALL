@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+    <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1a3c34, stop:1 #0d1f2d);</string>
    </property>
    <widget class="QListWidget" name="menu">
     <property name="geometry">
@@ -27,9 +27,9 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: #192231;
-color: #D3D3D3;
-border-bottom: 2px solid #4C5C75;
+     <string notr="true">background: #1e4d4a;
+color: #e0f7fa;
+border-bottom: 2px solid #4dd0e1;
 border-radius: 30px;</string>
     </property>
    </widget>
@@ -43,9 +43,9 @@ border-radius: 30px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: #0A1628;
-color: #FFFFFF;
-border-bottom: 3px solid #00FF7F;
+     <string notr="true">background: #0a2f2d;
+color: #ffffff;
+border-bottom: 3px solid #00e676;
 border-radius: 30px;</string>
     </property>
    </widget>
@@ -59,7 +59,7 @@ border-radius: 30px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: 2px solid #4C5C75;</string>
+     <string notr="true">border: 2px solid #4dd0e1;</string>
     </property>
     <property name="orientation">
      <enum>Qt::Orientation::Vertical</enum>
@@ -75,7 +75,7 @@ border-radius: 30px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: 2px solid #4C5C75;</string>
+     <string notr="true">border: 2px solid #4dd0e1;</string>
     </property>
     <property name="orientation">
      <enum>Qt::Orientation::Vertical</enum>
@@ -91,7 +91,7 @@ border-radius: 30px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: 2px solid #4C5C75;</string>
+     <string notr="true">border: 2px solid #4dd0e1;</string>
     </property>
     <property name="orientation">
      <enum>Qt::Orientation::Vertical</enum>
@@ -114,7 +114,7 @@ border-radius: 30px;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
+color: #b2ebf2;</string>
     </property>
     <property name="text">
      <string>Player</string>
@@ -137,7 +137,7 @@ color: rgb(158, 158, 158);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
+color: #b2ebf2;</string>
     </property>
     <property name="text">
      <string>Competition</string>
@@ -160,7 +160,7 @@ color: rgb(158, 158, 158);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
+color: #b2ebf2;</string>
     </property>
     <property name="text">
      <string>Match</string>
@@ -183,7 +183,7 @@ color: rgb(158, 158, 158);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
+color: #b2ebf2;</string>
     </property>
     <property name="text">
      <string>Team</string>
@@ -217,6 +217,11 @@ color: rgb(158, 158, 158);</string>
       <height>51</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #1e4d4a;
+border: 1px solid #4dd0e1;
+border-radius: 8px;</string>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Shape::StyledPanel</enum>
     </property>
@@ -233,8 +238,8 @@ color: rgb(158, 158, 158);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: transparent;
-border: 1px solid #aaaaaa;
+      <string notr="true">background-color: #0a2f2d;
+border: 1px solid #4dd0e1;
 border-radius: 5px;
 padding: 6px 12px;</string>
      </property>
@@ -255,12 +260,12 @@ padding: 6px 12px;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: #141821;
-border: 2px solid #cccccc;
+      <string notr="true">background-color: #0d1f2d;
+border: 2px solid #4dd0e1;
 border-radius: 6px;
 padding: 6px 10px;
 font-size: 14px;
-color: white;</string>
+color: #e0f7fa;</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBox">
@@ -272,9 +277,15 @@ color: white;</string>
        <height>28</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #0d1f2d;
+border: 1px solid #4dd0e1;
+color: #e0f7fa;
+border-radius: 4px;</string>
+     </property>
      <item>
       <property name="text">
-       <string>NULL</string>
+       <string>Sort by</string>
       </property>
      </item>
      <item>
@@ -297,9 +308,15 @@ color: white;</string>
        <height>28</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #0d1f2d;
+border: 1px solid #4dd0e1;
+color: #e0f7fa;
+border-radius: 4px;</string>
+     </property>
      <item>
       <property name="text">
-       <string>NULL</string>
+       <string>Type</string>
       </property>
      </item>
      <item>
@@ -314,7 +331,7 @@ color: white;</string>
      </item>
     </widget>
    </widget>
-   <widget class="QCalendarWidget" name="calendarWidget">
+   <widget class="QWidget" name="monthCalendarWidget">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -324,11 +341,275 @@ color: white;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #141821;
+     <string notr="true">background-color: #0d1f2d;
 border-radius: 6px;
-border: 1px solid #444444;
-color: white;</string>
+border: 1px solid #4dd0e1;</string>
     </property>
+    <layout class="QVBoxLayout" name="monthCalendarLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QComboBox" name="yearComboBox">
+       <property name="styleSheet">
+        <string notr="true">background-color: #0d1f2d;
+border: 1px solid #4dd0e1;
+color: #e0f7fa;
+border-radius: 4px;</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>2000</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2025</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2500</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="monthGridLayout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="januaryButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>January</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="februaryButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>February</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="marchButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>March</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="aprilButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>April</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="mayButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>May</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="juneButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>June</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="julyButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>July</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="augustButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>August</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="septemberButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>September</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="octoberButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>October</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="novemberButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>November</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QPushButton" name="decemberButton">
+         <property name="minimumSize">
+          <size>
+           <width>90</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;
+border: 1px solid #4dd0e1;
+border-radius: 4px;</string>
+         </property>
+         <property name="text">
+          <string>December</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
    <widget class="QListWidget" name="listWidget_2">
     <property name="geometry">
@@ -340,12 +621,12 @@ color: white;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #141821;
+     <string notr="true">background-color: #0d1f2d;
 border-radius: 6px;
 padding: 10px;
-border: 1px solid #666666;
+border: 1px solid #4dd0e1;
 font-size: 16px;
-color: rgb(0, 216, 0);</string>
+color: #00e676;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -380,14 +661,25 @@ color: rgb(0, 216, 0);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #20242e;
-color: white;
+     <string notr="true">background-color: #00e676;
+color: #ffffff;
 border-radius: 5px;
 padding: 6px 12px;
-border: 1px solid #666666;</string>
+border: 1px solid #4dd0e1;</string>
     </property>
     <property name="text">
      <string>Add</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>:/images/add.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
     </property>
    </widget>
    <widget class="QTableView" name="test">
@@ -399,6 +691,11 @@ border: 1px solid #666666;</string>
       <height>451</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0d1f2d;
+border: 1px solid #4dd0e1;
+color: #e0f7fa;</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
@@ -409,8 +706,26 @@ border: 1px solid #666666;</string>
       <height>29</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #d32f2f;
+color: #ffffff;
+border-radius: 5px;
+padding: 6px 12px;
+border: 1px solid #4dd0e1;</string>
+    </property>
     <property name="text">
      <string>Delete</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>:/images/delete.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -422,8 +737,26 @@ border: 1px solid #666666;</string>
       <height>29</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0288d1;
+color: #ffffff;
+border-radius: 5px;
+padding: 6px 12px;
+border: 1px solid #4dd0e1;</string>
+    </property>
     <property name="text">
      <string>Update</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>:/images/update.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
@@ -435,8 +768,26 @@ border: 1px solid #666666;</string>
       <height>29</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0288d1;
+color: #ffffff;
+border-radius: 5px;
+padding: 6px 12px;
+border: 1px solid #4dd0e1;</string>
+    </property>
     <property name="text">
      <string>Stats</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>:/images/stats.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="comp_name">
@@ -453,6 +804,9 @@ border: 1px solid #666666;</string>
       <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #e0f7fa;</string>
     </property>
     <property name="text">
      <string/>
@@ -474,7 +828,7 @@ border: 1px solid #666666;</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color :rgb(0, 170, 0)</string>
+     <string notr="true">color: #00e676;</string>
     </property>
     <property name="text">
      <string/>
@@ -485,12 +839,68 @@ border: 1px solid #666666;</string>
      <rect>
       <x>130</x>
       <y>680</y>
-      <width>83</width>
+      <width>101</width>
       <height>29</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0288d1;
+color: #ffffff;
+border-radius: 5px;
+padding: 6px 12px;
+border: 1px solid #4dd0e1;</string>
+    </property>
     <property name="text">
      <string>Generate</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normalon>:/images/generate.png</normalon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>130</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Calendar</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>430</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Winner prediction</string>
     </property>
    </widget>
   </widget>
@@ -503,8 +913,17 @@ border: 1px solid #666666;</string>
      <height>25</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;</string>
+   </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background-color: #1e4d4a;
+color: #e0f7fa;</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="resources.qrc"/>

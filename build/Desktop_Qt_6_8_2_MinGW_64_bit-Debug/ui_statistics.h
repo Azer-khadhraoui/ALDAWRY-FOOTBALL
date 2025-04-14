@@ -89,7 +89,7 @@ public:
     {
         statistics->setWindowTitle(QCoreApplication::translate("statistics", "Competition Statistics", nullptr));
         statistics->setStyleSheet(QCoreApplication::translate("statistics", "background-color: #1A3C34; color: #E0E0E0;", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("statistics", "NULL", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("statistics", "Type", nullptr));
         comboBox->setItemText(1, QCoreApplication::translate("statistics", "League", nullptr));
         comboBox->setItemText(2, QCoreApplication::translate("statistics", "Tournement", nullptr));
 

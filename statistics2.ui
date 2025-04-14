@@ -21,7 +21,7 @@
     <widget class="QComboBox" name="comboBox">
      <item>
       <property name="text">
-       <string>NULL</string>
+       <string>Type</string>
       </property>
      </item>
      <item>
@@ -47,7 +47,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QChartView" name="chartWidget"/>
+    <widget class="QChartView" name="chartWidget" native="true"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -88,8 +88,8 @@
  <customwidgets>
   <customwidget>
    <class>QChartView</class>
-   <extends>QGraphicsView</extends>
-   <header>QtCharts/QChartView</header>
+   <extends>QWidget</extends>
+   <header>qchartview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

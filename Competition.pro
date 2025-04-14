@@ -37,6 +37,7 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
+    matchesdialog.cpp \
     statistics.cpp \
     statistics2.cpp \
     updateform.cpp
@@ -47,6 +48,7 @@ HEADERS += \
     deletewindow.h \
         mainwindow.h \
     connection.h \
+    matchesdialog.h \
     statistics.h \
     statistics2.h \
     updateform.h
@@ -55,6 +57,7 @@ FORMS += \
 	addcompetitionwindow.ui \
 	deletewindow.ui \
 	mainwindow.ui \
+	matchesdialog.ui \
 	statistics.ui \
 	statistics2.ui \
 	updateform.ui

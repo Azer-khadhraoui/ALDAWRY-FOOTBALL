@@ -12,47 +12,49 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_deletewindow
 {
 public:
-    QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QLabel *label;
-    QLineEdit *lineEdit;
+    QHBoxLayout *horizontalLayout;
     QPushButton *deleteButton;
+    QPushButton *cancelButton;
 
     void setupUi(QDialog *deletewindow)
     {
         if (deletewindow->objectName().isEmpty())
             deletewindow->setObjectName("deletewindow");
         deletewindow->resize(400, 200);
-        centralwidget = new QWidget(deletewindow);
-        centralwidget->setObjectName("centralwidget");
-        verticalLayout = new QVBoxLayout(centralwidget);
+        verticalLayout = new QVBoxLayout(deletewindow);
         verticalLayout->setObjectName("verticalLayout");
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(centralwidget);
+        label = new QLabel(deletewindow);
         label->setObjectName("label");
+        label->setAlignment(Qt::AlignmentFlag::AlignCenter);
 
         verticalLayout->addWidget(label);
 
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName("lineEdit");
-
-        verticalLayout->addWidget(lineEdit);
-
-        deleteButton = new QPushButton(centralwidget);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName("horizontalLayout");
+        deleteButton = new QPushButton(deletewindow);
         deleteButton->setObjectName("deleteButton");
 
-        verticalLayout->addWidget(deleteButton);
+        horizontalLayout->addWidget(deleteButton);
+
+        cancelButton = new QPushButton(deletewindow);
+        cancelButton->setObjectName("cancelButton");
+
+        horizontalLayout->addWidget(cancelButton);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
 
         retranslateUi(deletewindow);
@@ -63,8 +65,19 @@ public:
     void retranslateUi(QDialog *deletewindow)
     {
         deletewindow->setWindowTitle(QCoreApplication::translate("deletewindow", "Delete Item", nullptr));
-        label->setText(QCoreApplication::translate("deletewindow", "Enter ID:", nullptr));
+#if QT_CONFIG(tooltip)
+        label->setToolTip(QCoreApplication::translate("deletewindow", "This action cannot be undone.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        label->setText(QCoreApplication::translate("deletewindow", "Are you sure you want to delete this competition?", nullptr));
+#if QT_CONFIG(tooltip)
+        deleteButton->setToolTip(QCoreApplication::translate("deletewindow", "Click to delete the item.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        deleteButton->setStyleSheet(QCoreApplication::translate("deletewindow", "background-color: red; color: white;", nullptr));
         deleteButton->setText(QCoreApplication::translate("deletewindow", "Delete", nullptr));
+#if QT_CONFIG(tooltip)
+        cancelButton->setToolTip(QCoreApplication::translate("deletewindow", "Click to cancel the operation.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        cancelButton->setText(QCoreApplication::translate("deletewindow", "Cancel", nullptr));
     } // retranslateUi
 
 };

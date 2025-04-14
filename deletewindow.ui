@@ -2,38 +2,59 @@
 <ui version="4.0">
  <class>deletewindow</class>
  <widget class="QDialog" name="deletewindow">
-    <property name="geometry">
-     <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>400</width>
-        <height>200</height>
-     </rect>
-    </property>
-    <property name="windowTitle">
-     <string>Delete Item</string>
-    </property>
-    <widget class="QWidget" name="centralwidget">
-     <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Enter ID:</string>
-            </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="deleteButton">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-         </widget>
-        </item>
-     </layout>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>200</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Delete Item</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="toolTip">
+      <string>This action cannot be undone.</string>
+     </property>
+     <property name="text">
+      <string>Are you sure you want to delete this competition?</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="deleteButton">
+       <property name="toolTip">
+        <string>Click to delete the item.</string>
+       </property>
+       <property name="styleSheet">
+        <string>background-color: red; color: white;</string>
+       </property>
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="toolTip">
+        <string>Click to cancel the operation.</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

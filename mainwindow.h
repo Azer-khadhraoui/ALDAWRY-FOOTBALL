@@ -2,9 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "ui_mainwindow.h"
-#include "competition.h"
-#include "connection.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -12,24 +9,24 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QEventLoop>
-#include "addcompetitionwindow.h"
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QMessageBox>
-#include "deletewindow.h"
+#include <QTextCharFormat>
+#include <QtCore/QVariant>
+#include <QtCore/QDate>
+
+#include "ui_mainwindow.h"
+#include "competition.h"
 #include "connection.h"
+#include "addcompetitionwindow.h"
+#include "deletewindow.h"
 #include "updateform.h"
 #include "statistics.h"
-#include <QTextCharFormat>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QEventLoop>
+#include "matchesdialog.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -51,14 +48,18 @@ private slots:
     void on_searchTextChanged(const QString &search);
     void updateCalendar();
     void prediction(int id);
-
+    void onYearChanged(const QString &yearText);
+    void onMonthClicked(int month);
     void on_pushButton_5_clicked();
 
 private:
     Ui::MainWindow *ui;
     competition c;             // Competition object
-    void updateTableView();    // Declared for completeness
     int mainwindow_id;
+
+    // Helper methods
+    void updateTableView();
+    void updateMonthButtonsForYear(int year);
 };
 
 #endif // MAINWINDOW_H

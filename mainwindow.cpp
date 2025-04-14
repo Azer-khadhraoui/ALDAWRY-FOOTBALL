@@ -11,7 +11,24 @@ MainWindow::MainWindow(QWidget *parent)
     Connection conn;
     bool test = conn.createconnect();
     ui->test->setModel(c.show_competitions());
-
+    ui->yearComboBox->clear(); // Clear placeholder items from .ui file
+    for (int year = 2000; year <= 2500; ++year) {
+        ui->yearComboBox->addItem(QString::number(year));
+    }
+    ui->yearComboBox->setCurrentText(QString::number(QDate::currentDate().year()));
+    connect(ui->yearComboBox, &QComboBox::currentTextChanged, this, &MainWindow::onYearChanged);
+    connect(ui->januaryButton, &QPushButton::clicked, this, [this]() { onMonthClicked(1); });
+    connect(ui->februaryButton, &QPushButton::clicked, this, [this]() { onMonthClicked(2); });
+    connect(ui->marchButton, &QPushButton::clicked, this, [this]() { onMonthClicked(3); });
+    connect(ui->aprilButton, &QPushButton::clicked, this, [this]() { onMonthClicked(4); });
+    connect(ui->mayButton, &QPushButton::clicked, this, [this]() { onMonthClicked(5); });
+    connect(ui->juneButton, &QPushButton::clicked, this, [this]() { onMonthClicked(6); });
+    connect(ui->julyButton, &QPushButton::clicked, this, [this]() { onMonthClicked(7); });
+    connect(ui->augustButton, &QPushButton::clicked, this, [this]() { onMonthClicked(8); });
+    connect(ui->septemberButton, &QPushButton::clicked, this, [this]() { onMonthClicked(9); });
+    connect(ui->octoberButton, &QPushButton::clicked, this, [this]() { onMonthClicked(10); });
+    connect(ui->novemberButton, &QPushButton::clicked, this, [this]() { onMonthClicked(11); });
+    connect(ui->decemberButton, &QPushButton::clicked, this, [this]() { onMonthClicked(12); });
     connect(ui->lineEdit, &QLineEdit::textChanged, this, &MainWindow::on_searchTextChanged);
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index) {
         if (index == 0) {
@@ -52,45 +69,97 @@ void MainWindow::reconnectSelectionModel()
 
 void MainWindow::updateCalendar()
 {
-    QTextCharFormat defaultFormat;
-    defaultFormat.setForeground(ui->calendarWidget->palette().text().color()); // Use default text color
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Monday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Tuesday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Wednesday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Thursday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Friday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Saturday, defaultFormat);
-    ui->calendarWidget->setWeekdayTextFormat(Qt::Sunday, defaultFormat);
-
-    QDate date = QDate::currentDate().addYears(-10);
-    QDate endDate1 = QDate::currentDate().addYears(10);
-    while (date <= endDate1) {
-        ui->calendarWidget->setDateTextFormat(date, defaultFormat);
-        date = date.addDays(1);
+    // If no competition is selected, reset to default state
+    if (mainwindow_id == -1) {
+        ui->yearComboBox->setCurrentText(QString::number(QDate::currentDate().year()));
+        updateMonthButtonsForYear(ui->yearComboBox->currentText().toInt());
+        return;
     }
 
+    // Get the selected competition
+    competition selectedComp = c.get_competition(mainwindow_id);
+    QDate startDate = selectedComp.get_date_debut();
+    QDate endDate = selectedComp.get_date_fin();
+
+    // Validate the date range
+    if (startDate.isValid() && endDate.isValid() && startDate <= endDate) {
+        // Set yearComboBox to the competition's start year
+        ui->yearComboBox->setCurrentText(QString::number(startDate.year()));
+        // Update month buttons for the selected year
+        updateMonthButtonsForYear(startDate.year());
+    } else {
+        qDebug() << "Invalid or no date range for competition ID:" << mainwindow_id;
+        ui->yearComboBox->setCurrentText(QString::number(QDate::currentDate().year()));
+        updateMonthButtonsForYear(ui->yearComboBox->currentText().toInt());
+    }
+}
+
+void MainWindow::updateMonthButtonsForYear(int year)
+{
+    // List of all month buttons
+    QList<QPushButton*> monthButtons = {
+        ui->januaryButton, ui->februaryButton, ui->marchButton, ui->aprilButton,
+        ui->mayButton, ui->juneButton, ui->julyButton, ui->augustButton,
+        ui->septemberButton, ui->octoberButton, ui->novemberButton, ui->decemberButton
+    };
+
+    // Styles for buttons
+    QString defaultStyle = "background-color: #1e4d4a; color: #e0f7fa; border: 1px solid #4dd0e1; border-radius: 4px;";
+    QString highlightStyle = "background-color: #006400; color: #ffffff; border: 1px solid #4dd0e1; border-radius: 4px;";
+
+    // Reset all month buttons to default
+    for (QPushButton* button : monthButtons) {
+        button->setStyleSheet(defaultStyle);
+        button->setEnabled(true);
+    }
+
+    // If no competition is selected, return early
     if (mainwindow_id == -1) {
         return;
     }
 
+    // Get the selected competition
     competition selectedComp = c.get_competition(mainwindow_id);
     QDate startDate = selectedComp.get_date_debut();
     QDate endDate = selectedComp.get_date_fin();
-    ui->calendarWidget->setSelectedDate(startDate);
 
-    if (startDate.isValid() && endDate.isValid() && startDate <= endDate) {
-        QTextCharFormat highlightFormat;
-        highlightFormat.setBackground(QBrush(QColor(0, 100, 0)));
-        highlightFormat.setForeground(Qt::white);
-
-        QDate currentDate = startDate;
-        while (currentDate <= endDate) {
-            ui->calendarWidget->setDateTextFormat(currentDate, highlightFormat);
-            currentDate = currentDate.addDays(1);
-        }
-    } else {
-        qDebug() << "Invalid or no date range for competition ID:" << mainwindow_id;
+    // If dates are invalid, keep default state
+    if (!startDate.isValid() || !endDate.isValid() || startDate > endDate) {
+        return;
     }
+
+    // Determine which months to highlight for the given year
+    int startYear = startDate.year();
+    int endYear = endDate.year();
+    int startMonth = startDate.month();
+    int endMonth = endDate.month();
+
+    if (year == startYear && year == endYear) {
+        // Competition starts and ends in the same year
+        for (int i = startMonth - 1; i < endMonth; ++i) {
+            monthButtons[i]->setStyleSheet(highlightStyle);
+        }
+    } else if (year == startYear) {
+        // Highlight from startMonth to December
+        for (int i = startMonth - 1; i < 12; ++i) {
+            monthButtons[i]->setStyleSheet(highlightStyle);
+        }
+    } else if (year == endYear) {
+        // Highlight from January to endMonth
+        for (int i = 0; i < endMonth; ++i) {
+            monthButtons[i]->setStyleSheet(highlightStyle);
+        }
+    } else if (year > startYear && year < endYear) {
+        // Highlight all months in intermediate years
+        for (QPushButton* button : monthButtons) {
+            button->setStyleSheet(highlightStyle);
+        }
+    }
+}
+
+void MainWindow::onYearChanged(const QString &yearText)
+{
+    updateMonthButtonsForYear(yearText.toInt());
 }
 
 void MainWindow::on_searchTextChanged(const QString &search)
@@ -340,13 +409,20 @@ void MainWindow::on_pushButton_5_clicked()
     }
 
     competition selectedComp = c.get_competition(mainwindow_id);
-    QString competitionType = selectedComp.get_type(); // Assuming this method exists to get the competition type
+    QString competitionType = selectedComp.get_type(); 
 
     QSqlQuery insertQuery;
-    int matchId = 1; // Start match ID from 1 or fetch the last ID from the database if needed
+
+    int matchId;
+    QSqlQuery maxIdQuery;
+    maxIdQuery.prepare("SELECT MAX(id_match) FROM match");
+    if (!maxIdQuery.exec() || !maxIdQuery.next()) {
+        QMessageBox::warning(this, "Database Error", "Failed to fetch last match ID.");
+        return;
+    }
+    matchId = maxIdQuery.value(0).isNull() ? 1 : maxIdQuery.value(0).toInt() + 1;
 
     if (competitionType == "League") {
-        // Generate fixtures for a league (round-robin format with home and away matches)
         for (int i = 0; i < teamIds.size(); ++i) {
             for (int j = i + 1; j < teamIds.size(); ++j) {
                 // Home match
@@ -375,8 +451,7 @@ void MainWindow::on_pushButton_5_clicked()
             }
         }
     } else if (competitionType == "Tournament") {
-        // Generate fixtures for a tournament (knockout format)
-        std::random_shuffle(teamIds.begin(), teamIds.end()); // Shuffle teams for random pairing
+        std::random_shuffle(teamIds.begin(), teamIds.end()); 
 
         for (int i = 0; i < teamIds.size(); i += 2) {
             if (i + 1 < teamIds.size()) {
@@ -400,3 +475,31 @@ void MainWindow::on_pushButton_5_clicked()
     QMessageBox::information(this, "Fixtures Generated", "Fixtures have been successfully generated and saved.");
 }
 
+void MainWindow::onMonthClicked(int month)
+{
+    // Get the selected year
+    int year = ui->yearComboBox->currentText().toInt();
+
+    // Get the button corresponding to the month
+    QList<QPushButton*> monthButtons = {
+        ui->januaryButton, ui->februaryButton, ui->marchButton, ui->aprilButton,
+        ui->mayButton, ui->juneButton, ui->julyButton, ui->augustButton,
+        ui->septemberButton, ui->octoberButton, ui->novemberButton, ui->decemberButton
+    };
+    QPushButton* clickedButton = monthButtons[month - 1];
+
+    // Check if the button is highlighted (green background)
+    bool isHighlighted = clickedButton->styleSheet().contains("#006400");
+
+    if (isHighlighted && mainwindow_id != -1) {
+       
+        MatchesDialog* dialog = new MatchesDialog(mainwindow_id, year, month, this);
+        dialog->exec();
+        delete dialog;
+    } else {
+        // Show message for non-highlighted months
+        QMessageBox::information(this, "No Matches",
+                                 QString("No matches available for %1 %2.").arg(month).arg(year),
+                                 QMessageBox::Ok);
+    }
+}

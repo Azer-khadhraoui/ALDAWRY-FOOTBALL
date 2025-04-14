@@ -8,5 +8,11 @@
         <file>trier.png</file>
         <file>guardiola.png</file>
         <file>BAR.png</file>
+        
+        <file>add.png</file>
+    <file>delete.png</file>
+    <file>update.png</file>
+    <file>stats.png</file>
+    <file>generate.png</file>
     </qresource>
 </RCC>

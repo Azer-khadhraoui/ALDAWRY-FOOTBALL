@@ -21,7 +21,7 @@
     <widget class="QComboBox" name="comboBox">
      <item>
       <property name="text">
-       <string>NULL</string>
+       <string>Type</string>
       </property>
      </item>
      <item>
