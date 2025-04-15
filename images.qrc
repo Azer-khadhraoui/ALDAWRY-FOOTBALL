@@ -33,5 +33,7 @@
         <file>pdfIcon.png</file>
         <file>deleteIcon.png</file>
         <file>editIcon.png</file>
+        <file>add.png</file>
+        <file>minus.png</file>
     </qresource>
 </RCC>

@@ -23,6 +23,7 @@
 #include <QHBoxLayout>
 #include <QSpacerItem>
 #include "tableau.h"
+#include "tododialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,9 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setMinimumSize(1000, 700); // 👈 Add it right here!
-
-
+    this->setMinimumSize(1000, 700);
 
     if (!QSqlDatabase::database().isOpen()) {
         qDebug() << "Database connection failed to open in MainWindow!";
@@ -40,6 +39,32 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     setupBudgetPieChart();
+
+    // Initialize the QListView with custom model and delegate
+    todoListView = ui->listView; // Assuming added via Qt Designer
+    todoModel = new ToDoModel(this);
+    todoDelegate = new ToDoDelegate(this);
+    todoListView->setModel(todoModel);
+    todoListView->setItemDelegate(todoDelegate);
+    todoListView->setStyleSheet(
+        "QListView {"
+        "    background-color: #1A2526;"
+        "    border: 2px solid #2D3748;"
+        "    border-radius: 10px;"
+        "    padding: 5px;"
+        "}"
+        "QListView::item {"
+        "    border-bottom: 1px solid #2D3748;"
+        "}"
+        "QListView::item:selected {"
+        "    background-color: #34C759;"
+        "}"
+        );
+    todoListView->setSpacing(2); // Space between items
+    todoListView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    // Populate the list initially
+    populateTodoList();
 }
 
 MainWindow::~MainWindow()
@@ -50,13 +75,12 @@ MainWindow::~MainWindow()
 void MainWindow::setupBudgetPieChart()
 {
     budgetSeries = new QPieSeries();
-    budgetSeries->setHoleSize(0.40);  // Slightly larger donut effect for a modern look
+    budgetSeries->setHoleSize(0.40);
 
-    // Fetch budget data and categorize into intervals
     QSqlQuery query("SELECT BUDG FROM HOTSTUFF.EQUIPE");
-    int lowBudgetCount = 0;    // < 10000
-    int midBudgetCount = 0;    // 10000 to 20000
-    int highBudgetCount = 0;   // > 20000
+    int lowBudgetCount = 0;
+    int midBudgetCount = 0;
+    int highBudgetCount = 0;
     int totalTeams = 0;
 
     while (query.next()) {
@@ -71,24 +95,20 @@ void MainWindow::setupBudgetPieChart()
         totalTeams++;
     }
 
-    // Calculate percentages and append slices with updated green gradient colors
-    QList<QColor> colors = {QColor("#34C759"), QColor("#28A745"), QColor("#1E7E34")}; // Green shades matching the theme
+    QList<QColor> colors = {QColor("#34C759"), QColor("#28A745"), QColor("#1E7E34")};
     if (totalTeams > 0) {
-        // Low budget slice
         double lowPercentage = (lowBudgetCount * 100.0) / totalTeams;
         QPieSlice *lowSlice = budgetSeries->append("Low Budget", lowBudgetCount);
         lowSlice->setColor(colors[0]);
         lowSlice->setLabel(QString("Low Budget\n%1%").arg(lowPercentage, 0, 'f', 1));
         connect(lowSlice, &QPieSlice::hovered, this, &MainWindow::onPieSliceHovered);
 
-        // Mid budget slice
         double midPercentage = (midBudgetCount * 100.0) / totalTeams;
         QPieSlice *midSlice = budgetSeries->append("Mid Budget", midBudgetCount);
         midSlice->setColor(colors[1]);
         midSlice->setLabel(QString("Mid Budget\n%1%").arg(midPercentage, 0, 'f', 1));
         connect(midSlice, &QPieSlice::hovered, this, &MainWindow::onPieSliceHovered);
 
-        // High budget slice
         double highPercentage = (highBudgetCount * 100.0) / totalTeams;
         QPieSlice *highSlice = budgetSeries->append("High Budget", highBudgetCount);
         highSlice->setColor(colors[2]);
@@ -96,51 +116,44 @@ void MainWindow::setupBudgetPieChart()
         connect(highSlice, &QPieSlice::hovered, this, &MainWindow::onPieSliceHovered);
     }
 
-    // Customize the pie slices
     for (QPieSlice *slice : budgetSeries->slices()) {
         slice->setLabelVisible(true);
         slice->setLabelPosition(QPieSlice::LabelOutside);
-        slice->setLabelColor(QColor("#E0E0E0")); // Light gray labels for better contrast
-        slice->setBorderColor(QColor("#2D3748")); // Dark border matching the background
-        slice->setBorderWidth(2); // Slightly thicker border for emphasis
+        slice->setLabelColor(QColor("#E0E0E0"));
+        slice->setBorderColor(QColor("#2D3748"));
+        slice->setBorderWidth(2);
     }
 
-    // Create a chart and add the series
     QChart *chart = new QChart();
     chart->addSeries(budgetSeries);
     chart->setTitle("Team Budget Intervals");
-    chart->setTitleBrush(QBrush(QColor("#34C759"))); // Green title to match the theme
-    chart->setTitleFont(QFont("Montserrat", 16, QFont::Bold)); // Modern font, larger size
-    chart->setBackgroundBrush(QBrush(QColor("#1A2526"))); // Darker background to match the app
+    chart->setTitleBrush(QBrush(QColor("#34C759")));
+    chart->setTitleFont(QFont("Montserrat", 16, QFont::Bold));
+    chart->setBackgroundBrush(QBrush(QColor("#1A2526")));
     chart->setPlotAreaBackgroundBrush(QBrush(QColor("#1A2526")));
     chart->setPlotAreaBackgroundVisible(true);
     chart->setTheme(QChart::ChartThemeDark);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignRight);
-    chart->legend()->setLabelColor(QColor("#E0E0E0")); // Light gray legend text
-    chart->legend()->setFont(QFont("Montserrat", 12)); // Modern font for legend
+    chart->legend()->setLabelColor(QColor("#E0E0E0"));
+    chart->legend()->setFont(QFont("Montserrat", 12));
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    // Create a chart view
     chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setFixedSize(600, 450); // Keep the size consistent
-    chartView->setStyleSheet("background-color: #1A2526; border: 2px solid #2D3748; border-radius: 15px;"); // Updated styling to match the theme
+    chartView->setFixedSize(600, 450);
+    chartView->setStyleSheet("background-color: #1A2526; border: 2px solid #2D3748; border-radius: 15px;");
 
-    // Add the chart view to the layout
     QVBoxLayout *mainLayout = new QVBoxLayout(ui->widget_2);
-
-    // Create a horizontal layout to shift the chart to the right
     QHBoxLayout *chartLayout = new QHBoxLayout();
     chartLayout->addStretch(5);
     chartLayout->addWidget(chartView);
     chartLayout->addStretch(1);
 
-    mainLayout->addSpacing(280); // Move chart down by 200px
+    mainLayout->addSpacing(280);
     mainLayout->addLayout(chartLayout);
-
-    mainLayout->setContentsMargins(10, 0, 10, 10); // Minimal margins
-    mainLayout->setSpacing(5); // Small spacing to avoid overlap
+    mainLayout->setContentsMargins(10, 0, 10, 10);
+    mainLayout->setSpacing(5);
     ui->widget_2->setLayout(mainLayout);
 }
 
@@ -151,9 +164,9 @@ void MainWindow::updateBudgetPieChart()
     budgetSeries->clear();
 
     QSqlQuery query("SELECT BUDG FROM HOTSTUFF.EQUIPE");
-    int lowBudgetCount = 0;    // < 10000
-    int midBudgetCount = 0;    // 10000 to 20000
-    int highBudgetCount = 0;   // > 20000
+    int lowBudgetCount = 0;
+    int midBudgetCount = 0;
+    int highBudgetCount = 0;
     int totalTeams = 0;
 
     while (query.next()) {
@@ -203,12 +216,11 @@ void MainWindow::onPieSliceHovered(bool state)
             slice->setExploded(true);
             slice->setExplodeDistanceFactor(0.15);
             slice->setLabelFont(QFont("Montserrat", 14, QFont::Bold));
-            slice->setColor(slice->color().lighter(120)); // Slightly brighter on hover
+            slice->setColor(slice->color().lighter(120));
         } else {
             slice->setExploded(false);
             slice->setExplodeDistanceFactor(0.0);
             slice->setLabelFont(QFont("Montserrat", 12));
-            // Reset to original colors
             if (slice->label().startsWith("Low Budget")) {
                 slice->setColor(QColor("#34C759"));
             } else if (slice->label().startsWith("Mid Budget")) {
@@ -218,6 +230,33 @@ void MainWindow::onPieSliceHovered(bool state)
             }
         }
     }
+}
+
+void MainWindow::populateTodoList()
+{
+    QList<ToDoItem> todoItems;
+    QSqlQuery query("SELECT t.IDTODO, t.IDTEAM, e.TEAM_NAME, t.TODO, t.STATS, t.DATETODO "
+                    "FROM HOTSTUFF.TODO t "
+                    "JOIN HOTSTUFF.EQUIPE e ON t.IDTEAM = e.ID_TEAM "
+                    "ORDER BY t.DATETODO DESC");
+
+    while (query.next()) {
+        ToDoItem item;
+        item.idTodo = query.value(0).toInt();
+        item.idTeam = query.value(1).toInt();
+        item.teamName = query.value(2).toString();
+        item.todo = query.value(3).toString();
+        item.status = query.value(4).toString();
+        item.dateTodo = query.value(5).toDateTime();
+        todoItems << item;
+    }
+
+    todoModel->setItems(todoItems);
+}
+
+void MainWindow::refreshTodoList()
+{
+    populateTodoList();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -259,6 +298,50 @@ void MainWindow::on_pushButton_6_clicked()
 {
     Tableau *tableau = new Tableau(this);
     tableau->exec();
+}
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    TodoDialog *todoDialog = new TodoDialog(this);
+    connect(todoDialog, &TodoDialog::todoAdded, this, &MainWindow::refreshTodoList);
+    todoDialog->exec();
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    // Get the selected item
+    QModelIndexList selectedIndexes = todoListView->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(this, "No Selection", "Please select a to-do item to delete.");
+        return;
+    }
+
+    // Since single selection is enabled, there should be only one selected index
+    QModelIndex index = selectedIndexes.first();
+    ToDoItem item = index.data(Qt::DisplayRole).value<ToDoItem>();
+
+    // Confirm deletion
+    QMessageBox::StandardButton reply = QMessageBox::question(
+        this,
+        "Confirm Deletion",
+        QString("Are you sure you want to delete the to-do item '%1' for team '%2'?").arg(item.todo).arg(item.teamName),
+        QMessageBox::Yes | QMessageBox::No
+        );
+
+    if (reply == QMessageBox::Yes) {
+        // Delete from the database
+        QSqlQuery query;
+        query.prepare("DELETE FROM HOTSTUFF.TODO WHERE IDTODO = :idtodo");
+        query.bindValue(":idtodo", item.idTodo);
+
+        if (query.exec()) {
+            QMessageBox::information(this, "Success", "To-do item deleted successfully!");
+            refreshTodoList(); // Refresh the list after deletion
+        } else {
+            QMessageBox::critical(this, "Error", "Failed to delete to-do item: " + query.lastError().text());
+            qDebug() << "SQL Error:" << query.lastError().text();
+        }
+    }
 }
 
 void MainWindow::on_toolButton_clicked()
