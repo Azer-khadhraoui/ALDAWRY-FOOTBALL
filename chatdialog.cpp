@@ -72,7 +72,7 @@ void ChatDialog::sendApiRequest(const QString &userMessage)
 void ChatDialog::on_apiReplyFinished(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
-        ui->chatDisplay->append("<b>Grok:</b> Error: " + reply->errorString());
+        ui->chatDisplay->append("<b>AlDawry:</b> Error: " + reply->errorString());
         reply->deleteLater();
         return;
     }

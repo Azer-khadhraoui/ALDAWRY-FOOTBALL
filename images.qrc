@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/img">
-        <file>logo football.png</file>
         <file>reset.png</file>
         <file>search.png</file>
         <file>trier.png</file>
@@ -9,9 +8,30 @@
         <file>logo.png</file>
         <file>money.png</file>
         <file>terrain.png</file>
-        <file>5570834.jpg</file>
-        <file>5570834.png</file>
         <file>BACK.png</file>
         <file>ai.png</file>
+        <file>Group 1.png</file>
+        <file>Group 2.png</file>
+        <file>Group 3.png</file>
+        <file>Vector.png</file>
+        <file>language.png</file>
+        <file>logout.png</file>
+        <file>Group 1or.png</file>
+        <file>Group 2or.png</file>
+        <file>lanor.png</file>
+        <file>logoutor.png</file>
+        <file>Vectoror.png</file>
+        <file>Vectorora.png</file>
+        <file>Layer 2.png</file>
+        <file>Vectorrrr.png</file>
+        <file>pic.png</file>
+        <file>logo football.png</file>
+        <file>BALL.png</file>
+        <file>delete.png</file>
+        <file>List.png</file>
+        <file>pencil.png</file>
+        <file>pdfIcon.png</file>
+        <file>deleteIcon.png</file>
+        <file>editIcon.png</file>
     </qresource>
 </RCC>

@@ -19,9 +19,13 @@ public:
 
     void setTeamData(const QString &teamName, const QString &homeStadium, int budget, const QString &teamABV, const QByteArray &teamLogo);
 
+signals:
+    void teamModified(const QString &teamName, const QString &homeStadium, int budget, const QString &teamABV);
+
 private slots:
     void on_button1_2_clicked();
     void on_toolButton_2_clicked();
+    void on_confirmButton_clicked();
 
 private:
     Ui::modifyTeam *ui;

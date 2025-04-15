@@ -28,6 +28,16 @@ color: #E0E6ED; /* Light gray text */</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="headerLabel">
       <property name="font">
        <font>
@@ -43,7 +53,7 @@ padding: 10px;
 color: #E0E6ED;</string>
       </property>
       <property name="text">
-       <string>Chat with AlDawry AI</string>
+       <string>Chat With Aldawry</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>

@@ -13,24 +13,31 @@ CONFIG += console
 SOURCES += \
     chatdialog.cpp \
     connection.cpp \
+    formadd.cpp \
     main.cpp \
     mainwindow.cpp \
     modifyteam.cpp \
+    tableau.cpp \
     team.cpp
     chatdialog.cpp
 
 HEADERS += \
     chatdialog.h \
     connection.h \
+    formadd.h \
     mainwindow.h \
     modifyteam.h \
+    tableau.h \
     team.h
     chatdialog.h
 
 FORMS += \
     chatdialog.ui \
+    formadd.ui \
     mainwindow.ui \
-    modifyTeam.ui
+    modifyTeam.ui \
+    tableau.ui \
+    trash.ui
     chatdialog.ui
 
 # Default rules for deployment.

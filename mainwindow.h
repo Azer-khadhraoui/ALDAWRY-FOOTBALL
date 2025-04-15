@@ -26,22 +26,20 @@ public:
 
 private slots:
     void on_toolButton_clicked();
-    void on_addButtonclicked();
-    void on_deleteButton_clicked();
     void on_resetButton_clicked();
-    void on_searchBar_textChanged(const QString &text);
-    void on_tableWidget_sectionClicked(int logicalIndex);
-    void on_modifyButton_clicked();
-    void on_downloadButton_clicked();
-    void on_deleteButton_2_clicked();
-    void onPieSliceHovered(bool state);
-    void on_pushButton_clicked(); // Add this for the AI button
+    void on_pushButton_clicked(); // For the AI button
+    void on_pushButton_2_clicked(); // For the "Add Team" button
+    void on_pushButton_3_clicked(); // For the "Chat" button
+    void on_pushButton_4_clicked(); // Slot for pushButton_4
+    void on_pushButton_5_clicked(); // Slot for pushButton_5
+    void on_pushButton_6_clicked(); // Slot for pushButton_6
+    void onPieSliceHovered(bool state); // Add this declaration
 
 private:
     Ui::MainWindow *ui;
     QByteArray teamLogo;
 
-    void loadTeams();
+
     void setupBudgetPieChart();  // New method to set up the pie chart
     void updateBudgetPieChart(); // Method to update the pie chart
 

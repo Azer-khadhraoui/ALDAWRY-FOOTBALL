@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>modifyTeam</class>
- <widget class="QWidget" name="modifyTeam">
+ <class>FormAdd</class>
+ <widget class="QWidget" name="FormAdd">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
-    <height>591</height>
+    <width>605</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,10 +19,10 @@
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>80</y>
+     <x>30</x>
+     <y>90</y>
      <width>541</width>
-     <height>491</height>
+     <height>521</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -35,9 +35,71 @@
     spacing: 2px;
 </string>
    </property>
-   <layout class="QGridLayout" name="gridLayout_4">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>            Team_Name :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLineEdit" name="l2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>           Home_Stadium :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLineEdit" name="l2_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>           Team_ABV :</string>
+      </property>
+     </widget>
+    </item>
     <item row="10" column="0">
-     <widget class="QPushButton" name="button1_2">
+     <widget class="QPushButton" name="button1">
       <property name="styleSheet">
        <string notr="true">background-color: #00FF7F; /* Green to match the accent */
     color: #1A2633; /* Dark blue text for contrast */
@@ -54,8 +116,25 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="l1">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
     <item row="3" column="0">
-     <widget class="QComboBox" name="cb_2">
+     <widget class="QComboBox" name="cb">
       <property name="styleSheet">
        <string notr="true">background-color: #2A3240;
   border: 1px solid #3A4A5A;
@@ -102,97 +181,19 @@ Qcb:focus {
      </widget>
     </item>
     <item row="6" column="0">
-     <widget class="QLabel" name="label_12">
+     <widget class="QLabel" name="label_10">
       <property name="styleSheet">
        <string notr="true">color: #A0A8B7;
 font-weight: bold;
 padding-bottom: 5px;background-color:transparent;</string>
       </property>
       <property name="text">
-       <string>         Team_Logo :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLineEdit" name="l1_2">
-      <property name="styleSheet">
-       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
-    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED; /* Light gray text for readability */
-    margin-left: 15px;
-    margin-right: 15px;
-</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_13">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>         Budget :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_14">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>        Team_ABV :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_15">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>          Team_Name :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_16">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>         Home_Stadium :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLineEdit" name="l2_3">
-      <property name="styleSheet">
-       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
-    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED; /* Light gray text for readability */
-    margin-left: 15px;
-    margin-right: 15px;</string>
+       <string>            Team_Logo :</string>
       </property>
      </widget>
     </item>
     <item row="7" column="0">
-     <widget class="QWidget" name="widget_3" native="true">
+     <widget class="QWidget" name="widget_2" native="true">
       <property name="styleSheet">
        <string notr="true">background-color: #2A3240;
     border: 1px solid #3A4A5A;
@@ -203,9 +204,9 @@ padding-bottom: 5px;background-color:transparent;</string>
     margin-right: 15px;
     margin-bottom: 15px;</string>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QToolButton" name="toolButton_2">
+        <widget class="QToolButton" name="toolButton">
          <property name="styleSheet">
           <string notr="true">background-color: #1C1F2A;
 border: 1px solid #2A2D3A;
@@ -222,7 +223,7 @@ margin-bottom:15px;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_2">
          <property name="styleSheet">
           <string notr="true">color: #A0A8B7;
 padding-left: 10px;
@@ -236,26 +237,69 @@ background-color: transparent;</string>
       </layout>
      </widget>
     </item>
-    <item row="9" column="0">
-     <widget class="QLineEdit" name="l2_4">
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_9">
       <property name="styleSheet">
-       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
-    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED; /* Light gray text for readability */
-    margin-left: 15px;
-    margin-right: 15px;</string>
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>           Budget :</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label_28">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>120</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="images.qrc">:/img/Userr.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_27">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>300</y>
+     <width>12</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="images.qrc">:/img/money.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>190</y>
+     <x>60</x>
+     <y>210</y>
      <width>17</width>
      <height>17</height>
     </rect>
@@ -276,8 +320,8 @@ background-color: transparent;</string>
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>346</y>
+     <x>60</x>
+     <y>380</y>
      <width>21</width>
      <height>21</height>
     </rect>
@@ -298,8 +342,8 @@ background-color: transparent;</string>
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>470</y>
+     <x>60</x>
+     <y>500</y>
      <width>18</width>
      <height>16</height>
     </rect>
@@ -317,56 +361,41 @@ background-color: transparent;</string>
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_27">
+  <widget class="QPushButton" name="resetButton">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>270</y>
-     <width>12</width>
-     <height>18</height>
+     <x>350</x>
+     <y>570</y>
+     <width>31</width>
+     <height>24</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color:transparent;</string>
+    <string notr="true">background-color: rgb(132, 132, 132);
+       color: white;            
+        font-family: Arial;      
+        font-size: 12px;        
+       font-weight: bold;      
+        border: 1px solid grey ;
+        border-radius: 5px;      
+        padding: 5px 10px;        
+    
+</string>
    </property>
    <property name="text">
     <string/>
    </property>
-   <property name="pixmap">
-    <pixmap resource="images.qrc">:/img/money.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_28">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>110</y>
-     <width>17</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="images.qrc">:/img/Userr.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/reset.png</normaloff>:/img/reset.png</iconset>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>240</x>
      <y>20</y>
-     <width>191</width>
+     <width>151</width>
      <height>41</height>
     </rect>
    </property>
@@ -389,7 +418,7 @@ QLabel#label_4 {
 }</string>
    </property>
    <property name="text">
-    <string> Modify Team</string>
+    <string>Add Team</string>
    </property>
   </widget>
  </widget>

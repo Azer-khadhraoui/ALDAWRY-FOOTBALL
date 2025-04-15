@@ -54,67 +54,88 @@ void ModifyTeam::on_toolButton_2_clicked()
 
 void ModifyTeam::on_button1_2_clicked()
 {
-    QString teamName = ui->l1_2->text();
-    QString homeStadium = ui->cb_2->currentText();
-    QString budgetText = ui->l2_3->text();
-    QString teamABV = ui->l2_4->text();
+    // Input validation
+    QString teamName = ui->l1_2->text().trimmed();
+    QString homeStadium = ui->cb_2->currentText().trimmed();
+    QString budgetText = ui->l2_3->text().trimmed();
+    QString teamABV = ui->l2_4->text().trimmed();
 
+    // Check if any field is empty
     if (teamName.isEmpty() || homeStadium.isEmpty() || budgetText.isEmpty() || teamABV.isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Please fill in all required fields.");
+        QMessageBox::warning(this, "Input Error", "All fields must be filled out.");
         return;
     }
 
-    QRegularExpression reAlpha("^[A-Za-z]+$");
-    if (!reAlpha.match(teamName).hasMatch()) {
-        QMessageBox::warning(this, "Input Error", "Team Name must contain only alphabets.");
-        return;
-    }
-
+    // Validate budget (must be a positive integer)
     bool ok;
     int budget = budgetText.toInt(&ok);
-    if (!ok) {
-        QMessageBox::warning(this, "Input Error", "Budget must be a valid integer.");
+    if (!ok || budget <= 0) {
+        QMessageBox::warning(this, "Input Error", "Budget must be a positive number.");
         return;
     }
 
-    QRegularExpression reUpperAlpha("^[A-Z]+$");
-    if (!reUpperAlpha.match(teamABV).hasMatch()) {
-        QMessageBox::warning(this, "Input Error", "Team ABV must contain only uppercase alphabets.");
+    // Validate team abbreviation (must be 3 uppercase letters)
+    QRegularExpression regex("^[A-Z]{3}$");
+    if (!regex.match(teamABV).hasMatch()) {
+        QMessageBox::warning(this, "Input Error", "Team abbreviation must be exactly 3 uppercase letters.");
         return;
     }
 
-    if (updateTeamInDatabase()) {
+    // Update the database with the new data
+    QSqlQuery query;
+    query.prepare("UPDATE HOTSTUFF.EQUIPE SET HOME_STADIUM = :homeStadium, BUDG = :budget, TEAM_ABV = :teamABV WHERE TEAM_NAME = :teamName");
+    query.bindValue(":homeStadium", homeStadium);
+    query.bindValue(":budget", budget);
+    query.bindValue(":teamABV", teamABV);
+    query.bindValue(":teamName", teamName);
+
+    if (query.exec()) {
+        // Emit the signal with the updated team details
+        emit teamModified(teamName, homeStadium, budget, teamABV);
+
+        // Close the dialog
         QMessageBox::information(this, "Success", "Team updated successfully!");
-        accept();
+        this->accept();
     } else {
-        QMessageBox::critical(this, "Error", "Failed to update team in the database.");
+        QMessageBox::critical(this, "Database Error", "Failed to update the team in the database: " + query.lastError().text());
     }
 }
 
 bool ModifyTeam::updateTeamInDatabase()
 {
-    QSqlDatabase db = QSqlDatabase::database();
-    if (!db.isOpen()) {
-        qDebug() << "Database connection is closed!";
+    // Input validation
+    QString teamName = ui->l1_2->text().trimmed();
+    QString homeStadium = ui->cb_2->currentText().trimmed();
+    QString budgetText = ui->l2_3->text().trimmed();
+    QString teamABV = ui->l2_4->text().trimmed();
+
+    if (teamName.isEmpty() || homeStadium.isEmpty() || budgetText.isEmpty() || teamABV.isEmpty()) {
+        QMessageBox::warning(this, "Input Error", "All fields must be filled out.");
         return false;
     }
 
-    QSqlQuery query(db);
-    query.prepare("UPDATE HOTSTUFF.EQUIPE SET TEAM_NAME = :team_name, HOME_STADIUM = :home_stadium, BUDG = :budget, TEAM_ABV = :team_abv, TEAM_LOGO = :team_logo WHERE TEAM_NAME = :original_team_name");
-    query.bindValue(":team_name", ui->l1_2->text());  // New team name
-    query.bindValue(":home_stadium", ui->cb_2->currentText());
-    query.bindValue(":budget", ui->l2_3->text().toInt());
-    query.bindValue(":team_abv", ui->l2_4->text());
-    query.bindValue(":team_logo", teamLogo);
-    query.bindValue(":original_team_name", originalTeamName);  // Use original team name for WHERE clause
+    bool ok;
+    int budget = budgetText.toInt(&ok);
+    if (!ok || budget <= 0) {
+        QMessageBox::warning(this, "Input Error", "Budget must be a positive number.");
+        return false;
+    }
 
-    qDebug() << "Executing update with values:"
-             << "TEAM_NAME=" << ui->l1_2->text()
-             << "HOME_STADIUM=" << ui->cb_2->currentText()
-             << "BUDG=" << ui->l2_3->text().toInt()
-             << "TEAM_ABV=" << ui->l2_4->text()
-             << "TEAM_LOGO size=" << teamLogo.size()
-             << "ORIGINAL_TEAM_NAME=" << originalTeamName;
+    QRegularExpression regex("^[A-Z]{3}$");
+    if (!regex.match(teamABV).hasMatch()) {
+        QMessageBox::warning(this, "Input Error", "Team abbreviation must be exactly 3 uppercase letters.");
+        return false;
+    }
+
+    // Database update
+    QSqlQuery query;
+    query.prepare("UPDATE HOTSTUFF.EQUIPE SET TEAM_NAME = :team_name, HOME_STADIUM = :home_stadium, BUDG = :budget, TEAM_ABV = :team_abv, TEAM_LOGO = :team_logo WHERE TEAM_NAME = :original_team_name");
+    query.bindValue(":team_name", teamName);
+    query.bindValue(":home_stadium", homeStadium);
+    query.bindValue(":budget", budget);
+    query.bindValue(":team_abv", teamABV);
+    query.bindValue(":team_logo", teamLogo);
+    query.bindValue(":original_team_name", originalTeamName);
 
     if (!query.exec()) {
         qDebug() << "Update failed:" << query.lastError().text();
@@ -123,4 +144,18 @@ bool ModifyTeam::updateTeamInDatabase()
 
     qDebug() << "Update executed successfully, rows affected:" << query.numRowsAffected();
     return true;
+}
+
+void ModifyTeam::on_confirmButton_clicked()
+{
+    QString teamName = ui->l1_2->text(); // Correct widget for team name
+    QString homeStadium = ui->cb_2->currentText(); // Correct widget for home stadium
+    int budget = ui->l2_3->text().toInt(); // Correct widget for budget
+    QString teamABV = ui->l2_4->text(); // Correct widget for team abbreviation
+
+    // Emit the signal with the updated team details
+    emit teamModified(teamName, homeStadium, budget, teamABV);
+
+    // Close the dialog
+    this->accept();
 }
