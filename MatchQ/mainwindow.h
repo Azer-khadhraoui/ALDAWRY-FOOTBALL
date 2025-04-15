@@ -51,6 +51,7 @@ private:
     void filterMatches(const QString &text);
     void sortMatches();
     QVector<QPair<QComboBox*, QString>> positionBoxes; // Store the dynamic comboboxes and their positions
+    QTimer *statusUpdateTimer;
     
 
     bool ascendingOrder;

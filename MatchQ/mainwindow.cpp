@@ -33,6 +33,8 @@
 #include <QTimeLine>
 #include <QParallelAnimationGroup>
 #include "fieldwidget.h"
+#include <QTimer>
+#include <algorithm>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ascendingOrder(true) // Initialize ascendingOrder
 {
     ui->setupUi(this);
+    Match::updateMatchStatuses();
 
     // Set the minimum date and time to the current date and time to prevent past selections
     ui->Date->setMinimumDateTime(QDateTime::currentDateTime());
@@ -116,6 +119,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->allmatches->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->allmatches, &QTableView::customContextMenuRequested, this, &MainWindow::on_allmatchesContextMenuRequested);
+    statusUpdateTimer = new QTimer(this);
+connect(statusUpdateTimer, &QTimer::timeout, this, []() {
+    Match::updateMatchStatuses();
+});
+statusUpdateTimer->start(3600000); // Check every hour (3600000 ms)
 }
 
 MainWindow::~MainWindow()
@@ -205,6 +213,7 @@ void MainWindow::on_Confirm_clicked()
         updateRefereeAnalysis();
         chart(); // Update the chart
         weatherImpactChart();
+        Match::updateMatchStatuses();
     } else {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Critical);
@@ -224,7 +233,7 @@ void MainWindow::setupMatchTable() {
 
     // Create a QStandardItemModel to hold the match data
     QStandardItemModel *model = new QStandardItemModel(matches.size(), 7, this); // Add one more column
-    model->setHorizontalHeaderLabels({"ID", "Team 1", "Team 2", "Date", "Time", "Competition", "Status"}); // Add "Status" column
+    model->setHorizontalHeaderLabels({"ID ▲▼", "Team 1 ▲▼", "Team 2 ▲▼", "Date ▲▼", "Time ▲▼", "Competition ▲▼", "Status ▲▼"}); // Add sorting indicators ▲▼ to the column headers
 
     // Populate the model with match data
     for (int row = 0; row < matches.size(); ++row) {
@@ -289,6 +298,7 @@ void MainWindow::on_Delete_clicked() {
     updateRefereeAnalysis();
     chart(); // Update the chart
     weatherImpactChart();
+    Match::updateMatchStatuses();
 }
 
 void MainWindow::on_Modify_clicked() {
@@ -488,6 +498,7 @@ void MainWindow::on_Modify_clicked() {
         updateRefereeAnalysis();
         chart();
         weatherImpactChart();
+        Match::updateMatchStatuses();
     }
 }
 
@@ -505,7 +516,7 @@ void MainWindow::filterMatches(const QString &text) {
 
     // Create a QStandardItemModel to hold the filtered data
     QStandardItemModel *model = new QStandardItemModel(matches.size(), 6, this);
-    model->setHorizontalHeaderLabels({"ID", "Team 1", "Team 2", "Date", "Time", "Competition","Status"}); // Set headers
+    model->setHorizontalHeaderLabels({"ID ▲▼", "Team 1 ▲▼", "Team 2 ▲▼", "Date ▲▼", "Time ▲▼", "Competition ▲▼", "Status ▲▼"}); // Set headers
 
     // Populate the model with filtered data
     for (int row = 0; row < matches.size(); ++row) {
@@ -573,7 +584,7 @@ void MainWindow::on_headerClicked(int logicalIndex) {
 
     // Create a QStandardItemModel to hold the sorted data
     QStandardItemModel *model = new QStandardItemModel(matches.size(), 7, this); // Update column count
-    model->setHorizontalHeaderLabels({"ID", "Team 1", "Team 2", "Date", "Time", "Competition", "Status"}); // Add "Status" column
+    model->setHorizontalHeaderLabels({"ID ▲▼", "Team 1 ▲▼", "Team 2 ▲▼", "Date ▲▼", "Time ▲▼", "Competition ▲▼", "Status ▲▼"}); // Add "Status" column
 
     // Populate the model with sorted data
     for (int row = 0; row < matches.size(); ++row) {
@@ -624,7 +635,8 @@ void MainWindow::on_auto_match_clicked() {
     dialog.setStyleSheet("QDialog { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; font-size: 12px; border-radius: 10px; padding: 15px; }"
                          "QLabel, QComboBox, QPushButton { color: #FFFFFF; }"
                          "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
-                         "QPushButton:hover { background-color: #1C6DD0; }");
+                         "QPushButton:hover { background-color: #1C6DD0; }"
+                         "QComboBox QAbstractItemView { color: #FFFFFF; background-color: #2A2A3A; }");
 
     QFormLayout form(&dialog);
 
@@ -652,16 +664,49 @@ void MainWindow::on_auto_match_clicked() {
             int nbTeams = compQuery.value("NB_TEAMS").toInt();
 
             if (Match::generateMatchDates(competitionId, competitionType, startDate, endDate, nbTeams)) {
-                QMessageBox::information(this, "Success", "Match dates generated successfully!");
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Information);
+            msgBox.setWindowTitle("✅ Success");
+            msgBox.setText("Match dates generated successfully!");
+            msgBox.setStyleSheet(
+                "QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                "QLabel { color: #FFFFFF; font-size: 14px; }"
+                "QPushButton { background-color: #4CAF50; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                "QPushButton:hover { background-color: #45A049; }"
+            );
+            msgBox.exec();
+            } else {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("❌ Error");
+            msgBox.setText("Failed to generate match dates!");
+            msgBox.setStyleSheet(
+                "QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                "QLabel { color: #FFFFFF; font-size: 14px; }"
+                "QPushButton { background-color: #E94E77; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                "QPushButton:hover { background-color: #C94063; }"
+            );
+            msgBox.exec();
             }
         } else {
-            QMessageBox::critical(this, "Error", "Failed to retrieve competition details.");
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("❌ Error");
+            msgBox.setText("Failed to retrieve competition details!");
+            msgBox.setStyleSheet(
+            "QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+            "QLabel { color: #FFFFFF; font-size: 14px; }"
+            "QPushButton { background-color: #E94E77; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+            "QPushButton:hover { background-color: #C94063; }"
+            );
+            msgBox.exec();
         }
     }
     setupMatchTable(); // Refresh the table after generating matches
     updateMatchSummary(); // Update the summary
     updateRefereeAnalysis(); // Update the referee analysis
     weatherImpactChart();
+    Match::updateMatchStatuses();
 }
 
 void MainWindow::on_matchDoubleClicked(const QModelIndex &index) {

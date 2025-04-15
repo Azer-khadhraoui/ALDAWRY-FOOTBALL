@@ -5,5 +5,7 @@
         <file>user.png</file>
         <file>logo football.png</file>
         <file>staduim.png</file>
+        <file>stadium_background.jpg</file>
+        <file>football_element.jpg</file>
     </qresource>
 </RCC>

@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QRandomGenerator> // Add this include for QRandomGenerator
 #include <QMessageBox>
+#include <algorithm>
 
 Match::Match() : 
     id_match(0), id_competition(0), id_teamA(0), id_teamB(0),
@@ -304,123 +305,247 @@ void Match::generatePDF(const QString &filePath) {
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
     pdfWriter.setResolution(72); // Standard 72 DPI
 
+    // Set PDF metadata
+    pdfWriter.setTitle("Aldawry Match Schedule");
+    pdfWriter.setCreator("Aldawry");
+
     QPainter painter(&pdfWriter);
     painter.setRenderHint(QPainter::Antialiasing);
 
     // Fonts
-    QFont titleFont("Arial", 16, QFont::Bold);
-    QFont headerFont("Arial", 10, QFont::Bold);
-    QFont contentFont("Arial", 9);
+    QFont titleFont("Verdana", 22, QFont::Bold);
+    QFont headerFont("Verdana", 12, QFont::Bold);
+    QFont contentFont("Arial", 11);
+    contentFont.setLetterSpacing(QFont::PercentageSpacing, 110);
+    QFont footerFont("Arial", 9);
+    footerFont.setItalic(true);
 
-    // Title
-    painter.setFont(titleFont);
-    painter.drawText(0, 40, pdfWriter.width(), 40, Qt::AlignCenter, "Match Schedule");
+    // Colors and Gradients
+    QLinearGradient headerGradient(0, 0, 0, 50);
+    headerGradient.setColorAt(0, QColor(46, 125, 50)); // Dark green (pitch)
+    headerGradient.setColorAt(1, QColor(76, 175, 80)); // Lighter green
+    QLinearGradient pageGradient(0, 0, 0, 200);
+    pageGradient.setColorAt(0, Qt::white); // White at top
+    pageGradient.setColorAt(1, QColor(245, 245, 245)); // Light gray
+    QLinearGradient titleGradient(0, 0, 0, 40);
+    titleGradient.setColorAt(0, QColor(33, 33, 33));
+    titleGradient.setColorAt(1, Qt::black);
+    QLinearGradient footerGradient(0, 0, 0, 20);
+    footerGradient.setColorAt(0, QColor(46, 125, 50));
+    footerGradient.setColorAt(1, QColor(76, 175, 80));
+    QColor textColor(33, 33, 33); // Dark gray for content
+    QColor headerTextColor(Qt::white);
+    QColor tableBgColor(255, 255, 255, 230); // Semi-transparent white
+    QColor rowColor(232, 245, 233); // Very light green for all rows (#E8F5E9)
+    QColor fieldColor(46, 125, 50); // Green for field outline
+    QColor footerColor(46, 125, 50); // Dark green for footer
 
-    // Table layout
-    int x = 30; // Left margin
-    int y = 80; // Reduced starting position
-    const int rowHeight = 25; // Standard row height
-    const int headerHeight = 30; // Header height
-    const int colWidths[] = {140, 140, 110, 140}; // Team 1, Team 2, Date & Time, Competition
-    const int totalWidth = colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3];
+    // Page dimensions
+    int pageWidth = pdfWriter.width();
+    int pageHeight = pdfWriter.height();
+    int margin = 40; // Increased for spaciousness
 
-    // Draw table headers
-    painter.setFont(headerFont);
-    painter.setPen(QPen(Qt::black, 1));
-    painter.setBrush(QColor(200, 200, 200)); // Light gray background for header
-    painter.drawRect(x, y, totalWidth, headerHeight);
+    // Load logo
+    QImage logo(":/logo football.png");
 
-    int colX = x;
-    QStringList headers = {"Team 1", "Team 2", "Date & Time", "Competition"};
-    for (int i = 0; i < headers.size(); ++i) {
-        painter.drawText(colX + 10, y + 20, headers[i]);
-        colX += colWidths[i];
-    }
-
-    // Draw vertical lines for header
-    colX = x;
-    for (int i = 0; i <= headers.size(); ++i) {
-        painter.drawLine(colX, y, colX, y + headerHeight);
-        colX += colWidths[i];
-    }
-    painter.drawLine(x, y + headerHeight, x + totalWidth, y + headerHeight); // Bottom line
-
-    y += headerHeight;
-
-    // Draw table content
-    painter.setFont(contentFont);
-    painter.setBrush(Qt::NoBrush);
-
-    // Sort matches by date and time
-    QList<Match> matches = Match::readAllMatches();
+    // Calculate pages
+    QList<Match> matches = readAllMatches();
     std::sort(matches.begin(), matches.end(), [](const Match &a, const Match &b) {
         return a.getMatchDateTime() < b.getMatchDateTime();
     });
+    int rowsPerPage = (pageHeight - 280) / 40;
+    int totalPages = matches.isEmpty() ? 1 : (matches.size() + rowsPerPage - 1) / rowsPerPage;
+    int currentPage = 1;
+
+    // Drawing parameters
+    int y = 80;
+    int rowHeight = 40;
+    int headerHeight = 45;
+    const int colWidths[] = {140, 140, 110, 140};
+    const int totalWidth = colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3];
+    bool firstPage = true;
+
+    auto drawPage = [&](int pageNum) {
+        if (!firstPage) {
+            pdfWriter.newPage();
+            y = 80;
+        }
+        firstPage = false;
+
+        // Page background with gradient
+        painter.setBrush(pageGradient);
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(0, 0, pageWidth, pageHeight);
+
+        // Logo with shadow (smaller size)
+        if (!logo.isNull()) {
+            int maxLogoWidth = pageWidth / 4;
+            int logoHeight = logo.height() * maxLogoWidth / logo.width();
+            int logoX = (pageWidth - maxLogoWidth) / 2;
+            // Shadow effect
+            painter.setOpacity(0.2);
+            painter.setBrush(Qt::black);
+            painter.drawRect(logoX + 5, 20 + 5, maxLogoWidth, logoHeight);
+            painter.setOpacity(1.0);
+            painter.drawImage(QRect(logoX, 20, maxLogoWidth, logoHeight), logo);
+            y = 20 + logoHeight + 20;
+        } else {
+            painter.setFont(titleFont);
+            painter.setPen(textColor);
+            painter.drawText(0, 40, pageWidth, 40, Qt::AlignCenter, "Aldawry");
+            y = 80;
+        }
+
+        // Title with gradient
+        painter.setFont(titleFont);
+        painter.setPen(QColor(0, 0, 0, 50)); // Shadow
+        painter.drawText(2, y + 2, pageWidth, 40, Qt::AlignCenter, "Match Schedule");
+        painter.setPen(QPen(titleGradient, 0));
+        painter.drawText(0, y, pageWidth, 40, Qt::AlignCenter, "Match Schedule");
+        y += 80; // Increased margin for professional look
+
+        // Football field outline behind table
+        int tableHeight = headerHeight + (matches.size() < rowsPerPage ? matches.size() : rowsPerPage) * rowHeight + 10;
+        painter.setOpacity(0.1);
+        painter.setBrush(fieldColor);
+        painter.setPen(QPen(Qt::white, 1));
+        // Main field
+        painter.drawRect(margin - 20, y - 20, totalWidth + 40, tableHeight + 40);
+        // Center line
+        painter.drawLine(margin - 20, y - 20 + (tableHeight + 40) / 2, margin + totalWidth + 20, y - 20 + (tableHeight + 40) / 2);
+        // Center circle
+        painter.drawEllipse(QPoint(margin + totalWidth / 2 + 20, y - 20 + (tableHeight + 40) / 2), 30, 30);
+        // Penalty areas
+        painter.drawRect(margin - 20, y - 20, 60, 80); // Left
+        painter.drawRect(margin + totalWidth - 40, y - 20, 60, 80); // Right
+        // Goalposts
+        painter.setPen(QPen(Qt::white, 2));
+        painter.drawLine(margin - 20, y - 20 + 30, margin - 20, y - 20 + 50); // Left goalpost
+        painter.drawLine(margin - 20, y - 20 + 30, margin - 30, y - 20 + 30);
+        painter.drawLine(margin - 20, y - 20 + 50, margin - 30, y - 20 + 50);
+        painter.drawLine(margin + totalWidth + 20, y - 20 + 30, margin + totalWidth + 20, y - 20 + 50); // Right goalpost
+        painter.drawLine(margin + totalWidth + 20, y - 20 + 30, margin + totalWidth + 30, y - 20 + 30);
+        painter.drawLine(margin + totalWidth + 20, y - 20 + 50, margin + totalWidth + 30, y - 20 + 50);
+        painter.setOpacity(1.0);
+
+        // Table background with inner shadow
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(0, 0, 0, 50));
+        painter.drawRect(margin - 5 + 3, y - 5 + 3, totalWidth + 10, tableHeight);
+        painter.setBrush(tableBgColor);
+        painter.setPen(QPen(fieldColor, 1, Qt::DashLine));
+        painter.drawRect(margin - 5, y - 5, totalWidth + 10, tableHeight);
+
+        // Draw table headers
+        painter.setFont(headerFont);
+        painter.setBrush(headerGradient);
+        painter.drawRect(margin, y, totalWidth, headerHeight);
+
+        painter.setPen(headerTextColor);
+        int colX = margin;
+        QStringList headers = {"Team 1", "Team 2", "Date & Time", "Competition"};
+        for (int i = 0; i < headers.size(); ++i) {
+            if (i < 2) { // Add football icon for team columns
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(Qt::black);
+                painter.drawEllipse(colX + 10, y + 15, 10, 10); // Football shape
+                painter.setBrush(Qt::white);
+                painter.drawEllipse(colX + 10, y + 15, 8, 8); // Inner white
+                painter.setPen(headerTextColor);
+                painter.drawText(colX + 25, y + 32, headers[i]);
+                painter.drawLine(colX + 25, y + 35, colX + 25 + painter.fontMetrics().horizontalAdvance(headers[i]), y + 35); // Underline
+            } else {
+                painter.drawText(colX + 15, y + 32, headers[i]);
+                painter.drawLine(colX + 15, y + 35, colX + 15 + painter.fontMetrics().horizontalAdvance(headers[i]), y + 35);
+            }
+            colX += colWidths[i];
+        }
+
+        // Header lines
+        painter.setPen(QPen(Qt::black, 1));
+        colX = margin;
+        for (int i = 0; i <= headers.size(); ++i) {
+            painter.drawLine(colX, y, colX, y + headerHeight);
+            colX += colWidths[i];
+        }
+        painter.drawLine(margin, y + headerHeight, margin + totalWidth, y + headerHeight);
+        y += headerHeight;
+
+        // Footer with adjusted positioning
+        painter.setFont(footerFont);
+        painter.setPen(QPen(footerColor, 1, Qt::DashLine));
+        painter.drawLine(margin, pageHeight - 80, pageWidth - margin, pageHeight - 80); // Moved up to pageHeight - 80
+        // Football icons (10px below the line)
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(footerColor);
+        painter.drawEllipse(pageWidth / 2 - 100, pageHeight - 70, 8, 8); // Moved to pageHeight - 70
+        painter.setBrush(Qt::white);
+        painter.drawEllipse(pageWidth / 2 - 100, pageHeight - 70, 6, 6);
+        painter.setBrush(footerColor);
+        painter.drawEllipse(pageWidth / 2 + 90, pageHeight - 70, 8, 8);
+        painter.setBrush(Qt::white);
+        painter.drawEllipse(pageWidth / 2 + 90, pageHeight - 70, 6, 6);
+        // Footer text (10px below the icons)
+        painter.setPen(QPen(footerGradient, 0));
+        QString footerText = QString("Generated on %1 by Aldawry | For the Love of Football | Page %2 of %3")
+                                .arg(QDate::currentDate().toString("yyyy-MM-dd"))
+                                .arg(pageNum)
+                                .arg(totalPages);
+        painter.drawText(0, pageHeight - 60, pageWidth, 20, Qt::AlignCenter, footerText); // Moved to pageHeight - 60
+    };
 
     if (matches.isEmpty()) {
-        painter.drawText(x, y + 15, "No matches found.");
+        drawPage(currentPage);
+        painter.setFont(contentFont);
+        painter.setPen(textColor);
+        painter.drawText(margin, y + 20, "No matches scheduled. Kick off with Aldawry!");
         painter.end();
         return;
     }
 
-    for (int i = 0; i < matches.size(); ++i) {
-        const Match &match = matches[i];
+    int matchIndex = 0;
+    QDateTime now = QDateTime::currentDateTime();
+    while (matchIndex < matches.size()) {
+        drawPage(currentPage++);
 
-        // Check for new page
-        if (y + rowHeight > pdfWriter.height() - 40) {
-            pdfWriter.newPage();
-            y = 80; // Reset starting position
+        // Draw matches
+        while (matchIndex < matches.size() && y + rowHeight <= pageHeight - 80) {
+            const Match &match = matches[matchIndex];
 
-            // Redraw headers on new page
-            painter.setFont(headerFont);
-            painter.setBrush(QColor(200, 200, 200));
-            painter.drawRect(x, y, totalWidth, headerHeight);
-            colX = x;
-            for (int j = 0; j < headers.size(); ++j) {
-                painter.drawText(colX + 10, y + 20, headers[j]);
+            // Draw row with consistent border color
+            painter.setBrush(rowColor); // Use the same light green for all rows
+            painter.setPen(QPen(Qt::black, 1)); // Consistent black border for all rows
+            painter.drawRect(margin, y, totalWidth, rowHeight);
+
+            // Draw cell content (centered)
+            int colX = margin;
+            painter.setPen(textColor);
+            painter.setFont(QFont("Arial", 11, QFont::DemiBold)); // Bolder team names
+            QString team1 = painter.fontMetrics().elidedText(match.getTeamAName(), Qt::ElideRight, colWidths[0] - 10);
+            QString team2 = painter.fontMetrics().elidedText(match.getTeamBName(), Qt::ElideRight, colWidths[1] - 10);
+            painter.drawText(colX, y, colWidths[0], rowHeight, Qt::AlignCenter, team1);
+            colX += colWidths[0];
+            painter.drawText(colX, y, colWidths[1], rowHeight, Qt::AlignCenter, team2);
+            colX += colWidths[1];
+            painter.setFont(contentFont);
+            QString dateTime = match.getMatchDateTime().toString("yyyy-MM-dd HH:mm");
+            QString competition = painter.fontMetrics().elidedText(match.getCompetitionName(), Qt::ElideRight, colWidths[3] - 10);
+            painter.drawText(colX, y, colWidths[2], rowHeight, Qt::AlignCenter, dateTime);
+            colX += colWidths[2];
+            painter.drawText(colX, y, colWidths[3], rowHeight, Qt::AlignCenter, competition);
+
+            // Cell lines
+            colX = margin;
+            painter.setPen(QPen(Qt::black, 1));
+            for (int j = 0; j <= 4; ++j) {
+                painter.drawLine(colX, y, colX, y + rowHeight);
                 colX += colWidths[j];
             }
-            colX = x;
-            for (int j = 0; j <= headers.size(); ++j) {
-                painter.drawLine(colX, y, colX, y + headerHeight);
-                colX += colWidths[j];
-            }
-            painter.drawLine(x, y + headerHeight, x + totalWidth, y + headerHeight);
-            y += headerHeight;
-            painter.setBrush(Qt::NoBrush);
+            painter.drawLine(margin, y + rowHeight, margin + totalWidth, y + rowHeight);
+
+            y += rowHeight;
+            matchIndex++;
         }
-
-        // Alternating row colors
-        if (i % 2 == 0) {
-            painter.setBrush(QColor(240, 240, 240)); // Light gray for even rows
-        } else {
-            painter.setBrush(Qt::NoBrush);
-        }
-        painter.drawRect(x, y, totalWidth, rowHeight);
-
-        // Draw cell content
-        colX = x;
-        QString team1 = painter.fontMetrics().elidedText(match.getTeamAName(), Qt::ElideRight, colWidths[0] - 20);
-        QString team2 = painter.fontMetrics().elidedText(match.getTeamBName(), Qt::ElideRight, colWidths[1] - 20);
-        QString dateTime = match.getMatchDateTime().toString("yyyy-MM-dd HH:mm");
-        QString competition = painter.fontMetrics().elidedText(match.getCompetitionName(), Qt::ElideRight, colWidths[3] - 20);
-
-        QStringList rowData = {team1, team2, dateTime, competition};
-
-        for (int j = 0; j < rowData.size(); ++j) {
-            painter.drawText(colX + 10, y + 15, rowData[j]);
-            colX += colWidths[j];
-        }
-
-        // Draw vertical lines for cells
-        colX = x;
-        for (int j = 0; j <= rowData.size(); ++j) {
-            painter.drawLine(colX, y, colX, y + rowHeight);
-            colX += colWidths[j];
-        }
-        painter.drawLine(x, y + rowHeight, x + totalWidth, y + rowHeight); // Bottom line
-
-        y += rowHeight;
     }
 
     painter.end();
@@ -430,115 +555,284 @@ void Match::generatePDF(const QString &filePath) {
 bool Match::operator==(const Match& other) const {
     return this->id_match == other.id_match;
 }
-
-bool Match::generateMatchDates(int competitionId, const QString &competitionType, const QDate &startDate, const QDate &endDate, int /*nbMatches*/)
+QList<QList<QPair<int, int>>> Match::generateRoundRobinFixture(const QList<int>& teamIds)
 {
-    // Validate competition type
-    if (competitionType.toLower() != "ligue") {
-        QString errorMessage = "Match generation failed: Only 'ligue' competitions are supported.";
-        qDebug() << errorMessage;
-        QMessageBox::critical(nullptr, "Error", errorMessage);
-        return false;
-    }
-
-    // Step 1: Fetch the number of teams from the COMPETITION table
-    QSqlQuery compQuery;
-    compQuery.prepare("SELECT nb_teams FROM COMPETITION WHERE ID_COMPETITION = :id");
-    compQuery.bindValue(":id", competitionId);
-
-    if (!compQuery.exec()) {
-        QString errorMessage = "Match generation failed: Unable to fetch number of teams for competition: " + compQuery.lastError().text();
-        qDebug() << errorMessage;
-        QMessageBox::critical(nullptr, "Error", errorMessage);
-        return false;
-    }
-
-    int numTeams = 0;
-    if (compQuery.next()) {
-        numTeams = compQuery.value("nb_teams").toInt();
-    } else {
-        QString errorMessage = "Match generation failed: Competition with ID " + QString::number(competitionId) + " not found.";
-        qDebug() << errorMessage;
-        QMessageBox::critical(nullptr, "Error", errorMessage);
-        return false;
-    }
+    QList<QList<QPair<int, int>>> rounds;
+    int numTeams = teamIds.size();
 
     if (numTeams < 2) {
-        QString errorMessage = "Match generation failed: At least 2 teams are required for a league competition.";
-        qDebug() << errorMessage;
-        QMessageBox::critical(nullptr, "Error", errorMessage);
-        return false;
+        qDebug() << "Fixture generation failed: At least 2 teams required.";
+        return rounds;
     }
 
-    // Step 2: Calculate total matches for a double round-robin
-    int totalMatches = numTeams * (numTeams - 1); // Double round-robin: each team plays (n-1) teams twice
-    int matchesPerRound = numTeams / 2; // Number of matches per round
-    int totalRounds = 2 * (numTeams - 1); // Total rounds in double round-robin
-
-    // Step 3: Validate date range
-    QDate expectedEndDate = startDate.addDays(totalRounds * 7); // 1 week = 7 days
-    if (expectedEndDate > endDate) {
-        QString errorMessage = "Match generation failed: End date exceeded. Competition requires " + QString::number(totalRounds) +
-                               " weeks, but the provided end date is too early.";
-        qDebug() << errorMessage;
-        QMessageBox::critical(nullptr, "Error", errorMessage);
-        return false;
+    // Handle odd number of teams by adding a dummy team
+    QList<int> teams = teamIds;
+    bool hasBye = false;
+    if (numTeams % 2 != 0) {
+        teams.append(-1); // Dummy team
+        numTeams++;
+        hasBye = true;
     }
 
-    // Step 4: List of referees
-    QStringList referees = {"Pierluigi Collina", "Howard Webb", "Markus Merk", "Massimo Busacca", "Viktor Kassai"};
+    // Create a list for scheduling
+    QList<int> schedule;
+    for (int i = 0; i < numTeams; ++i) {
+        schedule.append(i); // Indices into teams list
+    }
 
-    // Step 5: Schedule matches with 1-week intervals between rounds
-    QSqlQuery insertQuery;
-    insertQuery.prepare("INSERT INTO Match (ID_MATCH, ID_COMPETITION, MATCH_DATETIME, STATUS_M, REFEREE_NAME) "
-                        "VALUES (:id, :competitionId, :matchDateTime, :status, :referee)");
+    // Generate first round-robin (numTeams - 1 rounds)
+    for (int round = 0; round < numTeams - 1; ++round) {
+        QList<QPair<int, int>> roundMatches;
 
-    QDate currentRoundDate = startDate;
-    QTime matchStartTime(12, 0); // Start matches at 12:00 PM
+        // Pair teams: 1 vs. n, 2 vs. n-1, ..., n/2 vs. n/2+1
+        for (int i = 0; i < numTeams / 2; ++i) {
+            int team1Idx = schedule[i];
+            int team2Idx = schedule[numTeams - 1 - i];
+            int team1Id = teams[team1Idx];
+            int team2Id = teams[team2Idx];
 
-    int matchIndex = 0;
-    for (int round = 0; round < totalRounds; ++round) {
-        // Schedule matches for the current round
-        for (int m = 0; m < matchesPerRound && matchIndex < totalMatches; ++m, ++matchIndex) {
-            // Generate match ID and datetime
-            int newMatchId = Match::generateNewMatchId();
-            QDateTime matchDateTime(currentRoundDate, matchStartTime);
-
-            // Select a random referee
-            QString referee = referees.at(QRandomGenerator::global()->bounded(referees.size()));
-
-            // Bind values to the query
-            insertQuery.bindValue(":id", newMatchId);
-            insertQuery.bindValue(":competitionId", competitionId);
-            insertQuery.bindValue(":matchDateTime", matchDateTime);
-            insertQuery.bindValue(":status", "Scheduled");
-            insertQuery.bindValue(":referee", referee);
-
-            if (!insertQuery.exec()) {
-                QString errorMessage = "Match generation failed: Unable to insert match with ID " + QString::number(newMatchId) +
-                                       ". Error: " + insertQuery.lastError().text();
-                qDebug() << errorMessage;
-                QMessageBox::critical(nullptr, "Error", errorMessage);
-                return false;
+            // Skip invalid pairs (shouldn't happen)
+            if (team1Id == -1 && team2Id == -1) {
+                continue;
             }
 
-            // Increment match time for the next match in the same round
-            matchStartTime = matchStartTime.addSecs(2 * 60 * 60); // Increment by 2 hours
-
-            // If the day is full, move to the next day within the same round
-            if (matchStartTime.hour() >= 22) { // Stop scheduling after 10:00 PM
-                matchStartTime = QTime(12, 0); // Reset to 12:00 PM
-                currentRoundDate = currentRoundDate.addDays(1);
+            // Alternate home/away for balance
+            if (round % 2 == 0) {
+                roundMatches.append(qMakePair(team1Id, team2Id)); // team1 home
+            } else {
+                roundMatches.append(qMakePair(team2Id, team1Id)); // team2 home
             }
         }
+        rounds.append(roundMatches);
 
-        // Move to the next round (1-week interval)
-        currentRoundDate = currentRoundDate.addDays(7 - (currentRoundDate.daysTo(startDate) % 7)); // Align to the next week
-        matchStartTime = QTime(12, 0); // Reset time for the new round
+        // Rotate: Keep team 0 fixed, rotate others clockwise
+        // Move last team to position 1, shift others right
+        int last = schedule[numTeams - 1];
+        for (int i = numTeams - 1; i > 1; --i) {
+            schedule[i] = schedule[i - 1];
+        }
+        schedule[1] = last;
+    }
+
+    // Generate second round-robin (reverse home/away)
+    for (int round = 0; round < numTeams - 1; ++round) {
+        QList<QPair<int, int>> roundMatches;
+        for (const auto& match : rounds[round]) {
+            roundMatches.append(qMakePair(match.second, match.first)); // Swap home/away
+        }
+        rounds.append(roundMatches);
+    }
+
+    return rounds;
+}
+QList<QList<QPair<int, int>>> Match::generateKnockoutFixture(const QList<int>& teamIds)
+{
+    QList<QList<QPair<int, int>>> rounds;
+    int numTeams = teamIds.size();
+
+    if (numTeams < 2) {
+        qDebug() << "Knockout fixture generation failed: At least 2 teams required.";
+        return rounds;
+    }
+
+    // Calculate rounds: ceil(log2(numTeams))
+    int roundsNeeded = qCeil(qLn(numTeams) / qLn(2));
+    int teamsInFirstRound = 1 << roundsNeeded; // Next power of 2
+    int byes = teamsInFirstRound - numTeams;
+
+    // Shuffle teams for random pairing
+    QList<int> currentTeams = teamIds;
+    std::random_shuffle(currentTeams.begin(), currentTeams.end(), [](int max) {
+        return QRandomGenerator::global()->bounded(max);
+    });
+
+    // First round: pair teams, assign byes
+    QList<QPair<int, int>> firstRound;
+    int matches = (numTeams - byes) / 2;
+    int teamIndex = 0;
+
+    // Actual matches
+    for (int i = 0; i < matches && teamIndex + 1 < numTeams; ++i) {
+        firstRound.append(qMakePair(currentTeams[teamIndex], currentTeams[teamIndex + 1]));
+        teamIndex += 2;
+    }
+
+    // Byes
+    for (int i = 0; i < byes && teamIndex < numTeams; ++i) {
+        firstRound.append(qMakePair(currentTeams[teamIndex], -1));
+        teamIndex++;
+    }
+
+    rounds.append(firstRound);
+
+    // Subsequent rounds: placeholders (-2)
+    int teamsRemaining = teamsInFirstRound / 2;
+    for (int round = 1; round < roundsNeeded; ++round) {
+        QList<QPair<int, int>> nextRound;
+        for (int i = 0; i < teamsRemaining / 2; ++i) {
+            nextRound.append(qMakePair(-2, -2));
+        }
+        rounds.append(nextRound);
+        teamsRemaining /= 2;
+    }
+
+    return rounds;
+}
+
+bool Match::generateMatchDates(int competitionId, const QString &competitionType, const QDate &startDate, const QDate &endDate, int /*nbTeams*/)
+{
+    // Validate competition type
+    QString compTypeLower = competitionType.toLower();
+    if (compTypeLower != "ligue" && compTypeLower != "knockout") {
+        QString errorMessage = "Match generation failed: Only 'ligue' or 'knockout' competitions supported.";
+        qDebug() << errorMessage;
+        QMessageBox::critical(nullptr, "Error", errorMessage);
+        return false;
+    }
+
+    // Step 1: Fetch teams and stadiums
+    QSqlQuery teamQuery;
+    teamQuery.prepare("SELECT P.ID_TEAM, E.HOME_STADIUM "
+                      "FROM PARTICIPATION P "
+                      "JOIN EQUIPE E ON P.ID_TEAM = E.ID_TEAM "
+                      "WHERE P.ID_COMP = :compId");
+    teamQuery.bindValue(":compId", competitionId);
+
+    if (!teamQuery.exec()) {
+        QString errorMessage = "Match generation failed: Unable to fetch teams: " + teamQuery.lastError().text();
+        qDebug() << errorMessage;
+        QMessageBox::critical(nullptr, "Error", errorMessage);
+        return false;
+    }
+
+    QList<int> teamIds;
+    QMap<int, QString> teamStadiums;
+    while (teamQuery.next()) {
+        int teamId = teamQuery.value("ID_TEAM").toInt();
+        QString stadium = teamQuery.value("HOME_STADIUM").toString();
+        teamIds.append(teamId);
+        teamStadiums[teamId] = stadium;
+    }
+
+    int numTeams = teamIds.size();
+    if (numTeams < 2) {
+        QString errorMessage = "Match generation failed: At least 2 teams required.";
+        qDebug() << errorMessage;
+        QMessageBox::critical(nullptr, "Error", errorMessage);
+        return false;
+    }
+
+    // Step 2: Generate fixture based on competition type
+    QList<QList<QPair<int, int>>> rounds;
+    if (compTypeLower == "ligue") {
+        rounds = generateRoundRobinFixture(teamIds);
+    } else { // knockout
+        rounds = generateKnockoutFixture(teamIds);
+    }
+    int totalRounds = rounds.size();
+
+    // Step 3: Validate date range
+    QDate expectedEndDate = startDate.addDays(totalRounds * 7);
+    if (expectedEndDate > endDate) {
+        QString errorMessage = "Match generation failed: End date exceeded. Requires " +
+                               QString::number(totalRounds) + " weeks.";
+        qDebug() << errorMessage;
+        QMessageBox::critical(nullptr, "Error", errorMessage);
+        return false;
+    }
+
+    // Step 4: Referees
+    QStringList referees = {"Pierluigi Collina", "Howard Webb", "Markus Merk", "Massimo Busacca", "Viktor Kassai"};
+
+    // Step 5: Prepare insert queries
+    QSqlQuery ligueFirstRoundQuery;
+    ligueFirstRoundQuery.prepare("INSERT INTO Match (ID_MATCH, ID_COMPETITION, ID_TEAMA, ID_TEAMB, "
+                                 "STADIUM, REFEREE_NAME, MATCH_DATETIME, STATUS_M) "
+                                 "VALUES (:id, :compId, :teamA, :teamB, :stadium, :referee, :dateTime, :status)");
+
+    QSqlQuery knockoutLaterRoundQuery;
+    knockoutLaterRoundQuery.prepare("INSERT INTO Match (ID_MATCH, ID_COMPETITION, STADIUM, REFEREE_NAME, "
+                                    "MATCH_DATETIME, STATUS_M) "
+                                    "VALUES (:id, :compId, :stadium, :referee, :dateTime, :status)");
+
+    QDate currentRoundDate = startDate;
+    bool isFirstRound = true;
+
+    for (const auto& round : rounds) {
+        int matchesScheduled = 0; // Matches per day
+        int dayOffset = 0; // Days within round
+        QTime matchStartTime(14, 0); // Start at 14:00
+
+        for (const auto& match : round) {
+            int homeTeamId = match.first;
+            int awayTeamId = match.second;
+
+            // Skip byes (-1)
+            if (homeTeamId == -1 || awayTeamId == -1) {
+                continue;
+            }
+
+            // Check if day is full (4 matches: 14:00, 16:00, 18:00, 20:00)
+            if (matchesScheduled >= 4) {
+                dayOffset++;
+                matchStartTime = QTime(14, 0);
+                matchesScheduled = 0;
+            }
+
+            int newMatchId = generateNewMatchId();
+            QDate matchDate = currentRoundDate.addDays(dayOffset);
+            QDateTime matchDateTime(matchDate, matchStartTime);
+            QString referee = referees.at(QRandomGenerator::global()->bounded(referees.size()));
+
+            if (compTypeLower == "ligue" || (compTypeLower == "knockout" && isFirstRound && homeTeamId != -2 && awayTeamId != -2)) {
+                // Ligue or knockout first round: full data
+                ligueFirstRoundQuery.bindValue(":id", newMatchId);
+                ligueFirstRoundQuery.bindValue(":compId", competitionId);
+                ligueFirstRoundQuery.bindValue(":teamA", homeTeamId);
+                ligueFirstRoundQuery.bindValue(":teamB", awayTeamId);
+                ligueFirstRoundQuery.bindValue(":stadium", teamStadiums.value(homeTeamId, "Unknown Stadium"));
+                ligueFirstRoundQuery.bindValue(":referee", referee);
+                ligueFirstRoundQuery.bindValue(":dateTime", matchDateTime);
+                ligueFirstRoundQuery.bindValue(":status", "Scheduled");
+
+                if (!ligueFirstRoundQuery.exec()) {
+                    QString errorMessage = "Match insertion failed for ID " + QString::number(newMatchId) +
+                                           ": " + ligueFirstRoundQuery.lastError().text();
+                    qDebug() << errorMessage;
+                    QMessageBox::critical(nullptr, "Error", errorMessage);
+                    return false;
+                }
+            } else {
+                // Knockout later rounds: omit ID_TEAMA, ID_TEAMB
+                knockoutLaterRoundQuery.bindValue(":id", newMatchId);
+                knockoutLaterRoundQuery.bindValue(":compId", competitionId);
+                knockoutLaterRoundQuery.bindValue(":stadium", QString("TBD"));
+                knockoutLaterRoundQuery.bindValue(":referee", referee);
+                knockoutLaterRoundQuery.bindValue(":dateTime", matchDateTime);
+                knockoutLaterRoundQuery.bindValue(":status", "Scheduled");
+
+                if (!knockoutLaterRoundQuery.exec()) {
+                    QString errorMessage = "Match insertion failed for ID " + QString::number(newMatchId) +
+                                           ": " + knockoutLaterRoundQuery.lastError().text();
+                    qDebug() << errorMessage;
+                    QMessageBox::critical(nullptr, "Error", errorMessage);
+                    return false;
+                }
+            }
+
+            matchesScheduled++;
+            matchStartTime = matchStartTime.addSecs(2 * 60 * 60); // 2 hours
+        }
+
+        // Next round: 7 days from start
+        currentRoundDate = currentRoundDate.addDays(7);
+        isFirstRound = false;
     }
 
     return true;
 }
+
+
 
 QStandardItemModel* Match::getMatchSummary(QObject* parent) {
     QSqlDatabase db = QSqlDatabase::database();
@@ -644,4 +938,23 @@ QList<QString> Match::getLineup(int matchId, int teamId, QString& formation) {
         }
     }
     return playerNames;
+}
+void Match::updateMatchStatuses() {
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qDebug() << "Database not open when updating match statuses";
+        return;
+    }
+
+    QSqlQuery query;
+    query.prepare("UPDATE Match "
+                  "SET STATUS_M = 'Played' "
+                  "WHERE MATCH_DATETIME < :currentDateTime AND STATUS_M = 'Scheduled'");
+    query.bindValue(":currentDateTime", QDateTime::currentDateTime());
+
+    if (!query.exec()) {
+        qDebug() << "Error updating match statuses:" << query.lastError().text();
+    } else {
+        qDebug() << "Match statuses updated successfully.";
+    }
 }

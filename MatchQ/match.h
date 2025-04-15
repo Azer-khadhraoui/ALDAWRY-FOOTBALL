@@ -86,6 +86,9 @@ public:
 
     // Add the declaration for getMatchSummary
     static QStandardItemModel* getMatchSummary(QObject* parent);
+    static void updateMatchStatuses();
+    static QList<QList<QPair<int, int>>> generateRoundRobinFixture(const QList<int>& teamIds);
+    static QList<QList<QPair<int, int>>> generateKnockoutFixture(const QList<int>& teamIds);
 
     
 };

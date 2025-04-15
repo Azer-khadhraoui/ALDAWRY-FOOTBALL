@@ -8,6 +8,9 @@
         "string": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp"
     }
 }
