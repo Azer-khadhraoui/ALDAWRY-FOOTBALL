@@ -508,7 +508,7 @@ void MainWindow::on_buttonViewDetails_clicked()
 
 void MainWindow::refreshPlayerDetails()
 {
-    // If no player is selected to display
+    // Si no player is selected to display
     if (currentDisplayedPlayerId <= 0) {
         ui->formFrame->setVisible(false);
         return;
@@ -559,17 +559,40 @@ void MainWindow::refreshPlayerDetails()
         line->setFrameShadow(QFrame::Sunken);
         frameLayout->addWidget(line);
 
-        // Bouton Export PDF
+        // Barre d'outils avec les deux boutons
         QHBoxLayout *toolbarLayout = new QHBoxLayout();
+        
+        // Style commun pour les boutons
+        QString buttonStyle = "QPushButton { padding: 5px 10px; border-radius: 3px; background-color: #4a86e8; color: white; }";
+        buttonStyle += "QPushButton:hover { background-color: #3a76d8; }";
+        
+        // Bouton Export PDF
         QPushButton *exportButton = new QPushButton("Export PDF");
         connect(exportButton, &QPushButton::clicked, [this, joueurId = currentDisplayedPlayerId]() {
             exportPlayerToPDF(joueurId);
         });
-        QString buttonStyle = "QPushButton { padding: 5px 10px; border-radius: 3px; background-color: #4a86e8; color: white; }";
-        buttonStyle += "QPushButton:hover { background-color: #3a76d8; }";
         exportButton->setStyleSheet(buttonStyle);
+        
+        // Bouton Generate Report (NOUVEAU)
+        QPushButton *generateReportButton = new QPushButton("Generate Report");
+        connect(generateReportButton, &QPushButton::clicked, [this, joueurId = currentDisplayedPlayerId]() {
+            // Collecter les données du joueur
+            QJsonObject playerData = collectPlayerData(joueurId);
+            if (!playerData.isEmpty()) {
+                // Générer et afficher le rapport
+                QString reportText = generateReport(playerData);
+                displayReport(reportText);
+            } else {
+                QMessageBox::warning(this, "Error", "Could not collect player data.");
+            }
+        });
+        generateReportButton->setStyleSheet(buttonStyle);
+        
+        // Ajouter les boutons à la barre d'outils
         toolbarLayout->addWidget(exportButton);
+        toolbarLayout->addWidget(generateReportButton);
         toolbarLayout->addStretch();
+        
         frameLayout->addLayout(toolbarLayout);
 
         // Create title label
@@ -630,30 +653,29 @@ void MainWindow::refreshPlayerDetails()
         } else {
             imageLabel->setText("No Image");
         }
-//qrcode
-QString qrText = QString("ID: %1\nName: %2\nTeam: %3\nPosition: %4\nJersey: %5\nStatus: %6")
-.arg(query.value("id_player").toString())
-.arg(playerFullName)
 
-.arg(query.value("team_name").toString())
-.arg(query.value("position").toString())
-.arg(query.value("jersey_nb").toString())
-.arg(statusText);  // Ajout du statut
-QPixmap qrCode = generateQRCode(qrText);
+        // QR code
+        QString qrText = QString("ID: %1\nName: %2\nTeam: %3\nPosition: %4\nJersey: %5\nStatus: %6")
+            .arg(query.value("id_player").toString())
+            .arg(playerFullName)
+            .arg(query.value("team_name").toString())
+            .arg(query.value("position").toString())
+            .arg(query.value("jersey_nb").toString())
+            .arg(statusText);
+        QPixmap qrCode = generateQRCode(qrText);
 
-QLabel *qrLabel = new QLabel();
-
-qrLabel->setPixmap(qrCode.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));  // Taille réduite
-qrLabel->setAlignment(Qt::AlignCenter);
+        QLabel *qrLabel = new QLabel();
+        qrLabel->setPixmap(qrCode.scaled(100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        qrLabel->setAlignment(Qt::AlignCenter);
 
         // Add the form layout and image to the horizontal layout
         contentLayout->addLayout(formLayout, 3);  // Give the form more space
         contentLayout->addWidget(imageLabel, 1);  // Give the image less space
 
-
         // Add the content layout to the frame layout
         frameLayout->addLayout(contentLayout);
         frameLayout->addWidget(qrLabel);
+        
         // Make the frame visible if it's not already
         ui->formFrame->setVisible(true);
 
@@ -674,7 +696,6 @@ qrLabel->setAlignment(Qt::AlignCenter);
         currentDisplayedPlayerId = -1; // Reset current ID
     }
 }
-
 void MainWindow::onTableSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     Q_UNUSED(deselected);
@@ -1170,11 +1191,7 @@ void MainWindow::setupStatisticsTab()
                              "QPushButton:hover { background-color: #3a76d8; }");
     mainLayout->addWidget(refreshBtn);
 
-    // Bouton pour générer un rapport
-    QPushButton *generateReportBtn = new QPushButton("Generate Report");
-    generateReportBtn->setStyleSheet("QPushButton { background-color: #4a86e8; color: white; padding: 8px; border-radius: 4px; }"
-                                    "QPushButton:hover { background-color: #3a76d8; }");
-    mainLayout->addWidget(generateReportBtn);
+    // Le bouton "Generate Report" est supprimé
 
     // Ajouter l'onglet
     ui->tabWidget->addTab(statTab, "Statistics");
@@ -1182,8 +1199,7 @@ void MainWindow::setupStatisticsTab()
     // Connexion du signal pour rafraîchir les statistiques
     connect(refreshBtn, &QPushButton::clicked, this, &MainWindow::refreshStatistics);
 
-    // Connexion du bouton de rapport
-    connect(generateReportBtn, &QPushButton::clicked, this, &MainWindow::onGenerateReportClicked);
+    // La connexion du bouton de rapport est également supprimée
 
     // Initialiser les statistiques
     refreshStatistics();
