@@ -618,7 +618,7 @@ void MainWindow::on_headerClicked(int logicalIndex) {
 
     // Set the model to the QTableView
     ui->allmatches->setModel(model);
-    ui->allmatches->hideColumn(0); // Hide the ID column
+    ui->allmatches->hideColumn(0); 
     ui->allmatches->setEditTriggers(QAbstractItemView::NoEditTriggers); // Disable editing
     ui->allmatches->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); // Stretch columns for visibility
 }
