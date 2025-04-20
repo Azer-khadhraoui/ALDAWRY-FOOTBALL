@@ -308,45 +308,86 @@ void UserWindow::on_pdfButton_clicked() {
     int pageWidth = pdfWriter.width();
     int pageHeight = pdfWriter.height();
 
-    // Layout variables
+    // Football theme layout variables
     int margin = 500;
     int cardWidth = pageWidth - 2 * margin;
-    int cardHeight = 5500;
+    int cardHeight = 6000; // Increased to accommodate more content
     int cardX = margin;
-    int cardY = 500;
-    int yPos = cardY + 300;
-    int rowSpacing = 800;
-    int titleFontSize = 16;
-    int subtitleFontSize = 14;
-    int bodyFontSize = 12;
+    int cardY = 1200; // Adjusted to make space for the logo and title
+    int yPos = cardY + 400;
+    int rowSpacing = 600; // Reduced for tighter layout
+    int titleFontSize = 20;
+    int subtitleFontSize = 18;
+    int bodyFontSize = 14;
 
     QFont titleFont("Arial", titleFontSize, QFont::Bold);
     QFont subtitleFont("Arial", subtitleFontSize, QFont::Bold);
     QFont bodyFont("Arial", bodyFontSize);
 
-    // Draw title
+    // Football theme colors
+    QColor fieldGreen(34, 139, 34); // Green like a football field
+    QColor footballWhite(255, 255, 255); // White for text
+    QColor accentColor(255, 215, 0); // Gold for accents (like a trophy)
+
+    // Draw background with a football field-like gradient
+    QLinearGradient gradient(0, 0, 0, pageHeight);
+    gradient.setColorAt(0, fieldGreen.lighter(120));
+    gradient.setColorAt(1, fieldGreen.darker(120));
+    painter.setBrush(gradient);
+    painter.setPen(Qt::NoPen);
+    painter.drawRect(0, 0, pageWidth, pageHeight);
+
+    // Draw football field markings
+    // Center circle
+    painter.setPen(QPen(footballWhite, 30));
+    painter.setBrush(Qt::NoBrush);
+    painter.drawEllipse(QPoint(pageWidth / 2, pageHeight / 2), 1000, 1000);
+    // Center line
+    painter.setPen(QPen(footballWhite, 20, Qt::DashLine));
+    painter.drawLine(0, pageHeight / 2, pageWidth, pageHeight / 2);
+    // Penalty areas (simplified)
+    painter.drawRect(margin, pageHeight / 2 - 1500, 1000, 3000); // Left penalty area
+    painter.drawRect(pageWidth - margin - 1000, pageHeight / 2 - 1500, 1000, 3000); // Right penalty area
+
+    // Draw the Aldawry Football logo at the top center
+    QImage logo(":/images/aldawry_logo.png"); // Assumes the logo is added to Qt resources
+    if (!logo.isNull()) {
+        int logoWidth = 2000; // Increased logo size for better visibility
+        int logoHeight = 2000;
+        int logoX = (pageWidth - logoWidth) / 2;
+        int logoY = 200;
+        painter.drawImage(QRect(logoX, logoY, logoWidth, logoHeight), logo);
+        yPos = logoY + logoHeight + 200; // Start title below the logo
+    } else {
+        qDebug() << "Failed to load Aldawry Football logo.";
+        yPos = 800; // Fallback position if logo fails
+    }
+
+    // Draw title with football theme
     painter.setFont(titleFont);
-    painter.setPen(Qt::black);
-    painter.drawText(0, 200, pageWidth, 300, Qt::AlignCenter, "User Profile");
+    painter.setPen(footballWhite);
+    QRect titleRect(0, yPos, pageWidth, 400);
+    painter.drawText(titleRect, Qt::AlignCenter, "Aldawry Football User Profile");
+    yPos += 600;
 
     // Card shadow
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(0, 0, 0, 50));
+    painter.setBrush(QColor(0, 0, 0, 80)); // Slightly darker shadow
     QRect shadowRect(cardX + 50, cardY + 50, cardWidth, cardHeight);
-    painter.drawRoundedRect(shadowRect, 150, 150);
+    painter.drawRoundedRect(shadowRect, 200, 200);
 
-    // Card background
-    painter.setBrush(QColor(240, 240, 240));
+    // Card background (white with slight transparency to show field background)
+    painter.setBrush(QColor(255, 255, 255, 220)); // Slightly more opaque for readability
     painter.setPen(Qt::black);
     QRect cardRect(cardX, cardY, cardWidth, cardHeight);
-    painter.drawRoundedRect(cardRect, 150, 150);
+    painter.drawRoundedRect(cardRect, 200, 200);
 
     // User full name
     painter.setFont(subtitleFont);
-    painter.setPen(Qt::black);
+    painter.setPen(fieldGreen.darker(150));
     QString userName = currentUser.getFirstName() + " " + currentUser.getLastName();
     painter.drawText(cardX, yPos, cardWidth, rowSpacing, Qt::AlignCenter, userName);
-    yPos += rowSpacing + 200;
+    yPos += rowSpacing + 300;
 
     // Labels and values
     QStringList labels = {"First Name:", "Last Name:", "Email:", "Mobile Number:", "Role:", "Date of Birth:"};
@@ -361,74 +402,79 @@ void UserWindow::on_pdfButton_clicked() {
 
     painter.setFont(bodyFont);
     for (int i = 0; i < labels.size(); ++i) {
-        // Bullet
-        painter.setBrush(QColor(0, 120, 215));
-        painter.setPen(Qt::NoPen);
-        painter.drawEllipse(cardX + 200, yPos + 50, 100, 100);
+        // Football icon instead of bullet (simulated with a smaller football)
+        QImage footballIcon(":/images/football_icon.png"); // Optional: Add a small football icon
+        if (!footballIcon.isNull()) {
+            painter.drawImage(QRect(cardX + 200, yPos, 150, 150), footballIcon);
+        } else {
+            painter.setBrush(accentColor);
+            painter.setPen(Qt::NoPen);
+            painter.drawEllipse(cardX + 200, yPos + 50, 100, 100);
+        }
 
         // Label
-        painter.setPen(Qt::black);
-        int labelX = cardX + 350;
+        painter.setPen(fieldGreen.darker(150));
+        int labelX = cardX + 400; // Adjusted for better spacing
         painter.drawText(labelX, yPos, 3000, rowSpacing, Qt::AlignLeft, labels[i]);
 
         // Value
         QFont boldFont = bodyFont;
         boldFont.setBold(true);
         painter.setFont(boldFont);
-        int valueX = labelX + 2000;
-        painter.drawText(valueX, yPos, cardWidth - 2500, rowSpacing, Qt::AlignLeft, values[i]);
+        int valueX = labelX + 1500; // Adjusted for better alignment
+        painter.drawText(valueX, yPos, cardWidth - 2000, rowSpacing, Qt::AlignLeft, values[i]);
 
         yPos += rowSpacing;
         painter.setFont(bodyFont);
     }
 
-    // Decorative line at bottom
-    painter.setPen(QPen(QColor(0, 120, 215), 50));
+    // Decorative line at bottom (gold accent)
+    painter.setPen(QPen(accentColor, 50));
     painter.drawLine(cardX + 200, yPos, cardX + cardWidth - 200, yPos);
+
+    // Add a footer with the current date
+    QFont footerFont("Arial", 10);
+    painter.setFont(footerFont);
+    painter.setPen(footballWhite);
+    QString footerText = "Generated on: " + QDate::currentDate().toString("yyyy-MM-dd");
+    painter.drawText(0, pageHeight - 300, pageWidth, 200, Qt::AlignCenter, footerText);
 
     painter.end();
 
-    QMessageBox::information(this, "Success", "PDF generated successfully at: " + fileName);
+    QMessageBox::information(this, "Success", "Enhanced Football-themed PDF generated successfully at: " + fileName);
 }
-
 
 void UserWindow::on_statButton_clicked() {
-    collectStatistics(); // Prepare the data
+    // Collect statistics only if the widget isn't already created
+    if (!statsView) {
+        collectStatistics(); // Prepare the data
 
-    // If already exists, delete and re-create
-    if (statsView) {
-        delete statsView;
-        statsView = nullptr;
-    }
+        // Create and embed the custom stats widget
+        statsView = new statsWidget(this);
+        statsView->setMinimumSize(ui->statsWidget->size());
+        statsView->setAutoFillBackground(true);
 
-    // Create and embed the custom stats widget
-    statsView = new statsWidget(this);
-    statsView->setMinimumSize(ui->statsWidget->size()); // Optional: match size
-    statsView->setAutoFillBackground(true);
-
-    // Clear statsWidget container before inserting
-    QLayout* layout = ui->statsWidget->layout();
-    if (!layout) {
-        layout = new QVBoxLayout(ui->statsWidget);
-        ui->statsWidget->setLayout(layout);
-    } else {
-        QLayoutItem* item;
-        while ((item = layout->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
+        // Clear statsWidget container
+        QLayout* layout = ui->statsWidget->layout();
+        if (!layout) {
+            layout = new QVBoxLayout(ui->statsWidget);
+            ui->statsWidget->setLayout(layout);
+        } else {
+            QLayoutItem* item;
+            while ((item = layout->takeAt(0)) != nullptr) {
+                delete item->widget();
+                delete item;
+            }
         }
+
+        layout->addWidget(statsView);
+        statsView->show();
     }
 
-    layout->addWidget(statsView);
-    statsView->show();
+    // Switch to the "Page" tab (index 3)
+    ui->tabWidget->setCurrentIndex(3);
 }
 
-
-void UserWindow::showStatistics() {
-    // This method is no longer needed since we're displaying directly in the UI
-    // But since it's in your code, I'll keep it and make it call on_statButton_clicked
-    on_statButton_clicked();
-}
 
 
 bool UserWindow::validatePhoneNumber(const QString& mobileNumber) {
@@ -523,271 +569,6 @@ void UserWindow::collectStatistics() {
 }
 // userwindow.cpp
 
-void UserWindow::drawStatistics(QPainter &painter) {
-    if (totalEmployees == 0) {
-        painter.setFont(QFont("Arial", 12));
-        painter.setPen(Qt::white);
-        painter.drawText(rect(), Qt::AlignCenter, "No employee data available to display statistics.");
-        return;
-    }
-
-    int yPos = 30;
-    const int margin = 100; // Left margin
-    const int rowHeight = 30;
-    const int chartWidth = 150;
-    const int chartHeight = 150;
-    const int sectionSpacing = 60; // Gap between pie charts
-    int availableWidth = width() - 2 * margin;
-    int chartSectionWidth = chartWidth + 150; // Space for chart + legend + labels
-    int tableSectionX = margin + chartSectionWidth + 30; // Start table to the right of charts
-
-    QFont titleFont("Arial", 18, QFont::Bold);
-    QFont subtitleFont("Arial", 14, QFont::Bold);
-    QFont textFont("Arial", 10);
-    QFont legendFont("Arial", 8); // Reduced font size for legend
-
-    // Enhanced color palette for better contrast and accessibility
-    QList<QColor> colors = {
-        QColor("#FF5733"), // Vibrant Orange
-        QColor("#C70039"), // Deep Red
-        QColor("#900C3F"), // Dark Magenta
-        QColor("#581845"), // Deep Purple
-        QColor("#2ECC71"), // Bright Green
-        QColor("#3498DB")  // Bright Blue
-    };
-
-    // Title with Total Employees
-    painter.setFont(titleFont);
-    painter.setPen(Qt::white);
-    painter.drawText(QRect(0, yPos, width(), 30), Qt::AlignCenter,
-                     QString("Employee Statistics (Total: %1)").arg(totalEmployees));
-    yPos += 50;
-
-    // Age Distribution Pie Chart (Left Side)
-    int chartYPos = yPos; // Keep track of y position for charts
-    painter.setFont(subtitleFont);
-    painter.setPen(Qt::white);
-    painter.drawText(margin, chartYPos, "Age Distribution");
-    chartYPos += 25;
-
-    // Removed the gray background for the chart
-    // painter.setBrush(QColor(50, 50, 50, 100));
-    // painter.setPen(Qt::NoPen);
-    // painter.drawRoundedRect(margin - 10, chartYPos - 10, chartWidth + 120, chartHeight + 50, 10, 10);
-
-    // Draw a shadow effect for the pie chart
-    QRect shadowRect(margin + 5, chartYPos + 5, chartWidth, chartHeight);
-    painter.setBrush(QColor(0, 0, 0, 50)); // Semi-transparent black for shadow
-    painter.setPen(Qt::NoPen);
-    painter.drawEllipse(shadowRect);
-
-    QRect agePieRect(margin, chartYPos, chartWidth, chartHeight);
-    int startAngle = 0;
-    int colorIndex = 0;
-
-    // Draw pie chart
-    for (auto it = ageCategories.constBegin(); it != ageCategories.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
-
-        int spanAngle = (360.0 * value / totalEmployees) * 16;
-        QColor color = colors[colorIndex % colors.size()];
-        painter.setBrush(color);
-        painter.setPen(Qt::black);
-        painter.drawPie(agePieRect, startAngle, spanAngle);
-        startAngle += spanAngle;
-        colorIndex++;
-    }
-
-    // Draw labels and legend
-    startAngle = 0;
-    colorIndex = 0;
-    int legendY = chartYPos;
-    int legendX = margin + chartWidth + 15;
-    painter.setFont(legendFont); // Use smaller font for legend
-    for (auto it = ageCategories.constBegin(); it != ageCategories.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
-
-        int spanAngle = (360.0 * value / totalEmployees) * 16;
-        QColor color = colors[colorIndex % colors.size()];
-
-        // Legend
-        painter.setBrush(color);
-        painter.setPen(Qt::white);
-        painter.drawRect(legendX, legendY, 12, 12);
-        painter.drawText(legendX + 20, legendY + 10, QString("%1 (%2)").arg(it.key()).arg(value));
-
-        // Label on pie chart
-        double angle = (startAngle + spanAngle / 2) / 16.0;
-        double radius = chartWidth / 2 + 25;
-        QPoint labelPos = agePieRect.center() + QPoint(
-                              qCos(angle * M_PI / 180.0) * radius,
-                              qSin(angle * M_PI / 180.0) * radius
-                              );
-        painter.setPen(Qt::white);
-        QString label = QString("%1 (%2)").arg(it.key()).arg(value);
-        QRect labelRect(labelPos.x() - 40, labelPos.y() - 10, 80, 20);
-        painter.drawText(labelRect, Qt::AlignCenter, label);
-
-        // Draw a line connecting the label to the pie slice
-        QPoint pieEdge = agePieRect.center() + QPoint(
-                             qCos(angle * M_PI / 180.0) * (chartWidth / 2),
-                             qSin(angle * M_PI / 180.0) * (chartHeight / 2)
-                             );
-        painter.drawLine(pieEdge, labelPos);
-
-        startAngle += spanAngle;
-        colorIndex++;
-        legendY += 20;
-    }
-
-    chartYPos += chartHeight + sectionSpacing;
-
-    // Role Distribution Pie Chart (Left Side, below Age Distribution)
-    painter.setFont(subtitleFont);
-    painter.setPen(Qt::white);
-    painter.drawText(margin, chartYPos, "Role Distribution");
-    chartYPos += 25;
-
-    // Removed the gray background for the chart
-    // painter.setBrush(QColor(50, 50, 50, 100));
-    // painter.setPen(Qt::NoPen);
-    // painter.drawRoundedRect(margin - 10, chartYPos - 10, chartWidth + 120, chartHeight + 50, 10, 10);
-
-    // Draw a shadow effect for the pie chart
-    shadowRect = QRect(margin + 5, chartYPos + 5, chartWidth, chartHeight);
-    painter.setBrush(QColor(0, 0, 0, 50));
-    painter.setPen(Qt::NoPen);
-    painter.drawEllipse(shadowRect);
-
-    QRect rolePieRect(margin, chartYPos, chartWidth, chartHeight);
-    startAngle = 0;
-    colorIndex = 0;
-
-    // Draw pie chart
-    for (auto it = roleCount.constBegin(); it != roleCount.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
-
-        int spanAngle = (360.0 * value / totalEmployees) * 16;
-        QColor color = colors[colorIndex % colors.size()];
-        painter.setBrush(color);
-        painter.setPen(Qt::black);
-        painter.drawPie(rolePieRect, startAngle, spanAngle);
-        startAngle += spanAngle;
-        colorIndex++;
-    }
-
-    // Draw labels and legend
-    startAngle = 0;
-    colorIndex = 0;
-    legendY = chartYPos;
-    legendX = margin + chartWidth + 15;
-    painter.setFont(legendFont); // Use smaller font for legend
-    for (auto it = roleCount.constBegin(); it != roleCount.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
-
-        int spanAngle = (360.0 * value / totalEmployees) * 16;
-        QColor color = colors[colorIndex % colors.size()];
-
-        // Legend
-        painter.setBrush(color);
-        painter.setPen(Qt::white);
-        painter.drawRect(legendX, legendY, 12, 12);
-        painter.drawText(legendX + 20, legendY + 10, QString("%1 (%2)").arg(it.key()).arg(value));
-
-        // Label on pie chart
-        double angle = (startAngle + spanAngle / 2) / 16.0;
-        double radius = chartWidth / 2 + 25;
-        QPoint labelPos = rolePieRect.center() + QPoint(
-                              qCos(angle * M_PI / 180.0) * radius,
-                              qSin(angle * M_PI / 180.0) * radius
-                              );
-        painter.setPen(Qt::white);
-        QString label = QString("%1 (%2)").arg(it.key()).arg(value);
-        QRect labelRect(labelPos.x() - 40, labelPos.y() - 10, 80, 20);
-        painter.drawText(labelRect, Qt::AlignCenter, label);
-
-        // Draw a line connecting the label to the pie slice
-        QPoint pieEdge = rolePieRect.center() + QPoint(
-                             qCos(angle * M_PI / 180.0) * (chartWidth / 2),
-                             qSin(angle * M_PI / 180.0) * (chartHeight / 2)
-                             );
-        painter.drawLine(pieEdge, labelPos);
-
-        startAngle += spanAngle;
-        colorIndex++;
-        legendY += 20;
-    }
-
-    // Role by Age Table (Right Side)
-    int tableYPos = yPos; // Start table at the same vertical level as the first chart
-    painter.setFont(subtitleFont);
-    painter.setPen(Qt::white);
-    painter.drawText(tableSectionX, tableYPos, "Role Distribution by Age Category");
-    tableYPos += 25;
-
-    // Calculate table dimensions with adjusted column widths
-    int tableWidth = availableWidth - chartSectionWidth - 30;
-    int colWidth = tableWidth / 3 + 20; // Increased column width to accommodate text
-    int tableHeight = (roleByAge.size() + 1) * rowHeight + 20;
-
-    // Removed the gray background for the table
-    // painter.setBrush(QColor(50, 50, 50, 100));
-    // painter.setPen(Qt::NoPen);
-    // painter.drawRoundedRect(tableSectionX - 10, tableYPos - 10, tableWidth + 20, tableHeight, 10, 10);
-
-    // Table Header with a gradient effect
-    QLinearGradient headerGradient(tableSectionX, tableYPos, tableSectionX, tableYPos + rowHeight);
-    headerGradient.setColorAt(0, QColor("#555"));
-    headerGradient.setColorAt(1, QColor("#333"));
-    painter.setBrush(headerGradient);
-    painter.setPen(Qt::white);
-    painter.drawRect(tableSectionX, tableYPos, colWidth, rowHeight);
-    painter.drawRect(tableSectionX + colWidth, tableYPos, colWidth, rowHeight);
-    painter.drawRect(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight);
-    painter.drawText(tableSectionX, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Age Category");
-    painter.drawText(tableSectionX + colWidth, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Role");
-    painter.drawText(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight, Qt::AlignCenter, "Count");
-    tableYPos += rowHeight;
-
-    // Table Rows with enhanced styling
-    painter.setFont(textFont);
-    bool alternate = false;
-    for (auto ageIt = roleByAge.constBegin(); ageIt != roleByAge.constEnd(); ++ageIt) {
-        for (auto roleIt = ageIt.value().constBegin(); roleIt != ageIt.value().constEnd(); ++roleIt) {
-            // Use a gradient for alternating rows
-            QLinearGradient rowGradient(tableSectionX, tableYPos, tableSectionX, tableYPos + rowHeight);
-            if (alternate) {
-                rowGradient.setColorAt(0, QColor(40, 40, 40));
-                rowGradient.setColorAt(1, QColor(30, 30, 30));
-            } else {
-                rowGradient.setColorAt(0, QColor(25, 25, 25));
-                rowGradient.setColorAt(1, QColor(15, 15, 15));
-            }
-            painter.setBrush(rowGradient);
-            painter.setPen(Qt::white);
-            painter.drawRect(tableSectionX, tableYPos, colWidth, rowHeight);
-            painter.drawRect(tableSectionX + colWidth, tableYPos, colWidth, rowHeight);
-            painter.drawRect(tableSectionX + 2 * colWidth, tableYPos, colWidth, rowHeight);
-            // Adjusted text drawing to ensure it fits within the cell
-            painter.drawText(tableSectionX + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, ageIt.key());
-            painter.drawText(tableSectionX + colWidth + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, roleIt.key());
-            painter.drawText(tableSectionX + 2 * colWidth + 5, tableYPos, colWidth - 10, rowHeight, Qt::AlignCenter, QString::number(roleIt.value()));
-            tableYPos += rowHeight;
-            alternate = !alternate;
-        }
-    }
-}
-
-void UserWindow::paintEvent(QPaintEvent *event) {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    drawStatistics(painter);
-    QMainWindow::paintEvent(event);
-}
 
 void UserWindow::on_pushButton_clicked() {
     // Clear the session to log out the user

@@ -257,3 +257,17 @@ void MainWindow::on_sign_in_2_clicked() {
     RecoverPasswordDialog dialog(this);
     dialog.exec();
 }
+
+void MainWindow::on_togglePasswordButton_clicked() {
+    if (isPasswordVisible) {
+        // Hide password
+        ui->lineEdit_2->setEchoMode(QLineEdit::Password);
+        ui->togglePasswordButton->setIcon(QIcon(":/img/eye_off.png"));
+        isPasswordVisible = false;
+    } else {
+        // Show password
+        ui->lineEdit_2->setEchoMode(QLineEdit::Normal);
+        ui->togglePasswordButton->setIcon(QIcon(":/img/eye_on.png"));
+        isPasswordVisible = true;
+    }
+}

@@ -14,9 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);
-
-</string>
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QFrame" name="frame">
    <property name="geometry">
@@ -52,9 +50,7 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">alternate-background-color: rgb(255, 255, 255);
-border-color: rgb(255, 255, 255);
-selection-color: rgb(255, 255, 255);</string>
+     <string notr="true">alternate-background-color: rgb(255, 255, 255); border-color: rgb(255, 255, 255); selection-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Hello, Friend!</string>
@@ -197,9 +193,7 @@ selection-color: rgb(255, 255, 255);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);
-color: black;
-</string>
+    <string notr="true">background-color: rgb(223, 223, 223); color: black;</string>
    </property>
    <property name="text">
     <string>           Email</string>
@@ -215,8 +209,7 @@ color: black;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(223, 223, 223);
-color: #b9b9b9; font-size: 14px; border: 2px solid qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a); border-radius: 6px; padding: 4px 8px;</string>
+    <string notr="true">background-color: rgb(223, 223, 223); color: #b9b9b9; font-size: 14px; border: 2px solid qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a); border-radius: 6px; padding: 4px 8px;</string>
    </property>
    <property name="text">
     <string>         Password</string>
@@ -232,8 +225,7 @@ color: #b9b9b9; font-size: 14px; border: 2px solid qlineargradient(x1:0, y1:0, x
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);
-color: white; font-size: 14px; font-weight: bold; border: 1px solid white; border-radius: 20px; padding: 6px 12px;</string>
+    <string notr="true">background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a); color: white; font-size: 14px; font-weight: bold; border: 1px solid white; border-radius: 20px; padding: 6px 12px;</string>
    </property>
    <property name="text">
     <string>Sign In</string>
@@ -284,11 +276,39 @@ color: white; font-size: 14px; font-weight: bold; border: 1px solid white; borde
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);
-color: white; font-size: 14px; font-weight: bold; border: 1px solid white; border-radius: 20px; padding: 6px 12px;</string>
+    <string notr="true">background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a); color: white; font-size: 14px; font-weight: bold; border: 1px solid white; border-radius: 20px; padding: 6px 12px;</string>
    </property>
    <property name="text">
     <string>recover pass</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="togglePasswordButton">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>360</y>
+     <width>31</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent; border: none;</string>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/img/eye_off.png</normaloff>:/img/eye_off.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+   <property name="toolTip">
+    <string>Toggle password visibility</string>
    </property>
   </widget>
  </widget>

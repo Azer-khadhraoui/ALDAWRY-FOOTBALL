@@ -1,14 +1,11 @@
-// userwindow.h
 #ifndef USERWINDOW_H
 #define USERWINDOW_H
 
 #include <QMainWindow>
 #include <QSortFilterProxyModel>
-#include <QPainter>
-#include <QMap>
 #include "User.h"
 #include "statswidget.h"
-#include "mainwindow.h" // Already included for MainWindow definition
+#include "mainwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,9 +15,8 @@ class UserWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit UserWindow(MainWindow *parent = nullptr); // Update constructor to explicitly take MainWindow*
+    explicit UserWindow(MainWindow *parent = nullptr);
     ~UserWindow();
-    void drawStatistics(QPainter &painter);
 
 private slots:
     void on_button1_clicked();
@@ -32,33 +28,27 @@ private slots:
     void on_statButton_clicked();
     void populateModifyFields(const QModelIndex &index);
     void on_pushButton_clicked();
+    void on_searchTextChanged(const QString &text);
 
 private:
     Ui::MainWindow *ui;
     int selectedEmployeeId = 0;
     QSortFilterProxyModel *proxyModel;
     statsWidget* statsView = nullptr;
-    MainWindow *mainWindowParent; // Add this to store the parent MainWindow
+    MainWindow *mainWindowParent;
 
     void refreshEmployeeTable();
     void clearModifyFields();
-    void showStatistics();
-    void generateStatisticsPDF(const QString &filePath);
-
     bool validatePhoneNumber(const QString& mobileNumber);
     bool validateAge(const QDate& dob);
+    void collectStatistics();
 
     QMap<QString, int> ageCategories;
     QMap<QString, int> roleCount;
     QMap<QString, QMap<QString, int>> roleByAge;
     int totalEmployees = 0;
 
-    void paintEvent(QPaintEvent *event) override;
-    void on_searchTextChanged(const QString &text);
-
-    void collectStatistics();
-
-    friend class StatsWidget;
+    friend class statsWidget;
 };
 
 #endif // USERWINDOW_H

@@ -3,5 +3,9 @@
         <file>logo_football.png</file>
         <file>5da1c4545d34f3aee87dd68a49a13489.png</file>
         <file>user.png</file>
+        <file>aldawry_logo.png</file>
+        <file>../../eye_off.png</file>
+        <file>../../eye_on.png</file>
+        <file>../../logout.png</file>
     </qresource>
 </RCC>

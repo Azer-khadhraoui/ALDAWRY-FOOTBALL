@@ -59,9 +59,10 @@ bool Employee::addEmployee() {
              << "Role:" << role;
 
     // Construct the query dynamically
-    QString queryStr = QString("INSERT INTO HOTSTUFF.EMPLOYE (NOM_EMP, PRENOM_EMP, EMAIL, MDP, NUM, DATEN, ROLE) "
-                               "VALUES ('%1', '%2', '%3', '%4', %5, TO_DATE('%6', 'YYYY-MM-DD'), '%7')")
-                           .arg(firstName.replace("'", "''")) // Escape single quotes
+    QString queryStr = QString("INSERT INTO EMPLOYE (ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, MDP, NUM, DATEN, ROLE) "
+                               "VALUES (%1, '%2', '%3', '%4', '%5', %6, TO_DATE('%7', 'YYYY-MM-DD'), '%8')")
+                           .arg(id) // Add the ID here
+                           .arg(firstName.replace("'", "''"))
                            .arg(lastName.replace("'", "''"))
                            .arg(email.replace("'", "''"))
                            .arg(password.replace("'", "''"))

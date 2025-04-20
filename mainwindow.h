@@ -17,12 +17,14 @@ public:
 
 private slots:
     void on_sign_in_clicked();
-    void on_sign_in_2_clicked(); // For "recover pass" button
+    void on_sign_in_2_clicked();
+    void on_togglePasswordButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     int currentEmployeeId;
     QString currentEmployeeRole;
+    bool isPasswordVisible = false;
 };
 
 #endif // MAINWINDOW_H
