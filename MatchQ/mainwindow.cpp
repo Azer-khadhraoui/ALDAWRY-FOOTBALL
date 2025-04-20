@@ -248,7 +248,13 @@ void MainWindow::setupMatchTable() {
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
-        model->setItem(row, 6, new QStandardItem(match.getStatus())); // Status
+        QString status = match.getStatus();
+        if (status == "Scheduled") {
+            status = "⏳ " + status;
+        } else if (status == "Played") {
+            status = "✅ " + status;
+        }
+        model->setItem(row, 6, new QStandardItem(status)); // Status
     }
 
     // Set the model to the QTableView
@@ -527,7 +533,13 @@ void MainWindow::filterMatches(const QString &text) {
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
-        model->setItem(row, 6, new QStandardItem(match.getStatus())); // status
+        QString status = match.getStatus();
+        if (status == "Scheduled") {
+            status = "⏳ " + status;
+        } else if (status == "Played") {
+            status = "✅ " + status;
+        }
+        model->setItem(row, 6, new QStandardItem(status)); // Status
     }
 
     ui->allmatches->setModel(model); // Set the filtered model temporarily
@@ -595,7 +607,13 @@ void MainWindow::on_headerClicked(int logicalIndex) {
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
-        model->setItem(row, 6, new QStandardItem(match.getStatus())); // Status
+        QString status = match.getStatus();
+        if (status == "Scheduled") {
+            status = "⏳ " + status;
+        } else if (status == "Played") {
+            status = "✅ " + status;
+        }
+        model->setItem(row, 6, new QStandardItem(status)); // Status
     }
 
     // Set the model to the QTableView

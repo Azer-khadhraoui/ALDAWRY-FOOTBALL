@@ -286,7 +286,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -667,7 +667,8 @@ QTableView#allmatches QTableCornerButton::section {
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 0, 0);
-border-radius: 5px ;</string>
+border-radius: 5px ;
+color: white;</string>
       </property>
       <property name="text">
        <string>Delete</string>
@@ -684,7 +685,8 @@ border-radius: 5px ;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #192231;
-border-radius: 5px ;</string>
+border-radius: 5px ;
+color: white;</string>
       </property>
       <property name="text">
        <string>Modify</string>
@@ -701,7 +703,8 @@ border-radius: 5px ;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #192231;
-border-radius: 5px ;</string>
+border-radius: 5px ;
+color: white;</string>
       </property>
       <property name="text">
        <string>PDF</string>
