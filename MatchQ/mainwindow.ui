@@ -286,7 +286,7 @@ QTabBar::tab:!selected {
 </string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -708,6 +708,24 @@ color: white;</string>
       </property>
       <property name="text">
        <string>PDF</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="refresh">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>500</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #192231;
+border-radius: 5px ;
+color: white;</string>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
       </property>
      </widget>
     </widget>

@@ -947,14 +947,30 @@ void Match::updateMatchStatuses() {
     }
 
     QSqlQuery query;
+
+    // Update matches to "Playing" if the current time is within the match time
     query.prepare("UPDATE Match "
-                  "SET STATUS_M = 'Played' "
-                  "WHERE MATCH_DATETIME < :currentDateTime AND STATUS_M = 'Scheduled'");
+                  "SET STATUS_M = 'Playing' "
+                  "WHERE MATCH_DATETIME <= :currentDateTime AND "
+                  "MATCH_DATETIME > :twoHoursAgo AND STATUS_M = 'Scheduled'");
     query.bindValue(":currentDateTime", QDateTime::currentDateTime());
+    query.bindValue(":twoHoursAgo", QDateTime::currentDateTime().addSecs(-2 * 60 * 60)); // 2 hours ago
 
     if (!query.exec()) {
-        qDebug() << "Error updating match statuses:" << query.lastError().text();
+        qDebug() << "Error updating matches to 'Playing':" << query.lastError().text();
     } else {
-        qDebug() << "Match statuses updated successfully.";
+        qDebug() << "Matches updated to 'Playing' successfully.";
+    }
+
+    // Update matches to "Played" if the match ended more than 2 hours ago
+    query.prepare("UPDATE Match "
+                  "SET STATUS_M = 'Played' "
+                  "WHERE MATCH_DATETIME <= :twoHoursAgo AND STATUS_M = 'Playing'");
+    query.bindValue(":twoHoursAgo", QDateTime::currentDateTime().addSecs(-2 * 60 * 60)); // 2 hours ago
+
+    if (!query.exec()) {
+        qDebug() << "Error updating matches to 'Played':" << query.lastError().text();
+    } else {
+        qDebug() << "Matches updated to 'Played' successfully.";
     }
 }

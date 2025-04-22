@@ -7,7 +7,7 @@
 QT       += core gui sql
 QT += sql
 QT += charts
-
+QT += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,17 +30,21 @@ CONFIG += c++11
 CONFIG +=console
 
 SOURCES += \
+    arduino.cpp \
     fieldwidget.cpp \
         main.cpp \
         mainwindow.cpp \
     connection.cpp \
-    match.cpp
+    match.cpp \
+    watchmatchdialog.cpp
 
 HEADERS += \
+    arduino.h \
     fieldwidget.h \
         mainwindow.h \
     connection.h \
-    match.h
+    match.h \
+    watchmatchdialog.h
 
 FORMS += \
         fieldwidget.ui \

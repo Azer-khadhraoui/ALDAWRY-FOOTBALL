@@ -35,6 +35,7 @@
 #include "fieldwidget.h"
 #include <QTimer>
 #include <algorithm>
+#include "watchmatchdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
         Match::loadCompetitionsIntoComboBox(ui->Comp);
         connect(ui->chartOptionComboBox, &QComboBox::currentTextChanged, 
             this, &MainWindow::chart);
+            connect(ui->refresh, &QPushButton::clicked, this, &MainWindow::setupMatchTable);
         
         
         setupMatchTable();
@@ -123,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
 connect(statusUpdateTimer, &QTimer::timeout, this, []() {
     Match::updateMatchStatuses();
 });
-statusUpdateTimer->start(3600000); // Check every hour (3600000 ms)
+statusUpdateTimer->start(10000); // Check every hour (3600000 ms)
 }
 
 MainWindow::~MainWindow()
@@ -242,9 +244,41 @@ void MainWindow::setupMatchTable() {
         QString teamAName = match.getTeamAName().isEmpty() ? "Team 1" : match.getTeamAName(); // Handle null team A
         QString teamBName = match.getTeamBName().isEmpty() ? "Team 2" : match.getTeamBName(); // Handle null team B
 
+        // Fetch team logos from the EQUIPE table
+        QPixmap teamALogo, teamBLogo;
+        QSqlQuery logoQuery;
+        logoQuery.prepare("SELECT TEAM_LOGO FROM EQUIPE WHERE TEAM_NAME = :teamName");
+        
+        // Fetch Team A logo
+        logoQuery.bindValue(":teamName", teamAName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamALogo.loadFromData(logoData);
+        }
+
+        // Fetch Team B logo
+        logoQuery.bindValue(":teamName", teamBName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamBLogo.loadFromData(logoData);
+        }
+
+        // Create items with logos and names
+        QStandardItem *teamAItem = new QStandardItem();
+        if (!teamALogo.isNull()) {
+            teamAItem->setData(QVariant(teamALogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamAItem->setText(teamAName);
+
+        QStandardItem *teamBItem = new QStandardItem();
+        if (!teamBLogo.isNull()) {
+            teamBItem->setData(QVariant(teamBLogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamBItem->setText(teamBName);
+
         model->setItem(row, 0, new QStandardItem(QString::number(match.getId()))); // ID
-        model->setItem(row, 1, new QStandardItem(teamAName)); // Team 1
-        model->setItem(row, 2, new QStandardItem(teamBName)); // Team 2
+        model->setItem(row, 1, teamAItem); // Team 1 with logo
+        model->setItem(row, 2, teamBItem); // Team 2 with logo
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
@@ -253,6 +287,8 @@ void MainWindow::setupMatchTable() {
             status = "⏳ " + status;
         } else if (status == "Played") {
             status = "✅ " + status;
+        } else if (status == "Playing") {
+            status = "⚽ " + status;
         }
         model->setItem(row, 6, new QStandardItem(status)); // Status
     }
@@ -338,22 +374,19 @@ void MainWindow::on_Modify_clicked() {
     dialog.setStyleSheet(
         "QDialog { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; font-size: 12px; border-radius: 10px; padding: 15px; }"
         "QLabel, QLineEdit, QComboBox, QDateTimeEdit, QSpinBox { color: #FFFFFF; font-size: 14px; }"
-        "QComboBox QAbstractItemView { color: #FFFFFF; }" // Ensure dropdown items are white
+        "QComboBox QAbstractItemView { color: #FFFFFF; }"
         "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
         "QPushButton:hover { background-color: #1C6DD0; }"
         "QFormLayout { margin: 10px; }"
     );
 
     QVBoxLayout *mainLayout = new QVBoxLayout(&dialog);
-
-    // Add a title
     QLabel *titleLabel = new QLabel("Modify Match");
     titleLabel->setAlignment(Qt::AlignCenter);
     QFont titleFont("Segoe UI", 16, QFont::Bold);
     titleLabel->setFont(titleFont);
     mainLayout->addWidget(titleLabel);
 
-    // Add a form layout for the fields
     QFormLayout *formLayout = new QFormLayout();
 
     QComboBox *team1Box = new QComboBox(&dialog);
@@ -378,12 +411,12 @@ void MainWindow::on_Modify_clicked() {
     formLayout->addRow("Date & Time:", dateTimeEdit);
 
     QSpinBox *scoreAEdit = new QSpinBox(&dialog);
-    scoreAEdit->setRange(0, 100); // Set a reasonable range for scores
+    scoreAEdit->setRange(0, 100);
     scoreAEdit->setValue(match.getScoreA());
     formLayout->addRow("Score A:", scoreAEdit);
 
     QSpinBox *scoreBEdit = new QSpinBox(&dialog);
-    scoreBEdit->setRange(0, 100); // Set a reasonable range for scores
+    scoreBEdit->setRange(0, 100);
     scoreBEdit->setValue(match.getScoreB());
     formLayout->addRow("Score B:", scoreBEdit);
 
@@ -394,6 +427,7 @@ void MainWindow::on_Modify_clicked() {
 
     QComboBox *statusBox = new QComboBox(&dialog);
     statusBox->addItem("Scheduled");
+    statusBox->addItem("Playing");
     statusBox->addItem("Played");
     statusBox->setCurrentText(match.getStatus());
     formLayout->addRow("Status:", statusBox);
@@ -401,18 +435,20 @@ void MainWindow::on_Modify_clicked() {
     QComboBox *weatherBox = new QComboBox(&dialog);
     weatherBox->addItem("Sunny", 0);
     weatherBox->addItem("Rainy", 1);
-    weatherBox->setCurrentIndex(match.getMeteo());
+    int meteo = match.getMeteo();
+    weatherBox->setCurrentIndex((meteo == 0 || meteo == 1) ? meteo : 0); // Default to Sunny if invalid
     formLayout->addRow("Weather:", weatherBox);
 
     mainLayout->addLayout(formLayout);
 
-    // Add buttons
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
     connect(buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
     mainLayout->addWidget(buttonBox);
 
     if (dialog.exec() == QDialog::Accepted) {
+        // Logical Input Control
+        // 1. Check if teams are different
         if (team1Box->currentData().toInt() == team2Box->currentData().toInt()) {
             QMessageBox msgBox;
             msgBox.setIcon(QMessageBox::Warning);
@@ -425,7 +461,11 @@ void MainWindow::on_Modify_clicked() {
             msgBox.exec();
             return;
         }
-        if (stadiumEdit->text().isEmpty() || refereeEdit->text().isEmpty()) {
+
+        // 2. Check if stadium and referee are non-empty
+        QString stadium = stadiumEdit->text().trimmed();
+        QString referee = refereeEdit->text().trimmed();
+        if (stadium.isEmpty() || referee.isEmpty()) {
             QMessageBox msgBox;
             msgBox.setIcon(QMessageBox::Warning);
             msgBox.setWindowTitle("Error");
@@ -438,10 +478,26 @@ void MainWindow::on_Modify_clicked() {
             return;
         }
 
-        // Validate date and time based on the match status
+        // 3. Validate referee name (minimum length and basic format)
+        if (referee.length() < 2 || !referee.contains(QRegularExpression("^[a-zA-Z\\s]+$"))) {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Referee name must be at least 2 characters and contain only letters and spaces!");
+            msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                 "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                 "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                 "QPushButton:hover { background-color: #1C6DD0; }");
+            msgBox.exec();
+            return;
+        }
+
+        // 4. Validate date and time based on match status
         QString selectedStatus = statusBox->currentText();
         QDateTime selectedDateTime = dateTimeEdit->dateTime();
-        if (selectedStatus == "Scheduled" && selectedDateTime < QDateTime::currentDateTime()) {
+        QDateTime currentDateTime = QDateTime::currentDateTime();
+
+        if (selectedStatus == "Scheduled" && selectedDateTime < currentDateTime) {
             QMessageBox msgBox;
             msgBox.setIcon(QMessageBox::Warning);
             msgBox.setWindowTitle("Error");
@@ -453,7 +509,7 @@ void MainWindow::on_Modify_clicked() {
             msgBox.exec();
             return;
         }
-        if (selectedStatus == "Played" && selectedDateTime > QDateTime::currentDateTime()) {
+        if (selectedStatus == "Played" && selectedDateTime > currentDateTime) {
             QMessageBox msgBox;
             msgBox.setIcon(QMessageBox::Warning);
             msgBox.setWindowTitle("Error");
@@ -465,16 +521,92 @@ void MainWindow::on_Modify_clicked() {
             msgBox.exec();
             return;
         }
+        if (selectedStatus == "Playing") {
+            QDateTime lowerBound = currentDateTime.addSecs(-30 * 60); // 30 minutes before
+            QDateTime upperBound = currentDateTime.addSecs(30 * 60);  // 30 minutes after
+            if (selectedDateTime < lowerBound || selectedDateTime > upperBound) {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Warning);
+                msgBox.setWindowTitle("Error");
+                msgBox.setText("The selected date and time for a Playing match must be within 30 minutes of the current time!");
+                msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                     "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                     "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                     "QPushButton:hover { background-color: #1C6DD0; }");
+                msgBox.exec();
+                return;
+            }
+        }
 
+        // 5. Validate weather selection
+        if (weatherBox->currentIndex() == -1) {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Weather condition must be selected!");
+            msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                 "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                 "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                 "QPushButton:hover { background-color: #1C6DD0; }");
+            msgBox.exec();
+            return;
+        }
+
+        // 6. Validate match date is within competition dates
+        int compId = compBox->currentData().toInt();
+        QSqlQuery compQuery;
+        compQuery.prepare("SELECT START_DATE, END_DATE FROM COMPETITION WHERE ID_COMPETITION = :compId");
+        compQuery.bindValue(":compId", compId);
+        if (!compQuery.exec()) {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Failed to validate competition dates: " + compQuery.lastError().text());
+            msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                 "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                 "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                 "QPushButton:hover { background-color: #1C6DD0; }");
+            msgBox.exec();
+            return;
+        }
+        if (compQuery.next()) {
+            QDateTime compStartDate = compQuery.value("START_DATE").toDateTime();
+            QDateTime compEndDate = compQuery.value("END_DATE").toDateTime();
+            if (selectedDateTime < compStartDate || selectedDateTime > compEndDate) {
+                QMessageBox msgBox;
+                msgBox.setIcon(QMessageBox::Warning);
+                msgBox.setWindowTitle("Error");
+                msgBox.setText("Match date and time must be within the competition's start and end dates!");
+                msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                     "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                     "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                     "QPushButton:hover { background-color: #1C6DD0; }");
+                msgBox.exec();
+                return;
+            }
+        } else {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("Error");
+            msgBox.setText("Competition not found!");
+            msgBox.setStyleSheet("QMessageBox { background-color: #1E1E2F; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
+                                 "QLabel { color: #FFFFFF; font-size: 14px; }"
+                                 "QPushButton { background-color: #2D89EF; color: #FFFFFF; border-radius: 5px; padding: 8px; font-size: 12px; }"
+                                 "QPushButton:hover { background-color: #1C6DD0; }");
+            msgBox.exec();
+            return;
+        }
+
+        // All validations passed, proceed with updating the match
         match.setTeamA(team1Box->currentData().toInt());
         match.setTeamB(team2Box->currentData().toInt());
-        match.setStadium(stadiumEdit->text());
-        match.setReferee(refereeEdit->text());
-        match.setMatchDateTime(dateTimeEdit->dateTime());
+        match.setStadium(stadium);
+        match.setReferee(referee);
+        match.setMatchDateTime(selectedDateTime);
         match.setScoreA(scoreAEdit->value());
         match.setScoreB(scoreBEdit->value());
         match.setCompetitionId(compBox->currentData().toInt());
-        match.setStatus(statusBox->currentText());
+        match.setStatus(selectedStatus);
         match.setMeteo(weatherBox->currentData().toInt());
 
         if (!match.modifyMatch()) {
@@ -524,12 +656,47 @@ void MainWindow::filterMatches(const QString &text) {
     QStandardItemModel *model = new QStandardItemModel(matches.size(), 6, this);
     model->setHorizontalHeaderLabels({"ID ▲▼", "Team 1 ▲▼", "Team 2 ▲▼", "Date ▲▼", "Time ▲▼", "Competition ▲▼", "Status ▲▼"}); // Set headers
 
-    // Populate the model with filtered data
     for (int row = 0; row < matches.size(); ++row) {
         const Match &match = matches.at(row);
+
+        QString teamAName = match.getTeamAName().isEmpty() ? "Team 1" : match.getTeamAName(); // Handle null team A
+        QString teamBName = match.getTeamBName().isEmpty() ? "Team 2" : match.getTeamBName(); // Handle null team B
+
+        // Fetch team logos from the EQUIPE table
+        QPixmap teamALogo, teamBLogo;
+        QSqlQuery logoQuery;
+        logoQuery.prepare("SELECT TEAM_LOGO FROM EQUIPE WHERE TEAM_NAME = :teamName");
+        
+        // Fetch Team A logo
+        logoQuery.bindValue(":teamName", teamAName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamALogo.loadFromData(logoData);
+        }
+
+        // Fetch Team B logo
+        logoQuery.bindValue(":teamName", teamBName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamBLogo.loadFromData(logoData);
+        }
+
+        // Create items with logos and names
+        QStandardItem *teamAItem = new QStandardItem();
+        if (!teamALogo.isNull()) {
+            teamAItem->setData(QVariant(teamALogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamAItem->setText(teamAName);
+
+        QStandardItem *teamBItem = new QStandardItem();
+        if (!teamBLogo.isNull()) {
+            teamBItem->setData(QVariant(teamBLogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamBItem->setText(teamBName);
+
         model->setItem(row, 0, new QStandardItem(QString::number(match.getId()))); // ID
-        model->setItem(row, 1, new QStandardItem(match.getTeamAName())); // Team 1
-        model->setItem(row, 2, new QStandardItem(match.getTeamBName())); // Team 2
+        model->setItem(row, 1, teamAItem); // Team 1 with logo
+        model->setItem(row, 2, teamBItem); // Team 2 with logo
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
@@ -538,11 +705,18 @@ void MainWindow::filterMatches(const QString &text) {
             status = "⏳ " + status;
         } else if (status == "Played") {
             status = "✅ " + status;
+        } else if (status == "Playing") {
+            status = "⚽ " + status;
         }
         model->setItem(row, 6, new QStandardItem(status)); // Status
     }
 
     ui->allmatches->setModel(model); // Set the filtered model temporarily
+    updateMatchSummary();
+    chart();
+    weatherImpactChart();
+    Match::updateMatchStatuses();
+    updateRefereeAnalysis();
 }
 
 void MainWindow::sortMatches() {
@@ -601,9 +775,45 @@ void MainWindow::on_headerClicked(int logicalIndex) {
     // Populate the model with sorted data
     for (int row = 0; row < matches.size(); ++row) {
         const Match &match = matches.at(row);
+
+        QString teamAName = match.getTeamAName().isEmpty() ? "Team 1" : match.getTeamAName(); // Handle null team A
+        QString teamBName = match.getTeamBName().isEmpty() ? "Team 2" : match.getTeamBName(); // Handle null team B
+
+        // Fetch team logos from the EQUIPE table
+        QPixmap teamALogo, teamBLogo;
+        QSqlQuery logoQuery;
+        logoQuery.prepare("SELECT TEAM_LOGO FROM EQUIPE WHERE TEAM_NAME = :teamName");
+        
+        // Fetch Team A logo
+        logoQuery.bindValue(":teamName", teamAName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamALogo.loadFromData(logoData);
+        }
+
+        // Fetch Team B logo
+        logoQuery.bindValue(":teamName", teamBName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            teamBLogo.loadFromData(logoData);
+        }
+
+        // Create items with logos and names
+        QStandardItem *teamAItem = new QStandardItem();
+        if (!teamALogo.isNull()) {
+            teamAItem->setData(QVariant(teamALogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamAItem->setText(teamAName);
+
+        QStandardItem *teamBItem = new QStandardItem();
+        if (!teamBLogo.isNull()) {
+            teamBItem->setData(QVariant(teamBLogo.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation)), Qt::DecorationRole);
+        }
+        teamBItem->setText(teamBName);
+
         model->setItem(row, 0, new QStandardItem(QString::number(match.getId()))); // ID
-        model->setItem(row, 1, new QStandardItem(match.getTeamAName())); // Team 1
-        model->setItem(row, 2, new QStandardItem(match.getTeamBName())); // Team 2
+        model->setItem(row, 1, teamAItem); // Team 1 with logo
+        model->setItem(row, 2, teamBItem); // Team 2 with logo
         model->setItem(row, 3, new QStandardItem(match.getMatchDateTime().date().toString("yyyy-MM-dd"))); // Date
         model->setItem(row, 4, new QStandardItem(match.getMatchDateTime().time().toString("HH:mm:ss"))); // Time
         model->setItem(row, 5, new QStandardItem(match.getCompetitionName())); // Competition
@@ -612,13 +822,15 @@ void MainWindow::on_headerClicked(int logicalIndex) {
             status = "⏳ " + status;
         } else if (status == "Played") {
             status = "✅ " + status;
+        } else if (status == "Playing") {
+            status = "⚽ " + status;
         }
         model->setItem(row, 6, new QStandardItem(status)); // Status
     }
 
     // Set the model to the QTableView
     ui->allmatches->setModel(model);
-    ui->allmatches->hideColumn(0); 
+    ui->allmatches->hideColumn(0); // Hide the ID column
     ui->allmatches->setEditTriggers(QAbstractItemView::NoEditTriggers); // Disable editing
     ui->allmatches->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); // Stretch columns for visibility
 }
@@ -1410,6 +1622,11 @@ void MainWindow::on_allmatchesContextMenuRequested(const QPoint &pos) {
         return;
     }
 
+    // Get match ID and status
+    int matchId = index.sibling(index.row(), 0).data().toInt(); // ID in hidden column 0
+    QString status = index.sibling(index.row(), 6).data().toString(); // Status in column 6
+    status = status.remove(QRegularExpression("^[⏳✅⚽]\\s*")); // Remove status icons
+
     QMenu contextMenu(this);
     contextMenu.setStyleSheet(
         "QMenu {"
@@ -1434,10 +1651,16 @@ void MainWindow::on_allmatchesContextMenuRequested(const QPoint &pos) {
     QAction *modifyAction = contextMenu.addAction("Modify Match");
     QAction *setLineupAction = contextMenu.addAction("Set Lineup");
     QAction *showFullLineupAction = contextMenu.addAction("Show Full Lineup");
+    QAction *watchAction = contextMenu.addAction("Watch Match");
+    watchAction->setEnabled(status == "Playing"); // Enable only for "Playing" status
 
     connect(modifyAction, &QAction::triggered, this, &MainWindow::on_Modify_clicked);
     connect(setLineupAction, &QAction::triggered, this, &MainWindow::on_setLineupTriggered);
     connect(showFullLineupAction, &QAction::triggered, this, &MainWindow::on_showFullLineupTriggered);
+    connect(watchAction, &QAction::triggered, this, [this, matchId]() {
+        WatchMatchDialog *dialog = new WatchMatchDialog(matchId, this);
+        dialog->exec();
+    });
 
     contextMenu.exec(ui->allmatches->viewport()->mapToGlobal(pos));
 }
@@ -1457,12 +1680,12 @@ void MainWindow::on_setLineupTriggered() {
         }
     }
 
-    // Check if the match is already played
-    if (match.getStatus() == "Played") {
+    // Check if the match is already played or is currently playing
+    if (match.getStatus() == "Played" || match.getStatus() == "Playing") {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setWindowTitle("⚠️ Error");
-        msgBox.setText("You cannot set a lineup for a match that has already been played!");
+        msgBox.setText("You cannot set a lineup for a match that has already been played or is currently playing!");
         msgBox.setStyleSheet(
             "QMessageBox { background-color: #2A2A3A; color: #FFFFFF; font-family: 'Segoe UI'; border-radius: 10px; }"
             "QLabel { color: #FFFFFF; font-size: 14px; }"
