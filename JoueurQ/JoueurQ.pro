@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui sql network
-QT+=sql
+QT+=sql serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +27,7 @@ CONFIG += c++11
 CONFIG+=console
 
 SOURCES += \
+    arduino.cpp \
     deletejoueur.cpp \
     joueur.cpp \
         main.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
     qrcodegen.cpp
 
 HEADERS += \
+    arduino.h \
     deletejoueur.h \
     joueur.h \
         mainwindow.h \
