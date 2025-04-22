@@ -29,6 +29,8 @@ private slots:
     void populateModifyFields(const QModelIndex &index);
     void on_pushButton_clicked();
     void on_searchTextChanged(const QString &text);
+    void on_uploadPhotoButton_clicked(); // New slot for photo upload
+    void on_modifyUploadPhotoButton_clicked(); // New slot for modify photo upload
 
 private:
     Ui::MainWindow *ui;
@@ -36,6 +38,8 @@ private:
     QSortFilterProxyModel *proxyModel;
     statsWidget* statsView = nullptr;
     MainWindow *mainWindowParent;
+    QByteArray selectedEmployeePhoto; // Store the photo temporarily
+    QByteArray newEmployeePhoto; // Store photo for adding a new employee
 
     void refreshEmployeeTable();
     void clearModifyFields();

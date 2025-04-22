@@ -164,7 +164,7 @@ void MainWindow::on_sign_in_clicked() {
         }
 
         // Fetch full employee data to store in SessionManager
-        query.prepare("SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL , MDP , NUM, DATEN, ROLE "
+        query.prepare("SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL , MDP , NUM, DATEN, ROLE, FACE "
                       "FROM HOTSTUFF.EMPLOYE WHERE EMAIL = :email AND MDP = :password");
         query.bindValue(":email", email);
         query.bindValue(":password", password);
@@ -186,14 +186,15 @@ void MainWindow::on_sign_in_clicked() {
 
         // Create an Employee object with the fetched data
         Employee loggedInEmployee(
-            query.value("ID_EMP").toInt(),
-            query.value("NOM_EMP").toString(),
-            query.value("PRENOM_EMP").toString(),
+            query.value("ID").toInt(),
+            query.value("FIRST_NAME").toString(),
+            query.value("LAST_NAME").toString(),
             query.value("EMAIL").toString(),
-            query.value("NUM").toString(),
-            query.value("DATEN").toDate(),
+            query.value("MOBILE_NUMBER").toString(),
+            query.value("DOB").toDate(),
             query.value("ROLE").toString(),
-            password // Password is not returned by the query, use the input password
+            password,
+            query.value("FACE").toByteArray()
             );
 
         // Store the employee in SessionManager

@@ -6,312 +6,48 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1381</width>
-    <height>866</height>
+    <width>1251</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);
-</string>
+   <string notr="true">background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+color: #FFFFFF;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListWidget" name="menu">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>1151</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #192231;
-color: #D3D3D3;
-border-bottom: 2px solid #4C5C75;
-border-radius: 30px;
-</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dashboard_2">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>30</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-      <fontweight>Thin</fontweight>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
-    </property>
-    <property name="text">
-     <string>Player</string>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="menu_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>111</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background: #0A1628;
-color: #FFFFFF;
-border-bottom: 3px solid #00FF7F;
-border-radius: 30px;
-</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>10</y>
-      <width>3</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(40, 40, 40);
-border: 2px solid #4C5C75;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>10</y>
-      <width>3</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border: 2px solid #4C5C75;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_3">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>10</y>
-      <width>3</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border: 2px solid #4C5C75;</string>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dashboard_7">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>30</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-      <fontweight>Thin</fontweight>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
-    </property>
-    <property name="text">
-     <string>Competition</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dashboard_3">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>30</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-      <fontweight>Thin</fontweight>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
-    </property>
-    <property name="text">
-     <string>Match</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dashboard_4">
-    <property name="geometry">
-     <rect>
-      <x>960</x>
-      <y>30</y>
-      <width>61</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-      <fontweight>Thin</fontweight>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color: rgb(158, 158, 158);</string>
-    </property>
-    <property name="text">
-     <string>Team</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>1110</x>
-      <y>30</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>../../../../../Pictures/icons/user.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>20</y>
-      <width>50</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/logo_football.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>1100</x>
-      <y>10</y>
-      <width>71</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #E0E0E0; /* Changed to a lighter color (whiter shade) */
-border-radius: 35px; /* Adjusted for larger size */
-color: #FFFFFF;
-QPushButton:hover { background-color: #FFFFFF; } /* Lighter hover */
-QPushButton:pressed { background-color: #FFFFFF; } /* Lighter pressed */</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="images.qrc">
-      <normaloff>:/img/logout.png</normaloff>:/img/logout.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>90</y>
+      <x>0</x>
+      <y>0</y>
       <width>1251</width>
       <height>741</height>
      </rect>
     </property>
-    <property name="layoutDirection">
-     <enum>Qt::LayoutDirection::LeftToRight</enum>
-    </property>
     <property name="styleSheet">
      <string notr="true">QTabWidget::pane {
-    border: 2px solid #2c2f3f;
-    background: #1e1f29;
-    border-radius: 5px;
+ background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+ border: 1px solid #2A2D3A;
+ border-radius: 10px;
 }
-
 QTabBar::tab {
-    background: #1e1f29;
-    color: #ffffff;
-    padding: 8px 16px;
-    border: 1px solid #2c2f3f;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+ background: #1E1F2D;
+ color: #B0BEC5;
+ padding: 10px 20px;
+ margin: 2px;
+ border-radius: 8px;
+ font-size: 14px;
 }
-
 QTabBar::tab:selected {
-    background: #2c2f3f;
-    color: #ffffff;
-    font-weight: bold;
-    border-bottom: 2px solid #0078d7;
+ background: #0288D1;
+ color: #FFFFFF;
 }
-
 QTabBar::tab:hover {
-    background: #323546;
-    color: #ffffff;
-}
-
-QTabBar::tab:!selected {
-    margin-top: 2px;
-}
-</string>
+ background: #2A2D3A;
+}</string>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -330,106 +66,573 @@ QTabBar::tab:!selected {
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #0F111A;
+       <string notr="true">background: linear-gradient(145deg, #141821 0%, #1E1F2D 100%);
 color: #FFFFFF;
 font-family: 'Segoe UI', Arial, sans-serif;
 font-size: 12px;
 border-radius: 15px;
-padding: 15px;</string>
+padding: 20px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="15" column="0">
-        <widget class="QPushButton" name="button1">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
          <property name="styleSheet">
-          <string notr="true">background-color: #2E7D32;
-color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
-padding: 6px 12px;
-margin-left: 500px;
-margin-right: 20px;
-margin-bottom: 10px;
-QPushButton:hover { background-color: #4CAF50; }
-QPushButton:pressed { background-color: #1B5E20; }</string>
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
          </property>
          <property name="text">
-          <string>Confirm</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Mobile_Number</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QDateEdit" name="birthday">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLineEdit" name="password">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
+          <string>Last Name</string>
          </property>
         </widget>
        </item>
        <item row="11" column="0">
-        <widget class="QLabel" name="label_11">
+        <widget class="QDateEdit" name="birthday">
          <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QDateEdit::drop-down {
+ width: 20px;
+}
+QDateEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
          </property>
-         <property name="text">
-          <string>Date_of_birth</string>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLineEdit" name="email">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="nom">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
          </property>
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="label_5">
          <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
          </property>
          <property name="text">
           <string>Email</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Mobile Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="prenom">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Role</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Birthday</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>First Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLineEdit" name="password">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::EchoMode::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="number">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
         <widget class="QComboBox" name="Role">
          <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QComboBox::drop-down {
+ width: 20px;
+}
+QComboBox:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}
+QComboBox QAbstractItemView {
+ background: #1E1F2D;
+ color: #FFFFFF;
+ selection-background-color: #0288D1;
+}</string>
          </property>
+         <item>
+          <property name="text">
+           <string>Admin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Employee</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Coach</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="button1">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>510</y>
+        <width>241</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>Confirm</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="uploadPhotoButton">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>390</y>
+        <width>291</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>Upload Photo</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>modify</string>
+     </attribute>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>0</y>
+        <width>651</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(145deg, #141821 0%, #1E1F2D 100%);
+color: #FFFFFF;
+font-family: 'Segoe UI', Arial, sans-serif;
+font-size: 12px;
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Last Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="lineEdit_3">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>First Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="lineEdit_4">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Mobile Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="lineEdit_8">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLineEdit" name="lineEdit_7">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::EchoMode::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Birthday</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QDateEdit::drop-down {
+ width: 20px;
+}
+QDateEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Role</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QComboBox" name="comboBox_3">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QComboBox::drop-down {
+ width: 20px;
+}
+QComboBox:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}
+QComboBox QAbstractItemView {
+ background: #1E1F2D;
+ color: #FFFFFF;
+ selection-background-color: #0288D1;
+}</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Admin</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>Coach</string>
@@ -437,118 +640,60 @@ margin-right:15px;</string>
          </item>
          <item>
           <property name="text">
-           <string>employee</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>..</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>..</string>
+           <string>Employee</string>
           </property>
          </item>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLineEdit" name="email">
+       <item row="15" column="0">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
+          <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
          </property>
          <property name="text">
-          <string>Last_Name</string>
+          <string>modify</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
-        <widget class="QLineEdit" name="number">
+       <item row="16" column="0">
+        <widget class="QPushButton" name="modifyUploadPhotoButton">
          <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="nom">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLineEdit" name="prenom">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
+          <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
          </property>
          <property name="text">
-          <string>Role</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Password</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>First_Name</string>
+          <string>Upload Photo</string>
          </property>
         </widget>
        </item>
@@ -568,6 +713,48 @@ padding-bottom: 5px;background-color:transparent;</string>
         <height>421</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 10px;
+color: #FFFFFF;
+}
+QTableView::item {
+ padding: 8px;
+}
+QTableView::item:selected {
+ background: #0288D1;
+ color: #FFFFFF;
+}
+QHeaderView::section {
+ background: #2A2D3A;
+ color: #CFD8DC;
+ padding: 8px;
+ border: 1px solid #3A3D4A;
+}</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="photoLabel">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>100</y>
+        <width>200</width>
+        <height>200</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 12px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
@@ -579,7 +766,9 @@ padding-bottom: 5px;background-color:transparent;</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #1E1E2D;</string>
+       <string notr="true">background: linear-gradient(145deg, #1E1F2D 0%, #2A2D3A 100%);
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
@@ -597,12 +786,18 @@ padding-bottom: 5px;background-color:transparent;</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #141821;
-border: 2px solid #cccccc;
-border-radius: 6px;
-padding: 6px 10px;
+        <string notr="true">background: #2A2D3A;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
 font-size: 14px;
-color: white;</string>
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_20">
@@ -613,6 +808,13 @@ color: white;</string>
          <width>18</width>
          <height>18</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">transition: transform 0.2s;
+}
+QLabel:hover {
+ transform: scale(1.2);
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -634,13 +836,22 @@ color: white;</string>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #0288D1;
+        <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
 color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
 padding: 6px;
-QPushButton:hover { background-color: #03A9F4; }
-QPushButton:pressed { background-color: #01579B; }</string>
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
        </property>
        <property name="text">
         <string>search</string>
@@ -657,13 +868,22 @@ QPushButton:pressed { background-color: #01579B; }</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #D32F2F;
+       <string notr="true">background: linear-gradient(45deg, #D32F2F 0%, #F44336 100%);
 color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
-padding: 6px;
-QPushButton:hover { background-color: #F44336; }
-QPushButton:pressed { background-color: #B71C1C; }</string>
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 8px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #F44336 0%, #EF5350 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #B71C1C 0%, #D32F2F 100%);
+ transform: scale(0.95);
+}</string>
       </property>
       <property name="text">
        <string>Delete</string>
@@ -679,13 +899,22 @@ QPushButton:pressed { background-color: #B71C1C; }</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #7B1FA2;
+       <string notr="true">background: linear-gradient(45deg, #7B1FA2 0%, #9C27B0 100%);
 color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
 padding: 6px;
-QPushButton:hover { background-color: #9C27B0; }
-QPushButton:pressed { background-color: #4A148C; }</string>
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #9C27B0 0%, #AB47BC 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #4A148C 0%, #7B1FA2 100%);
+ transform: scale(0.95);
+}</string>
       </property>
       <property name="text">
        <string>pdf</string>
@@ -701,267 +930,136 @@ QPushButton:pressed { background-color: #4A148C; }</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #FBC02D;
+       <string notr="true">background: linear-gradient(45deg, #FBC02D 0%, #FFCA28 100%);
 color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
 padding: 6px;
-QPushButton:hover { background-color: #FFCA28; }
-QPushButton:pressed { background-color: #F57F17; }</string>
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #FFCA28 0%, #FFD54F 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #F57F17 0%, #FBC02D 100%);
+ transform: scale(0.95);
+}</string>
       </property>
       <property name="text">
        <string>stat</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>modify</string>
-     </attribute>
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>0</y>
-        <width>651</width>
-        <height>661</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #0F111A;
-color: #FFFFFF;
-font-family: 'Segoe UI', Arial, sans-serif;
-font-size: 12px;
-border-radius: 15px;
-padding: 15px;</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="15" column="0">
-        <widget class="QComboBox" name="comboBox_3">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>Coach</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>..</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>..</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Email</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_22">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>First_Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Last_Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLineEdit" name="lineEdit_6">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLineEdit" name="lineEdit_8">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="lineEdit_3">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLineEdit" name="lineEdit_7">
-         <property name="styleSheet">
-          <string notr="true">background-color: #1C1F2A;
-border: 1px solid #2A2D3A;
-border-radius: 5px;
-padding: 5px;
-color: white;
-margin-left: 15px;
-margin-right:15px;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Mobile_Number</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Role</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Date_of_birth</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="styleSheet">
-          <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-         </property>
-         <property name="text">
-          <string>Password</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>700</x>
-        <y>670</y>
-        <width>80</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: #F57C00;
-color: #FFFFFF;
-font-size: 12px;
-border-radius: 5px;
-padding: 6px;
-QPushButton:hover { background-color: #FF9800; }
-QPushButton:pressed { background-color: #E65100; }</string>
-      </property>
-      <property name="text">
-       <string>modify</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="statsWidget">
+    <widget class="QWidget" name="tab_5">
      <attribute name="title">
       <string>Stats</string>
      </attribute>
+     <widget class="QWidget" name="statsWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1251</width>
+        <height>741</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+border-radius: 10px;</string>
+      </property>
+     </widget>
     </widget>
    </widget>
+   <widget class="QLabel" name="currentUserPhotoLabel">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>20</y>
+      <width>60</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 12px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1251</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: #1E1F2D;
+color: #FFFFFF;
+}
+QMenuBar::item {
+ padding: 4px 10px;
+}
+QMenuBar::item:selected {
+ background: #0288D1;
+}</string>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background: #1E1F2D;
+color: #CFD8DC;</string>
+   </property>
+  </widget>
  </widget>
- <resources>
-  <include location="images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

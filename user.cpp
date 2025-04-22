@@ -4,64 +4,71 @@
 #include <QDebug>
 #include <QRegularExpression> // Add this line to fix the QRegularExpression error
 
-Employee::Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password)
-    : id(id), firstName(firstName), lastName(lastName), email(email), mobileNumber(mobileNumber), dateOfBirth(dob), role(role), password(password) {}
+Employee::Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password, QByteArray face)
+    : id(id), firstName(firstName), lastName(lastName), email(email), mobileNumber(mobileNumber), dateOfBirth(dob), role(role), password(password), face(face) {}
 
 
-
-bool Employee::addEmployee() {
-    // Validate for NOT NULL constraints
+bool Employee::addEmployee()
+{
+    /* ---------- 1. VALIDATION (unchanged) ---------- */
     if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() ||
         password.isEmpty() || mobileNumber.isEmpty() || role.isEmpty()) {
-        qDebug() << "Validation failed: All fields must be non-empty (NOT NULL constraint).";
+        qDebug() << "Validation failed: All fields must be non‑empty.";
         return false;
     }
 
-    // Validate data lengths to match database constraints (VARCHAR2(100))
     if (firstName.length() > 100 || lastName.length() > 100 || email.length() > 100 ||
         role.length() > 100 || password.length() > 100) {
-        qDebug() << "Validation failed: Input length exceeds 100 characters.";
+        qDebug() << "Validation failed: Input exceeds 100 chars.";
         return false;
     }
     if (mobileNumber.length() > 10) {
-        qDebug() << "Validation failed: Mobile number exceeds 10 digits.";
+        qDebug() << "Validation failed: Mobile number > 10 digits.";
         return false;
     }
-
-    // Add phone number validation
     if (!validatePhoneNumber(mobileNumber)) {
-        qDebug() << "Validation failed: Mobile number must contain only numbers and be at least 8 digits.";
+        qDebug() << "Validation failed: Invalid phone.";
         return false;
     }
-
-    // Add age validation
     if (!validateAge(dateOfBirth)) {
-        qDebug() << "Validation failed: Employee must be at least 18 years old.";
+        qDebug() << "Validation failed: < 18 years old.";
         return false;
     }
 
-    // Convert mobileNumber to a number since NUM is a NUMBER type
     bool ok;
     qlonglong mobileNum = mobileNumber.toLongLong(&ok);
     if (!ok) {
-        qDebug() << "Validation failed: Mobile number must be numeric. Input:" << mobileNumber;
+        qDebug() << "Validation failed: Mobile not numeric.";
         return false;
     }
 
-    // Log the data being inserted for debugging
-    qDebug() << "Attempting to insert employee with data:"
-             << "First Name:" << firstName
-             << "Last Name:" << lastName
-             << "Email:" << email
-             << "Password:" << password
-             << "Mobile Number:" << mobileNum
-             << "Date of Birth:" << dateOfBirth.toString("yyyy-MM-dd")
-             << "Role:" << role;
+    if (face.size() > 5 * 1024 * 1024) {
+        qDebug() << "Validation failed: Photo > 5 MB.";
+        return false;
+    }
 
-    // Construct the query dynamically
-    QString queryStr = QString("INSERT INTO EMPLOYE (ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, MDP, NUM, DATEN, ROLE) "
-                               "VALUES (%1, '%2', '%3', '%4', '%5', %6, TO_DATE('%7', 'YYYY-MM-DD'), '%8')")
-                           .arg(id) // Add the ID here
+    /* ---------- 2. LOG DATA ---------- */
+    qDebug() << "Attempting INSERT:"
+             << "ID:" << id
+             << "First:" << firstName
+             << "Last:"  << lastName
+             << "Email:" << email
+             << "Mobile:" << mobileNum
+             << "DOB:" << dateOfBirth.toString("yyyy-MM-dd")
+             << "Role:" << role
+             << "Face size:" << face.size();
+
+    /* ---------- 3. BUILD THE TEXT FOR “STRING” PART ---------- */
+    // Everything except the BLOB is still baked into the string.
+    QString queryStr = QString(R"(
+        INSERT INTO EMPLOYE
+        (ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, MDP,
+         NUM, DATEN, ROLE, FACE)
+        VALUES
+        (%1, '%2', '%3', '%4', '%5',
+         %6, TO_DATE('%7','YYYY-MM-DD'), '%8', :face)
+    )")
+                           .arg(id)
                            .arg(firstName.replace("'", "''"))
                            .arg(lastName.replace("'", "''"))
                            .arg(email.replace("'", "''"))
@@ -70,20 +77,29 @@ bool Employee::addEmployee() {
                            .arg(dateOfBirth.toString("yyyy-MM-dd"))
                            .arg(role.replace("'", "''"));
 
-    qDebug() << "Constructed query:" << queryStr;
+    qDebug() << "Constructed query:" << queryStr.trimmed();
 
+    /* ---------- 4. EXECUTE WITH A SINGLE BLOB BIND ---------- */
     QSqlQuery query;
-    if (!query.exec(queryStr)) {
-        QSqlError error = query.lastError();
-        qDebug() << "SQL Execution failed:" << error.text();
-        qDebug() << "Database Error:" << QSqlDatabase::database().lastError().text();
-        qDebug() << "Native Error Code:" << error.nativeErrorCode();
+    if (!query.prepare(queryStr)) {
+        qDebug() << "Prepare failed:" << query.lastError().text();
         return false;
     }
 
-    qDebug() << "Employee added successfully.";
+    // bind the QByteArray; if empty Oracle stores NULL
+    query.bindValue(":face", face, QSql::In | QSql::Binary);
+
+    if (!query.exec()) {
+        QSqlError err = query.lastError();
+        qDebug() << "SQL exec failed:" << err.text()
+                 << "Native:" << err.nativeErrorCode();
+        return false;
+    }
+
+    qDebug() << "Employee added successfully; rows:" << query.numRowsAffected();
     return true;
 }
+
 bool Employee::deleteEmployee(int id) {
     QSqlQuery query;
     query.prepare("DELETE FROM HOTSTUFF.EMPLOYE WHERE ID_EMP = :id");
@@ -106,48 +122,8 @@ bool Employee::updateEmployee() {
              << "Password:" << (password.isEmpty() ? "[unchanged]" : "[new password]")
              << "Mobile Number:" << mobileNumber
              << "Date of Birth:" << dateOfBirth.toString("yyyy-MM-dd")
-             << "Role:" << role;
-
-    // Construct the query dynamically
-    QString queryStr;
-
-    if (password.isEmpty()) {
-        // Don't update the password
-        queryStr = QString("UPDATE HOTSTUFF.EMPLOYE SET "
-                           "NOM_EMP = '%1', "
-                           "PRENOM_EMP = '%2', "
-                           "EMAIL = '%3', "
-                           "NUM = %4, "
-                           "DATEN = TO_DATE('%5', 'YYYY-MM-DD'), "
-                           "ROLE = '%6' "
-                           "WHERE ID_EMP = %7")
-                       .arg(firstName.replace("'", "''")) // Escape single quotes
-                       .arg(lastName.replace("'", "''"))
-                       .arg(email.replace("'", "''"))
-                       .arg(mobileNumber)
-                       .arg(dateOfBirth.toString("yyyy-MM-dd"))
-                       .arg(role.replace("'", "''"))
-                       .arg(id);
-    } else {
-        // Update including password
-        queryStr = QString("UPDATE HOTSTUFF.EMPLOYE SET "
-                           "NOM_EMP = '%1', "
-                           "PRENOM_EMP = '%2', "
-                           "EMAIL = '%3', "
-                           "MDP = '%4', "
-                           "NUM = %5, "
-                           "DATEN = TO_DATE('%6', 'YYYY-MM-DD'), "
-                           "ROLE = '%7' "
-                           "WHERE ID_EMP = %8")
-                       .arg(firstName.replace("'", "''")) // Escape single quotes
-                       .arg(lastName.replace("'", "''"))
-                       .arg(email.replace("'", "''"))
-                       .arg(password.replace("'", "''"))
-                       .arg(mobileNumber)
-                       .arg(dateOfBirth.toString("yyyy-MM-dd"))
-                       .arg(role.replace("'", "''"))
-                       .arg(id);
-    }
+             << "Role:" << role
+             << "Face:" << (face.isEmpty() ? "No photo" : "Photo provided");
 
     // Add phone number validation
     if (!validatePhoneNumber(mobileNumber)) {
@@ -161,10 +137,44 @@ bool Employee::updateEmployee() {
         return false;
     }
 
-    qDebug() << "Constructed query:" << queryStr;
-
+    // Use a prepared statement to handle the BLOB
     QSqlQuery query;
-    if (!query.exec(queryStr)) {
+    if (password.isEmpty()) {
+        // Don't update the password
+        query.prepare("UPDATE HOTSTUFF.EMPLOYE SET "
+                      "NOM_EMP = :firstName, "
+                      "PRENOM_EMP = :lastName, "
+                      "EMAIL = :email, "
+                      "NUM = :mobileNum, "
+                      "DATEN = TO_DATE(:dob, 'YYYY-MM-DD'), "
+                      "ROLE = :role, "
+                      "FACE = :face "
+                      "WHERE ID_EMP = :id");
+    } else {
+        // Update including password
+        query.prepare("UPDATE HOTSTUFF.EMPLOYE SET "
+                      "NOM_EMP = :firstName, "
+                      "PRENOM_EMP = :lastName, "
+                      "EMAIL = :email, "
+                      "MDP = :password, "
+                      "NUM = :mobileNum, "
+                      "DATEN = TO_DATE(:dob, 'YYYY-MM-DD'), "
+                      "ROLE = :role, "
+                      "FACE = :face "
+                      "WHERE ID_EMP = :id");
+        query.bindValue(":password", password);
+    }
+
+    query.bindValue(":id", id);
+    query.bindValue(":firstName", firstName);
+    query.bindValue(":lastName", lastName);
+    query.bindValue(":email", email);
+    query.bindValue(":mobileNum", mobileNumber);
+    query.bindValue(":dob", dateOfBirth.toString("yyyy-MM-dd"));
+    query.bindValue(":role", role);
+    query.bindValue(":face", face); // Bind the BLOB data
+
+    if (!query.exec()) {
         QSqlError error = query.lastError();
         qDebug() << "SQL Execution failed:" << error.text();
         qDebug() << "Database Error:" << QSqlDatabase::database().lastError().text();
@@ -183,7 +193,6 @@ bool Employee::updateEmployee() {
 
 QSqlQueryModel* Employee::displayEmployees() {
     QSqlQueryModel* model = new QSqlQueryModel();
-    // Cast NUM to a string using TO_CHAR to avoid scientific notation
     model->setQuery("SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, TO_CHAR(NUM), DATEN, ROLE FROM HOTSTUFF.EMPLOYE");
     model->setHeaderData(0, Qt::Horizontal, "ID");
     model->setHeaderData(1, Qt::Horizontal, "First Name");
@@ -197,7 +206,8 @@ QSqlQueryModel* Employee::displayEmployees() {
 
 Employee* Employee::getById(int id) {
     QSqlQuery query;
-    query.prepare("SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, TO_CHAR(NUM), DATEN, ROLE FROM HOTSTUFF.EMPLOYE WHERE ID_EMP = :id");
+    query.prepare("SELECT ID_EMP, NOM_EMP, PRENOM_EMP, EMAIL, TO_CHAR(NUM), DATEN, ROLE, FACE "
+                  "FROM HOTSTUFF.EMPLOYE WHERE ID_EMP = :id");
     query.bindValue(":id", id);
 
     if (query.exec() && query.next()) {
@@ -206,13 +216,16 @@ Employee* Employee::getById(int id) {
         employee->setFirstName(query.value(1).toString());
         employee->setLastName(query.value(2).toString());
         employee->setEmail(query.value(3).toString());
-        employee->setMobileNumber(query.value(4).toString()); // Now a string
+        employee->setMobileNumber(query.value(4).toString());
         employee->setDateOfBirth(query.value(5).toDate());
         employee->setRole(query.value(6).toString());
+        employee->setFace(query.value(7).toByteArray()); // Fetch the BLOB
         return employee;
     }
     return nullptr;
 }
+
+
 
 QSqlQueryModel* Employee::search(const QString& field, const QString& term) {
     QSqlQueryModel* model = new QSqlQueryModel();

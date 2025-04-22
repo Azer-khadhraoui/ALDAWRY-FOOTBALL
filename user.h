@@ -4,11 +4,12 @@
 #include <QString>
 #include <QDate>
 #include <QSqlQueryModel>
+#include <QByteArray> // Add for BLOB data
 
 class Employee {
 public:
     Employee() : id(-1), dateOfBirth(QDate()) {} // Default constructor
-    Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password);
+    Employee(int id, QString firstName, QString lastName, QString email, QString mobileNumber, QDate dob, QString role, QString password, QByteArray face = QByteArray());
 
     // Getters
     int getId() const { return id; }
@@ -19,6 +20,7 @@ public:
     QDate getDateOfBirth() const { return dateOfBirth; }
     QString getRole() const { return role; }
     QString getPassword() const { return password; }
+    QByteArray getFace() const { return face; } // Getter for photo
 
     // Setters
     void setId(int newId) { id = newId; }
@@ -29,6 +31,8 @@ public:
     void setDateOfBirth(const QDate &newDob) { dateOfBirth = newDob; }
     void setRole(const QString &newRole) { role = newRole; }
     void setPassword(const QString &newPassword) { password = newPassword; }
+    void setFace(const QByteArray &newFace) { face = newFace; } // Setter for photo
+
     Employee* getById(int id);
     static QSqlQueryModel* search(const QString& field, const QString& term);
 
@@ -49,6 +53,7 @@ private:
     QDate dateOfBirth;    // Maps to DATEN
     QString role;         // Maps to ROLE
     QString password;     // Maps to MDP
+    QByteArray face;      // Maps to FACE (BLOB)
 
     // Validation helper functions
     bool validatePhoneNumber(const QString& mobileNumber);

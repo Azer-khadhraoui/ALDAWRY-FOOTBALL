@@ -8,9 +8,9 @@
 #include <QToolTip>
 #include <QPdfWriter>
 #include <QFileDialog>
-#include <QMessageBox> // Added for QMessageBox
+#include <QMessageBox>
 
-class UserWindow; // Forward declare
+class UserWindow;
 
 class statsWidget : public QWidget {
 public:
@@ -24,25 +24,26 @@ protected:
 
 private:
     UserWindow *userWindow;
-    QString hoveredAgeSlice;  // Track hovered age category
-    QString hoveredRoleSlice; // Track hovered role
-    QString selectedAgeSlice; // Track clicked age category
-    QString selectedRoleSlice;// Track clicked role
-    QRect agePieRect;        // Store pie chart rectangle for age
-    QRect rolePieRect;       // Store pie chart rectangle for role
-    QRect tableRect;         // Store table rectangle
-    QMap<QString, QLinearGradient> ageGradients; // Gradients for age slices
-    QMap<QString, QLinearGradient> roleGradients;// Gradients for role slices
-    QTimer *animationTimer;  // For hover/click animations
-    float ageSliceScale[4];  // Scale factors for age slices (<25, 25-35, 36-45, >45)
-    float roleSliceScale[10]; // Scale factors for role slices (up to 10 roles)
-    int sortColumn;          // Track table sorting column
-    bool sortAscending;      // Track sort order
+    QString hoveredAgeSlice;
+    QString hoveredRoleSlice;
+    QString selectedAgeSlice;
+    QString selectedRoleSlice;
+    QRect agePieRect;
+    QRect rolePieRect;
+    QRect tableRect;
+    QMap<QString, QLinearGradient> ageGradients;
+    QMap<QString, QLinearGradient> roleGradients;
+    QTimer *animationTimer;
+    float ageSliceScale[4];
+    float roleSliceScale[10];
+    int sortColumn;
+    bool sortAscending;
 
     bool isPointInSlice(const QPoint &point, const QRect &pieRect, double startAngle, double spanAngle);
     void updateSliceScales();
     void exportToPDF();
     void sortTableData(QList<QMap<QString, QString>> &tableData);
+    QPointF getSliceCenterPoint(const QRect &rect, double startAngle, double spanAngle); // Add this declaration
 };
 
 #endif // STATSWIDGET_H

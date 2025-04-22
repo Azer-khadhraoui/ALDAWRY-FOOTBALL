@@ -64,22 +64,24 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     QFont subtitleFont("Segoe UI", 12, QFont::Bold);
     QFont textFont("Segoe UI", 10);
     QFont legendFont("Segoe UI", 8);
+    QFont labelFont("Segoe UI", 8, QFont::Bold);
 
-    // Define modern color palette
+    // Define color palette to match the image (blue and pink)
     QList<QColor> baseColors = {
-        QColor("#1E88E5"), QColor("#D81B60"), QColor("#43A047"),
-        QColor("#FDD835"), QColor("#FB8C00"), QColor("#8E24AA")
+        QColor("#00CED1"), // Blue for "25-35" and "Coach"
+        QColor("#FF69B4")  // Pink for "<25" and "employee"
     };
 
     // Initialize gradients for age categories
     ageGradients.clear();
     int colorIndex = 0;
-    for (const QString &cat : userWindow->ageCategories.keys()) {
-        if (userWindow->ageCategories[cat] == 0) continue;
+    QStringList ageOrder = {"25-35", "<25"}; // Explicit order to match image
+    for (const QString &cat : ageOrder) {
+        if (!userWindow->ageCategories.contains(cat) || userWindow->ageCategories[cat] == 0) continue;
         QColor base = baseColors[colorIndex % baseColors.size()];
         QLinearGradient gradient(0, 0, chartWidth, chartHeight);
-        gradient.setColorAt(0, base.lighter(120));
-        gradient.setColorAt(1, base.darker(120));
+        gradient.setColorAt(0, base.lighter(110));
+        gradient.setColorAt(1, base.darker(110));
         ageGradients[cat] = gradient;
         colorIndex++;
     }
@@ -87,12 +89,13 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     // Initialize gradients for roles
     roleGradients.clear();
     colorIndex = 0;
-    for (const QString &role : userWindow->roleCount.keys()) {
-        if (userWindow->roleCount[role] == 0) continue;
+    QStringList roleOrder = {"Coach", "employee"}; // Explicit order to match image
+    for (const QString &role : roleOrder) {
+        if (!userWindow->roleCount.contains(role) || userWindow->roleCount[role] == 0) continue;
         QColor base = baseColors[colorIndex % baseColors.size()];
         QLinearGradient gradient(0, 0, chartWidth, chartHeight);
-        gradient.setColorAt(0, base.lighter(120));
-        gradient.setColorAt(1, base.darker(120));
+        gradient.setColorAt(0, base.lighter(110));
+        gradient.setColorAt(1, base.darker(110));
         roleGradients[role] = gradient;
         colorIndex++;
     }
@@ -120,17 +123,19 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     painter.setBrush(QColor(0, 0, 0, 50));
     painter.drawEllipse(agePieRect.adjusted(5, 5, 5, 5));
 
-    // Draw pie slices
-    for (auto it = userWindow->ageCategories.constBegin(); it != userWindow->ageCategories.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
+    // Draw pie slices with percentage labels
+    QMap<QString, double> ageAngles; // Store start angles for each age category
+    for (const QString &cat : ageOrder) {
+        if (!userWindow->ageCategories.contains(cat) || userWindow->ageCategories[cat] == 0) continue;
 
+        int value = userWindow->ageCategories[cat];
+        ageAngles[cat] = startAngle;
         double spanAngle = 360.0 * value / userWindow->totalEmployees;
-        painter.setBrush(ageGradients[it.key()]);
+        painter.setBrush(ageGradients[cat]);
         painter.setPen(Qt::black);
 
-        bool isHovered = (it.key() == hoveredAgeSlice);
-        bool isSelected = (it.key() == selectedAgeSlice);
+        bool isHovered = (cat == hoveredAgeSlice);
+        bool isSelected = (cat == selectedAgeSlice);
         QRect drawRect = agePieRect;
         float scale = ageSliceScale[ageIndex];
         if (isHovered || isSelected) {
@@ -142,6 +147,15 @@ void statsWidget::paintEvent(QPaintEvent *event) {
         }
 
         painter.drawPie(drawRect, startAngle * 16, spanAngle * 16);
+
+        // Add percentage label
+        double percentage = (value * 100.0) / userWindow->totalEmployees;
+        QString label = QString("%1%").arg(percentage, 0, 'f', 1);
+        QPointF labelPos = getSliceCenterPoint(drawRect, startAngle, spanAngle);
+        painter.setFont(labelFont);
+        painter.setPen(Qt::white);
+        painter.drawText(QRectF(labelPos.x() - 30, labelPos.y() - 10, 60, 20), Qt::AlignCenter, label);
+
         startAngle += spanAngle;
         ageIndex++;
     }
@@ -158,24 +172,24 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     painter.setPen(Qt::white);
     painter.drawText(holeRect, Qt::AlignCenter, QString::number(userWindow->totalEmployees));
 
-    // Draw legend for Age Distribution (no labels around the chart)
+    // Draw legend for Age Distribution
     startAngle = 0;
     colorIndex = 0;
     int legendY = yPos;
     int legendX = leftOffset + chartWidth + 10;
     painter.setFont(legendFont);
-    for (auto it = userWindow->ageCategories.constBegin(); it != userWindow->ageCategories.constEnd(); ++it) {
-        int value = it.value();
-        if (value == 0) continue;
+    for (const QString &cat : ageOrder) {
+        if (!userWindow->ageCategories.contains(cat) || userWindow->ageCategories[cat] == 0) continue;
 
+        int value = userWindow->ageCategories[cat];
         double spanAngle = 360.0 * value / userWindow->totalEmployees;
 
         // Legend
-        painter.setBrush(ageGradients[it.key()]);
+        painter.setBrush(ageGradients[cat]);
         painter.setPen(Qt::white);
         QRect legendSquare(legendX, legendY, 12, 12);
         painter.drawRoundedRect(legendSquare, 3, 3);
-        painter.drawText(legendX + 18, legendY + 10, it.key());
+        painter.drawText(legendX + 18, legendY + 10, cat);
         legendY += 18;
 
         startAngle += spanAngle;
@@ -198,16 +212,13 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     painter.setBrush(QColor(0, 0, 0, 50));
     painter.drawEllipse(rolePieRect.adjusted(5, 5, 5, 5));
 
-    // Explicitly define the order of roles to match the visual output (Coach first, then employee)
-    QStringList roleOrder = {"Coach", "employee"};
+    // Draw pie slices with percentage labels
     QMap<QString, double> roleAngles; // Store start angles for each role
-
-    // Draw pie slices
     for (const QString &role : roleOrder) {
         if (!userWindow->roleCount.contains(role) || userWindow->roleCount[role] == 0) continue;
 
         int value = userWindow->roleCount[role];
-        roleAngles[role] = startAngle; // Store the start angle for this role
+        roleAngles[role] = startAngle;
         double spanAngle = 360.0 * value / userWindow->totalEmployees;
         painter.setBrush(roleGradients[role]);
         painter.setPen(Qt::black);
@@ -225,6 +236,15 @@ void statsWidget::paintEvent(QPaintEvent *event) {
         }
 
         painter.drawPie(drawRect, startAngle * 16, spanAngle * 16);
+
+        // Add percentage label
+        double percentage = (value * 100.0) / userWindow->totalEmployees;
+        QString label = QString("%1%").arg(percentage, 0, 'f', 1);
+        QPointF labelPos = getSliceCenterPoint(drawRect, startAngle, spanAngle);
+        painter.setFont(labelFont);
+        painter.setPen(Qt::white);
+        painter.drawText(QRectF(labelPos.x() - 30, labelPos.y() - 10, 60, 20), Qt::AlignCenter, label);
+
         startAngle += spanAngle;
         roleIndex++;
     }
@@ -239,7 +259,7 @@ void statsWidget::paintEvent(QPaintEvent *event) {
     painter.setPen(Qt::white);
     painter.drawText(holeRect.translated(0, rolePieRect.y() - agePieRect.y()), Qt::AlignCenter, QString::number(userWindow->totalEmployees));
 
-    // Draw legend for Role Distribution (no labels around the chart)
+    // Draw legend for Role Distribution
     startAngle = 0;
     colorIndex = 0;
     legendY = yPos;
@@ -531,7 +551,7 @@ void statsWidget::exportToPDF() {
     QMessageBox::information(this, "Success", "Statistics exported to PDF successfully at: " + fileName);
 }
 
-QPointF getSliceCenterPoint(const QRect &rect, double startAngle, double spanAngle) {
+QPointF statsWidget::getSliceCenterPoint(const QRect &rect, double startAngle, double spanAngle) {
     double angle = (startAngle + spanAngle / 2) * M_PI / 180.0;
     double radius = rect.width() / 2.0;
     QPointF center = rect.center();

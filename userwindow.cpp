@@ -42,6 +42,29 @@ UserWindow::UserWindow(MainWindow *parent) : QMainWindow(parent), ui(new Ui::Mai
         ui->tableView_3->resizeColumnsToContents();
     }
 
+    if (SessionManager::instance().isLoggedIn()) {
+        Employee currentUser = SessionManager::instance().getCurrentUser();
+        qDebug() << "Current user email:" << currentUser.getEmail();
+        qDebug() << "Photo data size:" << currentUser.getFace().size();
+
+        QByteArray faceData = currentUser.getFace();
+        if (!faceData.isEmpty()) {
+            QPixmap pixmap;
+            if (pixmap.loadFromData(faceData)) {
+                qDebug() << "Photo loaded successfully into QPixmap";
+                ui->currentUserPhotoLabel->setPixmap(pixmap.scaled(ui->currentUserPhotoLabel->size(), Qt::KeepAspectRatio));
+            } else {
+                qDebug() << "Failed to load photo into QPixmap";
+                ui->currentUserPhotoLabel->setText("Invalid Image");
+            }
+        } else {
+            qDebug() << "No photo data found in SessionManager";
+            ui->currentUserPhotoLabel->setText("No Photo");
+        }
+    } else {
+        qDebug() << "No user logged in";
+        ui->currentUserPhotoLabel->setText("No User");
+    }
     // Connect signals to slots
     connect(ui->tableView_3, &QTableView::clicked, this, &UserWindow::populateModifyFields);
     connect(ui->searchButton, &QPushButton::clicked, this, &UserWindow::on_searchButton_clicked);
@@ -49,6 +72,8 @@ UserWindow::UserWindow(MainWindow *parent) : QMainWindow(parent), ui(new Ui::Mai
     connect(ui->statButton, &QPushButton::clicked, this, &UserWindow::on_statButton_clicked);
     connect(ui->pushButton, &QPushButton::clicked, this, &UserWindow::on_pushButton_clicked); // New connection for sign-out
     connect(ui->lineEdit_10, &QLineEdit::textChanged, this, &UserWindow::on_searchTextChanged);
+    connect(ui->uploadPhotoButton, &QPushButton::clicked, this, &UserWindow::on_uploadPhotoButton_clicked); // Connect the upload button
+    connect(ui->modifyUploadPhotoButton, &QPushButton::clicked, this, &UserWindow::on_modifyUploadPhotoButton_clicked); // Connect the modify upload button
 }
 
 UserWindow::~UserWindow() {
@@ -57,55 +82,122 @@ UserWindow::~UserWindow() {
 }
 
 void UserWindow::on_button1_clicked() {
-    if (!QSqlDatabase::database().isOpen()) {
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qDebug() << "Database connection is not open.";
         QMessageBox::critical(this, "Error", "Database connection is not open. Please restart the application.");
         return;
     }
 
-    QString firstName = ui->nom->text();
-    QString lastName = ui->prenom->text();
-    QString email = ui->email->text();
-    QString mobileNumber = ui->number->text();
-    QString role = ui->Role->currentText();
-    QString password = ui->password->text();
+    QString firstName = ui->nom->text().trimmed();
+    QString lastName = ui->prenom->text().trimmed();
+    QString email = ui->email->text().trimmed();
+    QString mobileNumber = ui->number->text().trimmed();
+    QString role = ui->Role->currentText().trimmed();
+    QString password = ui->password->text().trimmed();
+    QDate dob = ui->birthday->date();
 
-    if (firstName.length() > 100 || lastName.length() > 100 || email.length() > 100 ||
-        role.length() > 100 || password.length() > 100) {
-        QMessageBox::critical(this, "Error", "Input exceeds maximum length (100 characters) for First Name, Last Name, Email, Role, or Password.");
+
+
+    // Log input data for debugging
+    qDebug() << "Add Employee Inputs:"
+             << "First Name:" << firstName
+             << "Last Name:" << lastName
+             << "Email:" << email
+             << "Mobile Number:" << mobileNumber
+             << "Role:" << role
+             << "Password:" << (password.isEmpty() ? "[empty]" : "[set]")
+             << "DOB:" << dob.toString("yyyy-MM-dd")
+             << "Photo Size:" << newEmployeePhoto.size() << "bytes";
+
+    // Validate required fields
+    if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || mobileNumber.isEmpty() || role.isEmpty()) {
+        qDebug() << "Validation failed: Required fields are empty.";
+        QMessageBox::critical(this, "Error", "All fields except Password are required.");
         return;
     }
+
+    // Input length validation
+    if (firstName.length() > 100 || lastName.length() > 100 || email.length() > 100 ||
+        role.length() > 100 || (!password.isEmpty() && password.length() > 100)) {
+        qDebug() << "Validation failed: Input exceeds 100 characters.";
+        QMessageBox::critical(this, "Error", "Input exceeds maximum length (100 characters).");
+        return;
+    }
+
     if (mobileNumber.length() > 10) {
+        qDebug() << "Validation failed: Mobile number exceeds 10 digits.";
         QMessageBox::critical(this, "Error", "Mobile Number exceeds maximum length (10 digits).");
         return;
     }
 
     if (!email.contains('@') || !email.contains('.')) {
+        qDebug() << "Validation failed: Invalid email format.";
         QMessageBox::critical(this, "Error", "Please enter a valid email address (e.g., example@domain.com).");
         return;
     }
 
-    // Add phone number validation
     if (!validatePhoneNumber(mobileNumber)) {
+        qDebug() << "Validation failed: Invalid mobile number.";
         QMessageBox::critical(this, "Error", "Mobile Number must contain only numbers and be at least 8 digits long.");
         return;
     }
 
-    // Add age validation
-    QDate dob = ui->birthday->date();
+    if (!dob.isValid()) {
+        qDebug() << "Validation failed: Invalid date of birth.";
+        QMessageBox::critical(this, "Error", "Invalid date of birth.");
+        return;
+    }
+
     if (!validateAge(dob)) {
+        qDebug() << "Validation failed: Employee under 18.";
         QMessageBox::critical(this, "Error", "Employee must be at least 18 years old.");
         return;
     }
 
+    // Validate photo size (5MB limit)
+    if (newEmployeePhoto.size() > 5 * 1024 * 1024) {
+        qDebug() << "Validation failed: Photo size exceeds 5MB.";
+        QMessageBox::critical(this, "Error", "Photo size exceeds 5MB limit.");
+        return;
+    }
+
+    // Validate mobile number range
+    bool ok;
+    qlonglong mobileNumLong = mobileNumber.toLongLong(&ok);
+    if (!ok || mobileNumLong > 9999999999LL) {
+        qDebug() << "Validation failed: Invalid mobile number range.";
+        QMessageBox::critical(this, "Error", "Mobile Number is too large or invalid.");
+        return;
+    }
+
+    // Generate a unique ID for new employees
+    int newId = 0;
+    if (selectedEmployeeId == 0) {
+        QSqlQuery idQuery;
+        idQuery.exec("SELECT NVL(MAX(ID_EMP), 0) + 1 FROM HOTSTUFF.EMPLOYE");
+        if (idQuery.next()) {
+            newId = idQuery.value(0).toInt();
+            qDebug() << "Generated new ID:" << newId;
+        } else {
+            qDebug() << "Failed to generate ID:" << idQuery.lastError().text();
+            QMessageBox::critical(this, "Error", "Failed to generate employee ID: " + idQuery.lastError().text());
+            return;
+        }
+    } else {
+        newId = selectedEmployeeId;
+    }
+
     Employee emp(
-        selectedEmployeeId,
+        newId,
         firstName,
         lastName,
         email,
         mobileNumber,
         dob,
         role,
-        password
+        password,
+        newEmployeePhoto
         );
 
     bool success;
@@ -119,18 +211,22 @@ void UserWindow::on_button1_clicked() {
     }
 
     if (success) {
+        qDebug() << "Operation successful:" << message;
         QMessageBox::information(this, "Success", message);
         ui->nom->clear();
         ui->prenom->clear();
         ui->email->clear();
         ui->number->clear();
         ui->password->clear();
+        newEmployeePhoto.clear();
         selectedEmployeeId = 0;
-        if (ui->tabWidget->currentIndex() == 1) {
+        if (ui->tabWidget->currentIndex() == 0) {
+            ui->tabWidget->setCurrentIndex(1);
             refreshEmployeeTable();
         }
     } else {
-        QMessageBox::critical(this, "Error", "Operation failed. Check input lengths and database permissions. Error: " + QSqlDatabase::database().lastError().text());
+        qDebug() << "Operation failed. Database error:" << QSqlDatabase::database().lastError().text();
+        QMessageBox::critical(this, "Error", "Operation failed. Check input data and database permissions. Error: " + QSqlDatabase::database().lastError().text());
     }
 }
 
@@ -154,8 +250,30 @@ void UserWindow::on_pushButton_3_clicked() {
 
 
 void UserWindow::on_tabWidget_currentChanged(int index) {
-    if (index == 1) {
+    if (index == 1) { // "Display user" tab (adjust index if tab order changes)
         refreshEmployeeTable();
+    }
+
+    // Load the current user's photo when the "Display user" tab is selected
+    if (index == 2) { // "Display user" tab is at index 2
+        if (!SessionManager::instance().isLoggedIn()) {
+            QMessageBox::critical(this, "Error", "No user is logged in.");
+            ui->photoLabel->setText("No User");
+            return;
+        }
+
+        const Employee& currentUser = SessionManager::instance().getCurrentUser();
+        QByteArray photoData = currentUser.getFace();
+        if (!photoData.isEmpty()) {
+            QPixmap pixmap;
+            if (pixmap.loadFromData(photoData)) {
+                ui->photoLabel->setPixmap(pixmap);
+            } else {
+                ui->photoLabel->setText("Invalid Image");
+            }
+        } else {
+            ui->photoLabel->setText("No Photo");
+        }
     }
 }
 
@@ -179,6 +297,19 @@ void UserWindow::populateModifyFields(const QModelIndex &index) {
         ui->comboBox_3->setCurrentText(employee->getRole());
         ui->lineEdit_7->setText("");
 
+        // Load the selected employee's photo into photoLabel
+        selectedEmployeePhoto = employee->getFace();
+        if (!selectedEmployeePhoto.isEmpty()) {
+            QPixmap pixmap;
+            if (pixmap.loadFromData(selectedEmployeePhoto)) {
+                ui->photoLabel->setPixmap(pixmap);
+            } else {
+                ui->photoLabel->setText("Invalid Image");
+            }
+        } else {
+            ui->photoLabel->setText("No Photo");
+        }
+
         selectedEmployeeId = empId;
         ui->tabWidget->setCurrentIndex(2);
 
@@ -195,6 +326,7 @@ void UserWindow::on_pushButton_2_clicked() {
     employee.setMobileNumber(ui->lineEdit_8->text());
     employee.setDateOfBirth(ui->dateEdit->date());
     employee.setRole(ui->comboBox_3->currentText());
+    employee.setFace(selectedEmployeePhoto); // Set the photo
 
     QString password = ui->lineEdit_7->text();
     if (!password.isEmpty()) {
@@ -208,13 +340,11 @@ void UserWindow::on_pushButton_2_clicked() {
         return;
     }
 
-    // Add phone number validation
     if (!validatePhoneNumber(employee.getMobileNumber())) {
         QMessageBox::critical(this, "Error", "Mobile Number must contain only numbers and be at least 8 digits long.");
         return;
     }
 
-    // Add age validation
     if (!validateAge(employee.getDateOfBirth())) {
         QMessageBox::critical(this, "Error", "Employee must be at least 18 years old.");
         return;
@@ -225,6 +355,8 @@ void UserWindow::on_pushButton_2_clicked() {
         QMessageBox::information(this, "Success", "Employee information updated successfully.");
         refreshEmployeeTable();
         clearModifyFields();
+        ui->photoLabel->setText("No Photo"); // Reset the photo label
+        selectedEmployeePhoto.clear(); // Clear the photo data
         ui->tabWidget->setCurrentIndex(0);
     } else {
         QMessageBox::critical(this, "Error", "Failed to update employee information.");
@@ -573,6 +705,7 @@ void UserWindow::collectStatistics() {
 void UserWindow::on_pushButton_clicked() {
     // Clear the session to log out the user
     SessionManager::instance().clearSession();
+    ui->currentUserPhotoLabel->setText("No User");
 
     // Re-show the parent MainWindow if it exists
     if (mainWindowParent) {
@@ -637,4 +770,58 @@ void UserWindow::on_searchTextChanged(const QString &text) {
     ui->tableView_3->setModel(proxyModel);
     ui->tableView_3->hideColumn(0);
     ui->tableView_3->resizeColumnsToContents();
+}
+
+
+void UserWindow::on_uploadPhotoButton_clicked() {
+    QString fileName = QFileDialog::getOpenFileName(this, "Select Photo", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+    if (fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, "Error", "Unable to open the selected file.");
+        return;
+    }
+
+    newEmployeePhoto = file.readAll();  // Store the photo data in newEmployeePhoto
+    file.close();
+
+    QMessageBox::information(this, "Success", "Photo uploaded successfully.");
+}
+
+void UserWindow::on_modifyUploadPhotoButton_clicked() {
+    QString fileName = QFileDialog::getOpenFileName(this, "Select Photo", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+    if (fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, "Error", "Unable to open the selected file: " + file.errorString());
+        return;
+    }
+
+    selectedEmployeePhoto = file.readAll();
+    file.close();
+
+    // Log the photo size
+    qDebug() << "Uploaded photo size:" << selectedEmployeePhoto.size() << "bytes";
+
+    // Check size limit (5MB)
+    if (selectedEmployeePhoto.size() > 5 * 1024 * 1024) {
+        QMessageBox::critical(this, "Error", "Photo size exceeds 5MB limit.");
+        selectedEmployeePhoto.clear();
+        return;
+    }
+
+    // Display the photo in photoLabel immediately
+    if (!selectedEmployeePhoto.isEmpty()) {
+        QPixmap pixmap;
+        if (pixmap.loadFromData(selectedEmployeePhoto)) {
+            ui->photoLabel->setPixmap(pixmap);
+        } else {
+            QMessageBox::warning(this, "Warning", "Failed to load the image. It may be corrupted or in an unsupported format.");
+            ui->photoLabel->setText("Invalid Image");
+        }
+    }
+
+    QMessageBox::information(this, "Success", "Photo uploaded successfully.");
 }

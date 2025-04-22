@@ -2,12 +2,10 @@
 #define SESSIONMANAGER_H
 #include "user.h"
 
-
 class SessionManager
 {
 public:
     static SessionManager& instance();
-
 
     // Set the current user after login
     void setCurrentUser(const Employee& employee);
