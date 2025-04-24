@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
 connect(statusUpdateTimer, &QTimer::timeout, this, []() {
     Match::updateMatchStatuses();
 });
-statusUpdateTimer->start(10000); // Check every hour (3600000 ms)
+statusUpdateTimer->start(3600000); // Check every hour (3600000 ms)
 }
 
 MainWindow::~MainWindow()
