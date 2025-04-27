@@ -20,7 +20,7 @@ AddPlayer::AddPlayer(QWidget *parent) :
     loadTeams();
 
     // Connexions existantes
-    connect(ui->addButton, &QPushButton::clicked, this, &AddPlayer::on_addButton_clicked);
+   
     connect(ui->toolButtonImage, &QToolButton::clicked, this, &AddPlayer::on_toolButtonImage_clicked);
 }
 
