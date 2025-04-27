@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>addPIC.png</file>
+        <file>hannibal.png</file>
+        <file>ai.png</file>
+        <file>delete.png</file>
+        <file>deleteIcon.png</file>
+        <file>editIcon.png</file>
+        <file>Group 1.png</file>
+        <file>Group 2.png</file>
+        <file>Group 3.png</file>
+        <file>Layer 2.png</file>
+        <file>logout.png</file>
+        <file>pdfIcon.png</file>
+        <file>pencil.png</file>
+        <file>search.png</file>
+        <file>Vector.png</file>
+        <file>Vectorrrr.png</file>
+        <file>logo football.png</file>
+        <file>rectDD.png</file>
+        <file>compType.png</file>
+        <file>cam.png</file>
+        <file>nationality.png</file>
+        <file>numbers.png</file>
+        <file>position.png</file>
+        <file>StartDate.png</file>
+        <file>teamName.png</file>
+        <file>user.png</file>
+    </qresource>
+</RCC>

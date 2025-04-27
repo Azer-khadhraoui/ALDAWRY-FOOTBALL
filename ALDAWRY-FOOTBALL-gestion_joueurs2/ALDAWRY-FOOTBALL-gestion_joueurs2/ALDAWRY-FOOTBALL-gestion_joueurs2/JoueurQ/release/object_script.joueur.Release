@@ -1,0 +1,13 @@
+release/addplayer.o
+release/deletejoueur.o
+release/joueur.o
+release/main.o
+release/mainwindow.o
+release/connection.o
+release/modifyjoueur.o
+release/qrcodegen.o
+release/qrc_image.o
+release/moc_addplayer.o
+release/moc_deletejoueur.o
+release/moc_mainwindow.o
+release/moc_modifyjoueur.o

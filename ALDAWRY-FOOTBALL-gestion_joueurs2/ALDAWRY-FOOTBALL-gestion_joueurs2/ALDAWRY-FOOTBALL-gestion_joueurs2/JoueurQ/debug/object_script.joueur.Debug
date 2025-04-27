@@ -1,0 +1,13 @@
+debug/addplayer.o
+debug/deletejoueur.o
+debug/joueur.o
+debug/main.o
+debug/mainwindow.o
+debug/connection.o
+debug/modifyjoueur.o
+debug/qrcodegen.o
+debug/qrc_image.o
+debug/moc_addplayer.o
+debug/moc_deletejoueur.o
+debug/moc_mainwindow.o
+debug/moc_modifyjoueur.o
