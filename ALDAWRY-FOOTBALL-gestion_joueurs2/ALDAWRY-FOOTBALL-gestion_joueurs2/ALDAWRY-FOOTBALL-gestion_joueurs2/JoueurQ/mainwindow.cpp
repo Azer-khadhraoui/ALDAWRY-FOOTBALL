@@ -786,73 +786,89 @@ if (!imageData.isEmpty()) {
         
         contentLayout->addWidget(qrLabel, 0, Qt::AlignHCenter);
         
-        // ===== SECTION BOUTONS =====
-        QHBoxLayout *buttonLayout = new QHBoxLayout();
-        buttonLayout->setSpacing(8);
-        
-        // Style commun pour les boutons
-        QString buttonStyle = 
-            "QPushButton {"
-            "   background-color: #3498db;"
-            "   color: white;"
-            "   border-radius: 4px;"
-            "   font-weight: bold;"
-            "   padding: 6px 12px;"
-            "   font-size: 11px;"
-            "}"
-            "QPushButton:hover {"
-            "   background-color: #2980b9;"
-            "}"
-            "QPushButton:pressed {"
-            "   background-color: #1c5a85;"
-            "}";
-        
-        // Bouton Export PDF
-        QPushButton *exportButton = new QPushButton("Export PDF");
-        exportButton->setStyleSheet(buttonStyle);
-        connect(exportButton, &QPushButton::clicked, [this, playerId = currentDisplayedPlayerId]() {
-            exportPlayerToPDF(playerId);
-        });
-        
-        // Bouton Generate Report
-        QPushButton *reportButton = new QPushButton("Generate Report");
-        reportButton->setStyleSheet(buttonStyle);
-        connect(reportButton, &QPushButton::clicked, [this, playerId = currentDisplayedPlayerId]() {
-            QJsonObject playerData = collectPlayerData(playerId);
-            if (!playerData.isEmpty()) {
-                QString reportText = generateReport(playerData);
-                displayReport(reportText);
-            } else {
-                QMessageBox::warning(this, "Error", "Could not collect player data.");
-            }
-        });
-        
-        // Bouton Fermer
-        QPushButton *closeButton = new QPushButton("Hide Details");
-        closeButton->setStyleSheet(
-            "QPushButton {"
-            "   background-color: #95a5a6;"
-            "   color: white;"
-            "   border-radius: 4px;"
-            "   font-weight: bold;"
-            "   padding: 6px 12px;"
-            "   font-size: 11px;"
-            "}"
-            "QPushButton:hover {"
-            "   background-color: #7f8c8d;"
-            "}"
-        );
-        connect(closeButton, &QPushButton::clicked, [this]() {
-            ui->formFrame->setVisible(false);
-            currentDisplayedPlayerId = -1; // Reset current ID
-        });
-        
-        buttonLayout->addWidget(exportButton);
-        buttonLayout->addWidget(reportButton);
-        buttonLayout->addStretch();
-        buttonLayout->addWidget(closeButton);
-        
-        contentLayout->addLayout(buttonLayout);
+      // ===== SECTION BOUTONS =====
+QHBoxLayout *buttonLayout = new QHBoxLayout();
+buttonLayout->setSpacing(8);
+
+// Style commun pour les boutons
+QString buttonStyle = 
+    "QPushButton {"
+    "   background-color: #3498db;"
+    "   color: white;"
+    "   border-radius: 4px;"
+    "   font-weight: bold;"
+    "   padding: 6px 12px;"
+    "   font-size: 11px;"
+    "   text-align: left;"
+    "   padding-left: 30px;" // Espace pour l'icône
+    "}"
+    "QPushButton:hover {"
+    "   background-color: #2980b9;"
+    "}"
+    "QPushButton:pressed {"
+    "   background-color: #1c5a85;"
+    "}";
+
+// Bouton Export PDF avec icône
+QPushButton *exportButton = new QPushButton("Export PDF");
+exportButton->setStyleSheet(buttonStyle);
+// Ajouter l'icône PDF
+QIcon pdfIcon(QPixmap("C:/Users/wiki/Desktop/ALDAWRY-FOOTBALL/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/JoueurQ/pdfIcon.png"));
+exportButton->setIcon(pdfIcon);
+exportButton->setIconSize(QSize(16, 16));
+connect(exportButton, &QPushButton::clicked, [this, playerId = currentDisplayedPlayerId]() {
+    exportPlayerToPDF(playerId);
+});
+
+// Bouton Generate Report avec icône
+QPushButton *reportButton = new QPushButton("Generate Report");
+reportButton->setStyleSheet(buttonStyle);
+// Ajouter l'icône AI
+QIcon aiIcon(QPixmap("C:/Users/wiki/Desktop/ALDAWRY-FOOTBALL/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/JoueurQ/Group 1.png"));
+reportButton->setIcon(aiIcon);
+reportButton->setIconSize(QSize(16, 16));
+connect(reportButton, &QPushButton::clicked, [this, playerId = currentDisplayedPlayerId]() {
+    QJsonObject playerData = collectPlayerData(playerId);
+    if (!playerData.isEmpty()) {
+        QString reportText = generateReport(playerData);
+        displayReport(reportText);
+    } else {
+        QMessageBox::warning(this, "Error", "Could not collect player data.");
+    }
+});
+
+// Bouton Fermer avec icône
+QPushButton *closeButton = new QPushButton("Hide Details");
+closeButton->setStyleSheet(
+    "QPushButton {"
+    "   background-color: #95a5a6;"
+    "   color: white;"
+    "   border-radius: 4px;"
+    "   font-weight: bold;"
+    "   padding: 6px 12px;"
+    "   font-size: 11px;"
+    "   text-align: left;"
+    "   padding-left: 30px;" // Espace pour l'icône
+    "}"
+    "QPushButton:hover {"
+    "   background-color: #7f8c8d;"
+    "}"
+);
+// Ajouter l'icône Hide
+QIcon hideIcon(QPixmap("C:/Users/wiki/Desktop/ALDAWRY-FOOTBALL/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/JoueurQ/Vectorrrr.png"));
+closeButton->setIcon(hideIcon);
+closeButton->setIconSize(QSize(16, 16));
+connect(closeButton, &QPushButton::clicked, [this]() {
+    ui->formFrame->setVisible(false);
+    currentDisplayedPlayerId = -1; // Reset current ID
+});
+
+buttonLayout->addWidget(exportButton);
+buttonLayout->addWidget(reportButton);
+buttonLayout->addStretch();
+buttonLayout->addWidget(closeButton);
+
+contentLayout->addLayout(buttonLayout);
 
         // Ajouter un petit espace au fond pour améliorer l'apparence du défilement
         contentLayout->addSpacing(5);
