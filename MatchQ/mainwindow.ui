@@ -185,7 +185,7 @@ color: rgb(158, 158, 158);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="resources.qrc">:/user.png</pixmap>
+     <pixmap resource="resources.qrc">:/cab2d94a7ebc1fe3660958e20762166c.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
