@@ -2700,118 +2700,157 @@ void MainWindow::loadBestPlayersByPosition(const QString &competitionName)
 {
     QStringList positions = {"Goalkeeper", "Defender", "Midfielder", "Forward"};
     
-    for (const QString &position : positions) {
-        QLabel *nameLabel = ui->tabWidget->findChild<QLabel*>("bestPosName_" + position);
-        QLabel *statsLabel = ui->tabWidget->findChild<QLabel*>("bestPosStats_" + position);
-        QLabel *imageLabel = ui->tabWidget->findChild<QLabel*>("bestPosImg_" + position);
-        
-        if (!nameLabel || !statsLabel || !imageLabel) {
-            qDebug() << "Labels non trouvés pour la position:" << position;
-            continue;
+    // Carte de correspondance des positions
+    QMap<QString, QStringList> positionMatches;
+    positionMatches["Goalkeeper"] = QStringList({"Goalkeeper", "Goal Keeper", "GK", "Keeper"});
+    positionMatches["Defender"] = QStringList({"Defender", "Center Back", "Left Back", "Right Back", "Full Back", "CB", "LB", "RB", "Defense"});
+    positionMatches["Midfielder"] = QStringList({"Midfielder", "Central Midfielder", "Defensive Midfielder", "Attacking Midfielder", "Left Midfielder", "Right Midfielder", "CM", "CDM", "CAM", "LM", "RM", "Midfield"});
+    positionMatches["Forward"] = QStringList({"Forward", "Striker", "Left Winger", "Right Winger", "Center Forward", "CF", "ST", "LW", "RW", "Attack", "Attacker"});
+    
+    // Préparer une liste pour stocker tous les joueurs et leurs statistiques
+    struct PlayerInfo {
+        int id;
+        QString firstName;
+        QString lastName;
+        QString teamName;
+        int goals;
+        int assists;
+        int totalScore;
+        QByteArray imageData;
+        QString actualPosition;
+    };
+    
+    // Liste des joueurs par catégorie de position (carte qui stocke des listes de joueurs)
+    QMap<QString, QList<PlayerInfo>> playersByPosition;
+    
+    // Récupérer tous les joueurs de la compétition
+    QSqlQuery allPlayersQuery;
+    allPlayersQuery.prepare(
+        "SELECT j.id_player, j.first_name, j.last_name, j.position, "
+        "j.goals, j.assists, j.img_joueur, e.team_name "
+        "FROM joueur j "
+        "JOIN equipe e ON j.id_team = e.id_team "
+        "JOIN participation p ON e.id_team = p.id_team "
+        "JOIN competition c ON p.id_competition = c.id_competition "
+        "WHERE c.comp_name = :competition_name "
+        "ORDER BY (j.goals + j.assists) DESC"
+    );
+    allPlayersQuery.bindValue(":competition_name", competitionName);
+    
+    if (allPlayersQuery.exec()) {
+        while (allPlayersQuery.next()) {
+            PlayerInfo player;
+            player.id = allPlayersQuery.value("id_player").toInt();
+            player.firstName = allPlayersQuery.value("first_name").toString();
+            player.lastName = allPlayersQuery.value("last_name").toString();
+            player.teamName = allPlayersQuery.value("team_name").toString();
+            player.goals = allPlayersQuery.value("goals").toInt();
+            player.assists = allPlayersQuery.value("assists").toInt();
+            player.totalScore = player.goals + player.assists; // Utiliser goals + assists comme critère
+            player.imageData = allPlayersQuery.value("img_joueur").toByteArray();
+            player.actualPosition = allPlayersQuery.value("position").toString();
+            
+            // Déterminer la catégorie de position pour ce joueur
+            QString positionCategory = "";
+            for (auto it = positionMatches.constBegin(); it != positionMatches.constEnd(); ++it) {
+                const QString &category = it.key();
+                const QStringList &keywords = it.value();
+                
+                for (const QString &keyword : keywords) {
+                    if (player.actualPosition.contains(keyword, Qt::CaseInsensitive)) {
+                        positionCategory = category;
+                        break;
+                    }
+                }
+                
+                if (!positionCategory.isEmpty()) break;
+            }
+            
+            // Si aucune correspondance n'est trouvée, utiliser la première partie de la position
+            if (positionCategory.isEmpty()) {
+                if (player.actualPosition.contains("Goal", Qt::CaseInsensitive)) {
+                    positionCategory = "Goalkeeper";
+                } else if (player.actualPosition.contains("Def", Qt::CaseInsensitive) || 
+                           player.actualPosition.contains("Back", Qt::CaseInsensitive)) {
+                    positionCategory = "Defender";
+                } else if (player.actualPosition.contains("Mid", Qt::CaseInsensitive)) {
+                    positionCategory = "Midfielder";
+                } else {
+                    positionCategory = "Forward"; // Par défaut
+                }
+            }
+            
+            // Ajouter le joueur à sa catégorie
+            playersByPosition[positionCategory].append(player);
         }
         
-        // Requête SQL pour utiliser (goals + assists) comme critère principal
-        QSqlQuery query;
-        
-        if (position == "Goalkeeper") {
-            query.prepare(
-                "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
-                "j.img_joueur, e.team_name, j.position "
-                "FROM joueur j "
-                "JOIN equipe e ON j.id_team = e.id_team "
-                "JOIN participation p ON e.id_team = p.id_team "
-                "JOIN competition c ON p.id_competition = c.id_competition "
-                "WHERE c.comp_name = :competition_name "
-                "AND (j.position = 'Goalkeeper' OR j.position LIKE '%Goalkeeper%') "
-                "AND ROWNUM <= 1 "
-                "ORDER BY (j.goals + j.assists) DESC"
-            );
-        } else {
-            query.prepare(
-                "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
-                "j.img_joueur, e.team_name, j.position "
-                "FROM joueur j "
-                "JOIN equipe e ON j.id_team = e.id_team "
-                "JOIN participation p ON e.id_team = p.id_team "
-                "JOIN competition c ON p.id_competition = c.id_competition "
-                "WHERE c.comp_name = :competition_name "
-                "AND (j.position = :exact_position OR j.position LIKE :like_position) "
-                "AND ROWNUM <= 1 "
-                "ORDER BY (j.goals + j.assists) DESC"
-            );
-            query.bindValue(":exact_position", position);
-            query.bindValue(":like_position", "%" + position + "%");
+        // Trier chaque liste par score total (goals + assists)
+        for (auto it = playersByPosition.begin(); it != playersByPosition.end(); ++it) {
+            std::sort(it.value().begin(), it.value().end(), [](const PlayerInfo &a, const PlayerInfo &b) {
+                return a.totalScore > b.totalScore; // Tri décroissant
+            });
         }
         
-        query.bindValue(":competition_name", competitionName);
-        
-        // Exécuter la requête
-        if (query.exec()) {
-            if (query.next()) {
-                QString firstName = query.value("first_name").toString();
-                QString lastName = query.value("last_name").toString();
-                QString teamName = query.value("team_name").toString();
-                int goals = query.value("goals").toInt();
-                int assists = query.value("assists").toInt();
-                int totalContribution = goals + assists;
-                QByteArray imageData = query.value("img_joueur").toByteArray();
+        // Maintenant mettre à jour les widgets pour chaque position
+        for (const QString &position : positions) {
+            QLabel *nameLabel = ui->tabWidget->findChild<QLabel*>("bestPosName_" + position);
+            QLabel *statsLabel = ui->tabWidget->findChild<QLabel*>("bestPosStats_" + position);
+            QLabel *imageLabel = ui->tabWidget->findChild<QLabel*>("bestPosImg_" + position);
+            
+            if (!nameLabel || !statsLabel || !imageLabel) {
+                qDebug() << "Labels non trouvés pour la position:" << position;
+                continue;
+            }
+            
+            // Vérifier si nous avons des joueurs pour cette position
+            if (playersByPosition.contains(position) && !playersByPosition[position].isEmpty()) {
+                PlayerInfo bestPlayer = playersByPosition[position].first();
                 
                 // Mettre à jour le nom
-                nameLabel->setText(firstName + " " + lastName);
+                nameLabel->setText(bestPlayer.firstName + " " + bestPlayer.lastName);
                 
                 // Mettre à jour les stats avec Rich Text
                 statsLabel->setText(QString("<span style='color:#f39c12;'>%1</span> | <span style='color:#2ecc71;'>%2 G, %3 A (%4)</span>")
-                                   .arg(teamName)
-                                   .arg(goals)
-                                   .arg(assists)
-                                   .arg(totalContribution));
+                                   .arg(bestPlayer.teamName)
+                                   .arg(bestPlayer.goals)
+                                   .arg(bestPlayer.assists)
+                                   .arg(bestPlayer.totalScore));
                 statsLabel->setTextFormat(Qt::RichText);
                 
-                // Mettre à jour l'image - TAILLE AUGMENTÉE À 120x120
-               // Pour chaque section où vous traitez l'image du joueur dans loadBestPlayersByPosition
-
-// Image du joueur sans cadre
-// Dans la fonction loadBestPlayersByPosition
-
-// Pour chaque section où vous traitez l'image du joueur
-if (!imageData.isEmpty()) {
-    QPixmap playerPix;
-    if (playerPix.loadFromData(imageData)) {
-        // Créer un masque circulaire sans bordure
-        QPixmap circularPix(120, 120);
-        circularPix.fill(Qt::transparent); // Fond transparent
-        
-        QPainter painter(&circularPix);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform);
-        
-        // Créer un chemin circulaire pour le masque
-        QPainterPath path;
-        path.addEllipse(0, 0, 120, 120); // Utiliser toute la surface disponible
-        painter.setClipPath(path);
-        
-        // Dessiner l'image (redimensionnée et centrée)
-        QPixmap scaledPix = playerPix.scaled(120, 120, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        
-        // Centrer l'image
-        int x = (scaledPix.width() - 120) / 2;
-        int y = (scaledPix.height() - 120) / 2;
-        if (x < 0) x = 0;
-        if (y < 0) y = 0;
-        
-        painter.drawPixmap(0, 0, scaledPix, x, y, 120, 120);
-        
-        // Le secret est ici - mettre à jour le style pour garantir que l'image reste ronde
-        imageLabel->setPixmap(circularPix);
-        imageLabel->setStyleSheet(
-            "background-color: transparent;"
-            "border-radius: 60px;" // Moitié de la taille (120/2)
-            "border: none;"
-        );
-    }
-} else {
-                    // Image avec initiales également plus grande
-                    QPixmap defaultPix(120, 120); // Augmenté de 100 à 120
+                // Mettre à jour l'image
+                if (!bestPlayer.imageData.isEmpty()) {
+                    QPixmap playerPix;
+                    if (playerPix.loadFromData(bestPlayer.imageData)) {
+                        // Créer un masque circulaire
+                        QPixmap circularPix(120, 120);
+                        circularPix.fill(Qt::transparent);
+                        
+                        QPainter painter(&circularPix);
+                        painter.setRenderHint(QPainter::Antialiasing);
+                        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                        
+                        // Créer un chemin circulaire pour le masque
+                        QPainterPath path;
+                        path.addEllipse(0, 0, 120, 120);
+                        painter.setClipPath(path);
+                        
+                        // Dessiner l'image
+                        QPixmap scaledPix = playerPix.scaled(120, 120, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                        
+                        // Centrer l'image
+                        int x = (scaledPix.width() - 120) / 2;
+                        int y = (scaledPix.height() - 120) / 2;
+                        if (x < 0) x = 0;
+                        if (y < 0) y = 0;
+                        
+                        painter.drawPixmap(0, 0, scaledPix, x, y, 120, 120);
+                        
+                        imageLabel->setPixmap(circularPix);
+                        imageLabel->setStyleSheet("background-color: transparent; border-radius: 60px; border: none;");
+                    }
+                } else {
+                    // Image avec initiales
+                    QPixmap defaultPix(120, 120);
                     defaultPix.fill(Qt::transparent);
                     
                     QPainter painter(&defaultPix);
@@ -2820,182 +2859,81 @@ if (!imageData.isEmpty()) {
                     // Fond gris neutre
                     painter.setPen(Qt::NoPen);
                     painter.setBrush(QColor(150, 150, 150, 200));
-                    painter.drawEllipse(2, 2, 116, 116);
+                    painter.drawEllipse(0, 0, 120, 120);
                     
-                    // Initiales avec police plus grande
+                    // Initiales
                     painter.setPen(Qt::white);
-                    QFont font("Arial", 36, QFont::Bold); // Police plus grande
+                    QFont font("Arial", 36, QFont::Bold);
                     painter.setFont(font);
                     
                     QString initials;
-                    if (!firstName.isEmpty()) initials += firstName[0];
-                    if (!lastName.isEmpty()) initials += lastName[0];
+                    if (!bestPlayer.firstName.isEmpty()) initials += bestPlayer.firstName[0];
+                    if (!bestPlayer.lastName.isEmpty()) initials += bestPlayer.lastName[0];
                     
                     painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, initials);
                     
-                    // Bordure blanche plus épaisse
-                    painter.setPen(QPen(Qt::white, 3));
-                    painter.setBrush(Qt::NoBrush);
-                    painter.drawEllipse(2, 2, 116, 116);
-                    
                     imageLabel->setPixmap(defaultPix);
+                    imageLabel->setStyleSheet("background-color: transparent; border-radius: 60px; border: none;");
                 }
-                
             } else {
-                // Cas où aucun joueur n'est trouvé pour cette position spécifique
-                QSqlQuery fallbackQuery;
-                fallbackQuery.prepare(
-                    "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
-                    "j.img_joueur, e.team_name, j.position "
-                    "FROM joueur j "
-                    "JOIN equipe e ON j.id_team = e.id_team "
-                    "JOIN participation p ON e.id_team = p.id_team "
-                    "JOIN competition c ON p.id_competition = c.id_competition "
-                    "WHERE c.comp_name = :competition_name "
-                    "AND ROWNUM <= 1 "
-                    "ORDER BY (j.goals + j.assists) DESC"
-                );
-                fallbackQuery.bindValue(":competition_name", competitionName);
+                // Afficher "No player found" si aucun joueur n'est disponible pour cette position
+                nameLabel->setText("No player found");
+                statsLabel->setText("No data available");
                 
-                if (fallbackQuery.exec() && fallbackQuery.next()) {
-                    QString firstName = fallbackQuery.value("first_name").toString();
-                    QString lastName = fallbackQuery.value("last_name").toString();
-                    QString actualPosition = fallbackQuery.value("position").toString();
-                    QString teamName = fallbackQuery.value("team_name").toString();
-                    QByteArray imageData = fallbackQuery.value("img_joueur").toByteArray();
-                    
-                    // Mettre à jour le nom
-                    nameLabel->setText(firstName + " " + lastName);
-                    
-                    // Mettre à jour les stats avec Rich Text
-                    statsLabel->setText(QString("<span style='color:#f39c12;'>%1</span> | <span style='color:#e74c3c;'>%2</span>")
-                                       .arg(teamName)
-                                       .arg(actualPosition));
-                    statsLabel->setTextFormat(Qt::RichText);
-                    
-                    // Image plus grande également pour le fallback
-                    if (!imageData.isEmpty()) {
-                        QPixmap playerPix;
-                        if (playerPix.loadFromData(imageData)) {
-                            QPixmap circularPix(120, 120); // Taille augmentée
-                            circularPix.fill(Qt::transparent);
-                            
-                            QPainter painter(&circularPix);
-                            painter.setRenderHint(QPainter::Antialiasing);
-                            painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                            
-                            // Créer un chemin circulaire pour le masque
-                            QPainterPath path;
-                            path.addEllipse(2, 2, 116, 116);
-                            painter.setClipPath(path);
-                            
-                            QPixmap scaledPix = playerPix.scaled(116, 116, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-                            
-                            int x = (scaledPix.width() - 116) / 2;
-                            int y = (scaledPix.height() - 116) / 2;
-                            if (x < 0) x = 0;
-                            if (y < 0) y = 0;
-                            
-                            painter.drawPixmap(2, 2, scaledPix, x, y, 116, 116);
-                            
-                            // Bordure plus épaisse
-                            painter.setClipping(false);
-                            painter.setPen(QPen(Qt::white, 3));
-                            painter.setBrush(Qt::NoBrush);
-                            painter.drawEllipse(2, 2, 116, 116);
-                            
-                            imageLabel->setPixmap(circularPix);
-                        }
-                    } else {
-                        // Image plus grande avec initiales
-                        QPixmap defaultPix(120, 120); // Taille augmentée
-                        defaultPix.fill(Qt::transparent);
-                        
-                        QPainter painter(&defaultPix);
-                        painter.setRenderHint(QPainter::Antialiasing);
-                        
-                        // Fond gris neutre
-                        painter.setPen(Qt::NoPen);
-                        painter.setBrush(QColor(150, 150, 150, 200));
-                        painter.drawEllipse(2, 2, 116, 116);
-                        
-                        painter.setPen(Qt::white);
-                        QFont font("Arial", 36, QFont::Bold); // Police plus grande
-                        painter.setFont(font);
-                        
-                        QString initials;
-                        if (!firstName.isEmpty()) initials += firstName[0];
-                        if (!lastName.isEmpty()) initials += lastName[0];
-                        
-                        painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, initials);
-                        
-                        // Bordure plus épaisse
-                        painter.setPen(QPen(Qt::white, 3));
-                        painter.setBrush(Qt::NoBrush);
-                        painter.drawEllipse(2, 2, 116, 116);
-                        
-                        imageLabel->setPixmap(defaultPix);
-                    }
-                } else {
-                    // Cas où aucun joueur n'est trouvé du tout - Design plus grand
-                    nameLabel->setText("No player found");
-                    statsLabel->setText("No data available");
-                    
-                    // Image "No player" plus grande
-                    QPixmap defaultPix(120, 120); // Taille augmentée
-                    defaultPix.fill(Qt::transparent);
-                    
-                    QPainter painter(&defaultPix);
-                    painter.setRenderHint(QPainter::Antialiasing);
-                    
-                    // Fond gris neutre
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QColor(150, 150, 150, 200));
-                    painter.drawEllipse(2, 2, 116, 116);
-                    
-                    // Texte de la position
-                    painter.setPen(Qt::white);
-                    QFont font("Arial", 20, QFont::Bold); // Police plus grande
-                    painter.setFont(font);
-                    painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, position.left(3));
-                    
-                    // Bordure plus épaisse
-                    painter.setPen(QPen(Qt::white, 3));
-                    painter.setBrush(Qt::NoBrush);
-                    painter.drawEllipse(2, 2, 116, 116);
-                    
-                    imageLabel->setPixmap(defaultPix);
-                }
+                // Image par défaut
+                QPixmap defaultPix(120, 120);
+                defaultPix.fill(Qt::transparent);
+                
+                QPainter painter(&defaultPix);
+                painter.setRenderHint(QPainter::Antialiasing);
+                
+                // Fond gris neutre
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QColor(150, 150, 150, 200));
+                painter.drawEllipse(0, 0, 120, 120);
+                
+                // Texte position
+                painter.setPen(Qt::white);
+                QFont font("Arial", 20, QFont::Bold);
+                painter.setFont(font);
+                painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, position.left(4));
+                
+                imageLabel->setPixmap(defaultPix);
+                imageLabel->setStyleSheet("background-color: transparent; border-radius: 60px; border: none;");
             }
-        } else {
-            // Gestion des erreurs SQL
-            qDebug() << "Erreur SQL:" << query.lastError().text();
-            nameLabel->setText("SQL Error");
-            statsLabel->setText("Database error");
+        }
+    } else {
+        qDebug() << "Erreur SQL:" << allPlayersQuery.lastError().text();
+        
+        // Afficher l'erreur sur l'interface
+        for (const QString &position : positions) {
+            QLabel *nameLabel = ui->tabWidget->findChild<QLabel*>("bestPosName_" + position);
+            QLabel *statsLabel = ui->tabWidget->findChild<QLabel*>("bestPosStats_" + position);
+            QLabel *imageLabel = ui->tabWidget->findChild<QLabel*>("bestPosImg_" + position);
             
-            // Image d'erreur plus grande
-            QPixmap errorPix(120, 120); // Taille augmentée
-            errorPix.fill(Qt::transparent);
+            if (nameLabel) nameLabel->setText("SQL Error");
+            if (statsLabel) statsLabel->setText(allPlayersQuery.lastError().text().left(30) + "...");
             
-            QPainter painter(&errorPix);
-            painter.setRenderHint(QPainter::Antialiasing);
-            
-            // Fond rouge neutre
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QColor(200, 60, 60, 200));
-            painter.drawEllipse(2, 2, 116, 116);
-            
-            // Symbole d'erreur
-            painter.setPen(QPen(Qt::white, 4));
-            painter.drawLine(40, 40, 80, 80);
-            painter.drawLine(40, 80, 80, 40);
-            
-            // Bordure plus épaisse
-            painter.setPen(QPen(Qt::white, 3));
-            painter.setBrush(Qt::NoBrush);
-            painter.drawEllipse(2, 2, 116, 116);
-            
-            imageLabel->setPixmap(errorPix);
+            if (imageLabel) {
+                QPixmap errorPix(120, 120);
+                errorPix.fill(Qt::transparent);
+                
+                QPainter painter(&errorPix);
+                painter.setRenderHint(QPainter::Antialiasing);
+                
+                // Fond rouge pour l'erreur
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QColor(200, 60, 60, 200));
+                painter.drawEllipse(0, 0, 120, 120);
+                
+                // Symbole d'erreur
+                painter.setPen(QPen(Qt::white, 4));
+                painter.drawLine(40, 40, 80, 80);
+                painter.drawLine(40, 80, 80, 40);
+                
+                imageLabel->setPixmap(errorPix);
+                imageLabel->setStyleSheet("background-color: transparent; border-radius: 60px; border: none;");
+            }
         }
     }
 }
