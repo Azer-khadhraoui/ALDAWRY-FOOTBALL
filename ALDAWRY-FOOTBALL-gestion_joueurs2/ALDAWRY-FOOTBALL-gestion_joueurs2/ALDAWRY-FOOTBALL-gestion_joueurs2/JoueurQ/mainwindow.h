@@ -15,6 +15,7 @@
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include "qrcodegen.hpp"
+#include "formationpopup.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,6 +43,7 @@ private slots:
     void onGenerateReportClicked();
     void displayReport(const QString &reportText);
     void openAddPlayer();
+    void updateCompetitionStats(const QString &competitionName);
 
 private:
     Ui::MainWindow *ui;
@@ -60,6 +62,8 @@ private:
     QFrame* createStatsCard(const QString &title, const QString &value, const QString &style);
     QPixmap generateQRCode(const QString &text);
     void setupTeamOfCompetitionTab();
+   
+void loadBestPlayersByPosition(const QString &competitionName);
     QFrame* createPositionWidget(const QString &position);
     void displayTeamOfCompetition(const QString &competitionName);
     void displayPlayerDetails(int playerId, const QString &position);

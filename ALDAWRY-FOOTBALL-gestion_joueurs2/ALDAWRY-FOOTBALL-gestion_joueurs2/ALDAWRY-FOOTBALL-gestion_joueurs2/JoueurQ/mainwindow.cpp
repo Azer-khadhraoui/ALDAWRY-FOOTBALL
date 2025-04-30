@@ -2317,55 +2317,77 @@ void MainWindow::setupTeamOfCompetitionTab()
         "   background: none;"
         "   height: 0px;"
         "}"
-        "QScrollBar:horizontal {"
-        "   background: rgba(0, 0, 0, 0.2);"
-        "   height: 8px;"
-        "   margin: 0px;"
-        "}"
-        "QScrollBar::handle:horizontal {"
-        "   background: rgba(255, 255, 255, 0.3);"
-        "   min-width: 20px;"
-        "   border-radius: 4px;"
-        "}"
-        "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {"
-        "   border: none;"
-        "   background: none;"
-        "   width: 0px;"
-        "}"
     );
     
     // Créer un widget conteneur pour tout le contenu
     QWidget *contentWidget = new QWidget();
     contentWidget->setStyleSheet(
-        "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0f0c29, stop:0.5 #302b63, stop:1 #24243e);"
+        "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0A1931, stop:0.5 #150E56, stop:1 #0E185F);"
     );
 
     QVBoxLayout *mainLayout = new QVBoxLayout(contentWidget);
-    mainLayout->setSpacing(10);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
+    mainLayout->setSpacing(15);
+    mainLayout->setContentsMargins(25, 25, 25, 25);
 
-    // Titre de l'onglet
+    // En-tête amélioré avec ombre et style moderne
+    QFrame *headerFrame = new QFrame();
+    headerFrame->setStyleSheet(
+        "background-color: rgba(255, 255, 255, 0.05);"
+        "border-radius: 15px;"
+        "border: 1px solid rgba(255, 255, 255, 0.1);"
+        "padding: 15px;"
+    );
+    
+    // Ajouter une ombre à l'en-tête
+    QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect();
+    shadowEffect->setBlurRadius(15);
+    shadowEffect->setColor(QColor(0, 0, 0, 80));
+    shadowEffect->setOffset(0, 5);
+    headerFrame->setGraphicsEffect(shadowEffect);
+    
+    QVBoxLayout *headerLayout = new QVBoxLayout(headerFrame);
+    headerLayout->setSpacing(10);
+    
+    // Titre plus élégant
     QLabel *titleLabel = new QLabel("TEAM OF THE COMPETITION");
-    QFont titleFont("Segoe UI", 18, QFont::Bold);
+    QFont titleFont("Segoe UI", 16, QFont::Bold);
     titleLabel->setFont(titleFont);
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet(
-        "color: #f5f5f5; padding: 5px; background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #141e30, stop:1 #243b55);"
-        "border-radius: 5px;"
-        );
-    mainLayout->addWidget(titleLabel);
+        "color: white; "
+        "text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"
+        "background: transparent;"
+        "border: none;"
+        "padding: 5px;"
+    );
+    headerLayout->addWidget(titleLabel);
 
-    // Sélecteur de compétition
+    // Sélecteur de compétition avec nouveau design
     QHBoxLayout *selectorLayout = new QHBoxLayout();
+    selectorLayout->setSpacing(15);
+    
     QLabel *competitionLabel = new QLabel("Competition:");
-    competitionLabel->setStyleSheet("color: #f5f5f5; font-size: 14px;");
+    competitionLabel->setStyleSheet("color: rgba(255, 255, 255, 0.8); font-size: 14px; background: transparent;");
 
     QComboBox *teamCompComboBox = new QComboBox();
     teamCompComboBox->setObjectName("teamCompComboBox");
     teamCompComboBox->setStyleSheet(
-        "QComboBox { background-color: rgba(255, 255, 255, 0.2); color: white; padding: 3px 10px; "
-        "border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 3px; font-size: 12px; min-height: 20px; }"
-        );
+        "QComboBox { "
+        "   background-color: rgba(255, 255, 255, 0.1); "
+        "   color: white; "
+        "   padding: 8px 15px; "
+        "   border: 1px solid rgba(255, 255, 255, 0.2); "
+        "   border-radius: 8px; "
+        "   font-size: 14px; "
+        "   min-height: 25px; "
+        "}"
+        "QComboBox::drop-down {"
+        "   subcontrol-origin: padding;"
+        "   subcontrol-position: right;"
+        "   width: 25px;"
+        "   border-left: 1px solid rgba(255, 255, 255, 0.1);"
+        "}"
+    );
 
     QSqlQuery competitionQuery("SELECT comp_name FROM competition");
     while (competitionQuery.next()) {
@@ -2376,155 +2398,279 @@ void MainWindow::setupTeamOfCompetitionTab()
     QPushButton *refreshButton = new QPushButton("Show");
     refreshButton->setCursor(Qt::PointingHandCursor);
     refreshButton->setStyleSheet(
-        "QPushButton { background-color: #3498db; color: white; border-radius: 3px; font-size: 12px; border: none; padding: 3px 8px; }"
-        );
+        "QPushButton { "
+        "   background-color: #3498db; "
+        "   color: white; "
+        "   border-radius: 8px; "
+        "   font-size: 13px; "
+        "   font-weight: bold; "
+        "   border: none; "
+        "   padding: 8px 15px; "
+        "}"
+        "QPushButton:hover { background-color: #2980b9; }"
+    );
+    
+    // MISE EN VALEUR: Bouton de formation avec effet spécial
+    QPushButton *showFormationButton = new QPushButton("Show Formation");
+    showFormationButton->setCursor(Qt::PointingHandCursor);
+    showFormationButton->setStyleSheet(
+        "QPushButton { "
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:0, "
+        "                              stop:0 #16a085, stop:1 #2ecc71); "
+        "   color: white; "
+        "   border-radius: 8px; "
+        "   font-size: 14px; "
+        "   font-weight: bold; "
+        "   border: none; "
+        "   padding: 10px 20px; "
+        "   min-width: 180px; "
+        "   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); "
+        "}"
+        "QPushButton:hover { "
+        "   background: qlineargradient(x1:0, y1:0, x2:1, y2:0, "
+        "                              stop:0 #1abc9c, stop:1 #27ae60); "
+        "}"
+    );
+    
+    // Ajouter une icône au bouton de formation
+    QIcon formationIcon = QIcon("C:/Users/wiki/Desktop/ALDAWRY-FOOTBALL/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/ALDAWRY-FOOTBALL-gestion_joueurs2/JoueurQ/position.png");
+    showFormationButton->setIcon(formationIcon);
+    showFormationButton->setIconSize(QSize(20, 20));
+    
+    // Connecter le bouton au slot qui affichera le popup
+    connect(showFormationButton, &QPushButton::clicked, [=]() {
+        QString selectedCompetition = teamCompComboBox->currentText();
+        FormationPopup *popup = new FormationPopup(selectedCompetition, this);
+        popup->setAttribute(Qt::WA_DeleteOnClose);
+        popup->exec();
+    });
 
     selectorLayout->addWidget(competitionLabel);
     selectorLayout->addWidget(teamCompComboBox, 1);
     selectorLayout->addWidget(refreshButton);
-    mainLayout->addLayout(selectorLayout);
+    selectorLayout->addWidget(showFormationButton);
+    headerLayout->addLayout(selectorLayout);
+    
+    mainLayout->addWidget(headerFrame);
 
-    // Conteneur du terrain - TAILLE AJUSTÉE
-    QFrame *fieldContainer = new QFrame();
-    fieldContainer->setObjectName("fieldContainer");
-    fieldContainer->setStyleSheet(
-        "QFrame#fieldContainer { background-color: rgba(45, 52, 54, 0.5); border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px; }"
-        );
-    fieldContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    QVBoxLayout *fieldContainerLayout = new QVBoxLayout(fieldContainer);
-    fieldContainerLayout->setContentsMargins(5, 5, 5, 5);
-
-    // Zone défilante pour le terrain - HAUTEUR AJUSTÉE
-    QScrollArea *fieldScrollArea = new QScrollArea();
-    fieldScrollArea->setWidgetResizable(true);
-    fieldScrollArea->setFrameShape(QFrame::NoFrame);
-    fieldScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    fieldScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    fieldScrollArea->setStyleSheet(
-        "QScrollArea { background: transparent; border: none; }"
-        "QScrollBar:vertical { width: 8px; background: rgba(0, 0, 0, 0.2); }"
-        "QScrollBar:horizontal { height: 8px; background: rgba(0, 0, 0, 0.2); }"
-        "QScrollBar::handle:vertical, QScrollBar::handle:horizontal { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }"
-        );
-    fieldScrollArea->setMinimumHeight(650); // Hauteur légèrement réduite
-
-    // Terrain de football - DIMENSIONS RÉDUITES pour voir la ligne de touche droite
-    QWidget *footballField = new QWidget();
-    footballField->setObjectName("footballField");
-    footballField->setMinimumSize(1600, 1200); // Dimensions réduites (était 1800x1400)
-    footballField->setStyleSheet("border: none;");
-
-    // Fond du terrain avec bandes
-    QWidget *terrainBackground = new QWidget(footballField);
-    terrainBackground->setObjectName("terrainBackground");
-    terrainBackground->setGeometry(0, 0, 1600, 1200); // Dimensions réduites (était 1800x1400)
-    terrainBackground->lower();
-    terrainBackground->installEventFilter(this);
-
-    // Layout du terrain pour les positions des joueurs - ESPACEMENT AJUSTÉ
-    QGridLayout *fieldLayout = new QGridLayout(footballField);
-    fieldLayout->setSpacing(90); // Espacement légèrement réduit (était 100)
-    fieldLayout->setContentsMargins(90, 90, 90, 90); // Marges légèrement réduites (était 100)
-
-    // IMPORTANT: Création et ajout des widgets de position
-    // Gardien
-    QFrame *goalkeeperPos = createPositionWidget("GK");
-    fieldLayout->addWidget(goalkeeperPos, 12, 2, 1, 1);
-
-    // Défenseurs
-    QFrame *defenderPos1 = createPositionWidget("LB");
-    fieldLayout->addWidget(defenderPos1, 9, 0, 1, 1);
-
-    QFrame *defenderPos2 = createPositionWidget("CB");
-    fieldLayout->addWidget(defenderPos2, 9, 1, 1, 1);
-
-    QFrame *defenderPos3 = createPositionWidget("CB");
-    fieldLayout->addWidget(defenderPos3, 9, 3, 1, 1);
-
-    QFrame *defenderPos4 = createPositionWidget("RB");
-    fieldLayout->addWidget(defenderPos4, 9, 4, 1, 1);
-
-    // Milieux
-    QFrame *midPos1 = createPositionWidget("LM");
-    fieldLayout->addWidget(midPos1, 6, 0, 1, 1);
-
-    QFrame *midPos2 = createPositionWidget("CM");
-    fieldLayout->addWidget(midPos2, 6, 2, 1, 1);
-
-    QFrame *midPos3 = createPositionWidget("RM");
-    fieldLayout->addWidget(midPos3, 6, 4, 1, 1);
-
-    // Attaquants
-    QFrame *attPos1 = createPositionWidget("LW");
-    fieldLayout->addWidget(attPos1, 3, 0, 1, 1);
-
-    QFrame *attPos2 = createPositionWidget("ST");
-    fieldLayout->addWidget(attPos2, 3, 2, 1, 1);
-
-    QFrame *attPos3 = createPositionWidget("RW");
-    fieldLayout->addWidget(attPos3, 3, 4, 1, 1);
-
-    fieldScrollArea->setWidget(footballField);
-    fieldContainerLayout->addWidget(fieldScrollArea);
-    mainLayout->addWidget(fieldContainer, 1); // Pondération de 1 pour que le terrain prenne la majorité de l'espace
-
-    // Panneau de détails du joueur
-    QFrame *playerDetailFrame = new QFrame();
-    playerDetailFrame->setObjectName("playerDetailFrame");
-    playerDetailFrame->setFixedHeight(100);
-    playerDetailFrame->setStyleSheet(
-        "background-color: rgba(45, 52, 54, 0.7);"
-        "border-radius: 5px;"
-        "border: 1px solid rgba(255, 255, 255, 0.2);"
-        "padding: 5px;"
+    // SECTION AMÉLIORÉE: Meilleurs joueurs par poste avec design premium
+    QFrame *bestPlayersFrame = new QFrame();
+    bestPlayersFrame->setStyleSheet(
+        "background-color: rgba(20, 30, 48, 0.7);"
+        "border-radius: 15px;"
+        "border: 1px solid rgba(52, 152, 219, 0.3);"
+        "padding: 20px;"
     );
     
-    QHBoxLayout *playerDetailLayout = new QHBoxLayout(playerDetailFrame);
-    playerDetailLayout->setContentsMargins(5, 5, 5, 5);
+    // Ajouter une ombre subtile
+    QGraphicsDropShadowEffect *cardsShadow = new QGraphicsDropShadowEffect();
+    cardsShadow->setBlurRadius(20);
+    cardsShadow->setColor(QColor(0, 0, 0, 60));
+    cardsShadow->setOffset(0, 5);
+    bestPlayersFrame->setGraphicsEffect(cardsShadow);
     
-    // Image du joueur
-    QLabel *detailImageLabel = new QLabel();
-    detailImageLabel->setObjectName("detailImageLabel");
-    detailImageLabel->setFixedSize(70, 70);
-    detailImageLabel->setAlignment(Qt::AlignCenter);
-    detailImageLabel->setStyleSheet(
-        "background-color: rgba(52, 152, 219, 0.3);"
-        "border-radius: 35px;"
-        "color: white;"
-        "font-size: 16px;"
-        "font-weight: bold;"
-        "border: 2px solid white;"
+    QVBoxLayout *bestPlayersLayout = new QVBoxLayout(bestPlayersFrame);
+    bestPlayersLayout->setSpacing(20);
+    
+    QLabel *bestPlayersTitle = new QLabel("TOP PLAYERS BY POSITION");
+    bestPlayersTitle->setStyleSheet(
+        "color: white; "
+        "font-size: 16px; "
+        "font-weight: bold; "
+        "text-transform: uppercase; "
+        "letter-spacing: 2px; "
+        "border-bottom: 2px solid rgba(52, 152, 219, 0.5); "
+        "padding-bottom: 10px; "
+        "background: transparent;"
     );
-    detailImageLabel->setText("?");
+    bestPlayersTitle->setAlignment(Qt::AlignCenter);
+    bestPlayersLayout->addWidget(bestPlayersTitle);
     
-    // Informations du joueur
-    QVBoxLayout *detailInfoLayout = new QVBoxLayout();
-    detailInfoLayout->setSpacing(3);
+    // Grid pour afficher les meilleurs joueurs par poste avec plus d'espace
+    QGridLayout *positionsGrid = new QGridLayout();
+    positionsGrid->setSpacing(25); // Plus d'espace entre les cartes
     
-    // Labels des détails du joueur
-    QLabel *detailNameLabel = new QLabel("Select a player");
-    detailNameLabel->setObjectName("detailNameLabel");
-    detailNameLabel->setStyleSheet("color: white; font-size: 14px; font-weight: bold;");
+    // Fonction locale pour créer un widget de position avec design amélioré
+    auto createPositionCard = [](const QString &position) {
+        QFrame *card = new QFrame();
+        card->setObjectName("bestPos_" + position);
+        card->setMinimumHeight(220); // Augmenter la hauteur
+        card->setStyleSheet(
+            "background-color: rgba(52, 152, 219, 0.1);"
+            "border-radius: 12px;"
+            "border: 1px solid rgba(52, 152, 219, 0.3);"
+            "padding: 15px;"
+        );
+        
+        QVBoxLayout *cardLayout = new QVBoxLayout(card);
+        cardLayout->setContentsMargins(10, 10, 10, 10);
+        cardLayout->setSpacing(10);
+        
+        // Position en haut avec style distinctif
+        QLabel *posLabel = new QLabel(position);
+        posLabel->setStyleSheet(
+            "color: #3498db; "
+            "font-weight: bold; "
+            "font-size: 14px; "
+            "background-color: rgba(52, 152, 219, 0.1); "
+            "border-radius: 10px; "
+            "padding: 5px 10px; "
+            "border: 1px solid rgba(52, 152, 219, 0.3);"
+        );
+        posLabel->setAlignment(Qt::AlignCenter);
+        
+        // Image du joueur plus grande et élégante
+     // Dans createPositionCard
+
+QLabel *playerImage = new QLabel();
+playerImage->setObjectName("bestPosImg_" + position);
+playerImage->setFixedSize(120, 120); // Taille augmentée
+playerImage->setScaledContents(false);
+playerImage->setAlignment(Qt::AlignCenter);
+playerImage->setStyleSheet(
+    "background-color: transparent;"
+    "border-radius: 60px;" // Moitié de la taille (120/2)
+    "border: none;"
+);
+        // Ajout d'une ombre à l'image
+        QGraphicsDropShadowEffect *imageShadow = new QGraphicsDropShadowEffect();
+        imageShadow->setBlurRadius(15);
+        imageShadow->setColor(QColor(0, 0, 0, 100));
+        imageShadow->setOffset(0, 5);
+        playerImage->setGraphicsEffect(imageShadow);
+        
+        // Nom du joueur avec meilleur style
+        QLabel *playerName = new QLabel("Loading...");
+        playerName->setObjectName("bestPosName_" + position);
+        playerName->setStyleSheet(
+            "color: white; "
+            "font-size: 16px; "
+            "font-weight: bold; "
+            "background: transparent; "
+            "border: none;"
+        );
+        playerName->setAlignment(Qt::AlignCenter);
+        playerName->setWordWrap(true);
+        
+        // Statistiques du joueur avec meilleur style
+        QLabel *playerStats = new QLabel("");
+        playerStats->setObjectName("bestPosStats_" + position);
+        playerStats->setStyleSheet(
+            "color: rgba(255, 255, 255, 0.7); "
+            "font-size: 13px; "
+            "background: transparent; "
+            "border: none;"
+        );
+        playerStats->setAlignment(Qt::AlignCenter);
+        
+        cardLayout->addWidget(posLabel, 0, Qt::AlignCenter);
+        cardLayout->addWidget(playerImage, 0, Qt::AlignCenter);
+        cardLayout->addWidget(playerName);
+        cardLayout->addWidget(playerStats);
+        
+        return card;
+    };
     
-    QLabel *detailTeamPosLabel = new QLabel("");
-    detailTeamPosLabel->setObjectName("detailTeamPosLabel");
-    detailTeamPosLabel->setStyleSheet("color: #3498db; font-size: 12px;");
+    // Ajouter les cartes pour chaque position
+    QStringList positions = {"Goalkeeper", "Defender", "Midfielder", "Forward"};
     
-    QLabel *detailStatsLabel = new QLabel("");
-    detailStatsLabel->setObjectName("detailStatsLabel");
-    detailStatsLabel->setStyleSheet("color: #bdc3c7; font-size: 12px;");
+    for (int i = 0; i < positions.size(); i++) {
+        QFrame *posCard = createPositionCard(positions[i]);
+        positionsGrid->addWidget(posCard, i / 2, i % 2);
+    }
     
-    detailInfoLayout->addWidget(detailNameLabel);
-    detailInfoLayout->addWidget(detailTeamPosLabel);
-    detailInfoLayout->addWidget(detailStatsLabel);
+    bestPlayersLayout->addLayout(positionsGrid);
+    mainLayout->addWidget(bestPlayersFrame);
     
-    playerDetailLayout->addWidget(detailImageLabel);
-    playerDetailLayout->addLayout(detailInfoLayout, 1);
+    // Ajouter un panneau d'informations innovant sur l'équipe avec design amélioré
+    QFrame *teamInfoFrame = new QFrame();
+    teamInfoFrame->setObjectName("teamInfoFrame");
+    teamInfoFrame->setStyleSheet(
+        "QFrame#teamInfoFrame {"
+        "   background-color: rgba(45, 52, 54, 0.7);"
+        "   border-radius: 15px;"
+        "   border: 1px solid rgba(255, 255, 255, 0.1);"
+        "   padding: 20px;"
+        "}"
+    );
     
-    mainLayout->addWidget(playerDetailFrame);
+    // Ajouter une ombre
+    QGraphicsDropShadowEffect *statsShadow = new QGraphicsDropShadowEffect();
+    statsShadow->setBlurRadius(15);
+    statsShadow->setColor(QColor(0, 0, 0, 60));
+    statsShadow->setOffset(0, 5);
+    teamInfoFrame->setGraphicsEffect(statsShadow);
     
-    // Configurer le QScrollArea principal avec le widget de contenu
+    QVBoxLayout *teamInfoLayout = new QVBoxLayout(teamInfoFrame);
+    
+    QLabel *teamInfoTitle = new QLabel("Competition Stats");
+    teamInfoTitle->setStyleSheet(
+        "color: white; "
+        "font-size: 16px; "
+        "font-weight: bold; "
+        "text-transform: uppercase; "
+        "letter-spacing: 2px; "
+        "border-bottom: 2px solid rgba(255, 255, 255, 0.2); "
+        "padding-bottom: 10px;"
+    );
+    teamInfoTitle->setAlignment(Qt::AlignCenter);
+    
+    // Graphiques de statistiques améliorés
+    QHBoxLayout *statsLayout = new QHBoxLayout();
+    statsLayout->setSpacing(20);
+    
+    // Widget pour les statistiques de l'équipe
+    for (int i = 0; i < 3; i++) {
+        QFrame *statFrame = new QFrame();
+        statFrame->setStyleSheet(
+            "background-color: rgba(255, 255, 255, 0.05);"
+            "border-radius: 12px;"
+            "padding: 15px;"
+            "border: 1px solid rgba(255, 255, 255, 0.1);"
+        );
+        
+        QVBoxLayout *statLayout = new QVBoxLayout(statFrame);
+        
+        QLabel *statTitle = new QLabel(i == 0 ? "Goals" : (i == 1 ? "Players" : "Teams"));
+        statTitle->setStyleSheet("color: rgba(255, 255, 255, 0.7); font-size: 14px; font-weight: bold;");
+        statTitle->setAlignment(Qt::AlignCenter);
+        
+        QLabel *statValue = new QLabel(i == 0 ? "0" : (i == 1 ? "0" : "0"));
+        statValue->setObjectName(i == 0 ? "goalsLabel" : (i == 1 ? "playersLabel" : "teamsLabel"));
+        statValue->setStyleSheet(
+            "color: " + QString(i == 0 ? "#2ecc71" : (i == 1 ? "#3498db" : "#e74c3c")) + ";"
+            "font-size: 32px;"
+            "font-weight: bold;"
+        );
+        statValue->setAlignment(Qt::AlignCenter);
+        
+        statLayout->addWidget(statValue);
+        statLayout->addWidget(statTitle);
+        
+        statsLayout->addWidget(statFrame);
+    }
+    
+    teamInfoLayout->addWidget(teamInfoTitle);
+    teamInfoLayout->addLayout(statsLayout);
+    
+    // Ajouter une description avec style amélioré
+    QLabel *descriptionLabel = new QLabel("Click on \"Show Formation\" to see the optimal team formation based on player statistics.");
+    descriptionLabel->setStyleSheet(
+        "color: rgba(255, 255, 255, 0.6); "
+        "font-size: 13px; "
+        "font-style: italic; "
+        "background-color: rgba(0, 0, 0, 0.2); "
+        "padding: 10px; "
+        "border-radius: 8px;"
+    );
+    descriptionLabel->setWordWrap(true);
+    descriptionLabel->setAlignment(Qt::AlignCenter);
+    
+    teamInfoLayout->addWidget(descriptionLabel);
+    
+    mainLayout->addWidget(teamInfoFrame);
+    
+    // Configurer le QScrollArea avec le widget de contenu
     scrollArea->setWidget(contentWidget);
     
     // Ajouter le QScrollArea à l'onglet
@@ -2537,15 +2683,391 @@ void MainWindow::setupTeamOfCompetitionTab()
     // Connexions pour les actions
     connect(refreshButton, &QPushButton::clicked, [=]() {
         displayTeamOfCompetition(teamCompComboBox->currentText());
+        updateCompetitionStats(teamCompComboBox->currentText());
+        loadBestPlayersByPosition(teamCompComboBox->currentText());
     });
 
     QTimer::singleShot(500, [=]() {
         if (teamCompComboBox->count() > 0) {
             displayTeamOfCompetition(teamCompComboBox->currentText());
+            updateCompetitionStats(teamCompComboBox->currentText());
+            loadBestPlayersByPosition(teamCompComboBox->currentText());
         }
     });
 }
 
+void MainWindow::loadBestPlayersByPosition(const QString &competitionName)
+{
+    QStringList positions = {"Goalkeeper", "Defender", "Midfielder", "Forward"};
+    
+    for (const QString &position : positions) {
+        QLabel *nameLabel = ui->tabWidget->findChild<QLabel*>("bestPosName_" + position);
+        QLabel *statsLabel = ui->tabWidget->findChild<QLabel*>("bestPosStats_" + position);
+        QLabel *imageLabel = ui->tabWidget->findChild<QLabel*>("bestPosImg_" + position);
+        
+        if (!nameLabel || !statsLabel || !imageLabel) {
+            qDebug() << "Labels non trouvés pour la position:" << position;
+            continue;
+        }
+        
+        // Requête SQL pour utiliser (goals + assists) comme critère principal
+        QSqlQuery query;
+        
+        if (position == "Goalkeeper") {
+            query.prepare(
+                "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
+                "j.img_joueur, e.team_name, j.position "
+                "FROM joueur j "
+                "JOIN equipe e ON j.id_team = e.id_team "
+                "JOIN participation p ON e.id_team = p.id_team "
+                "JOIN competition c ON p.id_competition = c.id_competition "
+                "WHERE c.comp_name = :competition_name "
+                "AND (j.position = 'Goalkeeper' OR j.position LIKE '%Goalkeeper%') "
+                "AND ROWNUM <= 1 "
+                "ORDER BY (j.goals + j.assists) DESC"
+            );
+        } else {
+            query.prepare(
+                "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
+                "j.img_joueur, e.team_name, j.position "
+                "FROM joueur j "
+                "JOIN equipe e ON j.id_team = e.id_team "
+                "JOIN participation p ON e.id_team = p.id_team "
+                "JOIN competition c ON p.id_competition = c.id_competition "
+                "WHERE c.comp_name = :competition_name "
+                "AND (j.position = :exact_position OR j.position LIKE :like_position) "
+                "AND ROWNUM <= 1 "
+                "ORDER BY (j.goals + j.assists) DESC"
+            );
+            query.bindValue(":exact_position", position);
+            query.bindValue(":like_position", "%" + position + "%");
+        }
+        
+        query.bindValue(":competition_name", competitionName);
+        
+        // Exécuter la requête
+        if (query.exec()) {
+            if (query.next()) {
+                QString firstName = query.value("first_name").toString();
+                QString lastName = query.value("last_name").toString();
+                QString teamName = query.value("team_name").toString();
+                int goals = query.value("goals").toInt();
+                int assists = query.value("assists").toInt();
+                int totalContribution = goals + assists;
+                QByteArray imageData = query.value("img_joueur").toByteArray();
+                
+                // Mettre à jour le nom
+                nameLabel->setText(firstName + " " + lastName);
+                
+                // Mettre à jour les stats avec Rich Text
+                statsLabel->setText(QString("<span style='color:#f39c12;'>%1</span> | <span style='color:#2ecc71;'>%2 G, %3 A (%4)</span>")
+                                   .arg(teamName)
+                                   .arg(goals)
+                                   .arg(assists)
+                                   .arg(totalContribution));
+                statsLabel->setTextFormat(Qt::RichText);
+                
+                // Mettre à jour l'image - TAILLE AUGMENTÉE À 120x120
+               // Pour chaque section où vous traitez l'image du joueur dans loadBestPlayersByPosition
+
+// Image du joueur sans cadre
+// Dans la fonction loadBestPlayersByPosition
+
+// Pour chaque section où vous traitez l'image du joueur
+if (!imageData.isEmpty()) {
+    QPixmap playerPix;
+    if (playerPix.loadFromData(imageData)) {
+        // Créer un masque circulaire sans bordure
+        QPixmap circularPix(120, 120);
+        circularPix.fill(Qt::transparent); // Fond transparent
+        
+        QPainter painter(&circularPix);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        
+        // Créer un chemin circulaire pour le masque
+        QPainterPath path;
+        path.addEllipse(0, 0, 120, 120); // Utiliser toute la surface disponible
+        painter.setClipPath(path);
+        
+        // Dessiner l'image (redimensionnée et centrée)
+        QPixmap scaledPix = playerPix.scaled(120, 120, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        
+        // Centrer l'image
+        int x = (scaledPix.width() - 120) / 2;
+        int y = (scaledPix.height() - 120) / 2;
+        if (x < 0) x = 0;
+        if (y < 0) y = 0;
+        
+        painter.drawPixmap(0, 0, scaledPix, x, y, 120, 120);
+        
+        // Le secret est ici - mettre à jour le style pour garantir que l'image reste ronde
+        imageLabel->setPixmap(circularPix);
+        imageLabel->setStyleSheet(
+            "background-color: transparent;"
+            "border-radius: 60px;" // Moitié de la taille (120/2)
+            "border: none;"
+        );
+    }
+} else {
+                    // Image avec initiales également plus grande
+                    QPixmap defaultPix(120, 120); // Augmenté de 100 à 120
+                    defaultPix.fill(Qt::transparent);
+                    
+                    QPainter painter(&defaultPix);
+                    painter.setRenderHint(QPainter::Antialiasing);
+                    
+                    // Fond gris neutre
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QColor(150, 150, 150, 200));
+                    painter.drawEllipse(2, 2, 116, 116);
+                    
+                    // Initiales avec police plus grande
+                    painter.setPen(Qt::white);
+                    QFont font("Arial", 36, QFont::Bold); // Police plus grande
+                    painter.setFont(font);
+                    
+                    QString initials;
+                    if (!firstName.isEmpty()) initials += firstName[0];
+                    if (!lastName.isEmpty()) initials += lastName[0];
+                    
+                    painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, initials);
+                    
+                    // Bordure blanche plus épaisse
+                    painter.setPen(QPen(Qt::white, 3));
+                    painter.setBrush(Qt::NoBrush);
+                    painter.drawEllipse(2, 2, 116, 116);
+                    
+                    imageLabel->setPixmap(defaultPix);
+                }
+                
+            } else {
+                // Cas où aucun joueur n'est trouvé pour cette position spécifique
+                QSqlQuery fallbackQuery;
+                fallbackQuery.prepare(
+                    "SELECT j.id_player, j.first_name, j.last_name, j.goals, j.assists, "
+                    "j.img_joueur, e.team_name, j.position "
+                    "FROM joueur j "
+                    "JOIN equipe e ON j.id_team = e.id_team "
+                    "JOIN participation p ON e.id_team = p.id_team "
+                    "JOIN competition c ON p.id_competition = c.id_competition "
+                    "WHERE c.comp_name = :competition_name "
+                    "AND ROWNUM <= 1 "
+                    "ORDER BY (j.goals + j.assists) DESC"
+                );
+                fallbackQuery.bindValue(":competition_name", competitionName);
+                
+                if (fallbackQuery.exec() && fallbackQuery.next()) {
+                    QString firstName = fallbackQuery.value("first_name").toString();
+                    QString lastName = fallbackQuery.value("last_name").toString();
+                    QString actualPosition = fallbackQuery.value("position").toString();
+                    QString teamName = fallbackQuery.value("team_name").toString();
+                    QByteArray imageData = fallbackQuery.value("img_joueur").toByteArray();
+                    
+                    // Mettre à jour le nom
+                    nameLabel->setText(firstName + " " + lastName);
+                    
+                    // Mettre à jour les stats avec Rich Text
+                    statsLabel->setText(QString("<span style='color:#f39c12;'>%1</span> | <span style='color:#e74c3c;'>%2</span>")
+                                       .arg(teamName)
+                                       .arg(actualPosition));
+                    statsLabel->setTextFormat(Qt::RichText);
+                    
+                    // Image plus grande également pour le fallback
+                    if (!imageData.isEmpty()) {
+                        QPixmap playerPix;
+                        if (playerPix.loadFromData(imageData)) {
+                            QPixmap circularPix(120, 120); // Taille augmentée
+                            circularPix.fill(Qt::transparent);
+                            
+                            QPainter painter(&circularPix);
+                            painter.setRenderHint(QPainter::Antialiasing);
+                            painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                            
+                            // Créer un chemin circulaire pour le masque
+                            QPainterPath path;
+                            path.addEllipse(2, 2, 116, 116);
+                            painter.setClipPath(path);
+                            
+                            QPixmap scaledPix = playerPix.scaled(116, 116, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                            
+                            int x = (scaledPix.width() - 116) / 2;
+                            int y = (scaledPix.height() - 116) / 2;
+                            if (x < 0) x = 0;
+                            if (y < 0) y = 0;
+                            
+                            painter.drawPixmap(2, 2, scaledPix, x, y, 116, 116);
+                            
+                            // Bordure plus épaisse
+                            painter.setClipping(false);
+                            painter.setPen(QPen(Qt::white, 3));
+                            painter.setBrush(Qt::NoBrush);
+                            painter.drawEllipse(2, 2, 116, 116);
+                            
+                            imageLabel->setPixmap(circularPix);
+                        }
+                    } else {
+                        // Image plus grande avec initiales
+                        QPixmap defaultPix(120, 120); // Taille augmentée
+                        defaultPix.fill(Qt::transparent);
+                        
+                        QPainter painter(&defaultPix);
+                        painter.setRenderHint(QPainter::Antialiasing);
+                        
+                        // Fond gris neutre
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(QColor(150, 150, 150, 200));
+                        painter.drawEllipse(2, 2, 116, 116);
+                        
+                        painter.setPen(Qt::white);
+                        QFont font("Arial", 36, QFont::Bold); // Police plus grande
+                        painter.setFont(font);
+                        
+                        QString initials;
+                        if (!firstName.isEmpty()) initials += firstName[0];
+                        if (!lastName.isEmpty()) initials += lastName[0];
+                        
+                        painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, initials);
+                        
+                        // Bordure plus épaisse
+                        painter.setPen(QPen(Qt::white, 3));
+                        painter.setBrush(Qt::NoBrush);
+                        painter.drawEllipse(2, 2, 116, 116);
+                        
+                        imageLabel->setPixmap(defaultPix);
+                    }
+                } else {
+                    // Cas où aucun joueur n'est trouvé du tout - Design plus grand
+                    nameLabel->setText("No player found");
+                    statsLabel->setText("No data available");
+                    
+                    // Image "No player" plus grande
+                    QPixmap defaultPix(120, 120); // Taille augmentée
+                    defaultPix.fill(Qt::transparent);
+                    
+                    QPainter painter(&defaultPix);
+                    painter.setRenderHint(QPainter::Antialiasing);
+                    
+                    // Fond gris neutre
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QColor(150, 150, 150, 200));
+                    painter.drawEllipse(2, 2, 116, 116);
+                    
+                    // Texte de la position
+                    painter.setPen(Qt::white);
+                    QFont font("Arial", 20, QFont::Bold); // Police plus grande
+                    painter.setFont(font);
+                    painter.drawText(QRect(0, 0, 120, 120), Qt::AlignCenter, position.left(3));
+                    
+                    // Bordure plus épaisse
+                    painter.setPen(QPen(Qt::white, 3));
+                    painter.setBrush(Qt::NoBrush);
+                    painter.drawEllipse(2, 2, 116, 116);
+                    
+                    imageLabel->setPixmap(defaultPix);
+                }
+            }
+        } else {
+            // Gestion des erreurs SQL
+            qDebug() << "Erreur SQL:" << query.lastError().text();
+            nameLabel->setText("SQL Error");
+            statsLabel->setText("Database error");
+            
+            // Image d'erreur plus grande
+            QPixmap errorPix(120, 120); // Taille augmentée
+            errorPix.fill(Qt::transparent);
+            
+            QPainter painter(&errorPix);
+            painter.setRenderHint(QPainter::Antialiasing);
+            
+            // Fond rouge neutre
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(QColor(200, 60, 60, 200));
+            painter.drawEllipse(2, 2, 116, 116);
+            
+            // Symbole d'erreur
+            painter.setPen(QPen(Qt::white, 4));
+            painter.drawLine(40, 40, 80, 80);
+            painter.drawLine(40, 80, 80, 40);
+            
+            // Bordure plus épaisse
+            painter.setPen(QPen(Qt::white, 3));
+            painter.setBrush(Qt::NoBrush);
+            painter.drawEllipse(2, 2, 116, 116);
+            
+            imageLabel->setPixmap(errorPix);
+        }
+    }
+}
+// Ajouter cette nouvelle méthode dans la classe MainWindow
+void MainWindow::updateCompetitionStats(const QString &competitionName)
+{
+    // Rechercher les labels dans l'interface
+    QLabel *goalsLabel = ui->tabWidget->findChild<QLabel*>("goalsLabel");
+    QLabel *playersLabel = ui->tabWidget->findChild<QLabel*>("playersLabel");
+    QLabel *teamsLabel = ui->tabWidget->findChild<QLabel*>("teamsLabel");
+    
+    if (!goalsLabel || !playersLabel || !teamsLabel) {
+        qDebug() << "Labels de statistiques non trouvés";
+        return;
+    }
+    
+    // Requête SQL pour obtenir les statistiques de la compétition
+    QSqlQuery query;
+    
+    // Total des buts
+    query.prepare(
+        "SELECT SUM(j.goals) as total_goals "
+        "FROM joueur j "
+        "JOIN equipe e ON j.id_team = e.id_team "
+        "JOIN participation p ON e.id_team = p.id_team "
+        "JOIN competition c ON p.id_competition = c.id_competition "
+        "WHERE c.comp_name = :competition_name"
+    );
+    query.bindValue(":competition_name", competitionName);
+    
+    if (query.exec() && query.next()) {
+        int totalGoals = query.value("total_goals").toInt();
+        goalsLabel->setText(QString::number(totalGoals));
+    } else {
+        goalsLabel->setText("0");
+    }
+    
+    // Nombre de joueurs
+    query.prepare(
+        "SELECT COUNT(DISTINCT j.id_player) as total_players "
+        "FROM joueur j "
+        "JOIN equipe e ON j.id_team = e.id_team "
+        "JOIN participation p ON e.id_team = p.id_team "
+        "JOIN competition c ON p.id_competition = c.id_competition "
+        "WHERE c.comp_name = :competition_name"
+    );
+    query.bindValue(":competition_name", competitionName);
+    
+    if (query.exec() && query.next()) {
+        int totalPlayers = query.value("total_players").toInt();
+        playersLabel->setText(QString::number(totalPlayers));
+    } else {
+        playersLabel->setText("0");
+    }
+    
+    // Nombre d'équipes
+    query.prepare(
+        "SELECT COUNT(DISTINCT e.id_team) as total_teams "
+        "FROM equipe e "
+        "JOIN participation p ON e.id_team = p.id_team "
+        "JOIN competition c ON p.id_competition = c.id_competition "
+        "WHERE c.comp_name = :competition_name"
+    );
+    query.bindValue(":competition_name", competitionName);
+    
+    if (query.exec() && query.next()) {
+        int totalTeams = query.value("total_teams").toInt();
+        teamsLabel->setText(QString::number(totalTeams));
+    } else {
+        teamsLabel->setText("0");
+    }
+}
 // Modification de createPositionWidget pour enlever les cercles bleus autour des images
 QFrame* MainWindow::createPositionWidget(const QString &position)
 {

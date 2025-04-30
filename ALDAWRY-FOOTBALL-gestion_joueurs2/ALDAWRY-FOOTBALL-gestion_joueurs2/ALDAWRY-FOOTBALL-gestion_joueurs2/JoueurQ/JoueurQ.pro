@@ -29,6 +29,7 @@ CONFIG+=console
 SOURCES += \
     addplayer.cpp \
     deletejoueur.cpp \
+    formationpopup.cpp \
     joueur.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
 HEADERS += \
     addplayer.h \
     deletejoueur.h \
+    formationpopup.h \
     joueur.h \
         mainwindow.h \
     connection.h \
