@@ -37,7 +37,7 @@ public:
     {
         if (statistics->objectName().isEmpty())
             statistics->setObjectName("statistics");
-        statistics->resize(700, 500);
+        statistics->resize(700, 479);
         verticalLayout = new QVBoxLayout(statistics);
         verticalLayout->setObjectName("verticalLayout");
         comboBox = new QComboBox(statistics);

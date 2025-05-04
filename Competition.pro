@@ -14,7 +14,7 @@ QT += network
 QT += core gui sql network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = competition
+TARGET = Competition
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -32,6 +32,7 @@ CONFIG += c++11
 
 SOURCES += \
     addcompetitionwindow.cpp \
+    calendardialog.cpp \
     competition.cpp \
     deletewindow.cpp \
         main.cpp \
@@ -40,10 +41,12 @@ SOURCES += \
     matchesdialog.cpp \
     statistics.cpp \
     statistics2.cpp \
+    tableau1.cpp \
     updateform.cpp
 
 HEADERS += \
     addcompetitionwindow.h \
+    calendardialog.h \
     competition.h \
     deletewindow.h \
         mainwindow.h \
@@ -51,15 +54,18 @@ HEADERS += \
     matchesdialog.h \
     statistics.h \
     statistics2.h \
+    tableau1.h \
     updateform.h
 
 FORMS += \
 	addcompetitionwindow.ui \
+	calendardialog.ui \
 	deletewindow.ui \
 	mainwindow.ui \
 	matchesdialog.ui \
 	statistics.ui \
 	statistics2.ui \
+	tableau1.ui \
 	updateform.ui
 RESOURCES += \
 	resources.qrc

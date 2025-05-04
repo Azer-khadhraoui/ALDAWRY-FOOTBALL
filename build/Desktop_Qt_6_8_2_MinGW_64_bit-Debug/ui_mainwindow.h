@@ -12,19 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
-#include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTableView>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -33,439 +24,357 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QListWidget *menu;
-    QListWidget *menu_2;
-    QFrame *line;
-    QFrame *line_2;
-    QFrame *line_3;
-    QLabel *dashboard_2;
-    QLabel *dashboard_7;
-    QLabel *dashboard_3;
-    QLabel *dashboard_4;
-    QLabel *label_4;
-    QFrame *frame;
-    QLabel *label_2;
-    QLineEdit *lineEdit;
-    QComboBox *comboBox;
-    QComboBox *comboBox_2;
-    QWidget *monthCalendarWidget;
-    QVBoxLayout *monthCalendarLayout;
-    QComboBox *yearComboBox;
-    QGridLayout *monthGridLayout;
-    QPushButton *januaryButton;
-    QPushButton *februaryButton;
-    QPushButton *marchButton;
-    QPushButton *aprilButton;
-    QPushButton *mayButton;
-    QPushButton *juneButton;
-    QPushButton *julyButton;
-    QPushButton *augustButton;
-    QPushButton *septemberButton;
-    QPushButton *octoberButton;
-    QPushButton *novemberButton;
-    QPushButton *decemberButton;
-    QListWidget *listWidget_2;
-    QLabel *label_5;
     QPushButton *pushButton_3;
-    QTableView *test;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QWidget *widget_2;
+    QLabel *label_6;
+    QFrame *line_2;
+    QLabel *label_5;
+    QLabel *label_4;
+    QLabel *dashboard_3;
+    QLabel *dashboard_2;
+    QLabel *dashboard_4;
+    QLabel *dashboard_7;
+    QLabel *label_12;
+    QLabel *label_7;
+    QLabel *label_14;
+    QLabel *dashboard_5;
+    QLabel *dashboard_6;
+    QLabel *label_13;
+    QFrame *line;
+    QLabel *label_8;
+    QLabel *label_18;
+    QLabel *label_20;
+    QLabel *label_9;
+    QPushButton *pushButton_6;
     QPushButton *pushButton_4;
-    QLabel *comp_name;
-    QLabel *team_name;
-    QPushButton *pushButton_5;
+    QLabel *label_19;
+    QLabel *label_22;
     QLabel *label;
+    QLabel *label_2;
     QLabel *label_3;
-    QMenuBar *menubar;
-    QStatusBar *statusbar;
+    QLabel *label_15;
+    QLabel *label_16;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1200, 800);
+        MainWindow->resize(1920, 1080);
+        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        centralwidget->setStyleSheet(QString::fromUtf8("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1a3c34, stop:1 #0d1f2d);"));
-        menu = new QListWidget(centralwidget);
-        menu->setObjectName("menu");
-        menu->setGeometry(QRect(20, 30, 1151, 71));
-        menu->setStyleSheet(QString::fromUtf8("background: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border-bottom: 2px solid #4dd0e1;\n"
-"border-radius: 30px;"));
-        menu_2 = new QListWidget(centralwidget);
-        menu_2->setObjectName("menu_2");
-        menu_2->setGeometry(QRect(20, 30, 111, 71));
-        menu_2->setStyleSheet(QString::fromUtf8("background: #0a2f2d;\n"
-"color: #ffffff;\n"
-"border-bottom: 3px solid #00e676;\n"
-"border-radius: 30px;"));
-        line = new QFrame(centralwidget);
-        line->setObjectName("line");
-        line->setGeometry(QRect(360, 30, 3, 61));
-        line->setStyleSheet(QString::fromUtf8("border: 2px solid #4dd0e1;"));
-        line->setFrameShape(QFrame::Shape::VLine);
-        line->setFrameShadow(QFrame::Shadow::Sunken);
-        line_2 = new QFrame(centralwidget);
-        line_2->setObjectName("line_2");
-        line_2->setGeometry(QRect(640, 30, 3, 61));
-        line_2->setStyleSheet(QString::fromUtf8("border: 2px solid #4dd0e1;"));
-        line_2->setFrameShape(QFrame::Shape::VLine);
-        line_2->setFrameShadow(QFrame::Shadow::Sunken);
-        line_3 = new QFrame(centralwidget);
-        line_3->setObjectName("line_3");
-        line_3->setGeometry(QRect(880, 30, 3, 61));
-        line_3->setStyleSheet(QString::fromUtf8("border: 2px solid #4dd0e1;"));
-        line_3->setFrameShape(QFrame::Shape::VLine);
-        line_3->setFrameShadow(QFrame::Shadow::Sunken);
-        dashboard_2 = new QLabel(centralwidget);
-        dashboard_2->setObjectName("dashboard_2");
-        dashboard_2->setGeometry(QRect(210, 50, 71, 31));
-        QFont font;
-        font.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
-        font.setPointSize(15);
-        dashboard_2->setFont(font);
-        dashboard_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color: #b2ebf2;"));
-        dashboard_7 = new QLabel(centralwidget);
-        dashboard_7->setObjectName("dashboard_7");
-        dashboard_7->setGeometry(QRect(460, 50, 131, 31));
-        dashboard_7->setFont(font);
-        dashboard_7->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color: #b2ebf2;"));
-        dashboard_3 = new QLabel(centralwidget);
-        dashboard_3->setObjectName("dashboard_3");
-        dashboard_3->setGeometry(QRect(740, 50, 71, 31));
-        dashboard_3->setFont(font);
-        dashboard_3->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color: #b2ebf2;"));
-        dashboard_4 = new QLabel(centralwidget);
-        dashboard_4->setObjectName("dashboard_4");
-        dashboard_4->setGeometry(QRect(960, 50, 61, 31));
-        dashboard_4->setFont(font);
-        dashboard_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color: #b2ebf2;"));
-        label_4 = new QLabel(centralwidget);
-        label_4->setObjectName("label_4");
-        label_4->setGeometry(QRect(1120, 50, 40, 40));
-        label_4->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_4->setPixmap(QPixmap(QString::fromUtf8("user.png")));
-        label_4->setScaledContents(true);
-        frame = new QFrame(centralwidget);
-        frame->setObjectName("frame");
-        frame->setGeometry(QRect(40, 140, 591, 51));
-        frame->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 8px;"));
-        frame->setFrameShape(QFrame::Shape::StyledPanel);
-        frame->setFrameShadow(QFrame::Shadow::Raised);
-        label_2 = new QLabel(frame);
-        label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(10, 10, 41, 30));
-        label_2->setStyleSheet(QString::fromUtf8("background-color: #0a2f2d;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;"));
-        label_2->setPixmap(QPixmap(QString::fromUtf8(":/images/search.png")));
-        label_2->setScaledContents(true);
-        lineEdit = new QLineEdit(frame);
-        lineEdit->setObjectName("lineEdit");
-        lineEdit->setGeometry(QRect(60, 10, 341, 31));
-        lineEdit->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border: 2px solid #4dd0e1;\n"
-"border-radius: 6px;\n"
-"padding: 6px 10px;\n"
-"font-size: 14px;\n"
-"color: #e0f7fa;"));
-        comboBox = new QComboBox(frame);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName("comboBox");
-        comboBox->setGeometry(QRect(410, 10, 82, 28));
-        comboBox->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border: 1px solid #4dd0e1;\n"
-"color: #e0f7fa;\n"
-"border-radius: 4px;"));
-        comboBox_2 = new QComboBox(frame);
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->setObjectName("comboBox_2");
-        comboBox_2->setGeometry(QRect(500, 10, 82, 28));
-        comboBox_2->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border: 1px solid #4dd0e1;\n"
-"color: #e0f7fa;\n"
-"border-radius: 4px;"));
-        monthCalendarWidget = new QWidget(centralwidget);
-        monthCalendarWidget->setObjectName("monthCalendarWidget");
-        monthCalendarWidget->setGeometry(QRect(760, 160, 400, 261));
-        monthCalendarWidget->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border-radius: 6px;\n"
-"border: 1px solid #4dd0e1;"));
-        monthCalendarLayout = new QVBoxLayout(monthCalendarWidget);
-        monthCalendarLayout->setSpacing(10);
-        monthCalendarLayout->setObjectName("monthCalendarLayout");
-        monthCalendarLayout->setContentsMargins(0, 0, 0, 0);
-        yearComboBox = new QComboBox(monthCalendarWidget);
-        yearComboBox->addItem(QString());
-        yearComboBox->addItem(QString());
-        yearComboBox->addItem(QString());
-        yearComboBox->setObjectName("yearComboBox");
-        yearComboBox->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border: 1px solid #4dd0e1;\n"
-"color: #e0f7fa;\n"
-"border-radius: 4px;"));
-
-        monthCalendarLayout->addWidget(yearComboBox);
-
-        monthGridLayout = new QGridLayout();
-        monthGridLayout->setSpacing(10);
-        monthGridLayout->setObjectName("monthGridLayout");
-        januaryButton = new QPushButton(monthCalendarWidget);
-        januaryButton->setObjectName("januaryButton");
-        januaryButton->setMinimumSize(QSize(90, 50));
-        januaryButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(januaryButton, 0, 0, 1, 1);
-
-        februaryButton = new QPushButton(monthCalendarWidget);
-        februaryButton->setObjectName("februaryButton");
-        februaryButton->setMinimumSize(QSize(90, 50));
-        februaryButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(februaryButton, 0, 1, 1, 1);
-
-        marchButton = new QPushButton(monthCalendarWidget);
-        marchButton->setObjectName("marchButton");
-        marchButton->setMinimumSize(QSize(90, 50));
-        marchButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(marchButton, 0, 2, 1, 1);
-
-        aprilButton = new QPushButton(monthCalendarWidget);
-        aprilButton->setObjectName("aprilButton");
-        aprilButton->setMinimumSize(QSize(90, 50));
-        aprilButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(aprilButton, 0, 3, 1, 1);
-
-        mayButton = new QPushButton(monthCalendarWidget);
-        mayButton->setObjectName("mayButton");
-        mayButton->setMinimumSize(QSize(90, 50));
-        mayButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(mayButton, 1, 0, 1, 1);
-
-        juneButton = new QPushButton(monthCalendarWidget);
-        juneButton->setObjectName("juneButton");
-        juneButton->setMinimumSize(QSize(90, 50));
-        juneButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(juneButton, 1, 1, 1, 1);
-
-        julyButton = new QPushButton(monthCalendarWidget);
-        julyButton->setObjectName("julyButton");
-        julyButton->setMinimumSize(QSize(90, 50));
-        julyButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(julyButton, 1, 2, 1, 1);
-
-        augustButton = new QPushButton(monthCalendarWidget);
-        augustButton->setObjectName("augustButton");
-        augustButton->setMinimumSize(QSize(90, 50));
-        augustButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(augustButton, 1, 3, 1, 1);
-
-        septemberButton = new QPushButton(monthCalendarWidget);
-        septemberButton->setObjectName("septemberButton");
-        septemberButton->setMinimumSize(QSize(90, 50));
-        septemberButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(septemberButton, 2, 0, 1, 1);
-
-        octoberButton = new QPushButton(monthCalendarWidget);
-        octoberButton->setObjectName("octoberButton");
-        octoberButton->setMinimumSize(QSize(90, 50));
-        octoberButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(octoberButton, 2, 1, 1, 1);
-
-        novemberButton = new QPushButton(monthCalendarWidget);
-        novemberButton->setObjectName("novemberButton");
-        novemberButton->setMinimumSize(QSize(90, 50));
-        novemberButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(novemberButton, 2, 2, 1, 1);
-
-        decemberButton = new QPushButton(monthCalendarWidget);
-        decemberButton->setObjectName("decemberButton");
-        decemberButton->setMinimumSize(QSize(90, 50));
-        decemberButton->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;\n"
-"border: 1px solid #4dd0e1;\n"
-"border-radius: 4px;"));
-
-        monthGridLayout->addWidget(decemberButton, 2, 3, 1, 1);
-
-
-        monthCalendarLayout->addLayout(monthGridLayout);
-
-        listWidget_2 = new QListWidget(centralwidget);
-        listWidget_2->setObjectName("listWidget_2");
-        listWidget_2->setGeometry(QRect(760, 470, 401, 261));
-        listWidget_2->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border-radius: 6px;\n"
-"padding: 10px;\n"
-"border: 1px solid #4dd0e1;\n"
-"font-size: 16px;\n"
-"color: #00e676;"));
-        label_5 = new QLabel(centralwidget);
-        label_5->setObjectName("label_5");
-        label_5->setGeometry(QRect(50, 40, 51, 51));
-        label_5->setAutoFillBackground(false);
-        label_5->setPixmap(QPixmap(QString::fromUtf8(":/images/logo football.png")));
-        label_5->setScaledContents(true);
+        centralwidget->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(360, 680, 80, 31));
-        pushButton_3->setStyleSheet(QString::fromUtf8("background-color: #00e676;\n"
-"color: #ffffff;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #4dd0e1;"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/images/add.png"), QSize(), QIcon::Mode::Normal, QIcon::State::On);
-        pushButton_3->setIcon(icon);
+        pushButton_3->setGeometry(QRect(480, 380, 111, 41));
+        QFont font;
+        font.setFamilies({QString::fromUtf8("HP Simplified Jpan")});
+        font.setPointSize(14);
+        pushButton_3->setFont(font);
+        pushButton_3->setStyleSheet(QString::fromUtf8("\n"
+"QPushButton#pushButton_3 {\n"
+"border: 2px solid orange; /* Subtle white border */\n"
+"border-radius: 10px;\n"
+"background-color: rgb(255, 255, 255);\n"
+"color: rgb(255, 184, 19);\n"
+"}\n"
+"QPushButton#pushButton_3:hover {\n"
+"    background-color: #ebebeb; /* Lighter shade on hover */\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton#pushButton_3:pressed {\n"
+"    background-color: #ffe9c6; /* Darker shade when pressed */\n"
+"\n"
+"}"));
         pushButton_3->setIconSize(QSize(16, 16));
-        test = new QTableView(centralwidget);
-        test->setObjectName("test");
-        test->setGeometry(QRect(40, 210, 591, 451));
-        test->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d;\n"
-"border: 1px solid #4dd0e1;\n"
-"color: #e0f7fa;"));
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(550, 680, 83, 29));
-        pushButton->setStyleSheet(QString::fromUtf8("background-color: #d32f2f;\n"
-"color: #ffffff;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #4dd0e1;"));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/images/delete.png"), QSize(), QIcon::Mode::Normal, QIcon::State::On);
-        pushButton->setIcon(icon1);
-        pushButton->setIconSize(QSize(16, 16));
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName("pushButton_2");
-        pushButton_2->setGeometry(QRect(450, 680, 83, 29));
-        pushButton_2->setStyleSheet(QString::fromUtf8("background-color: #0288d1;\n"
-"color: #ffffff;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #4dd0e1;"));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/images/update.png"), QSize(), QIcon::Mode::Normal, QIcon::State::On);
-        pushButton_2->setIcon(icon2);
-        pushButton_2->setIconSize(QSize(16, 16));
+        widget_2 = new QWidget(centralwidget);
+        widget_2->setObjectName("widget_2");
+        widget_2->setGeometry(QRect(200, 120, 1851, 971));
+        widget_2->setStyleSheet(QString::fromUtf8("background-color: #22252D;\n"
+"border-radius:40px;\n"
+"border: 1px solid #FFFFFF; /* Subtle blue-gray border */\n"
+""));
+        label_6 = new QLabel(centralwidget);
+        label_6->setObjectName("label_6");
+        label_6->setGeometry(QRect(30, 620, 28, 29));
+        label_6->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_6->setPixmap(QPixmap(QString::fromUtf8(":/images/Group 2.png")));
+        label_6->setScaledContents(true);
+        line_2 = new QFrame(centralwidget);
+        line_2->setObjectName("line_2");
+        line_2->setGeometry(QRect(-10, 410, 15, 54));
+        line_2->setStyleSheet(QString::fromUtf8("QFrame#line_2 {\n"
+"    background-color: #D8A353; /* Match the exact background color */\n"
+"    border: 2px solid #2D3748; /* Darker border to contrast with background */\n"
+"    border-radius: 3px;\n"
+"}"));
+        line_2->setFrameShape(QFrame::Shape::VLine);
+        line_2->setFrameShadow(QFrame::Shadow::Sunken);
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName("label_5");
+        label_5->setGeometry(QRect(30, 420, 27, 27));
+        label_5->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_5->setPixmap(QPixmap(QString::fromUtf8(":/images/Vectoror.png")));
+        label_5->setScaledContents(true);
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName("label_4");
+        label_4->setGeometry(QRect(30, 320, 35, 35));
+        label_4->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_4->setPixmap(QPixmap(QString::fromUtf8(":/images/Group 1.png")));
+        label_4->setScaledContents(true);
+        dashboard_3 = new QLabel(centralwidget);
+        dashboard_3->setObjectName("dashboard_3");
+        dashboard_3->setGeometry(QRect(80, 520, 71, 31));
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
+        font1.setPointSize(12);
+        dashboard_3->setFont(font1);
+        dashboard_3->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color:#393C44;"));
+        dashboard_2 = new QLabel(centralwidget);
+        dashboard_2->setObjectName("dashboard_2");
+        dashboard_2->setGeometry(QRect(80, 320, 71, 31));
+        dashboard_2->setFont(font1);
+        dashboard_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color:#393C44;"));
+        dashboard_4 = new QLabel(centralwidget);
+        dashboard_4->setObjectName("dashboard_4");
+        dashboard_4->setGeometry(QRect(80, 620, 61, 31));
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
+        font2.setPointSize(12);
+        font2.setBold(false);
+        dashboard_4->setFont(font2);
+        dashboard_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color:#393C44;"));
+        dashboard_7 = new QLabel(centralwidget);
+        dashboard_7->setObjectName("dashboard_7");
+        dashboard_7->setGeometry(QRect(80, 420, 131, 31));
+        dashboard_7->setFont(font1);
+        dashboard_7->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color:white;"));
+        label_12 = new QLabel(centralwidget);
+        label_12->setObjectName("label_12");
+        label_12->setGeometry(QRect(30, 520, 34, 32));
+        label_12->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_12->setPixmap(QPixmap(QString::fromUtf8(":/images/Group 3.png")));
+        label_12->setScaledContents(true);
+        label_7 = new QLabel(centralwidget);
+        label_7->setObjectName("label_7");
+        label_7->setGeometry(QRect(50, 30, 85, 85));
+        label_7->setPixmap(QPixmap(QString::fromUtf8(":/images/logo football.png")));
+        label_7->setScaledContents(true);
+        label_14 = new QLabel(centralwidget);
+        label_14->setObjectName("label_14");
+        label_14->setGeometry(QRect(30, 920, 28, 29));
+        label_14->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_14->setPixmap(QPixmap(QString::fromUtf8(":/images/logout.png")));
+        label_14->setScaledContents(true);
+        dashboard_5 = new QLabel(centralwidget);
+        dashboard_5->setObjectName("dashboard_5");
+        dashboard_5->setGeometry(QRect(80, 850, 71, 31));
+        dashboard_5->setFont(font1);
+        dashboard_5->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color: rgb(158, 158, 158);"));
+        dashboard_6 = new QLabel(centralwidget);
+        dashboard_6->setObjectName("dashboard_6");
+        dashboard_6->setGeometry(QRect(80, 920, 71, 31));
+        dashboard_6->setFont(font1);
+        dashboard_6->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color: rgb(158, 158, 158);"));
+        label_13 = new QLabel(centralwidget);
+        label_13->setObjectName("label_13");
+        label_13->setGeometry(QRect(30, 850, 28, 29));
+        label_13->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_13->setPixmap(QPixmap(QString::fromUtf8(":/images/language.png")));
+        label_13->setScaledContents(true);
+        line = new QFrame(centralwidget);
+        line->setObjectName("line");
+        line->setGeometry(QRect(30, 790, 135, 1));
+        line->setStyleSheet(QString::fromUtf8("background-color: #393C44;"));
+        line->setFrameShape(QFrame::Shape::HLine);
+        line->setFrameShadow(QFrame::Shadow::Sunken);
+        label_8 = new QLabel(centralwidget);
+        label_8->setObjectName("label_8");
+        label_8->setGeometry(QRect(120, 90, 1411, 411));
+        label_8->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_8->setPixmap(QPixmap(QString::fromUtf8(":/images/Group 12.png")));
+        label_8->setScaledContents(true);
+        label_18 = new QLabel(centralwidget);
+        label_18->setObjectName("label_18");
+        label_18->setGeometry(QRect(480, 220, 531, 31));
+        QFont font3;
+        font3.setFamilies({QString::fromUtf8("Speedo")});
+        font3.setPointSize(25);
+        font3.setBold(false);
+        label_18->setFont(font3);
+        label_18->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_20 = new QLabel(centralwidget);
+        label_20->setObjectName("label_20");
+        label_20->setGeometry(QRect(480, 270, 141, 31));
+        QFont font4;
+        font4.setFamilies({QString::fromUtf8("Arial Nova")});
+        font4.setPointSize(13);
+        font4.setBold(false);
+        label_20->setFont(font4);
+        label_20->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_9 = new QLabel(centralwidget);
+        label_9->setObjectName("label_9");
+        label_9->setGeometry(QRect(1450, 140, 449, 335));
+        label_9->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_9->setPixmap(QPixmap(QString::fromUtf8(":/images/Group 13.png")));
+        label_9->setScaledContents(true);
+        pushButton_6 = new QPushButton(centralwidget);
+        pushButton_6->setObjectName("pushButton_6");
+        pushButton_6->setGeometry(QRect(1480, 170, 64, 64));
+        pushButton_6->setStyleSheet(QString::fromUtf8("/* Style for the pushButton_4 */\n"
+"QPushButton#pushButton_6 {\n"
+"    background-color: #F5A623; /* Original background color */\n"
+"    color: #1A2633; /* Dark blue text */\n"
+"    border: 1px solid white; /* Subtle white border */\n"
+"    border-radius: 20px;\n"
+"    min-width: 62px;\n"
+"    min-height: 62px;\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton#pushButton_4:hover {\n"
+"    background-color: #ffdba2; /* Lighter shade on hover */\n"
+"    min-width: 70px; /* Slight size increase */\n"
+"    min-height: 70px;\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton#pushButton_4:pressed {\n"
+"    background-color: #d68f1e; /* Darker shade when pressed */\n"
+"    min-width: 62px; /* Original size */\n"
+"    min-height: 62px;\n"
+"   \n"
+"}"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/pencil.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        pushButton_6->setIcon(icon);
+        pushButton_6->setIconSize(QSize(42, 42));
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName("pushButton_4");
-        pushButton_4->setGeometry(QRect(40, 680, 83, 29));
-        pushButton_4->setStyleSheet(QString::fromUtf8("background-color: #0288d1;\n"
-"color: #ffffff;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #4dd0e1;"));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/images/stats.png"), QSize(), QIcon::Mode::Normal, QIcon::State::On);
-        pushButton_4->setIcon(icon3);
-        pushButton_4->setIconSize(QSize(16, 16));
-        comp_name = new QLabel(centralwidget);
-        comp_name->setObjectName("comp_name");
-        comp_name->setGeometry(QRect(780, 480, 281, 41));
-        QFont font1;
-        font1.setPointSize(12);
-        font1.setBold(true);
-        comp_name->setFont(font1);
-        comp_name->setStyleSheet(QString::fromUtf8("color: #e0f7fa;"));
-        team_name = new QLabel(centralwidget);
-        team_name->setObjectName("team_name");
-        team_name->setGeometry(QRect(860, 580, 201, 51));
-        QFont font2;
-        font2.setPointSize(25);
-        font2.setBold(true);
-        team_name->setFont(font2);
-        team_name->setStyleSheet(QString::fromUtf8("color: #00e676;"));
-        pushButton_5 = new QPushButton(centralwidget);
-        pushButton_5->setObjectName("pushButton_5");
-        pushButton_5->setGeometry(QRect(130, 680, 101, 29));
-        pushButton_5->setStyleSheet(QString::fromUtf8("background-color: #0288d1;\n"
-"color: #ffffff;\n"
-"border-radius: 5px;\n"
-"padding: 6px 12px;\n"
-"border: 1px solid #4dd0e1;"));
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/images/generate.png"), QSize(), QIcon::Mode::Normal, QIcon::State::On);
-        pushButton_5->setIcon(icon4);
-        pushButton_5->setIconSize(QSize(16, 16));
+        pushButton_4->setGeometry(QRect(1560, 180, 46, 46));
+        pushButton_4->setStyleSheet(QString::fromUtf8("/* Style for the pushButton_5 */\n"
+"QPushButton#pushButton_4 {\n"
+"    background-color: #393C44; /* Original background color */\n"
+"    color: #FFFFFF; /* White text for contrast */\n"
+"	    border: 1px solid white; /* Subtle white border */\n"
+"    border-radius: 15px;\n"
+"    min-width: 44px;\n"
+"    min-height: 44px;\n"
+"   \n"
+"}\n"
+"\n"
+"QPushButton#pushButton_4:hover {\n"
+"    background-color: #4A4E58; /* Lighter shade on hover */\n"
+"    min-width: 60px; /* Slight size increase */\n"
+"    min-height: 60px;\n"
+"    \n"
+"}\n"
+"\n"
+"QPushButton#pushButton_4:pressed {\n"
+"    background-color: #2D3037; /* Darker shade when pressed */\n"
+"    min-width: 52px; /* Original size */\n"
+"    min-height: 52px;\n"
+"    \n"
+"}"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/images/statsIcon.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        pushButton_4->setIcon(icon1);
+        pushButton_4->setIconSize(QSize(22, 22));
+        label_19 = new QLabel(centralwidget);
+        label_19->setObjectName("label_19");
+        label_19->setGeometry(QRect(1480, 260, 531, 31));
+        QFont font5;
+        font5.setFamilies({QString::fromUtf8("Impact")});
+        font5.setPointSize(21);
+        font5.setBold(false);
+        label_19->setFont(font5);
+        label_19->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_22 = new QLabel(centralwidget);
+        label_22->setObjectName("label_22");
+        label_22->setGeometry(QRect(1480, 300, 331, 31));
+        QFont font6;
+        font6.setFamilies({QString::fromUtf8("Arial Nova")});
+        font6.setPointSize(11);
+        font6.setBold(false);
+        label_22->setFont(font6);
+        label_22->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(910, 130, 101, 20));
-        QFont font3;
-        font3.setPointSize(14);
-        font3.setBold(true);
-        label->setFont(font3);
+        label->setGeometry(QRect(240, 560, 558, 417));
+        label->setStyleSheet(QString::fromUtf8("background-color:transparent;"));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/images/genPic.png")));
+        label->setScaledContents(true);
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName("label_2");
+        label_2->setGeometry(QRect(410, 580, 381, 151));
+        QFont font7;
+        font7.setFamilies({QString::fromUtf8("Arial Nova")});
+        font7.setPointSize(25);
+        font7.setBold(true);
+        label_2->setFont(font7);
+        label_2->setStyleSheet(QString::fromUtf8("letter-spacing:2px;\n"
+"background-color: transparent;"));
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(860, 430, 201, 31));
-        label_3->setFont(font3);
+        label_3->setGeometry(QRect(910, 560, 988, 417));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_3->setPixmap(QPixmap(QString::fromUtf8(":/images/CHP.png")));
+        label_3->setScaledContents(true);
+        label_15 = new QLabel(centralwidget);
+        label_15->setObjectName("label_15");
+        label_15->setGeometry(QRect(950, 600, 421, 61));
+        QFont font8;
+        font8.setPointSize(35);
+        font8.setBold(true);
+        label_15->setFont(font8);
+        label_15->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_16 = new QLabel(centralwidget);
+        label_16->setObjectName("label_16");
+        label_16->setGeometry(QRect(1040, 700, 401, 121));
+        QFont font9;
+        font9.setFamilies({QString::fromUtf8("Segoe Print")});
+        font9.setPointSize(24);
+        font9.setBold(false);
+        label_16->setFont(font9);
+        label_16->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
-        menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1200, 25));
-        menubar->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;"));
-        MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
-        statusbar->setObjectName("statusbar");
-        statusbar->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a;\n"
-"color: #e0f7fa;"));
-        MainWindow->setStatusBar(statusbar);
+        widget_2->raise();
+        label->raise();
+        label_8->raise();
+        label_9->raise();
+        label_6->raise();
+        line_2->raise();
+        label_5->raise();
+        label_4->raise();
+        dashboard_3->raise();
+        dashboard_2->raise();
+        dashboard_4->raise();
+        dashboard_7->raise();
+        label_12->raise();
+        label_7->raise();
+        label_14->raise();
+        dashboard_5->raise();
+        dashboard_6->raise();
+        label_13->raise();
+        line->raise();
+        pushButton_6->raise();
+        pushButton_4->raise();
+        label_19->raise();
+        label_22->raise();
+        label_18->raise();
+        label_20->raise();
+        pushButton_3->raise();
+        label_2->raise();
+        label_3->raise();
+        label_15->raise();
+        label_16->raise();
 
         retranslateUi(MainWindow);
 
@@ -475,44 +384,39 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        dashboard_2->setText(QCoreApplication::translate("MainWindow", "Player", nullptr));
-        dashboard_7->setText(QCoreApplication::translate("MainWindow", "Competition", nullptr));
-        dashboard_3->setText(QCoreApplication::translate("MainWindow", "Match", nullptr));
-        dashboard_4->setText(QCoreApplication::translate("MainWindow", "Team", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "Sort by", nullptr));
-        comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "By date", nullptr));
-        comboBox->setItemText(2, QCoreApplication::translate("MainWindow", "By nb teams", nullptr));
-
-        comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "Type", nullptr));
-        comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "League", nullptr));
-        comboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "Tournement", nullptr));
-
-        yearComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "2000", nullptr));
-        yearComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "2025", nullptr));
-        yearComboBox->setItemText(2, QCoreApplication::translate("MainWindow", "2500", nullptr));
-
-        januaryButton->setText(QCoreApplication::translate("MainWindow", "January", nullptr));
-        februaryButton->setText(QCoreApplication::translate("MainWindow", "February", nullptr));
-        marchButton->setText(QCoreApplication::translate("MainWindow", "March", nullptr));
-        aprilButton->setText(QCoreApplication::translate("MainWindow", "April", nullptr));
-        mayButton->setText(QCoreApplication::translate("MainWindow", "May", nullptr));
-        juneButton->setText(QCoreApplication::translate("MainWindow", "June", nullptr));
-        julyButton->setText(QCoreApplication::translate("MainWindow", "July", nullptr));
-        augustButton->setText(QCoreApplication::translate("MainWindow", "August", nullptr));
-        septemberButton->setText(QCoreApplication::translate("MainWindow", "September", nullptr));
-        octoberButton->setText(QCoreApplication::translate("MainWindow", "October", nullptr));
-        novemberButton->setText(QCoreApplication::translate("MainWindow", "November", nullptr));
-        decemberButton->setText(QCoreApplication::translate("MainWindow", "December", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "HERE", nullptr));
+        label_6->setText(QString());
         label_5->setText(QString());
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Update", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Stats", nullptr));
-        comp_name->setText(QString());
-        team_name->setText(QString());
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Generate", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "Calendar", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Winner prediction", nullptr));
+        label_4->setText(QString());
+        dashboard_3->setText(QCoreApplication::translate("MainWindow", "Match", nullptr));
+        dashboard_2->setText(QCoreApplication::translate("MainWindow", "Player", nullptr));
+        dashboard_4->setText(QCoreApplication::translate("MainWindow", "Team", nullptr));
+        dashboard_7->setText(QCoreApplication::translate("MainWindow", "Competition", nullptr));
+        label_12->setText(QString());
+        label_7->setText(QString());
+        label_14->setText(QString());
+        dashboard_5->setText(QCoreApplication::translate("MainWindow", "About", nullptr));
+        dashboard_6->setText(QCoreApplication::translate("MainWindow", "Log Out", nullptr));
+        label_13->setText(QString());
+        label_8->setText(QString());
+        label_18->setText(QCoreApplication::translate("MainWindow", "ADD A COMPETITON", nullptr));
+        label_20->setText(QCoreApplication::translate("MainWindow", "by filling this form", nullptr));
+        label_9->setText(QString());
+        pushButton_6->setText(QString());
+        pushButton_4->setText(QString());
+        label_19->setText(QCoreApplication::translate("MainWindow", "Adjust Team  |  Statistiques", nullptr));
+        label_22->setText(QCoreApplication::translate("MainWindow", " You can choose the type of the Statistiques .", nullptr));
+        label->setText(QString());
+#if QT_CONFIG(whatsthis)
+        label_2->setWhatsThis(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">You can Generate a \\n random match \\n by selecting </p></body></html>", nullptr));
+#endif // QT_CONFIG(whatsthis)
+        label_2->setText(QCoreApplication::translate("MainWindow", "  You can Generate a \n"
+"        random match ! \n"
+"      ", nullptr));
+        label_3->setText(QString());
+        label_15->setText(QCoreApplication::translate("MainWindow", "Competition Types", nullptr));
+        label_16->setText(QCoreApplication::translate("MainWindow", "\342\200\242 League\n"
+"\342\200\242 Tournament", nullptr));
     } // retranslateUi
 
 };

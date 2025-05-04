@@ -19,23 +19,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QEventLoop>
-#include <QDate>
-#include <QVBoxLayout>
-#include <QTableWidget>
-#include <QPushButton>
-#include <QLocale>
-#include <QHeaderView>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QMessageBox>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
+
 struct match {
     QDate date;
     QString teama;
@@ -43,7 +27,6 @@ struct match {
     QString score;
     QString predicted_score;
 };
-class QTableWidget;
 
 class MatchesDialog : public QDialog
 {
@@ -51,6 +34,7 @@ class MatchesDialog : public QDialog
 
 public:
     explicit MatchesDialog(int comp_id, int year, int month, QWidget *parent = nullptr);
+    explicit MatchesDialog(int comp_id, const QDate &date, QWidget *parent = nullptr);
 
 private:
     void setupUi();
@@ -58,8 +42,8 @@ private:
     void predictScores(const QVector<match>&);
 
     int m_comp_id;
-    int m_year;
-    int m_month;
+    QDate m_date; // Used for single-day filtering
+    bool m_isSingleDay; // Flag to determine filtering mode
     QTableWidget* m_matchTable;
 };
 

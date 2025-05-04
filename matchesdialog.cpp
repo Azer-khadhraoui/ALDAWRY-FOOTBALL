@@ -1,26 +1,21 @@
 #include "matchesdialog.h"
-#include <QDate>
-#include <QVBoxLayout>
-#include <QTableWidget>
-#include <QPushButton>
-#include <QLocale>
-#include <QHeaderView>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
-#include <QMessageBox>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 
 MatchesDialog::MatchesDialog(int comp_id, int year, int month, QWidget *parent)
     : QDialog(parent)
     , m_comp_id(comp_id)
-    , m_year(year)
-    , m_month(month)
+    , m_date(QDate(year, month, 1))
+    , m_isSingleDay(false)
+    , m_matchTable(nullptr)
+{
+    setupUi();
+    populateMatches();
+}
+
+MatchesDialog::MatchesDialog(int comp_id, const QDate &date, QWidget *parent)
+    : QDialog(parent)
+    , m_comp_id(comp_id)
+    , m_date(date)
+    , m_isSingleDay(true)
     , m_matchTable(nullptr)
 {
     setupUi();
@@ -29,8 +24,12 @@ MatchesDialog::MatchesDialog(int comp_id, int year, int month, QWidget *parent)
 
 void MatchesDialog::setupUi()
 {
-    QLocale locale(QLocale::English); // Use English for month names
-    setWindowTitle(QString("Matches for %1 %2").arg(locale.monthName(m_month)).arg(m_year));
+    QLocale locale(QLocale::English);
+    if (m_isSingleDay) {
+        setWindowTitle(QString("Matches for %1").arg(m_date.toString("yyyy-MM-dd")));
+    } else {
+        setWindowTitle(QString("Matches for %1 %2").arg(locale.monthName(m_date.month())).arg(m_date.year()));
+    }
     setFixedSize(700, 500);
     setStyleSheet("background-color: #0d1f2d; color: #e0f7fa;");
 
@@ -54,19 +53,29 @@ void MatchesDialog::setupUi()
 void MatchesDialog::populateMatches()
 {
     QSqlQuery query;
-    // Clear the table before populating it with new data
     m_matchTable->clearContents();
-    m_matchTable->setRowCount(0); // Ensure the row count is reset
+    m_matchTable->setRowCount(0);
 
-    query.prepare("SELECT m.date_m, "
-                  "(SELECT team_name FROM equipe WHERE id_team = m.id_teama) AS teama, "
-                  "(SELECT team_name FROM equipe WHERE id_team = m.id_teamb) AS teamb, "
-                  "m.scorea, m.scoreb "
-                  "FROM match m "
-                  "WHERE m.id_competition = :comp_id AND EXTRACT(YEAR FROM m.date_m) = :year AND EXTRACT(MONTH FROM m.date_m) = :month");
-    query.bindValue(":comp_id", m_comp_id);
-    query.bindValue(":year", m_year);
-    query.bindValue(":month", m_month);
+    if (m_isSingleDay) {
+        query.prepare("SELECT m.date_m, "
+                      "(SELECT team_name FROM equipe WHERE id_team = m.id_teama) AS teama, "
+                      "(SELECT team_name FROM equipe WHERE id_team = m.id_teamb) AS teamb, "
+                      "m.scorea, m.scoreb "
+                      "FROM match m "
+                      "WHERE m.id_competition = :comp_id AND date_m = TO_DATE(:date, 'YYYY-MM-DD')");
+        query.bindValue(":comp_id", m_comp_id);
+        query.bindValue(":date", m_date.toString("yyyy-MM-dd"));
+    } else {
+        query.prepare("SELECT m.date_m, "
+                      "(SELECT team_name FROM equipe WHERE id_team = m.id_teama) AS teama, "
+                      "(SELECT team_name FROM equipe WHERE id_team = m.id_teamb) AS teamb, "
+                      "m.scorea, m.scoreb "
+                      "FROM match m "
+                      "WHERE m.id_competition = :comp_id AND EXTRACT(YEAR FROM m.date_m) = :year AND EXTRACT(MONTH FROM m.date_m) = :month");
+        query.bindValue(":comp_id", m_comp_id);
+        query.bindValue(":year", m_date.year());
+        query.bindValue(":month", m_date.month());
+    }
 
     QVector<match> matches;
 
@@ -98,13 +107,12 @@ void MatchesDialog::populateMatches()
 
     m_matchTable->resizeColumnsToContents();
 
-    // Predict scores for each match
     predictScores(matches);
 }
 
 void MatchesDialog::predictScores(const QVector<match>& matches)
 {
-    QString apiKey = "AIzaSyDm1OCBufbaP1k-ClMoPTCubMABaVtl3zg"; 
+    QString apiKey = "AIzaSyDm1OCBufbaP1k-ClMoPTCubMABaVtl3zg";
     if (apiKey.isEmpty()) {
         QMessageBox::warning(this, "API Key Missing", "Gemini API key is missing. Cannot predict scores.");
         return;
@@ -142,20 +150,20 @@ void MatchesDialog::predictScores(const QVector<match>& matches)
         }
 
         part["text"] = QString("Predict the score for the match between %1 and %2. "
-                       "Team %1 has %3 wins, %4 draws, and %5 losses. "
-                       "Team %2 has %6 wins, %7 draws, and %8 losses. "
-                       "Provide the result as 'X - Y'."
-                       "just give me the score, nothing else."
-                    "this is an imaginary match, so don't use real data.")
-                   .arg(m.teama)
-                   .arg(m.teamb)
-                   .arg(teamAWins)
-                   .arg(teamADraws)
-                   .arg(teamALosses)
-                   .arg(teamBWins)
-                   .arg(teamBDraws)
-                   .arg(teamBLosses);
-       
+                               "Team %1 has %3 wins, %4 draws, and %5 losses. "
+                               "Team %2 has %6 wins, %7 draws, and %8 losses. "
+                               "Provide the result as 'X - Y'."
+                               "just give me the score, nothing else."
+                               "this is an imaginary match, so don't use real data.")
+                           .arg(m.teama)
+                           .arg(m.teamb)
+                           .arg(teamAWins)
+                           .arg(teamADraws)
+                           .arg(teamALosses)
+                           .arg(teamBWins)
+                           .arg(teamBDraws)
+                           .arg(teamBLosses);
+
         parts.append(part);
         content["parts"] = parts;
         contents.append(content);

@@ -1,18 +1,43 @@
 <RCC>
     <qresource prefix="/images">
         <file>logo football.png</file>
-        <file>rendu-3d-terrain-de-football-en.png</file>
         <file>user.png</file>
-        <file>vini.png</file>
         <file>search.png</file>
         <file>trier.png</file>
-        <file>guardiola.png</file>
         <file>BAR.png</file>
-        
         <file>add.png</file>
-    <file>delete.png</file>
-    <file>update.png</file>
-    <file>stats.png</file>
-    <file>generate.png</file>
+        <file>delete.png</file>
+        <file>update.png</file>
+        <file>stats.png</file>
+        <file>generate.png</file>
+        <file>Group 1.png</file>
+        <file>Vectoror.png</file>
+        <file>ai.png</file>
+        <file>deleteIcon.png</file>
+        <file>Group 2.png</file>
+        <file>Group 3.png</file>
+        <file>language.png</file>
+        <file>Layer 2.png</file>
+        <file>List.png</file>
+        <file>logout.png</file>
+        <file>logoutor.png</file>
+        <file>genPic.png</file>
+        <file>Group 12.png</file>
+        <file>Group 13.png</file>
+        <file>statsIcon.png</file>
+        <file>pencil.png</file>
+        <file>gene2.png</file>
+        <file>compName.png</file>
+        <file>compType.png</file>
+        <file>ExpDate.png</file>
+        <file>numbers.png</file>
+        <file>reward.png</file>
+        <file>StartDate.png</file>
+        <file>editIcon.png</file>
+        <file>PREDICTION.png</file>
+        <file>CHP.png</file>
+        <file>chart.png</file>
+        <file>previous.png</file>
+        <file>next.png</file>
     </qresource>
 </RCC>

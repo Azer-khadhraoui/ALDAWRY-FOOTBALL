@@ -30,7 +30,7 @@ public:
     {
         if (MatchesDialog->objectName().isEmpty())
             MatchesDialog->setObjectName("MatchesDialog");
-        MatchesDialog->resize(600, 400);
+        MatchesDialog->resize(600, 398);
         MatchesDialog->setStyleSheet(QString::fromUtf8("background-color: #0d1f2d; color: #e0f7fa;"));
         verticalLayout = new QVBoxLayout(MatchesDialog);
         verticalLayout->setObjectName("verticalLayout");
@@ -46,9 +46,9 @@ public:
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         matchTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         matchTable->setObjectName("matchTable");
-        matchTable->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a; border: 1px solid #4dd0e1; color: #e0f7fa;"));
-        matchTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        matchTable->setSelectionMode(QAbstractItemView::NoSelection);
+        matchTable->setStyleSheet(QString::fromUtf8("background-color: #1e4d4a; border: 1px solid ; color: #e0f7fa;"));
+        matchTable->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
+        matchTable->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
         matchTable->horizontalHeader()->setDefaultSectionSize(120);
         matchTable->horizontalHeader()->setStretchLastSection(true);
         matchTable->verticalHeader()->setVisible(false);
@@ -57,7 +57,7 @@ public:
 
         closeButton = new QPushButton(MatchesDialog);
         closeButton->setObjectName("closeButton");
-        closeButton->setStyleSheet(QString::fromUtf8("background-color: #0288d1; color: #ffffff; border: 1px solid #4dd0e1; border-radius: 4px;"));
+        closeButton->setStyleSheet(QString::fromUtf8("background-color: red; color: #ffffff; border: 1px solid red; border-radius: 1px;"));
 
         verticalLayout->addWidget(closeButton);
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>400</height>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,13 +20,13 @@
    <item>
     <widget class="QTableWidget" name="matchTable">
      <property name="styleSheet">
-      <string notr="true">background-color: #1e4d4a; border: 1px solid #4dd0e1; color: #e0f7fa;</string>
+      <string notr="true">background-color: #1e4d4a; border: 1px solid ; color: #e0f7fa;</string>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::NoSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
      </property>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>120</number>
@@ -61,11 +61,11 @@
    </item>
    <item>
     <widget class="QPushButton" name="closeButton">
+     <property name="styleSheet">
+      <string notr="true">background-color: red; color: #ffffff; border: 1px solid red; border-radius: 1px;</string>
+     </property>
      <property name="text">
       <string>Close</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: #0288d1; color: #ffffff; border: 1px solid #4dd0e1; border-radius: 4px;</string>
      </property>
     </widget>
    </item>
