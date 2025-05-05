@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Profile</class>
+ <widget class="QWidget" name="Profile">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>581</width>
+    <height>896</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>User Profile</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>551</width>
+     <height>631</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(25, 31, 42);
+    color: #FFFFFF;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    border-radius: 15px;
+    padding: 15px;
+    spacing: 2px;</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="firstNameLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               First Name :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="emailLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Email :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="emailValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QPushButton" name="closeButton">
+      <property name="styleSheet">
+       <string notr="true">background-color: #5A626F;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-left: 350px;
+    margin-right: 20px;
+    margin-bottom: 5px;</string>
+      </property>
+      <property name="text">
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="roleLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Role :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="mobileValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="roleValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="mobileLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Mobile Number :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="firstNameValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="lastNameValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="dobLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Date of Birth :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="lastNameLabel">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Last Name :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="dobValue">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+    border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="titleLabel">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>20</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    color: #FFFFFF;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 5px 10px;</string>
+   </property>
+   <property name="text">
+    <string>User Profile</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="iconLastName">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>100</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/img/Userr.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="iconFirstName">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>180</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/img/Userr.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="iconDob">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>221</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/img/StartDate.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="iconPhoto">
+   <property name="geometry">
+    <rect>
+     <x>59</x>
+     <y>321</y>
+     <width>21</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/img/cam.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="iconRole">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>421</y>
+     <width>17</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B0C0D0;background-color:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>:/img/compType.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

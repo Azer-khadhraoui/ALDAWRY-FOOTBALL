@@ -1,0 +1,145 @@
+#include "employeview.h"
+#include "ui_employeview.h"
+#include <QMessageBox>
+#include <QDebug>
+#include <QVBoxLayout>
+#include <QGraphicsDropShadowEffect>
+#include "sessionmanager.h"
+#include "mainwindow.h"
+#include "adduser.h"
+#include "displayuser.h"
+#include "profile.h"
+#include <QScrollArea> // Added this include
+
+EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::EmployeeWindow),
+    mainWindowParent(mainWindowParent),
+    stats(nullptr)
+{
+    ui->setupUi(this);
+
+    // Set window title
+    setWindowTitle("Employee Dashboard");
+
+    // Connect button signals to slots
+    connect(ui->coachButton, &QPushButton::clicked, this, &EmployeeWindow::handleCoachButtonClicked);
+    connect(ui->employeeButton, &QPushButton::clicked, this, &EmployeeWindow::handleEmployeeButtonClicked);
+    connect(ui->pushButton, &QPushButton::clicked, this, &EmployeeWindow::handleLogoutButtonClicked);
+    connect(ui->add_user, &QPushButton::clicked, this, &EmployeeWindow::handleAddUserButtonClicked);
+    connect(ui->profileButton, &QPushButton::clicked, this, &EmployeeWindow::handleProfileButtonClicked);
+
+    // Apply drop shadow effect to currentUserPhotoLabel
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(10);
+    shadow->setXOffset(0);
+    shadow->setYOffset(4);
+    shadow->setColor(QColor(0, 0, 0, 51)); // rgba(0, 0, 0, 0.2)
+    ui->currentUserPhotoLabel->setGraphicsEffect(shadow);
+
+    // Load current user's photo and details
+    const Employee& currentUser = SessionManager::instance().getCurrentUser();
+    if (!currentUser.getFace().isEmpty()) {
+        QPixmap pixmap;
+        if (pixmap.loadFromData(currentUser.getFace())) {
+            ui->currentUserPhotoLabel->setPixmap(pixmap.scaled(ui->currentUserPhotoLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        } else {
+            qDebug() << "Failed to load user photo from data.";
+            ui->currentUserPhotoLabel->setText("No Photo");
+        }
+    } else {
+        ui->currentUserPhotoLabel->setText("No Photo");
+    }
+
+    // Set username and role
+    ui->dashboard_9->setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+    ui->dashboard_8->setText(currentUser.getRole());
+
+    // Instantiate Stats widget
+    stats = new Stats(this);
+
+    // Create a QScrollArea and set the stats widget as its content
+    QScrollArea *scrollArea = new QScrollArea(ui->statsWidget);
+    scrollArea->setWidget(stats);
+    scrollArea->setWidgetResizable(true); // Makes the stats widget resize with the scroll area
+    scrollArea->setStyleSheet("QScrollArea { background: transparent; border: none; }"
+                              "QScrollBar:vertical { border: none; background: #2A2D3A; width: 10px; margin: 0px; }"
+                              "QScrollBar::handle:vertical { background: #4CAF50; border-radius: 5px; }"
+                              "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }"
+                              "QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+
+    // Add the scroll area to the statsWidget's layout
+    QVBoxLayout *layout = new QVBoxLayout(ui->statsWidget);
+    layout->addWidget(scrollArea);
+}
+
+EmployeeWindow::~EmployeeWindow()
+{
+    delete ui;
+}
+
+void EmployeeWindow::handleCoachButtonClicked()
+{
+    qDebug() << "Coach button clicked.";
+    DisplayUser *displayUser = new DisplayUser("Coach", this);
+    displayUser->setAttribute(Qt::WA_DeleteOnClose);
+    displayUser->exec();
+}
+
+void EmployeeWindow::handleEmployeeButtonClicked()
+{
+    qDebug() << "Employee button clicked.";
+    DisplayUser *displayUser = new DisplayUser("Employee", this);
+    displayUser->setAttribute(Qt::WA_DeleteOnClose);
+    displayUser->exec();
+}
+
+void EmployeeWindow::handleAddUserButtonClicked()
+{
+    qDebug() << "Add User button clicked.";
+    AddUser *addUserDialog = new AddUser(this);
+    addUserDialog->setModal(true);
+    addUserDialog->exec();
+    delete addUserDialog;
+}
+
+void EmployeeWindow::handleLogoutButtonClicked()
+{
+    qDebug() << "Logout button clicked.";
+
+    // Clear the session to log out the user
+    SessionManager::instance().clearSession();
+
+    // Update the photo label to indicate no user
+    ui->currentUserPhotoLabel->setText("No User");
+    ui->dashboard_9->setText("User name");
+    ui->dashboard_8->setText("Role");
+
+    // Re-show the parent MainWindow if it exists
+    if (mainWindowParent) {
+        QLineEdit *emailField = mainWindowParent->findChild<QLineEdit*>("lineEdit");
+        QLineEdit *passwordField = mainWindowParent->findChild<QLineEdit*>("lineEdit_2");
+        if (emailField && passwordField) {
+            emailField->clear();
+            passwordField->clear();
+        } else {
+            qDebug() << "Failed to find email or password fields in MainWindow.";
+        }
+        mainWindowParent->show();
+    } else {
+        qDebug() << "No parent MainWindow found, creating a new one.";
+        MainWindow *loginWindow = new MainWindow();
+        loginWindow->show();
+    }
+
+    // Close the current EmployeeWindow
+    this->close();
+}
+
+void EmployeeWindow::handleProfileButtonClicked()
+{
+    Profile *profileDialog = new Profile(this);
+    profileDialog->setModal(true);
+    profileDialog->exec();
+    delete profileDialog;
+}
