@@ -1,0 +1,99 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>logo_football.png</file>
+        <file>5da1c4545d34f3aee87dd68a49a13489.png</file>
+        <file>user.png</file>
+        <file>aldawry_logo.png</file>
+        <file>passwordIcon.png</file>
+        <file>mailIcon.png</file>
+        <file>wallpaperflare.com_wallpaper.png</file>
+        <file>ADDBACKG.png</file>
+        <file>ADDICON.png</file>
+        <file>ADMIN.png</file>
+        <file>COACH.png</file>
+        <file>employee.png</file>
+        <file>goals.png</file>
+        <file>mobile.png</file>
+        <file>deleteIcon.png</file>
+        <file>editIcon.png</file>
+        <file>Group 1.png</file>
+        <file>Group 2.png</file>
+        <file>Group 3.png</file>
+        <file>logout.png</file>
+        <file>pdfIcon.png</file>
+        <file>search.png</file>
+        <file>Vector.png</file>
+        <file>Vectorrrr.png</file>
+        <file>HEADER.png</file>
+        <file>here.png</file>
+        <file>matches.png</file>
+        <file>view.png</file>
+        <file>viewLabel.png</file>
+        <file>eye_on.png</file>
+        <file>eye_off.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>teamimg/abv.png</file>
+        <file>teamimg/add.png</file>
+        <file>teamimg/ai.png</file>
+        <file>teamimg/BACK.png</file>
+        <file>teamimg/BALL.png</file>
+        <file>teamimg/delete.png</file>
+        <file>teamimg/deleteIcon.png</file>
+        <file>teamimg/editIcon.png</file>
+        <file>teamimg/Group 1.png</file>
+        <file>teamimg/Group 1or.png</file>
+        <file>teamimg/Group 2.png</file>
+        <file>teamimg/Group 2or.png</file>
+        <file>teamimg/Group 3.png</file>
+        <file>teamimg/language.png</file>
+        <file>teamimg/lanor.png</file>
+        <file>teamimg/Layer 2.png</file>
+        <file>teamimg/List.png</file>
+        <file>teamimg/logo.png</file>
+        <file>teamimg/logout.png</file>
+        <file>teamimg/logoutor.png</file>
+        <file>teamimg/minus.png</file>
+        <file>teamimg/money.png</file>
+        <file>teamimg/pdfIcon.png</file>
+        <file>teamimg/pencil.png</file>
+        <file>teamimg/pic.png</file>
+        <file>teamimg/reset.png</file>
+        <file>teamimg/search.png</file>
+        <file>teamimg/terrain.png</file>
+        <file>teamimg/trier.png</file>
+        <file>teamimg/Userr.png</file>
+        <file>teamimg/Vector.png</file>
+        <file>teamimg/Vectoror.png</file>
+        <file>teamimg/Vectorora.png</file>
+        <file>teamimg/Vectorrrr.png</file>
+        <file>playerimg/addPIC.png</file>
+        <file>playerimg/ai.png</file>
+        <file>playerimg/BUR.png</file>
+        <file>playerimg/cam.png</file>
+        <file>playerimg/compType.png</file>
+        <file>playerimg/delete.png</file>
+        <file>playerimg/deleteIcon.png</file>
+        <file>playerimg/editIcon.png</file>
+        <file>playerimg/Group 1.png</file>
+        <file>playerimg/Group 2.png</file>
+        <file>playerimg/Group 3.png</file>
+        <file>playerimg/hannibal.png</file>
+        <file>playerimg/Layer 2.png</file>
+        <file>playerimg/logo football.png</file>
+        <file>playerimg/logout.png</file>
+        <file>playerimg/nationality.png</file>
+        <file>playerimg/numbers.png</file>
+        <file>playerimg/pdfIcon.png</file>
+        <file>playerimg/pencil.png</file>
+        <file>playerimg/position.png</file>
+        <file>playerimg/rectDD.png</file>
+        <file>playerimg/search.png</file>
+        <file>playerimg/StartDate.png</file>
+        <file>playerimg/teamName.png</file>
+        <file>playerimg/tn.png</file>
+        <file>playerimg/user.png</file>
+        <file>playerimg/Vector.png</file>
+        <file>playerimg/Vectorrrr.png</file>
+    </qresource>
+</RCC>
