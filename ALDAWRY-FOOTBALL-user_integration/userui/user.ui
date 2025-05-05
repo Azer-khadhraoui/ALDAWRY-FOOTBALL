@@ -1,0 +1,1065 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1251</width>
+    <height>741</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+color: #FFFFFF;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1251</width>
+      <height>741</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTabWidget::pane {
+ background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+ border: 1px solid #2A2D3A;
+ border-radius: 10px;
+}
+QTabBar::tab {
+ background: #1E1F2D;
+ color: #B0BEC5;
+ padding: 10px 20px;
+ margin: 2px;
+ border-radius: 8px;
+ font-size: 14px;
+}
+QTabBar::tab:selected {
+ background: #0288D1;
+ color: #FFFFFF;
+}
+QTabBar::tab:hover {
+ background: #2A2D3A;
+}</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Add user</string>
+     </attribute>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>10</y>
+        <width>651</width>
+        <height>671</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(145deg, #141821 0%, #1E1F2D 100%);
+color: #FFFFFF;
+font-family: 'Segoe UI', Arial, sans-serif;
+font-size: 12px;
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Last Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QDateEdit" name="birthday">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QDateEdit::drop-down {
+ width: 20px;
+}
+QDateEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLineEdit" name="email">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="nom">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Mobile Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="prenom">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Role</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Birthday</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>First Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLineEdit" name="password">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::EchoMode::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="number">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QComboBox" name="Role">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QComboBox::drop-down {
+ width: 20px;
+}
+QComboBox:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}
+QComboBox QAbstractItemView {
+ background: #1E1F2D;
+ color: #FFFFFF;
+ selection-background-color: #0288D1;
+}</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Admin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Employee</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Coach</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="button1">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>510</y>
+        <width>241</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>Confirm</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="uploadPhotoButton">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>390</y>
+        <width>291</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>Upload Photo</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>modify</string>
+     </attribute>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>0</y>
+        <width>651</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(145deg, #141821 0%, #1E1F2D 100%);
+color: #FFFFFF;
+font-family: 'Segoe UI', Arial, sans-serif;
+font-size: 12px;
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Last Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="lineEdit_3">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>First Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="lineEdit_4">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Mobile Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="lineEdit_8">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLineEdit" name="lineEdit_7">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::EchoMode::Password</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Birthday</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QDateEdit::drop-down {
+ width: 20px;
+}
+QDateEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="styleSheet">
+          <string notr="true">color: #CFD8DC;
+font-size: 14px;
+font-weight: 500;</string>
+         </property>
+         <property name="text">
+          <string>Role</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QComboBox" name="comboBox_3">
+         <property name="styleSheet">
+          <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+}
+QComboBox::drop-down {
+ width: 20px;
+}
+QComboBox:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}
+QComboBox QAbstractItemView {
+ background: #1E1F2D;
+ color: #FFFFFF;
+ selection-background-color: #0288D1;
+}</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Admin</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Coach</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Employee</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="styleSheet">
+          <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+         </property>
+         <property name="text">
+          <string>modify</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QPushButton" name="modifyUploadPhotoButton">
+         <property name="styleSheet">
+          <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 10px 20px;
+margin: 10px 15px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+         </property>
+         <property name="text">
+          <string>Upload Photo</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Display user</string>
+     </attribute>
+     <widget class="QTableView" name="tableView_3">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>100</y>
+        <width>701</width>
+        <height>421</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 10px;
+color: #FFFFFF;
+}
+QTableView::item {
+ padding: 8px;
+}
+QTableView::item:selected {
+ background: #0288D1;
+ color: #FFFFFF;
+}
+QHeaderView::section {
+ background: #2A2D3A;
+ color: #CFD8DC;
+ padding: 8px;
+ border: 1px solid #3A3D4A;
+}</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="photoLabel">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>100</y>
+        <width>200</width>
+        <height>200</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 12px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame_5">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>30</y>
+        <width>331</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(145deg, #1E1F2D 0%, #2A2D3A 100%);
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <widget class="QLineEdit" name="lineEdit_10">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>211</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: #2A2D3A;
+border: 1px solid #3A3D4A;
+border-radius: 8px;
+padding: 8px 12px;
+font-size: 14px;
+color: #FFFFFF;
+transition: border-color 0.3s;
+}
+QLineEdit:focus {
+ border-color: #0288D1;
+ box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+}</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_20">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>20</y>
+         <width>18</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">transition: transform 0.2s;
+}
+QLabel:hover {
+ transform: scale(1.2);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../../../../../Pictures/proj QT/trier.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="searchButton">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>20</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 6px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.95);
+}</string>
+       </property>
+       <property name="text">
+        <string>search</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>540</y>
+        <width>83</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #D32F2F 0%, #F44336 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 8px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #F44336 0%, #EF5350 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #B71C1C 0%, #D32F2F 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pdfButton">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>40</y>
+        <width>80</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #7B1FA2 0%, #9C27B0 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 6px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #9C27B0 0%, #AB47BC 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #4A148C 0%, #7B1FA2 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>pdf</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="statButton">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>40</y>
+        <width>80</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(45deg, #FBC02D 0%, #FFCA28 100%);
+color: #FFFFFF;
+font-size: 14px;
+font-weight: 500;
+border-radius: 8px;
+padding: 6px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #FFCA28 0%, #FFD54F 100%);
+ transform: scale(1.05);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #F57F17 0%, #FBC02D 100%);
+ transform: scale(0.95);
+}</string>
+      </property>
+      <property name="text">
+       <string>stat</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Stats</string>
+     </attribute>
+     <widget class="QWidget" name="statsWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1251</width>
+        <height>741</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);
+border-radius: 10px;</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="currentUserPhotoLabel">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>20</y>
+      <width>60</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: #1E1F2D;
+border: 1px solid #3A3D4A;
+border-radius: 12px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1251</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: #1E1F2D;
+color: #FFFFFF;
+}
+QMenuBar::item {
+ padding: 4px 10px;
+}
+QMenuBar::item:selected {
+ background: #0288D1;
+}</string>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background: #1E1F2D;
+color: #CFD8DC;</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
