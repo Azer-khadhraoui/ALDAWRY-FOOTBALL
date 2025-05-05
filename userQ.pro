@@ -7,7 +7,7 @@
 QT       += core gui sql
 Qt += sql
 QT += printsupport
-QT += charts
+QT += charts multimedia multimediawidgets
 QT += core gui sql printsupport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -33,58 +33,81 @@ CONFIG += c++11
 QT += network
 
 SOURCES += \
-    adduser.cpp \
-    admin.cpp \
-    createteamwindow.cpp \
-    displayteamwindow.cpp \
-    displayuser.cpp \
-    emailsent.cpp \
-    employeview.cpp \
-        main.cpp \
-        mainwindow.cpp \
-    connection.cpp \
-    modifyuser.cpp \
-    newpassword.cpp \
-    profile.cpp \
-    recoverpassword.cpp \
-    stats.cpp \
-    team.cpp \
-    user.cpp \
-    sessionmanager.cpp
+    teamcpp/chatdialog.cpp \
+    teamcpp/modifyteam.cpp \
+    teamcpp/tableau.cpp \
+    teamcpp/teamwindow.cpp \
+    teamcpp/tododialog.cpp \
+    usercpp/displayplayers_coach.cpp \
+    teamcpp/formadd.cpp \
+    teamcpp/team.cpp \
+    usercpp/StatsWidget.cpp \
+    usercpp/adduser.cpp \
+    usercpp/admin.cpp \
+    usercpp/coach.cpp \
+    usercpp/connection.cpp \
+    usercpp/displayuser.cpp \
+    usercpp/emailsent.cpp \
+    usercpp/employeview.cpp \
+    usercpp/main.cpp \
+    usercpp/mainwindow.cpp \
+    usercpp/modifyuser.cpp \
+    usercpp/newpassword.cpp \
+    usercpp/profile.cpp \
+    usercpp/qrcodegen.cpp \
+    usercpp/recoverpassword.cpp \
+    usercpp/sessionmanager.cpp \
+    usercpp/stats.cpp \
+    usercpp/user.cpp
 
 HEADERS += \
-    adduser.h \
-    admin.h \
-    createteamwindow.h \
-    displayteamwindow.h \
-    displayuser.h \
-    emailsent.h \
-    employeview.h \
-    mainwindow.h \
-    connection.h \
-    modifyuser.h \
-    newpassword.h \
-    profile.h \
-    recoverpassword.h \
-    stats.h \
-    team.h \
-    user.h \
-    sessionmanager.h
+    teamheaders/chatdialog.h \
+    teamheaders/modifyteam.h \
+    teamheaders/tableau.h \
+    teamheaders/teamwindow.h \
+    teamheaders/tododialog.h \
+    userheaders/displayplayers_coach.h \
+    teamheaders/formadd.h \
+    teamheaders/team.h \
+    teamheaders/team.h \
+    userheaders/StatsWidget.h \
+    userheaders/adduser.h \
+    userheaders/admin.h \
+    userheaders/coach.h \
+    userheaders/connection.h \
+    userheaders/displayuser.h \
+    userheaders/emailsent.h \
+    userheaders/employeview.h \
+    userheaders/mainwindow.h \
+    userheaders/modifyuser.h \
+    userheaders/newpassword.h \
+    userheaders/profile.h \
+    userheaders/qrcodegen.hpp \
+    userheaders/recoverpassword.h \
+    userheaders/sessionmanager.h \
+    userheaders/stats.h \
+    userheaders/user.h
 
 FORMS += \
-    EmailSent.ui \
-    NewPassword.ui \
-    adminview.ui \
-    create_team.ui \
-    displayUser.ui \
-    display_team.ui \
-    employeview.ui \
-    main.ui \
-    mainwindow.ui \
-    modifyUser.ui \
-    profile.ui \
-    recoverpassword.ui  \
-    adduser.ui \
+    teamui/chatdialog.ui \
+    teamui/modifyTeam.ui \
+    teamui/tableau.ui \
+    teamui/teamwindow.ui \
+    teamui/tododialog.ui \
+    teamui/trash.ui \
+    userui/displayplayers_coach.ui \
+    teamui/formadd.ui \
+    userui/EmailSent.ui \
+    userui/NewPassword.ui \
+    userui/addUser.ui \
+    userui/adminview.ui \
+    userui/coach.ui \
+    userui/displayUser.ui \
+    userui/employeview.ui \
+    userui/mainwindow.ui \
+    userui/modifyUser.ui \
+    userui/profile.ui \
+    userui/recoverpassword.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
