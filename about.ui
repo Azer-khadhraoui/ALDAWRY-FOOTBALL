@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>About</class>
+ <widget class="QDialog" name="About">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>350</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>About ALDAWRY Football</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+    background-color: #1A2526;
+    color: #FFFFFF;
+}
+QLabel {
+    padding: 10px;
+}
+QPushButton {
+    background-color: #FFA500;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+QPushButton:hover {
+    background-color: #FF8C00;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="labelLogo">
+     <property name="text">
+      <string>[ALDAWRY Football Logo]</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #99CC99; background-color: #1A2526;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="text">
+      <string>About ALDAWRY Football</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDescription">
+     <property name="text">
+      <string>Welcome to ALDAWRY Football, your all-in-one solution for football management. This application helps you:
+- Organize matches with ease.
+- Manage competitions and schedules.
+- Add and assign players to teams seamlessly.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #CCCCCC; background-color: #1A2526;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelVersion">
+     <property name="text">
+      <string>Version: 1.0.0 | Contact: support@aldawryfootball.com</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #AAAAAA; background-color: #1A2526;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="buttonClose">
+     <property name="text">
+      <string>Close</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonClose</sender>
+   <signal>clicked()</signal>
+   <receiver>About</receiver>
+   <slot>close()</slot>
+  </connection>
+ </connections>
+</ui>
