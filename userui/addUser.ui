@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>AddUser</class>
- <widget class="QWidget" name="Form">
+ <widget class="QWidget" name="AddUser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -347,7 +347,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/Userr.png</pixmap>
+    <pixmap resource="../images.qrc">:/teamimg/Userr.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -369,7 +369,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/Userr.png</pixmap>
+    <pixmap resource="../images.qrc">:/teamimg/Userr.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -391,7 +391,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/StartDate.png</pixmap>
+    <pixmap resource="../images.qrc">:/compimg/StartDate.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -413,7 +413,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/compType.png</pixmap>
+    <pixmap resource="../images.qrc">:/playerimg/compType.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -435,7 +435,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/mailIcon.png</pixmap>
+    <pixmap resource="../images.qrc">:/img/mailIcon.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -457,7 +457,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/cam.png</pixmap>
+    <pixmap resource="../images.qrc">:/playerimg/cam.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -479,7 +479,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/passwordIcon.png</pixmap>
+    <pixmap resource="../images.qrc">:/img/passwordIcon.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -501,7 +501,7 @@ QLabel#label_11 {
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="ressources.qrc">:/img/mobile.png</pixmap>
+    <pixmap resource="../images.qrc">:/img/mobile.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -509,7 +509,7 @@ QLabel#label_11 {
   </widget>
  </widget>
  <resources>
-  <include location="ressources.qrc"/>
+  <include location="../images.qrc"/>
  </resources>
  <connections/>
 </ui>

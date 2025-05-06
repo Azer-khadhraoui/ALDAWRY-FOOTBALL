@@ -53,13 +53,13 @@ public:
     QLabel *label_34;
     QLabel *label_35;
 
-    void setupUi(QWidget *Form)
+    void setupUi(QWidget *AddUser)
     {
-        if (Form->objectName().isEmpty())
-            Form->setObjectName("Form");
-        Form->resize(581, 782);
-        Form->setStyleSheet(QString::fromUtf8("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);"));
-        widget = new QWidget(Form);
+        if (AddUser->objectName().isEmpty())
+            AddUser->setObjectName("AddUser");
+        AddUser->resize(581, 782);
+        AddUser->setStyleSheet(QString::fromUtf8("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);"));
+        widget = new QWidget(AddUser);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(30, 80, 521, 671));
         widget->setStyleSheet(QString::fromUtf8("background-color: rgb(25, 31, 42);\n"
@@ -271,7 +271,7 @@ public:
 
         gridLayout_3->addWidget(label_9, 18, 0, 1, 1);
 
-        label_11 = new QLabel(Form);
+        label_11 = new QLabel(AddUser);
         label_11->setObjectName("label_11");
         label_11->setGeometry(QRect(220, 20, 151, 41));
         QFont font;
@@ -287,63 +287,63 @@ public:
 "\n"
 "    padding: 5px 10px; /* Padding for a balanced look */\n"
 "}"));
-        label_28 = new QLabel(Form);
+        label_28 = new QLabel(AddUser);
         label_28->setObjectName("label_28");
         label_28->setGeometry(QRect(60, 100, 17, 17));
         label_28->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
-        label_28->setPixmap(QPixmap(QString::fromUtf8(":/img/Userr.png")));
+        label_28->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Userr.png")));
         label_28->setScaledContents(true);
-        label_29 = new QLabel(Form);
+        label_29 = new QLabel(AddUser);
         label_29->setObjectName("label_29");
         label_29->setGeometry(QRect(60, 180, 17, 17));
         label_29->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
-        label_29->setPixmap(QPixmap(QString::fromUtf8(":/img/Userr.png")));
+        label_29->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Userr.png")));
         label_29->setScaledContents(true);
-        label_30 = new QLabel(Form);
+        label_30 = new QLabel(AddUser);
         label_30->setObjectName("label_30");
         label_30->setGeometry(QRect(60, 260, 17, 17));
         label_30->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
-        label_30->setPixmap(QPixmap(QString::fromUtf8(":/img/StartDate.png")));
+        label_30->setPixmap(QPixmap(QString::fromUtf8(":/compimg/StartDate.png")));
         label_30->setScaledContents(true);
-        label_31 = new QLabel(Form);
+        label_31 = new QLabel(AddUser);
         label_31->setObjectName("label_31");
         label_31->setGeometry(QRect(60, 644, 17, 17));
         label_31->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
-        label_31->setPixmap(QPixmap(QString::fromUtf8(":/img/compType.png")));
+        label_31->setPixmap(QPixmap(QString::fromUtf8(":/playerimg/compType.png")));
         label_31->setScaledContents(true);
-        label_32 = new QLabel(Form);
+        label_32 = new QLabel(AddUser);
         label_32->setObjectName("label_32");
         label_32->setGeometry(QRect(50, 480, 40, 40));
         label_32->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
         label_32->setPixmap(QPixmap(QString::fromUtf8(":/img/mailIcon.png")));
         label_32->setScaledContents(true);
-        label_33 = new QLabel(Form);
+        label_33 = new QLabel(AddUser);
         label_33->setObjectName("label_33");
         label_33->setGeometry(QRect(59, 415, 21, 17));
         label_33->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
-        label_33->setPixmap(QPixmap(QString::fromUtf8(":/img/cam.png")));
+        label_33->setPixmap(QPixmap(QString::fromUtf8(":/playerimg/cam.png")));
         label_33->setScaledContents(true);
-        label_34 = new QLabel(Form);
+        label_34 = new QLabel(AddUser);
         label_34->setObjectName("label_34");
         label_34->setGeometry(QRect(47, 557, 40, 40));
         label_34->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
         label_34->setPixmap(QPixmap(QString::fromUtf8(":/img/passwordIcon.png")));
         label_34->setScaledContents(true);
-        label_35 = new QLabel(Form);
+        label_35 = new QLabel(AddUser);
         label_35->setObjectName("label_35");
         label_35->setGeometry(QRect(60, 340, 17, 17));
         label_35->setStyleSheet(QString::fromUtf8("color: #B0C0D0;background-color:transparent;"));
         label_35->setPixmap(QPixmap(QString::fromUtf8(":/img/mobile.png")));
         label_35->setScaledContents(true);
 
-        retranslateUi(Form);
+        retranslateUi(AddUser);
 
-        QMetaObject::connectSlotsByName(Form);
+        QMetaObject::connectSlotsByName(AddUser);
     } // setupUi
 
-    void retranslateUi(QWidget *Form)
+    void retranslateUi(QWidget *AddUser)
     {
-        Form->setWindowTitle(QCoreApplication::translate("AddUser", "Form", nullptr));
+        AddUser->setWindowTitle(QCoreApplication::translate("AddUser", "Form", nullptr));
         label_8->setText(QCoreApplication::translate("AddUser", "               Date_of_Birth :", nullptr));
         Role->setItemText(0, QCoreApplication::translate("AddUser", "Admin", nullptr));
         Role->setItemText(1, QCoreApplication::translate("AddUser", "Employee", nullptr));

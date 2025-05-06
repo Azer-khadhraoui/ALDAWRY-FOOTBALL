@@ -36,161 +36,6 @@
 </string>
    </property>
    <layout class="QGridLayout" name="gridLayout_4">
-    <item row="10" column="0">
-     <widget class="QPushButton" name="button1_2">
-      <property name="styleSheet">
-       <string notr="true">background-color: #00FF7F; /* Green to match the accent */
-    color: #1A2633; /* Dark blue text for contrast */
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 6px 12px;
-    margin-left: 350px;
-    margin-right: 20px;
-    margin-bottom: 5px;</string>
-      </property>
-      <property name="text">
-       <string>Confirm</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QComboBox" name="cb_2">
-      <property name="styleSheet">
-       <string notr="true">background-color: #2A3240;
-  border: 1px solid #3A4A5A;
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED;
-    margin-left: 15px;
-    margin-right: 15px;
-
-Qcb::drop-down {
-    border-left: 1px solid #3A4A5A;
-    width: 20px;
-}
-Qcb:focus {
-    border: 1px solid #00FF7F;
-    background-color: #323A48;
-}</string>
-      </property>
-      <item>
-       <property name="text">
-        <string extracomment="eu">bernabeu</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string extracomment="eu">Santiago Bernabéu</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string extracomment="eu">Camp Nou</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string extracomment="eu">Old Trafford</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string extracomment="eu">Wembley Stadium</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_12">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>         Team_Logo :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLineEdit" name="l1_2">
-      <property name="styleSheet">
-       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
-    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED; /* Light gray text for readability */
-    margin-left: 15px;
-    margin-right: 15px;
-</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_13">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>         Budget :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_14">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>        Team_ABV :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_15">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>          Team_Name :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_16">
-      <property name="styleSheet">
-       <string notr="true">color: #A0A8B7;
-font-weight: bold;
-padding-bottom: 5px;background-color:transparent;</string>
-      </property>
-      <property name="text">
-       <string>         Home_Stadium :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLineEdit" name="l2_3">
-      <property name="styleSheet">
-       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
-    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
-    border-radius: 5px;
-    padding: 5px;
-    color: #E0E6ED; /* Light gray text for readability */
-    margin-left: 15px;
-    margin-right: 15px;</string>
-      </property>
-     </widget>
-    </item>
     <item row="7" column="0">
      <widget class="QWidget" name="widget_3" native="true">
       <property name="styleSheet">
@@ -236,6 +81,18 @@ background-color: transparent;</string>
       </layout>
      </widget>
     </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>         Budget :</string>
+      </property>
+     </widget>
+    </item>
     <item row="9" column="0">
      <widget class="QLineEdit" name="l2_4">
       <property name="styleSheet">
@@ -246,6 +103,119 @@ background-color: transparent;</string>
     color: #E0E6ED; /* Light gray text for readability */
     margin-left: 15px;
     margin-right: 15px;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>         Home_Stadium :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QPushButton" name="button1_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #00FF7F; /* Green to match the accent */
+    color: #1A2633; /* Dark blue text for contrast */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-left: 350px;
+    margin-right: 20px;
+    margin-bottom: 5px;</string>
+      </property>
+      <property name="text">
+       <string>Confirm</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_14">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>        Team_ABV :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>          Team_Name :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLineEdit" name="l2_3">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLineEdit" name="l1_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>         Team_Logo :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLineEdit" name="cb_2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;
+</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>

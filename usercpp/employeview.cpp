@@ -10,17 +10,35 @@
 #include "../userheaders/displayuser.h"
 #include "../userheaders/profile.h"
 #include <QScrollArea> // Added this include
+#include "../teamheaders/teamwindow.h"
+#include "../playerheaders/playerwindow.h"
+#include "../compheaders/competitionview.h"
 
-EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::EmployeeWindow),
-    mainWindowParent(mainWindowParent),
-    stats(nullptr)
+
+EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent, QStackedWidget *stack)
+    : QMainWindow(parent),
+      ui(new Ui::EmployeeWindow),
+      mainWindowParent(mainWindowParent),
+      stats(nullptr),
+      stackedWidget(stack),
+      teamWindow(nullptr)
 {
     ui->setupUi(this);
-
-    // Set window title
     setWindowTitle("Employee Dashboard");
+
+    // Create stacked widget if not provided
+    if (!stackedWidget) {
+        stackedWidget = new QStackedWidget(this);
+    }
+    stackedWidget->addWidget(this->centralWidget()); // Add employee dashboard
+    teamWindow = new teamwindow(stackedWidget, this);
+    stackedWidget->addWidget(teamWindow);
+    setCentralWidget(stackedWidget);
+    stackedWidget->setCurrentIndex(0);
+
+    // Create and add the competitionview, pass stackedWidget pointer
+    competitionview *competitionView = new competitionview(stackedWidget);
+    stackedWidget->addWidget(competitionView);
 
     // Connect button signals to slots
     connect(ui->coachButton, &QPushButton::clicked, this, &EmployeeWindow::handleCoachButtonClicked);
@@ -28,6 +46,21 @@ EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent) :
     connect(ui->pushButton, &QPushButton::clicked, this, &EmployeeWindow::handleLogoutButtonClicked);
     connect(ui->add_user, &QPushButton::clicked, this, &EmployeeWindow::handleAddUserButtonClicked);
     connect(ui->profileButton, &QPushButton::clicked, this, &EmployeeWindow::handleProfileButtonClicked);
+    connect(ui->teamButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(teamWindow);
+    });
+    connect(ui->playerButton, &QPushButton::clicked, this, [this]() {
+        if (stackedWidget) {
+            playerwindow *playerWindow = new playerwindow(stackedWidget, this);
+            stackedWidget->addWidget(playerWindow);
+            stackedWidget->setCurrentWidget(playerWindow);
+        }
+    });
+    
+    // If you have a QPushButton for competition, use:
+     connect(ui->compButton, &QPushButton::clicked, this, [this, competitionView]() {
+         stackedWidget->setCurrentWidget(competitionView);
+     });
 
     // Apply drop shadow effect to currentUserPhotoLabel
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);

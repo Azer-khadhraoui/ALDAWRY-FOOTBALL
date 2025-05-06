@@ -17,6 +17,7 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 #include <QDateTime>
+#include <QStackedWidget>
 
 // Struct to hold To-Do item data
 struct ToDoItem {
@@ -136,13 +137,12 @@ class teamwindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit teamwindow(QWidget *parent = nullptr);
+    explicit teamwindow(QStackedWidget *stack = nullptr, QWidget *parent = nullptr);
     ~teamwindow();
 
 private slots:
     void on_toolButton_clicked();
     void on_resetButton_clicked();
-    void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_3_clicked();
     void on_pushButton_4_clicked();
@@ -152,10 +152,15 @@ private slots:
     void on_pushButton_8_clicked();
     void onPieSliceHovered(bool state);
     void refreshTodoList();
+    void handleLogoutButtonClicked();
+    void on_userbutton_cliceked();
+    void on_playerButton_clicked();
+    void on_compButton_clicked();
 
 private:
     Ui::teamwindow *ui;
     QByteArray teamLogo;
+    QStackedWidget *stackedWidget; // <-- Add this member
 
     void setupBudgetPieChart();
     void updateBudgetPieChart();

@@ -125,7 +125,7 @@ border-radius: 5px; /* Slightly rounded corners for a modern look */</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="images.qrc">
+      <iconset resource="../images.qrc">
        <normaloff>:/img/employee.png</normaloff>:/img/employee.png</iconset>
      </property>
      <property name="iconSize">
@@ -152,7 +152,7 @@ border-radius: 5px; /* Slightly rounded corners for a modern look */</string>
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="images.qrc">
+      <iconset resource="../images.qrc">
        <normaloff>:/img/COACH.png</normaloff>:/img/COACH.png</iconset>
      </property>
      <property name="iconSize">
@@ -162,53 +162,6 @@ border-radius: 5px; /* Slightly rounded corners for a modern look */</string>
       </size>
      </property>
     </widget>
-   </widget>
-   <widget class="QLabel" name="dashboard_8">
-    <property name="geometry">
-     <rect>
-      <x>1680</x>
-      <y>40</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color:#393C44;</string>
-    </property>
-    <property name="text">
-     <string>Role</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dashboard_9">
-    <property name="geometry">
-     <rect>
-      <x>1680</x>
-      <y>60</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color:#393C44;</string>
-    </property>
-    <property name="text">
-     <string>User name</string>
-    </property>
    </widget>
    <widget class="QLabel" name="dashboard_7">
     <property name="geometry">
@@ -272,7 +225,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/Vector.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/Vector.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -317,7 +270,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/Group 1.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/Group 1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -339,7 +292,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/Group 3.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/Group 3.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -358,7 +311,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/img/logo football.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/logo_football.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -403,7 +356,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/Group 2.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/Group 2.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -448,7 +401,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/logout.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/logout.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -473,10 +426,10 @@ color:#393C44;</string>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>1870</x>
-      <y>50</y>
-      <width>31</width>
-      <height>24</height>
+      <x>1867</x>
+      <y>60</y>
+      <width>16</width>
+      <height>10</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -488,7 +441,7 @@ border: 1px solid transparent ; /* Subtle border matching chart borders */
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="images.qrc">
+     <iconset resource="../images.qrc">
       <normaloff>:/img/Vectorrrr.png</normaloff>:/img/Vectorrrr.png</iconset>
     </property>
    </widget>
@@ -496,9 +449,9 @@ border: 1px solid transparent ; /* Subtle border matching chart borders */
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>230</y>
+      <y>220</y>
       <width>471</width>
-      <height>121</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
@@ -559,7 +512,7 @@ Coach or Employee.</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="images.qrc">:/img/ADDBACKG.png</pixmap>
+     <pixmap resource="../images.qrc">:/img/ADDBACKG.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -582,7 +535,7 @@ border-radius: 5px; /* Slightly rounded corners for a modern look */</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="images.qrc">
+     <iconset resource="../images.qrc">
       <normaloff>:/img/ADDICON.png</normaloff>:/img/ADDICON.png</iconset>
     </property>
    </widget>
@@ -676,11 +629,167 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="teamButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>610</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dashboard_9">
+    <property name="geometry">
+     <rect>
+      <x>1720</x>
+      <y>60</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Book</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;
+color:white;</string>
+    </property>
+    <property name="text">
+     <string>User name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dashboard_8">
+    <property name="geometry">
+     <rect>
+      <x>1710</x>
+      <y>40</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Book</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;
+color:#393C44;</string>
+    </property>
+    <property name="text">
+     <string>Role</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playerButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="compButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>400</y>
+      <width>141</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>widget_3</zorder>
    <zorder>tabWidget</zorder>
    <zorder>currentUserPhotoLabel</zorder>
-   <zorder>dashboard_8</zorder>
-   <zorder>dashboard_9</zorder>
    <zorder>dashboard_7</zorder>
    <zorder>dashboard_3</zorder>
    <zorder>label_17</zorder>
@@ -701,10 +810,15 @@ QPushButton:pressed {
    <zorder>line_2</zorder>
    <zorder>pushButton</zorder>
    <zorder>profileButton</zorder>
+   <zorder>teamButton</zorder>
+   <zorder>dashboard_9</zorder>
+   <zorder>dashboard_8</zorder>
+   <zorder>playerButton</zorder>
+   <zorder>compButton</zorder>
   </widget>
  </widget>
  <resources>
-  <include location="images.qrc"/>
+  <include location="../images.qrc"/>
  </resources>
  <connections/>
 </ui>

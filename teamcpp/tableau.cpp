@@ -8,7 +8,9 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QMessageBox>
-#include "../teamheaders/modifyteam.h" // Include the ModifyTeam class
+#include "../teamheaders/modifyteam.h" // Include the ModifyTeam class   
+//include buffer
+#include <QBuffer>
 
 Tableau::Tableau(QWidget *parent) :
     QDialog(parent),
@@ -35,7 +37,6 @@ Tableau::Tableau(QWidget *parent) :
 
     // Connect the search bar to the search functionality
     connect(ui->searchBar, &QLineEdit::textChanged, this, &Tableau::on_searchBar_textChanged);
-
 
 
 
@@ -229,13 +230,30 @@ void Tableau::on_deleteButton_clicked()
 
 void Tableau::on_modifyButton_clicked()
 {
-    // Create an instance of the ModifyTeam dialog
+    int currentRow = ui->tableWidget->currentRow();
+    if (currentRow < 0) {
+        QMessageBox::warning(this, "Warning", "Please select a team to modify.");
+        return;
+    }
+    // Get data from the selected row
+    QString teamName = ui->tableWidget->item(currentRow, 0)->text();
+    QString homeStadium = ui->tableWidget->item(currentRow, 1)->text();
+    int budget = ui->tableWidget->item(currentRow, 2)->text().toInt();
+    QString teamABV = ui->tableWidget->item(currentRow, 3)->text();
+    QByteArray teamLogo;
+    QTableWidgetItem *logoItem = ui->tableWidget->item(currentRow, 4);
+    if (logoItem && !logoItem->icon().isNull()) {
+        QPixmap pixmap = logoItem->icon().pixmap(128, 128);
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        buffer.open(QIODevice::WriteOnly);
+        pixmap.save(&buffer, "PNG");
+        teamLogo = ba;
+    }
+    // Create and show the ModifyTeam dialog
     ModifyTeam *modifyTeamDialog = new ModifyTeam(this);
-
-    // Connect the signal to update the table
+    modifyTeamDialog->setTeamData(teamName, homeStadium, budget, teamABV, teamLogo);
     connect(modifyTeamDialog, &ModifyTeam::teamModified, this, &Tableau::updateTeamInTable);
-
-    // Show the dialog as a modal window
     modifyTeamDialog->exec();
 }
 
@@ -249,7 +267,18 @@ void Tableau::updateTeamInTable(const QString &teamName, const QString &homeStad
         ui->tableWidget->item(currentRow, 2)->setText(QString::number(budget));
         ui->tableWidget->item(currentRow, 3)->setText(teamABV);
 
-        QMessageBox::information(this, "Success", "Team updated successfully!");
+        // Save the changes to the database
+        QSqlQuery query;
+        query.prepare("UPDATE HOTSTUFF.EQUIPE SET HOME_STADIUM = :homeStadium, BUDG = :budget, TEAM_ABV = :teamABV WHERE TEAM_NAME = :teamName");
+        query.bindValue(":homeStadium", homeStadium);
+        query.bindValue(":budget", budget);
+        query.bindValue(":teamABV", teamABV);
+        query.bindValue(":teamName", teamName);
+        if (query.exec()) {
+            QMessageBox::information(this, "Success", "Team updated successfully and saved to the database!");
+        } else {
+            QMessageBox::critical(this, "Database Error", "Failed to update team in the database: " + query.lastError().text());
+        }
     } else {
         QMessageBox::warning(this, "Warning", "No row selected to update.");
     }

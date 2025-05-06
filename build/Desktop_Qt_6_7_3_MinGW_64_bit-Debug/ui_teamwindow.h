@@ -63,6 +63,11 @@ public:
     QLabel *label_7;
     QPushButton *pushButton_7;
     QPushButton *pushButton_8;
+    QLabel *currentUserPhotoLabel;
+    QPushButton *logout;
+    QPushButton *userbutton;
+    QPushButton *playerButton;
+    QPushButton *compButton;
     QStatusBar *statusbar;
 
     void setupUi(QWidget *MainWindow)
@@ -173,7 +178,7 @@ public:
         label_6->setObjectName("label_6");
         label_6->setGeometry(QRect(30, 620, 28, 29));
         label_6->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_6->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Vectoror.png")));
+        label_6->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Group 2or.png")));
         label_6->setScaledContents(true);
         label_12 = new QLabel(centralwidget);
         label_12->setObjectName("label_12");
@@ -478,6 +483,84 @@ public:
         icon5.addFile(QString::fromUtf8(":/teamimg/minus.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
         pushButton_8->setIcon(icon5);
         pushButton_8->setIconSize(QSize(30, 30));
+        currentUserPhotoLabel = new QLabel(centralwidget);
+        currentUserPhotoLabel->setObjectName("currentUserPhotoLabel");
+        currentUserPhotoLabel->setGeometry(QRect(1800, 30, 60, 60));
+        currentUserPhotoLabel->setStyleSheet(QString::fromUtf8("background: #1E1F2D;\n"
+"border: 1px solid #3A3D4A;\n"
+"border-radius: 	30px;\n"
+"box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);"));
+        currentUserPhotoLabel->setScaledContents(true);
+        logout = new QPushButton(centralwidget);
+        logout->setObjectName("logout");
+        logout->setGeometry(QRect(20, 900, 121, 61));
+        logout->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/images/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        logout->setIcon(icon6);
+        logout->setIconSize(QSize(40, 40));
+        userbutton = new QPushButton(centralwidget);
+        userbutton->setObjectName("userbutton");
+        userbutton->setGeometry(QRect(1867, 50, 21, 27));
+        userbutton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        userbutton->setIcon(icon6);
+        userbutton->setIconSize(QSize(40, 40));
+        playerButton = new QPushButton(centralwidget);
+        playerButton->setObjectName("playerButton");
+        playerButton->setGeometry(QRect(20, 310, 121, 61));
+        playerButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        playerButton->setIcon(icon6);
+        playerButton->setIconSize(QSize(40, 40));
+        compButton = new QPushButton(centralwidget);
+        compButton->setObjectName("compButton");
+        compButton->setGeometry(QRect(30, 410, 141, 61));
+        compButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        compButton->setIcon(icon6);
+        compButton->setIconSize(QSize(40, 40));
         label->raise();
         dashboard_2->raise();
         dashboard_7->raise();
@@ -514,6 +597,11 @@ public:
         label_7->raise();
         pushButton_7->raise();
         pushButton_8->raise();
+        currentUserPhotoLabel->raise();
+        logout->raise();
+        userbutton->raise();
+        playerButton->raise();
+        compButton->raise();
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         statusbar->setGeometry(QRect(0, 0, 3, 22));
@@ -559,6 +647,11 @@ public:
         label_7->setText(QCoreApplication::translate("teamwindow", "Training", nullptr));
         pushButton_7->setText(QString());
         pushButton_8->setText(QString());
+        currentUserPhotoLabel->setText(QString());
+        logout->setText(QString());
+        userbutton->setText(QString());
+        playerButton->setText(QString());
+        compButton->setText(QString());
     } // retranslateUi
 
 };

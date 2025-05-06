@@ -33,6 +33,22 @@ CONFIG += c++11
 QT += network
 
 SOURCES += \
+    compcpp/addcompetitionwindow.cpp \
+    compcpp/calendardialog.cpp \
+    compcpp/competition.cpp \
+    compcpp/competitionview.cpp \
+    compcpp/deletewindow.cpp \
+    compcpp/matchesdialog.cpp \
+    compcpp/statistics.cpp \
+    compcpp/statistics2.cpp \
+    compcpp/tableau1.cpp \
+    compcpp/updateform.cpp \
+    playercpp/addplayer.cpp \
+    playercpp/deletejoueur.cpp \
+    playercpp/formationpopup.cpp \
+    playercpp/joueur.cpp \
+    playercpp/modifyjoueur.cpp \
+    playercpp/playerwindow.cpp \
     teamcpp/chatdialog.cpp \
     teamcpp/modifyteam.cpp \
     teamcpp/tableau.cpp \
@@ -58,9 +74,27 @@ SOURCES += \
     usercpp/recoverpassword.cpp \
     usercpp/sessionmanager.cpp \
     usercpp/stats.cpp \
-    usercpp/user.cpp
+    usercpp/user.cpp \
+    usercpp/displaymatch_coach.cpp \
+    usercpp/lineup.cpp
 
 HEADERS += \
+    compheaders/addcompetitionwindow.h \
+    compheaders/calendardialog.h \
+    compheaders/competition.h \
+    compheaders/competitionview.h \
+    compheaders/deletewindow.h \
+    compheaders/matchesdialog.h \
+    compheaders/statistics.h \
+    compheaders/statistics2.h \
+    compheaders/tableau1.h \
+    compheaders/updateform.h \
+    playerheaders/addplayer.h \
+    playerheaders/deletejoueur.h \
+    playerheaders/formationpopup.h \
+    playerheaders/joueur.h \
+    playerheaders/modifyjoueur.h \
+    playerheaders/playerwindow.h \
     teamheaders/chatdialog.h \
     teamheaders/modifyteam.h \
     teamheaders/tableau.h \
@@ -86,15 +120,29 @@ HEADERS += \
     userheaders/recoverpassword.h \
     userheaders/sessionmanager.h \
     userheaders/stats.h \
-    userheaders/user.h
+    userheaders/user.h \
+    userheaders/displaymatch_coach.h \
+    userheaders/lineup.h
 
 FORMS += \
+    compui/addcompetitionwindow.ui \
+    compui/calendardialog.ui \
+    compui/competitionview.ui \
+    compui/deletewindow.ui \
+    compui/matchesdialog.ui \
+    compui/statistics.ui \
+    compui/statistics2.ui \
+    compui/tableau1.ui \
+    compui/updateform.ui \
+    playerui/addPlayer.ui \
+    playerui/playerwindow.ui \
     teamui/chatdialog.ui \
     teamui/modifyTeam.ui \
     teamui/tableau.ui \
     teamui/teamwindow.ui \
     teamui/tododialog.ui \
     teamui/trash.ui \
+    userui/displaymatch_coach.ui \
     userui/displayplayers_coach.ui \
     teamui/formadd.ui \
     userui/EmailSent.ui \
@@ -104,6 +152,7 @@ FORMS += \
     userui/coach.ui \
     userui/displayUser.ui \
     userui/employeview.ui \
+    userui/lineup.ui \
     userui/mainwindow.ui \
     userui/modifyUser.ui \
     userui/profile.ui \
@@ -116,4 +165,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     images.qrc
+
+
 

@@ -29,6 +29,8 @@
         <file>matches.png</file>
         <file>view.png</file>
         <file>viewLabel.png</file>
+        <file>eye_on.png</file>
+        <file>eye_off.png</file>
     </qresource>
     <qresource prefix="/">
         <file>teamimg/abv.png</file>
@@ -65,5 +67,74 @@
         <file>teamimg/Vectoror.png</file>
         <file>teamimg/Vectorora.png</file>
         <file>teamimg/Vectorrrr.png</file>
+        <file>playerimg/addPIC.png</file>
+        <file>playerimg/ai.png</file>
+        <file>playerimg/BUR.png</file>
+        <file>playerimg/cam.png</file>
+        <file>playerimg/compType.png</file>
+        <file>playerimg/delete.png</file>
+        <file>playerimg/deleteIcon.png</file>
+        <file>playerimg/editIcon.png</file>
+        <file>playerimg/Group 1.png</file>
+        <file>playerimg/Group 2.png</file>
+        <file>playerimg/Group 3.png</file>
+        <file>playerimg/hannibal.png</file>
+        <file>playerimg/Layer 2.png</file>
+        <file>playerimg/logo football.png</file>
+        <file>playerimg/logout.png</file>
+        <file>playerimg/nationality.png</file>
+        <file>playerimg/numbers.png</file>
+        <file>playerimg/pdfIcon.png</file>
+        <file>playerimg/pencil.png</file>
+        <file>playerimg/position.png</file>
+        <file>playerimg/rectDD.png</file>
+        <file>playerimg/search.png</file>
+        <file>playerimg/StartDate.png</file>
+        <file>playerimg/teamName.png</file>
+        <file>playerimg/tn.png</file>
+        <file>playerimg/user.png</file>
+        <file>playerimg/Vector.png</file>
+        <file>playerimg/Vectorrrr.png</file>
+        <file>compimg/ai.png</file>
+        <file>compimg/BAR.png</file>
+        <file>compimg/chart.png</file>
+        <file>compimg/CHP.png</file>
+        <file>compimg/compName.png</file>
+        <file>compimg/compType.png</file>
+        <file>compimg/delete.png</file>
+        <file>compimg/deleteIcon.png</file>
+        <file>compimg/editIcon.png</file>
+        <file>compimg/ExpDate.png</file>
+        <file>compimg/gene2.png</file>
+        <file>compimg/generate.png</file>
+        <file>compimg/genPic.png</file>
+        <file>compimg/Group 1.png</file>
+        <file>compimg/Group 12.png</file>
+        <file>compimg/Group 13.png</file>
+        <file>compimg/Group 2.png</file>
+        <file>compimg/Group 3.png</file>
+        <file>compimg/language.png</file>
+        <file>compimg/Layer 2.png</file>
+        <file>compimg/List.png</file>
+        <file>compimg/logo football.png</file>
+        <file>compimg/logout.png</file>
+        <file>compimg/logoutor.png</file>
+        <file>compimg/minus.png</file>
+        <file>compimg/next.png</file>
+        <file>compimg/numbers.png</file>
+        <file>compimg/pdfIcon.png</file>
+        <file>compimg/pencil.png</file>
+        <file>compimg/PREDICTION.png</file>
+        <file>compimg/previous.png</file>
+        <file>compimg/reward.png</file>
+        <file>compimg/search.png</file>
+        <file>compimg/StartDate.png</file>
+        <file>compimg/stats.png</file>
+        <file>compimg/statsIcon.png</file>
+        <file>compimg/trier.png</file>
+        <file>compimg/update.png</file>
+        <file>compimg/user.png</file>
+        <file>compimg/Vectoror.png</file>
+        <file>compimg/Vectorrrr.png</file>
     </qresource>
 </RCC>
