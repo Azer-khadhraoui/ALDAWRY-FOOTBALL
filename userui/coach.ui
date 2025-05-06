@@ -353,7 +353,7 @@ QListView#listView::item:selected {
     </property>
     <property name="styleSheet">
      <string notr="true">/* Style for the pushButton_4 */
-QPushButton#ViewButton {
+QPushButton#Viewplayers {
     background-color: #F5A623; /* Original background color */
     color: #1A2633; /* Dark blue text */
     border: 1px solid white; /* Subtle white border */
@@ -363,14 +363,14 @@ QPushButton#ViewButton {
     
 }
 
-QPushButton#ViewButton:hover {
+QPushButton#Viewplayers:hover {
     background-color: #ffdba2; /* Lighter shade on hover */
     min-width: 70px; /* Slight size increase */
     min-height: 70px;
     
 }
 
-QPushButton#ViewButton:pressed {
+QPushButton#Viewplayers:pressed {
     background-color: #d68f1e; /* Darker shade when pressed */
     min-width: 62px; /* Original size */
     min-height: 62px;

@@ -45,7 +45,7 @@ void FormAdd::on_toolButton_clicked()
 void FormAdd::on_button1_clicked()
 {
     QString teamName = ui->l1->text();
-    QString homeStadium = ui->cb->currentText();
+    QString homeStadium = ui->cb->text();
     QString budgetText = ui->l2->text();
     QString teamABV = ui->l2_2->text();
 
@@ -59,6 +59,11 @@ void FormAdd::on_button1_clicked()
     QRegularExpression reAlpha("^[A-Za-z]+$");
     if (!reAlpha.match(teamName).hasMatch()) {
         QMessageBox::warning(this, "Input Error", "Team Name must contain only alphabets.");
+        return;
+    }
+    // Validate Home Stadium (only alphabets)
+    if (!reAlpha.match(homeStadium).hasMatch()) {
+        QMessageBox::warning(this, "Input Error", "Home Stadium must contain only alphabets.");
         return;
     }
 
@@ -118,10 +123,15 @@ void FormAdd::on_button1_clicked()
         if (!query.exec()) {
             QMessageBox::critical(this, "Error", "Failed to link coach to the team.");
         }
-        this->close();    // Close the form
-        //return to the main window
-        CoachWindow *coachWindow = new CoachWindow(this);
-        coachWindow->show();
+        // Check user role before returning to main window
+        QString userRole = SessionManager::instance().getCurrentUser().getRole().toLower();
+        if (userRole == "coach") {
+            this->close();    // Close the form
+            CoachWindow *coachWindow = new CoachWindow(this);
+            coachWindow->show();
+        } else {
+            this->close();    // Just close the form for non-coach roles
+        }
     } else {
         QMessageBox::critical(this, "Error", "Failed to add team to the database.");
     }
@@ -135,5 +145,5 @@ void FormAdd::on_resetButton_clicked()
     ui->l2_2->clear();
     ui->label_2->setText("Insert logo here");
     teamLogo.clear();  // Clear the stored logo data
-    ui->cb->setCurrentIndex(0);
+    ui->cb->clear();
 }

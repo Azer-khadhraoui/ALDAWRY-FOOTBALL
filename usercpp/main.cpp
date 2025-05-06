@@ -9,6 +9,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     Connection c;
     bool test=c.createconnect();
+    /*QPalette palette = a.palette();
+    palette.setColor(QPalette::WindowText, Qt::white);
+    a.setPalette(palette);*/
     if(test)
     {w.show();
         QMessageBox::information(nullptr, QObject::tr("database is open"),

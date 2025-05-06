@@ -24,10 +24,14 @@
 #include <QSpacerItem>
 #include "../teamheaders/tableau.h"
 #include "../teamheaders/tododialog.h"
+#include "../userheaders/sessionmanager.h"
+#include "../userheaders/mainwindow.h"
+#include "../userheaders/admin.h"
+#include "../playerheaders/playerwindow.h"
+#include "../compheaders/competitionview.h"
 
-teamwindow::teamwindow(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::teamwindow)
+teamwindow::teamwindow(QStackedWidget *stack, QWidget *parent)
+    : QWidget(parent), ui(new Ui::teamwindow), stackedWidget(stack)
 {
     ui->setupUi(this);
 
@@ -62,9 +66,40 @@ teamwindow::teamwindow(QWidget *parent)
         );
     todoListView->setSpacing(2); // Space between items
     todoListView->setSelectionMode(QAbstractItemView::SingleSelection);
+    // Load current user's photo and details
+    const Employee& currentUser = SessionManager::instance().getCurrentUser();
+    if (!currentUser.getFace().isEmpty()) {
+        QPixmap pixmap;
+        if (pixmap.loadFromData(currentUser.getFace())) {
+            ui->currentUserPhotoLabel->setPixmap(pixmap.scaled(ui->currentUserPhotoLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        } else {
+            qDebug() << "Failed to load user photo from data.";
+            ui->currentUserPhotoLabel->setText("No Photo");
+        }
+    } else {
+        ui->currentUserPhotoLabel->setText("No Photo");
+    }
+    // Set username and role
+    ui->dashboard_9->setText(currentUser.getFirstName() + " " + currentUser.getLastName());
+    ui->dashboard_8->setText(currentUser.getRole());
 
+    connect(ui->logout, &QPushButton::clicked, this, &teamwindow::handleLogoutButtonClicked);
+    connect(ui->userbutton, &QPushButton::clicked, this, &teamwindow::on_userbutton_cliceked);
+    connect(ui->playerButton, &QPushButton::clicked, this, &teamwindow::on_playerButton_clicked);
+    connect(ui->compButton, &QPushButton::clicked, this, &teamwindow::on_compButton_clicked);
+    
+      
+    
     // Populate the list initially
     populateTodoList();
+}
+void teamwindow::on_compButton_clicked()
+{
+    if (stackedWidget) {
+        competitionview *compView = new competitionview(stackedWidget, this);
+        stackedWidget->addWidget(compView);
+        stackedWidget->setCurrentWidget(compView);
+    }
 }
 
 teamwindow::~teamwindow()
@@ -259,8 +294,21 @@ void teamwindow::refreshTodoList()
     populateTodoList();
 }
 
-void teamwindow::on_pushButton_clicked()
+void teamwindow::on_userbutton_cliceked()
 {
+    // For employee view, switch back to the dashboard (index 0)
+    if (stackedWidget) {
+        stackedWidget->setCurrentIndex(0);
+        return;
+    }
+
+    QString role = SessionManager::instance().getCurrentUser().getRole();
+    if (role.toLower() == "admin" && stackedWidget) {
+        // adminDashboard is always the first widget in the stack
+        stackedWidget->setCurrentIndex(0);
+        return;
+    }
+
     ChatDialog *chatDialog = new ChatDialog(this);
     chatDialog->setModal(false);
     chatDialog->show();
@@ -353,4 +401,51 @@ void teamwindow::on_toolButton_clicked()
 void teamwindow::on_resetButton_clicked()
 {
     updateBudgetPieChart();
+}
+
+void teamwindow::handleLogoutButtonClicked()
+{
+    qDebug() << "Logout button clicked.";
+    // Clear the session to log out the user
+    SessionManager::instance().clearSession();
+
+    // Update the photo label to indicate no user
+    ui->currentUserPhotoLabel->setText("No User");
+    ui->dashboard_9->setText("User name"); // Reset username label
+    ui->dashboard_8->setText("Role");      // Reset role label
+
+    // Try to get the parent MainWindow
+    QWidget *parent = parentWidget();
+    MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
+    if (mainWindow) {
+        // Clear the email and password fields in MainWindow
+        QLineEdit *emailField = mainWindow->findChild<QLineEdit*>("lineEdit");
+        QLineEdit *passwordField = mainWindow->findChild<QLineEdit*>("lineEdit_2");
+        if (emailField && passwordField) {
+            emailField->clear();
+            passwordField->clear();
+        } else {
+            qDebug() << "Failed to find email or password fields in MainWindow.";
+        }
+        mainWindow->show();
+    } else {
+        // Fallback: Create a new MainWindow
+        qDebug() << "No parent MainWindow found, creating a new one.";
+        MainWindow *loginWindow = new MainWindow();
+        loginWindow->show();
+    }
+
+    // Close all parent windows up the chain (including stacked widgets)
+    QWidget *w = this;
+    while (w) {
+        QWidget *parent = w->parentWidget();
+        w->close();
+        w = parent;
+    }
+}
+
+void teamwindow::on_playerButton_clicked() {
+    if (stackedWidget) {
+        stackedWidget->setCurrentIndex(2); // 2 = playerwindow, adjust if needed
+    }
 }

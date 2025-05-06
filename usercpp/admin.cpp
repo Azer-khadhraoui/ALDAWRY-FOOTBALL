@@ -8,8 +8,11 @@
 #include "../userheaders/displayuser.h" // Include the new header
 #include "../userheaders/profile.h" // Include the new header
 #include "../teamheaders/teamwindow.h" // Include the new header
+#include "../playerheaders/playerwindow.h" // Include the new header
+#include "../compheaders/competitionview.h" // Include the new header
 #include <QScrollArea>
 #include <QStackedWidget>
+
 
 AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +21,7 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     stats(nullptr),
     stackedWidget(nullptr),
     teamWindow(nullptr),
+    playerWindow(nullptr),
     adminDashboard(nullptr)
 {
     ui->setupUi(this);
@@ -29,9 +33,15 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     // Create the stacked widget and add admin dashboard
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(adminDashboard);
-    // Create and add the teamwindow
-    teamWindow = new teamwindow(this);
+    // Create and add the teamwindow, pass stackedWidget pointer
+    teamWindow = new teamwindow(stackedWidget, this);
     stackedWidget->addWidget(teamWindow);
+    // Create and add the playerwindow, pass stackedWidget pointer
+    playerWindow = new playerwindow(stackedWidget, this);
+    stackedWidget->addWidget(playerWindow);
+    // Create and add the competitionview, pass stackedWidget pointer
+    competitionview *competitionView = new competitionview(stackedWidget);
+    stackedWidget->addWidget(competitionView);
     // Set stackedWidget as the central widget
     setCentralWidget(stackedWidget);
     // Show admin dashboard by default
@@ -46,6 +56,13 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     connect(ui->profileButton, &QPushButton::clicked, this, &AdminWindow::handleProfileButtonClicked);
     connect(ui->teamButton, &QPushButton::clicked, this, [this]() {
         stackedWidget->setCurrentWidget(teamWindow);
+    });
+    connect(ui->playerButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(playerWindow);
+    });
+    // Connect compButton to show competitionview in stackedWidget
+    connect(ui->compButton, &QPushButton::clicked, this, [this, competitionView]() {
+        stackedWidget->setCurrentWidget(competitionView);
     });
 
     // Load current user's photo and details

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include "../teamheaders/teamwindow.h"
+#include "../playerheaders/playerwindow.h"
 #include "stats.h"
 
 class MainWindow; // Forward declaration
@@ -33,6 +34,7 @@ private:
     Stats *stats;
     QStackedWidget *stackedWidget;
     teamwindow *teamWindow;
+    playerwindow *playerWindow; // Add playerwindow pointer
     QWidget *adminDashboard;
 };
 

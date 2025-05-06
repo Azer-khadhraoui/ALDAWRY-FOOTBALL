@@ -24,7 +24,7 @@ ModifyTeam::~ModifyTeam()
 void ModifyTeam::setTeamData(const QString &teamName, const QString &homeStadium, int budget, const QString &teamABV, const QByteArray &teamLogo)
 {
     ui->l1_2->setText(teamName);
-    ui->cb_2->setCurrentText(homeStadium);
+    ui->cb_2->setText(homeStadium);
     ui->l2_3->setText(QString::number(budget));
     ui->l2_4->setText(teamABV);
     this->teamLogo = teamLogo;
@@ -56,7 +56,7 @@ void ModifyTeam::on_button1_2_clicked()
 {
     // Input validation
     QString teamName = ui->l1_2->text().trimmed();
-    QString homeStadium = ui->cb_2->currentText().trimmed();
+    QString homeStadium = ui->cb_2->text().trimmed();
     QString budgetText = ui->l2_3->text().trimmed();
     QString teamABV = ui->l2_4->text().trimmed();
 
@@ -105,7 +105,7 @@ bool ModifyTeam::updateTeamInDatabase()
 {
     // Input validation
     QString teamName = ui->l1_2->text().trimmed();
-    QString homeStadium = ui->cb_2->currentText().trimmed();
+    QString homeStadium = ui->cb_2->text().trimmed();
     QString budgetText = ui->l2_3->text().trimmed();
     QString teamABV = ui->l2_4->text().trimmed();
 
@@ -149,7 +149,7 @@ bool ModifyTeam::updateTeamInDatabase()
 void ModifyTeam::on_confirmButton_clicked()
 {
     QString teamName = ui->l1_2->text(); // Correct widget for team name
-    QString homeStadium = ui->cb_2->currentText(); // Correct widget for home stadium
+    QString homeStadium = ui->cb_2->text(); // Correct widget for home stadium
     int budget = ui->l2_3->text().toInt(); // Correct widget for budget
     QString teamABV = ui->l2_4->text(); // Correct widget for team abbreviation
 

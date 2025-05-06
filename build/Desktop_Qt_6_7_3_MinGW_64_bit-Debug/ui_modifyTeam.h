@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -27,20 +26,20 @@ class Ui_modifyTeam
 public:
     QWidget *widget;
     QGridLayout *gridLayout_4;
-    QPushButton *button1_2;
-    QComboBox *cb_2;
-    QLabel *label_12;
-    QLineEdit *l1_2;
-    QLabel *label_13;
-    QLabel *label_14;
-    QLabel *label_15;
-    QLabel *label_16;
-    QLineEdit *l2_3;
     QWidget *widget_3;
     QHBoxLayout *horizontalLayout_2;
     QToolButton *toolButton_2;
     QLabel *label_3;
+    QLabel *label_13;
     QLineEdit *l2_4;
+    QLabel *label_16;
+    QPushButton *button1_2;
+    QLabel *label_14;
+    QLabel *label_15;
+    QLineEdit *l2_3;
+    QLineEdit *l1_2;
+    QLabel *label_12;
+    QLineEdit *cb_2;
     QLabel *label_19;
     QLabel *label_29;
     QLabel *label_30;
@@ -67,111 +66,6 @@ public:
 ""));
         gridLayout_4 = new QGridLayout(widget);
         gridLayout_4->setObjectName("gridLayout_4");
-        button1_2 = new QPushButton(widget);
-        button1_2->setObjectName("button1_2");
-        button1_2->setStyleSheet(QString::fromUtf8("background-color: #00FF7F; /* Green to match the accent */\n"
-"    color: #1A2633; /* Dark blue text for contrast */\n"
-"    font-size: 12px;\n"
-"    font-weight: bold;\n"
-"    border-radius: 5px;\n"
-"    padding: 6px 12px;\n"
-"    margin-left: 350px;\n"
-"    margin-right: 20px;\n"
-"    margin-bottom: 5px;"));
-
-        gridLayout_4->addWidget(button1_2, 10, 0, 1, 1);
-
-        cb_2 = new QComboBox(widget);
-        cb_2->addItem(QString());
-        cb_2->addItem(QString());
-        cb_2->addItem(QString());
-        cb_2->addItem(QString());
-        cb_2->addItem(QString());
-        cb_2->setObjectName("cb_2");
-        cb_2->setStyleSheet(QString::fromUtf8("background-color: #2A3240;\n"
-"  border: 1px solid #3A4A5A;\n"
-"    border-radius: 5px;\n"
-"    padding: 5px;\n"
-"    color: #E0E6ED;\n"
-"    margin-left: 15px;\n"
-"    margin-right: 15px;\n"
-"\n"
-"Qcb::drop-down {\n"
-"    border-left: 1px solid #3A4A5A;\n"
-"    width: 20px;\n"
-"}\n"
-"Qcb:focus {\n"
-"    border: 1px solid #00FF7F;\n"
-"    background-color: #323A48;\n"
-"}"));
-
-        gridLayout_4->addWidget(cb_2, 3, 0, 1, 1);
-
-        label_12 = new QLabel(widget);
-        label_12->setObjectName("label_12");
-        label_12->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_4->addWidget(label_12, 6, 0, 1, 1);
-
-        l1_2 = new QLineEdit(widget);
-        l1_2->setObjectName("l1_2");
-        l1_2->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
-"    border: 1px solid #3A4A5A; /* Subtle blue-gray border */\n"
-"    border-radius: 5px;\n"
-"    padding: 5px;\n"
-"    color: #E0E6ED; /* Light gray text for readability */\n"
-"    margin-left: 15px;\n"
-"    margin-right: 15px;\n"
-""));
-
-        gridLayout_4->addWidget(l1_2, 1, 0, 1, 1);
-
-        label_13 = new QLabel(widget);
-        label_13->setObjectName("label_13");
-        label_13->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_4->addWidget(label_13, 4, 0, 1, 1);
-
-        label_14 = new QLabel(widget);
-        label_14->setObjectName("label_14");
-        label_14->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_4->addWidget(label_14, 8, 0, 1, 1);
-
-        label_15 = new QLabel(widget);
-        label_15->setObjectName("label_15");
-        label_15->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_4->addWidget(label_15, 0, 0, 1, 1);
-
-        label_16 = new QLabel(widget);
-        label_16->setObjectName("label_16");
-        label_16->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
-"font-weight: bold;\n"
-"padding-bottom: 5px;background-color:transparent;"));
-
-        gridLayout_4->addWidget(label_16, 2, 0, 1, 1);
-
-        l2_3 = new QLineEdit(widget);
-        l2_3->setObjectName("l2_3");
-        l2_3->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
-"    border: 1px solid #3A4A5A; /* Subtle blue-gray border */\n"
-"    border-radius: 5px;\n"
-"    padding: 5px;\n"
-"    color: #E0E6ED; /* Light gray text for readability */\n"
-"    margin-left: 15px;\n"
-"    margin-right: 15px;"));
-
-        gridLayout_4->addWidget(l2_3, 5, 0, 1, 1);
-
         widget_3 = new QWidget(widget);
         widget_3->setObjectName("widget_3");
         widget_3->setStyleSheet(QString::fromUtf8("background-color: #2A3240;\n"
@@ -208,6 +102,14 @@ public:
 
         gridLayout_4->addWidget(widget_3, 7, 0, 1, 1);
 
+        label_13 = new QLabel(widget);
+        label_13->setObjectName("label_13");
+        label_13->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_4->addWidget(label_13, 4, 0, 1, 1);
+
         l2_4 = new QLineEdit(widget);
         l2_4->setObjectName("l2_4");
         l2_4->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
@@ -219,6 +121,90 @@ public:
 "    margin-right: 15px;"));
 
         gridLayout_4->addWidget(l2_4, 9, 0, 1, 1);
+
+        label_16 = new QLabel(widget);
+        label_16->setObjectName("label_16");
+        label_16->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_4->addWidget(label_16, 2, 0, 1, 1);
+
+        button1_2 = new QPushButton(widget);
+        button1_2->setObjectName("button1_2");
+        button1_2->setStyleSheet(QString::fromUtf8("background-color: #00FF7F; /* Green to match the accent */\n"
+"    color: #1A2633; /* Dark blue text for contrast */\n"
+"    font-size: 12px;\n"
+"    font-weight: bold;\n"
+"    border-radius: 5px;\n"
+"    padding: 6px 12px;\n"
+"    margin-left: 350px;\n"
+"    margin-right: 20px;\n"
+"    margin-bottom: 5px;"));
+
+        gridLayout_4->addWidget(button1_2, 10, 0, 1, 1);
+
+        label_14 = new QLabel(widget);
+        label_14->setObjectName("label_14");
+        label_14->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_4->addWidget(label_14, 8, 0, 1, 1);
+
+        label_15 = new QLabel(widget);
+        label_15->setObjectName("label_15");
+        label_15->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_4->addWidget(label_15, 0, 0, 1, 1);
+
+        l2_3 = new QLineEdit(widget);
+        l2_3->setObjectName("l2_3");
+        l2_3->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
+"    border: 1px solid #3A4A5A; /* Subtle blue-gray border */\n"
+"    border-radius: 5px;\n"
+"    padding: 5px;\n"
+"    color: #E0E6ED; /* Light gray text for readability */\n"
+"    margin-left: 15px;\n"
+"    margin-right: 15px;"));
+
+        gridLayout_4->addWidget(l2_3, 5, 0, 1, 1);
+
+        l1_2 = new QLineEdit(widget);
+        l1_2->setObjectName("l1_2");
+        l1_2->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
+"    border: 1px solid #3A4A5A; /* Subtle blue-gray border */\n"
+"    border-radius: 5px;\n"
+"    padding: 5px;\n"
+"    color: #E0E6ED; /* Light gray text for readability */\n"
+"    margin-left: 15px;\n"
+"    margin-right: 15px;\n"
+""));
+
+        gridLayout_4->addWidget(l1_2, 1, 0, 1, 1);
+
+        label_12 = new QLabel(widget);
+        label_12->setObjectName("label_12");
+        label_12->setStyleSheet(QString::fromUtf8("color: #A0A8B7;\n"
+"font-weight: bold;\n"
+"padding-bottom: 5px;background-color:transparent;"));
+
+        gridLayout_4->addWidget(label_12, 6, 0, 1, 1);
+
+        cb_2 = new QLineEdit(widget);
+        cb_2->setObjectName("cb_2");
+        cb_2->setStyleSheet(QString::fromUtf8("background-color: #2A3240; /* Darker blue-gray for input fields */\n"
+"    border: 1px solid #3A4A5A; /* Subtle blue-gray border */\n"
+"    border-radius: 5px;\n"
+"    padding: 5px;\n"
+"    color: #E0E6ED; /* Light gray text for readability */\n"
+"    margin-left: 15px;\n"
+"    margin-right: 15px;\n"
+""));
+
+        gridLayout_4->addWidget(cb_2, 3, 0, 1, 1);
 
         label_19 = new QLabel(modifyTeam);
         label_19->setObjectName("label_19");
@@ -275,21 +261,16 @@ public:
     void retranslateUi(QWidget *modifyTeam)
     {
         modifyTeam->setWindowTitle(QCoreApplication::translate("modifyTeam", "Form", nullptr));
-        button1_2->setText(QCoreApplication::translate("modifyTeam", "Confirm", nullptr));
-        cb_2->setItemText(0, QCoreApplication::translate("modifyTeam", "bernabeu", nullptr));
-        cb_2->setItemText(1, QCoreApplication::translate("modifyTeam", "Santiago Bernab\303\251u", nullptr));
-        cb_2->setItemText(2, QCoreApplication::translate("modifyTeam", "Camp Nou", nullptr));
-        cb_2->setItemText(3, QCoreApplication::translate("modifyTeam", "Old Trafford", nullptr));
-        cb_2->setItemText(4, QCoreApplication::translate("modifyTeam", "Wembley Stadium", nullptr));
-
-        label_12->setText(QCoreApplication::translate("modifyTeam", "         Team_Logo :", nullptr));
-        l1_2->setText(QString());
-        label_13->setText(QCoreApplication::translate("modifyTeam", "         Budget :", nullptr));
-        label_14->setText(QCoreApplication::translate("modifyTeam", "        Team_ABV :", nullptr));
-        label_15->setText(QCoreApplication::translate("modifyTeam", "          Team_Name :", nullptr));
-        label_16->setText(QCoreApplication::translate("modifyTeam", "         Home_Stadium :", nullptr));
         toolButton_2->setText(QCoreApplication::translate("modifyTeam", "...", nullptr));
         label_3->setText(QCoreApplication::translate("modifyTeam", "insert logo here", nullptr));
+        label_13->setText(QCoreApplication::translate("modifyTeam", "         Budget :", nullptr));
+        label_16->setText(QCoreApplication::translate("modifyTeam", "         Home_Stadium :", nullptr));
+        button1_2->setText(QCoreApplication::translate("modifyTeam", "Confirm", nullptr));
+        label_14->setText(QCoreApplication::translate("modifyTeam", "        Team_ABV :", nullptr));
+        label_15->setText(QCoreApplication::translate("modifyTeam", "          Team_Name :", nullptr));
+        l1_2->setText(QString());
+        label_12->setText(QCoreApplication::translate("modifyTeam", "         Team_Logo :", nullptr));
+        cb_2->setText(QString());
         label_19->setText(QString());
         label_29->setText(QString());
         label_30->setText(QString());

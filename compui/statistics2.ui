@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>statistics2</class>
+ <widget class="QDialog" name="statistics2">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Competition Statistics</string>
+  </property>
+  <property name="styleSheet">
+   <string>background-color: #1A3C34; color: #E0E0E0;</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QComboBox" name="comboBox">
+     <item>
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>League</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Tournament</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="dateTimeLabel">
+     <property name="styleSheet">
+      <string>color: #E0E0E0; padding: 5px;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTop|Qt::AlignmentFlag::AlignTrailing</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QChartView" name="chartWidget" native="true"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="previousButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Previous</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="nextButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Next</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exportButton">
+       <property name="styleSheet">
+        <string>background-color: #2E6659; color: #E0E0E0; border: 1px solid #3D8B7A; padding: 5px;</string>
+       </property>
+       <property name="text">
+        <string>Export Chart</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header>qchartview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
