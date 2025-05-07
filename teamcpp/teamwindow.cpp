@@ -29,9 +29,10 @@
 #include "../userheaders/admin.h"
 #include "../playerheaders/playerwindow.h"
 #include "../compheaders/competitionview.h"
+#include <QstackedWidget>
 
-teamwindow::teamwindow(QStackedWidget *stack, QWidget *parent)
-    : QWidget(parent), ui(new Ui::teamwindow), stackedWidget(stack)
+teamwindow::teamwindow(QStackedWidget *stackedWidget, QWidget *parent)
+    : QWidget(parent), ui(new Ui::teamwindow)
 {
     ui->setupUi(this);
 
@@ -87,6 +88,7 @@ teamwindow::teamwindow(QStackedWidget *stack, QWidget *parent)
     connect(ui->userbutton, &QPushButton::clicked, this, &teamwindow::on_userbutton_cliceked);
     connect(ui->playerButton, &QPushButton::clicked, this, &teamwindow::on_playerButton_clicked);
     connect(ui->compButton, &QPushButton::clicked, this, &teamwindow::on_compButton_clicked);
+    connect(ui->matchButton, &QPushButton::clicked, this, &teamwindow::on_matchButton_clicked);
     
       
     
@@ -95,16 +97,23 @@ teamwindow::teamwindow(QStackedWidget *stack, QWidget *parent)
 }
 void teamwindow::on_compButton_clicked()
 {
-    if (stackedWidget) {
-        competitionview *compView = new competitionview(stackedWidget, this);
-        stackedWidget->addWidget(compView);
-        stackedWidget->setCurrentWidget(compView);
-    }
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Replace 2 with the correct index for your competition window if needed
+            stackedWidget->setCurrentIndex(3);
+        }
 }
 
 teamwindow::~teamwindow()
 {
     delete ui;
+}
+void teamwindow::on_matchButton_clicked()
+{
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            stackedWidget->setCurrentIndex(4);
+        }
 }
 
 void teamwindow::setupBudgetPieChart()
@@ -296,22 +305,11 @@ void teamwindow::refreshTodoList()
 
 void teamwindow::on_userbutton_cliceked()
 {
-    // For employee view, switch back to the dashboard (index 0)
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
     if (stackedWidget) {
+        // Assuming the player window is at index 2 in the stacked widget
         stackedWidget->setCurrentIndex(0);
-        return;
     }
-
-    QString role = SessionManager::instance().getCurrentUser().getRole();
-    if (role.toLower() == "admin" && stackedWidget) {
-        // adminDashboard is always the first widget in the stack
-        stackedWidget->setCurrentIndex(0);
-        return;
-    }
-
-    ChatDialog *chatDialog = new ChatDialog(this);
-    chatDialog->setModal(false);
-    chatDialog->show();
 }
 
 void teamwindow::on_pushButton_2_clicked()
@@ -445,7 +443,9 @@ void teamwindow::handleLogoutButtonClicked()
 }
 
 void teamwindow::on_playerButton_clicked() {
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
     if (stackedWidget) {
-        stackedWidget->setCurrentIndex(2); // 2 = playerwindow, adjust if needed
+            // Replace 2 with the correct index for your competition window if needed
+            stackedWidget->setCurrentIndex(2);
     }
 }

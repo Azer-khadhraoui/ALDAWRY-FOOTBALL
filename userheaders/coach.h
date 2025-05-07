@@ -20,6 +20,7 @@ public:
     ~CoachWindow();
     void on_viewplayer_clicked(); // Slot for the view players button
     void logout(); // Slot for the logout button
+    void on_MatchesButton_clicked(); // Slot for the match button
 
 private:
     Ui::CoachWindow *ui; // Changed from Ui::CoachWindow to Ui::MainWindow

@@ -9,6 +9,7 @@ Qt += sql
 QT += printsupport
 QT += charts multimedia multimediawidgets
 QT += core gui sql printsupport charts
+QT += serialport network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,6 +34,12 @@ CONFIG += c++11
 QT += network
 
 SOURCES += \
+    matchcpp/addmatch.cpp \
+    matchcpp/arduino.cpp \
+    matchcpp/chartmatch.cpp \
+    matchcpp/displaymatch.cpp \
+    matchcpp/fieldwidget.cpp \
+    matchcpp/match.cpp \
     compcpp/addcompetitionwindow.cpp \
     compcpp/calendardialog.cpp \
     compcpp/competition.cpp \
@@ -43,6 +50,10 @@ SOURCES += \
     compcpp/statistics2.cpp \
     compcpp/tableau1.cpp \
     compcpp/updateform.cpp \
+    matchcpp/matchview.cpp \
+    matchcpp/statsmatch.cpp \
+    matchcpp/viewmatch.cpp \
+    matchcpp/watchmatchdialog.cpp \
     playercpp/addplayer.cpp \
     playercpp/deletejoueur.cpp \
     playercpp/formationpopup.cpp \
@@ -75,10 +86,15 @@ SOURCES += \
     usercpp/sessionmanager.cpp \
     usercpp/stats.cpp \
     usercpp/user.cpp \
-    usercpp/displaymatch_coach.cpp \
-    usercpp/lineup.cpp
+    usercpp/displaymatch_coach.cpp
 
 HEADERS += \
+    matchheaders/addmatch.h \
+    matchheaders/arduino.h \
+    matchheaders/chartmatch.h \
+    matchheaders/displaymatch.h \
+    matchheaders/fieldwidget.h \
+    matchheaders/match.h \
     compheaders/addcompetitionwindow.h \
     compheaders/calendardialog.h \
     compheaders/competition.h \
@@ -89,6 +105,10 @@ HEADERS += \
     compheaders/statistics2.h \
     compheaders/tableau1.h \
     compheaders/updateform.h \
+    matchheaders/matchview.h \
+    matchheaders/statsmatch.h \
+    matchheaders/viewmatch.h \
+    matchheaders/watchmatchdialog.h \
     playerheaders/addplayer.h \
     playerheaders/deletejoueur.h \
     playerheaders/formationpopup.h \
@@ -121,8 +141,7 @@ HEADERS += \
     userheaders/sessionmanager.h \
     userheaders/stats.h \
     userheaders/user.h \
-    userheaders/displaymatch_coach.h \
-    userheaders/lineup.h
+    userheaders/displaymatch_coach.h
 
 FORMS += \
     compui/addcompetitionwindow.ui \
@@ -134,6 +153,13 @@ FORMS += \
     compui/statistics2.ui \
     compui/tableau1.ui \
     compui/updateform.ui \
+    matchui/addMatch.ui \
+    matchui/chartMatch.ui \
+    matchui/displayMatch.ui \
+    matchui/fieldwidget.ui \
+    matchui/matchview.ui \
+    matchui/statsMatch.ui \
+    matchui/viewMatch.ui \
     playerui/addPlayer.ui \
     playerui/playerwindow.ui \
     teamui/chatdialog.ui \
@@ -152,7 +178,6 @@ FORMS += \
     userui/coach.ui \
     userui/displayUser.ui \
     userui/employeview.ui \
-    userui/lineup.ui \
     userui/mainwindow.ui \
     userui/modifyUser.ui \
     userui/profile.ui \

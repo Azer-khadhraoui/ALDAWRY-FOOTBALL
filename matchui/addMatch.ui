@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>addMatch</class>
+ <widget class="QWidget" name="addMatch">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>605</width>
+    <height>635</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>80</y>
+     <width>541</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(25, 31, 42);
+    color: #FFFFFF;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 12px;
+    border-radius: 15px;
+    padding: 15px;
+    spacing: 2px;
+</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Team_1 :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QComboBox" name="team2">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+  border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;
+
+Qcb::drop-down {
+    border-left: 1px solid #3A4A5A;
+    width: 20px;
+}
+Qcb:focus {
+    border: 1px solid #00FF7F;
+    background-color: #323A48;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QPushButton" name="Confirm">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #00FF7F; /* Green to match the accent */
+    color: #1A2633; /* Dark blue text for contrast */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-left: 350px;
+    margin-right: 20px;
+    margin-bottom: 5px;</string>
+      </property>
+      <property name="text">
+       <string>Confirm</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Team_2 :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLineEdit" name="Stadium">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;
+</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Date :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QComboBox" name="Comp">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+  border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;
+
+Qcb::drop-down {
+    border-left: 1px solid #3A4A5A;
+    width: 20px;
+}
+Qcb:focus {
+    border: 1px solid #00FF7F;
+    background-color: #323A48;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;
+background-color:transparent;
+</string>
+      </property>
+      <property name="text">
+       <string>               Referee's_FullName :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLineEdit" name="Referee_name">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240; /* Darker blue-gray for input fields */
+    border: 1px solid #3A4A5A; /* Subtle blue-gray border */
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED; /* Light gray text for readability */
+    margin-left: 15px;
+    margin-right: 15px;
+</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QDateTimeEdit" name="Date">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+  border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;
+
+Qcb::drop-down {
+    border-left: 1px solid #3A4A5A;
+    width: 20px;
+}
+Qcb:focus {
+    border: 1px solid #00FF7F;
+    background-color: #323A48;
+}</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>              Stadium :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="styleSheet">
+       <string notr="true">color: #A0A8B7;
+font-weight: bold;
+padding-bottom: 5px;background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string>               Competiton :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QComboBox" name="team1">
+      <property name="styleSheet">
+       <string notr="true">background-color: #2A3240;
+  border: 1px solid #3A4A5A;
+    border-radius: 5px;
+    padding: 5px;
+    color: #E0E6ED;
+    margin-left: 15px;
+    margin-right: 15px;
+
+Qcb::drop-down {
+    border-left: 1px solid #3A4A5A;
+    width: 20px;
+}
+Qcb:focus {
+    border: 1px solid #00FF7F;
+    background-color: #323A48;
+}</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>20</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the Adjust Team title label */
+QLabel#label_4 {
+    background-color: transparent; /* Dark background matching the app */
+    color: #FFFFFF; /* White text for contrast */
+    font-size: 25px; /* Larger font for title emphasis */
+    font-weight: bold; /* Bold for a strong title appearance */
+
+
+    padding: 5px 10px; /* Padding for a balanced look */
+}</string>
+   </property>
+   <property name="text">
+    <string>Add Match</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

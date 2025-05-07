@@ -11,34 +11,49 @@
 #include "../userheaders/profile.h"
 #include <QScrollArea> // Added this include
 #include "../teamheaders/teamwindow.h"
-#include "../playerheaders/playerwindow.h"
 #include "../compheaders/competitionview.h"
+#include <QStackedWidget>
+#include "../playerheaders/playerwindow.h"
+#include "../matchheaders/matchview.h"
 
 
-EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent, QStackedWidget *stack)
+EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::EmployeeWindow),
       mainWindowParent(mainWindowParent),
       stats(nullptr),
-      stackedWidget(stack),
-      teamWindow(nullptr)
+      stackedWidget(nullptr),
+      teamWindow(nullptr),
+      playerWindow(nullptr),
+      employee(nullptr),
+      matchView(nullptr) // Initialize matchView to nullptr
 {
     ui->setupUi(this);
     setWindowTitle("Employee Dashboard");
 
-    // Create stacked widget if not provided
-    if (!stackedWidget) {
-        stackedWidget = new QStackedWidget(this);
-    }
-    stackedWidget->addWidget(this->centralWidget()); // Add employee dashboard
+    // Save the current admin dashboard widget
+    employee = ui->centralwidget;
+
+    // Create the stacked widget and add admin dashboard
+    stackedWidget = new QStackedWidget(this);
+    stackedWidget->addWidget(employee);
+    // Create and add the teamwindow, pass stackedWidget pointer
     teamWindow = new teamwindow(stackedWidget, this);
     stackedWidget->addWidget(teamWindow);
-    setCentralWidget(stackedWidget);
-    stackedWidget->setCurrentIndex(0);
-
+    // Create and add the playerwindow, pass stackedWidget pointer
+    playerWindow = new playerwindow(stackedWidget, this);
+    stackedWidget->addWidget(playerWindow);
     // Create and add the competitionview, pass stackedWidget pointer
     competitionview *competitionView = new competitionview(stackedWidget);
     stackedWidget->addWidget(competitionView);
+
+    // Create and add the matchview, pass stackedWidget pointer
+    matchView = new matchview(stackedWidget, this);
+    stackedWidget->addWidget(matchView);
+    // Set stackedWidget as the central widget
+    setCentralWidget(stackedWidget);
+    // Show admin dashboard by default
+    stackedWidget->setCurrentWidget(employee);
 
     // Connect button signals to slots
     connect(ui->coachButton, &QPushButton::clicked, this, &EmployeeWindow::handleCoachButtonClicked);
@@ -50,17 +65,17 @@ EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent, QS
         stackedWidget->setCurrentWidget(teamWindow);
     });
     connect(ui->playerButton, &QPushButton::clicked, this, [this]() {
-        if (stackedWidget) {
-            playerwindow *playerWindow = new playerwindow(stackedWidget, this);
-            stackedWidget->addWidget(playerWindow);
-            stackedWidget->setCurrentWidget(playerWindow);
-        }
+        stackedWidget->setCurrentWidget(playerWindow);
     });
     
     // If you have a QPushButton for competition, use:
-     connect(ui->compButton, &QPushButton::clicked, this, [this, competitionView]() {
-         stackedWidget->setCurrentWidget(competitionView);
-     });
+    connect(ui->compButton, &QPushButton::clicked, this, [this, competitionView]() {
+       stackedWidget->setCurrentWidget(competitionView);
+    });
+    // Connect matchButton to show matchview in stackedWidget
+    connect(ui->matchButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(matchView);
+    });
 
     // Apply drop shadow effect to currentUserPhotoLabel
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);

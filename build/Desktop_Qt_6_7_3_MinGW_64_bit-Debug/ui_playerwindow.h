@@ -76,18 +76,19 @@ public:
     QPushButton *teamButton;
     QLabel *currentUserPhotoLabel;
     QPushButton *compButton;
+    QPushButton *matchButton;
     QStatusBar *statusbar;
 
-    void setupUi(QWidget *MainWindow)
+    void setupUi(QWidget *playerwindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
+        if (playerwindow->objectName().isEmpty())
+            playerwindow->setObjectName("playerwindow");
+        playerwindow->resize(1920, 1080);
         QFont font;
         font.setPointSize(10);
-        MainWindow->setFont(font);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        playerwindow->setFont(font);
+        playerwindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(playerwindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setGeometry(QRect(0, 0, 2051, 1101));
         label_17 = new QLabel(centralwidget);
@@ -578,6 +579,23 @@ public:
 "}"));
         compButton->setIcon(icon3);
         compButton->setIconSize(QSize(40, 40));
+        matchButton = new QPushButton(centralwidget);
+        matchButton->setObjectName("matchButton");
+        matchButton->setGeometry(QRect(20, 510, 141, 61));
+        matchButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        matchButton->setIcon(icon3);
+        matchButton->setIconSize(QSize(40, 40));
         label_17->raise();
         widget_2->raise();
         dashboard_4->raise();
@@ -616,21 +634,22 @@ public:
         teamButton->raise();
         currentUserPhotoLabel->raise();
         compButton->raise();
-        statusbar = new QStatusBar(MainWindow);
+        matchButton->raise();
+        statusbar = new QStatusBar(playerwindow);
         statusbar->setObjectName("statusbar");
         statusbar->setGeometry(QRect(0, 0, 20, 22));
 
-        retranslateUi(MainWindow);
+        retranslateUi(playerwindow);
 
         tabWidget->setCurrentIndex(0);
 
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(playerwindow);
     } // setupUi
 
-    void retranslateUi(QWidget *MainWindow)
+    void retranslateUi(QWidget *playerwindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("playerwindow", "MainWindow", nullptr));
+        playerwindow->setWindowTitle(QCoreApplication::translate("playerwindow", "MainWindow", nullptr));
         label_17->setText(QString());
         buttonViewDetails->setText(QString());
         label_25->setText(QString());
@@ -668,6 +687,7 @@ public:
         teamButton->setText(QString());
         currentUserPhotoLabel->setText(QString());
         compButton->setText(QString());
+        matchButton->setText(QString());
     } // retranslateUi
 
 };

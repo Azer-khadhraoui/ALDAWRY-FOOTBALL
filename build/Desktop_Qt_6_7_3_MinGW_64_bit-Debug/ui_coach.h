@@ -53,13 +53,13 @@ public:
     QLabel *dashboard_9;
     QLabel *currentUserPhotoLabel;
 
-    void setupUi(QMainWindow *MainWindow)
+    void setupUi(QMainWindow *CoachWindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        if (CoachWindow->objectName().isEmpty())
+            CoachWindow->setObjectName("CoachWindow");
+        CoachWindow->resize(1920, 1080);
+        CoachWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(CoachWindow);
         centralwidget->setObjectName("centralwidget");
         widget_2 = new QWidget(centralwidget);
         widget_2->setObjectName("widget_2");
@@ -85,7 +85,7 @@ public:
         line_2->setFrameShadow(QFrame::Shadow::Sunken);
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName("label_3");
-        label_3->setGeometry(QRect(30, 320, 35, 35));
+        label_3->setGeometry(QRect(30, 314, 31, 41));
         label_3->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_3->setPixmap(QPixmap(QString::fromUtf8(":/img/coach.png")));
         label_3->setScaledContents(true);
@@ -324,16 +324,16 @@ public:
 "border-radius: 	30px;\n"
 "box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);"));
         currentUserPhotoLabel->setScaledContents(true);
-        MainWindow->setCentralWidget(centralwidget);
+        CoachWindow->setCentralWidget(centralwidget);
 
-        retranslateUi(MainWindow);
+        retranslateUi(CoachWindow);
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(CoachWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
+    void retranslateUi(QMainWindow *CoachWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("CoachWindow", "MainWindow", nullptr));
+        CoachWindow->setWindowTitle(QCoreApplication::translate("CoachWindow", "MainWindow", nullptr));
         label->setText(QString());
         label_3->setText(QString());
         coachButton->setText(QCoreApplication::translate("CoachWindow", "Coach", nullptr));

@@ -323,7 +323,7 @@ public:
         label_8->setStyleSheet(QString::fromUtf8("background-color: TRANSPARENT;"));
         label_8->setPixmap(QPixmap(QString::fromUtf8(":/compimg/user.png")));
         label_8->setScaledContents(true);
-        widget1->raise();
+        widget->raise();
         label_4->raise();
         label->raise();
         label_2->raise();

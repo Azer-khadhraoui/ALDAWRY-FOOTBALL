@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>viewMatch</class>
+ <widget class="QWidget" name="viewMatch">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>725</width>
+    <height>644</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+  <widget class="QTableView" name="allmatches">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>701</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the tableWidget */
+QTableView {
+    background-color: #2D3748; /* Dark background matching the app */
+    color: #FFFFFF; /* White text for readability */
+    border: 1px solid #4A4E58; /* Subtle border matching button hover color */
+    gridline-color: #4A4E58; /* Subtle grid lines */
+}
+
+/* Style for table items */
+QTableView::item {
+    border: 1px solid #4A4E58; /* Subtle cell borders */
+    padding: 5px; /* Spacing inside cells */
+}
+
+/* Alternating row colors */
+QTableView::item:nth-child(even) {
+    background-color: #2D3748; /* Darker shade for even rows */
+}
+
+QTableView::item:nth-child(odd) {
+    background-color: #394252; /* Slightly lighter shade for odd rows */
+}
+
+/* Hover effect for rows */
+QTableView::item:hover {
+    background-color: #4A4E58; /* Lighter shade on hover */
+}
+
+/* Style for the header */
+QHeaderView::section {
+    background-color: #F5A623; /* Accent color for header */
+    color: #1A2633; /* Dark text for contrast */
+    font-weight: bold; /* Bold header text */
+    border: 1px solid #4A4E58; /* Border to match table */
+    padding: 5px; /* Spacing inside header */
+}
+
+/* Remove selection background */
+QTableView::item:selected {
+    background-color: #4A4E58; /* Same as hover to avoid clashing */
+    color: #FFFFFF; /* Keep text white */
+}</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="search">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+    border: 1px solid white; /* Subtle blue-gray border */
+    border-radius: 15px;
+color: rgb(24, 24, 24);
+</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>20</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the Adjust Team title label */
+QLabel#label_3 {
+    background-color: transparent; /* Dark background matching the app */
+    color: #FFFFFF; /* White text for contrast */
+    font-size: 25px; /* Larger font for title emphasis */
+    font-weight: bold; /* Bold for a strong title appearance */
+
+
+    padding: 5px 10px; /* Padding for a balanced look */
+}</string>
+   </property>
+   <property name="text">
+    <string>View Match</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

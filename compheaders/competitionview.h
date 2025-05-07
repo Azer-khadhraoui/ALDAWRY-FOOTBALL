@@ -38,7 +38,7 @@ class competitionview : public QWidget
     Q_OBJECT
 
 public:
-    explicit competitionview(QStackedWidget *stack = nullptr, QWidget *parent = nullptr);
+    explicit competitionview(QStackedWidget *stackedWidget = nullptr, QWidget *parent = nullptr);
     ~competitionview();
 
 private slots:
@@ -52,7 +52,6 @@ private:
     Ui::competitionview *ui;
     competition c;             // Competition object
     int mainwindow_id;
-    QStackedWidget *stackedWidget; // Add this member
 
     // Helper methods
     void updateTableView();

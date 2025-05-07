@@ -51,7 +51,6 @@
 playerwindow::playerwindow(QStackedWidget *stackedWidget, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::playerwindow)
-    , m_stackedWidget(stackedWidget)
     , currentDisplayedPlayerId(-1)
 {
     ui->setupUi(this);
@@ -101,19 +100,28 @@ playerwindow::playerwindow(QStackedWidget *stackedWidget, QWidget *parent)
 
     //connect to team button 
     connect(ui->teamButton, &QPushButton::clicked, this, [this]() {
-        if (m_stackedWidget) m_stackedWidget->setCurrentIndex(1); // 1 = teamwindow
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Assuming the team window is at index 1 in the stacked widget
+            stackedWidget->setCurrentIndex(1);
+        }
     });
     //connect to competition button
-
-    if(currentUser.getRole() == "Admin") {
-        connect(ui->compButton, &QPushButton::clicked, this, [this]() {
-            if (m_stackedWidget) m_stackedWidget->setCurrentIndex(5); // 3 = admin
-        });
-    } else if(currentUser.getRole() == "Employee") {
-        connect(ui->compButton, &QPushButton::clicked, this, [this]() {
-            if (m_stackedWidget) m_stackedWidget->setCurrentIndex(4); // 2 = employeview
-        });
-    }
+    connect(ui->compButton, &QPushButton::clicked, this, [this]() {
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Replace 2 with the correct index for your competition window if needed
+            stackedWidget->setCurrentIndex(3);
+        }
+    });
+    //connect to match button
+    connect(ui->matchButton, &QPushButton::clicked, this, [this]() {
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Replace 3 with the correct index for your match window if needed
+            stackedWidget->setCurrentIndex(4);
+        }
+    });
 
     // Set placeholder text for search field
     ui->lineEdit_10->setPlaceholderText("Search players by name, nationality, position...");
@@ -140,7 +148,10 @@ playerwindow::playerwindow(QStackedWidget *stackedWidget, QWidget *parent)
 
 void playerwindow::on_userbutton_clicked()
 {
-    m_stackedWidget->setCurrentIndex(0); 
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+    if (stackedWidget) {
+    stackedWidget->setCurrentIndex(0); // or setCurrentWidget(adminDashboard);
+}
     
 }
 

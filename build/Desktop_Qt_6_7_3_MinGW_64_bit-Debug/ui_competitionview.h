@@ -61,14 +61,15 @@ public:
     QPushButton *playerButton;
     QPushButton *teamButton;
     QPushButton *logout;
+    QPushButton *matchButton;
 
-    void setupUi(QWidget *MainWindow)
+    void setupUi(QWidget *competitionview)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        if (competitionview->objectName().isEmpty())
+            competitionview->setObjectName("competitionview");
+        competitionview->resize(1920, 1080);
+        competitionview->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(competitionview);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setGeometry(QRect(0, 0, 2041, 1121));
         centralwidget->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
@@ -448,6 +449,23 @@ public:
 "}"));
         logout->setIcon(icon2);
         logout->setIconSize(QSize(40, 40));
+        matchButton = new QPushButton(centralwidget);
+        matchButton->setObjectName("matchButton");
+        matchButton->setGeometry(QRect(20, 510, 121, 61));
+        matchButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        matchButton->setIcon(icon2);
+        matchButton->setIconSize(QSize(40, 40));
         widget_2->raise();
         label->raise();
         label_8->raise();
@@ -486,15 +504,16 @@ public:
         playerButton->raise();
         teamButton->raise();
         logout->raise();
+        matchButton->raise();
 
-        retranslateUi(MainWindow);
+        retranslateUi(competitionview);
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(competitionview);
     } // setupUi
 
-    void retranslateUi(QWidget *MainWindow)
+    void retranslateUi(QWidget *competitionview)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("competitionview", "MainWindow", nullptr));
+        competitionview->setWindowTitle(QCoreApplication::translate("competitionview", "MainWindow", nullptr));
         pushButton_3->setText(QCoreApplication::translate("competitionview", "HERE", nullptr));
         label_6->setText(QString());
         label_5->setText(QString());
@@ -536,6 +555,7 @@ public:
         playerButton->setText(QString());
         teamButton->setText(QString());
         logout->setText(QString());
+        matchButton->setText(QString());
     } // retranslateUi
 
 };

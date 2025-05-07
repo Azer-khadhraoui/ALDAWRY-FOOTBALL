@@ -252,8 +252,6 @@ void MainWindow::on_sign_in_clicked() {
             AdminWindow *adminWindow = new AdminWindow(this);
             adminWindow->show();
         }
-
-        this->hide();
     } else {
         qDebug() << "Authentication failed for email:" << email;
         QMessageBox msgBox;
@@ -269,6 +267,7 @@ void MainWindow::on_sign_in_clicked() {
         ui->lineEdit_2->clear();
         ui->lineEdit->setFocus();
     }
+    this->hide(); // Close the MainWindow after sign-in
 }
 
 void MainWindow::on_sign_in_2_clicked() {

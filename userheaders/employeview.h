@@ -5,6 +5,9 @@
 #include <QStackedWidget>
 #include "../teamheaders/teamwindow.h"
 #include "stats.h"
+#include "../playerheaders/playerwindow.h"
+#include "../matchheaders/matchview.h"
+#include "../compheaders/competitionview.h"
 
 class MainWindow; // Forward declaration
 
@@ -16,7 +19,7 @@ class EmployeeWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit EmployeeWindow(MainWindow *mainWindowParent = nullptr, QWidget *parent = nullptr, QStackedWidget *stack = nullptr);
+    explicit EmployeeWindow(MainWindow *mainWindowParent = nullptr, QWidget *parent = nullptr);
     ~EmployeeWindow();
 
 private slots:
@@ -32,6 +35,9 @@ private:
     Stats *stats;
     QStackedWidget *stackedWidget;
     teamwindow *teamWindow;
+    playerwindow *playerWindow; // Add playerwindow pointer
+    QWidget *employee;
+    matchview *matchView; // Add matchview pointer
 };
 
 #endif // EMPLOYEVIEW_H

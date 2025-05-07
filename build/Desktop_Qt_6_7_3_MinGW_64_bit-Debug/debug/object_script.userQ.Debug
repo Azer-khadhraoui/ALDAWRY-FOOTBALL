@@ -1,3 +1,9 @@
+debug/addmatch.o
+debug/arduino.o
+debug/chartmatch.o
+debug/displaymatch.o
+debug/fieldwidget.o
+debug/match.o
 debug/addcompetitionwindow.o
 debug/calendardialog.o
 debug/competition.o
@@ -8,6 +14,10 @@ debug/statistics.o
 debug/statistics2.o
 debug/tableau1.o
 debug/updateform.o
+debug/matchview.o
+debug/statsmatch.o
+debug/viewmatch.o
+debug/watchmatchdialog.o
 debug/addplayer.o
 debug/deletejoueur.o
 debug/formationpopup.o
@@ -41,8 +51,11 @@ debug/sessionmanager.o
 debug/stats.o
 debug/user.o
 debug/displaymatch_coach.o
-debug/lineup.o
 debug/qrc_images.o
+debug/moc_addmatch.o
+debug/moc_chartmatch.o
+debug/moc_displaymatch.o
+debug/moc_fieldwidget.o
 debug/moc_addcompetitionwindow.o
 debug/moc_calendardialog.o
 debug/moc_competitionview.o
@@ -52,6 +65,10 @@ debug/moc_statistics.o
 debug/moc_statistics2.o
 debug/moc_tableau1.o
 debug/moc_updateform.o
+debug/moc_matchview.o
+debug/moc_statsmatch.o
+debug/moc_viewmatch.o
+debug/moc_watchmatchdialog.o
 debug/moc_addplayer.o
 debug/moc_deletejoueur.o
 debug/moc_formationpopup.o
@@ -77,4 +94,3 @@ debug/moc_profile.o
 debug/moc_recoverpassword.o
 debug/moc_stats.o
 debug/moc_displaymatch_coach.o
-debug/moc_lineup.o

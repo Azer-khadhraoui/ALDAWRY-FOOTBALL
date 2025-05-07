@@ -5,12 +5,12 @@
 #include "../teamheaders/teamwindow.h"
 #include "../playerheaders/playerwindow.h"
 #include "../userheaders/mainwindow.h"
+#include "../matchheaders/matchview.h"
 
-competitionview::competitionview(QStackedWidget *stack, QWidget *parent)
+competitionview::competitionview(QStackedWidget *stackedWidget, QWidget *parent)
     : QWidget(parent),
     ui(new Ui::competitionview),
-    mainwindow_id(-1),
-    stackedWidget(stack)
+    mainwindow_id(-1)
 {
     ui->setupUi(this);
     // Load current user's photo and details
@@ -31,19 +31,30 @@ competitionview::competitionview(QStackedWidget *stack, QWidget *parent)
     ui->dashboard_8->setText(currentUser.getRole());
     connect(ui->userbutton, &QPushButton::clicked, this, &competitionview::on_userbutton_clicked);
 
-    // Add playerwindow and teamwindow to the stack if not already present
-    playerwindow *playerWindow = new playerwindow(stackedWidget, this);
-    stackedWidget->addWidget(playerWindow);
-    teamwindow *teamWindow = new teamwindow(stackedWidget, this);
-    stackedWidget->addWidget(teamWindow);
 
     // Connect playerButton to show playerwindow
-    connect(ui->playerButton, &QPushButton::clicked, this, [this, playerWindow]() {
-        stackedWidget->setCurrentWidget(playerWindow);
+    connect(ui->playerButton, &QPushButton::clicked, this, [this]() {
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Assuming the team window is at index 1 in the stacked widget
+            stackedWidget->setCurrentIndex(2);
+        }
     });
     // Connect teamButton to show teamwindow
-    connect(ui->teamButton, &QPushButton::clicked, this, [this, teamWindow]() {
-        stackedWidget->setCurrentWidget(teamWindow);
+    connect(ui->teamButton, &QPushButton::clicked, this, [this]() {
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Assuming the team window is at index 1 in the stacked widget
+            stackedWidget->setCurrentIndex(1);
+        }
+    });
+    // Connect matchButton to show matchview
+    connect(ui->matchButton, &QPushButton::clicked, this, [this]() {
+        QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
+        if (stackedWidget) {
+            // Assuming the match view is at index 3 in the stacked widget
+            stackedWidget->setCurrentIndex(4);
+        }
     });
 
     // Connect logout button
@@ -109,6 +120,7 @@ void competitionview::on_pushButton_6_clicked()
 
 void competitionview::on_userbutton_clicked()
 {
+    QStackedWidget *stackedWidget = qobject_cast<QStackedWidget*>(parentWidget());
     if (stackedWidget) {
         stackedWidget->setCurrentIndex(0);
         return;
