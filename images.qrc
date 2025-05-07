@@ -156,5 +156,6 @@
         <file>matchimg/user.png</file>
         <file>matchimg/Vector.png</file>
         <file>matchimg/Vectorora.png</file>
+        <file>video/opening.mp4</file>
     </qresource>
 </RCC>

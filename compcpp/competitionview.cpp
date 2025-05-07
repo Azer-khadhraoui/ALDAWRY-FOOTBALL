@@ -6,6 +6,7 @@
 #include "../playerheaders/playerwindow.h"
 #include "../userheaders/mainwindow.h"
 #include "../matchheaders/matchview.h"
+#include "../about.h"
 
 competitionview::competitionview(QStackedWidget *stackedWidget, QWidget *parent)
     : QWidget(parent),
@@ -61,6 +62,14 @@ competitionview::competitionview(QStackedWidget *stackedWidget, QWidget *parent)
     connect(ui->logout, &QPushButton::clicked, this, &competitionview::on_logoutButton_clicked);
 }
 
+void competitionview::on_aboutButton_clicked()
+{
+    qDebug() << "About button clicked.";
+    About *aboutDialog = new About(this);
+    aboutDialog->exec();
+    delete aboutDialog;
+}
+
 void competitionview::on_logoutButton_clicked()
 {
     qDebug() << "Logout button clicked.";
@@ -76,11 +85,11 @@ void competitionview::on_logoutButton_clicked()
     QWidget *parent = parentWidget();
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
     if (mainWindow) {
-        mainWindow->show();
+        mainWindow->showMaximized();
     } else {
         qDebug() << "No parent MainWindow found, creating a new one.";
         MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
+        loginWindow->showMaximized();
     }
 
     // Close all parent windows up the chain (including stacked widgets)

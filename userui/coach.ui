@@ -32,6 +32,58 @@ border-radius:40px;
 border: 1px solid #FFFFFF; /* Subtle blue-gray border */
 </string>
     </property>
+    <widget class="QPushButton" name="delete_todo">
+     <property name="geometry">
+      <rect>
+       <x>680</x>
+       <y>865</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #22252D;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../images.qrc">
+       <normaloff>:/teamimg/minus.png</normaloff>:/teamimg/minus.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="add_todo">
+     <property name="geometry">
+      <rect>
+       <x>730</x>
+       <y>865</y>
+       <width>40</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #22252D;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../images.qrc">
+       <normaloff>:/teamimg/add.png</normaloff>:/teamimg/add.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -212,35 +264,6 @@ border:0px;</string>
      </size>
     </property>
    </widget>
-   <widget class="QPushButton" name="LogOutButton_2">
-    <property name="geometry">
-     <rect>
-      <x>73</x>
-      <y>850</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: transparent;
-color:#393C44;
-border:0px;</string>
-    </property>
-    <property name="text">
-     <string>About</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>20</width>
-      <height>20</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
@@ -267,7 +290,7 @@ border:0px;</string>
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>530</y>
+      <y>515</y>
       <width>141</width>
       <height>51</height>
      </rect>
@@ -288,7 +311,7 @@ border:0px;</string>
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>580</y>
+      <y>565</y>
       <width>701</width>
       <height>411</height>
      </rect>
@@ -324,7 +347,7 @@ QListView#listView::item:selected {
     <property name="geometry">
      <rect>
       <x>1480</x>
-      <y>590</y>
+      <y>575</y>
       <width>389</width>
       <height>400</height>
      </rect>
@@ -346,7 +369,7 @@ QListView#listView::item:selected {
     <property name="geometry">
      <rect>
       <x>1510</x>
-      <y>620</y>
+      <y>605</y>
       <width>64</width>
       <height>64</height>
      </rect>
@@ -395,7 +418,7 @@ QPushButton#Viewplayers:pressed {
     <property name="geometry">
      <rect>
       <x>1520</x>
-      <y>710</y>
+      <y>695</y>
       <width>321</width>
       <height>41</height>
      </rect>
@@ -417,7 +440,7 @@ View details</string>
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>580</y>
+      <y>565</y>
       <width>401</width>
       <height>420</height>
      </rect>
@@ -439,7 +462,7 @@ View details</string>
     <property name="geometry">
      <rect>
       <x>1170</x>
-      <y>620</y>
+      <y>605</y>
       <width>191</width>
       <height>51</height>
      </rect>
@@ -461,7 +484,7 @@ View details</string>
     <property name="geometry">
      <rect>
       <x>1110</x>
-      <y>690</y>
+      <y>675</y>
       <width>301</width>
       <height>91</height>
      </rect>
@@ -483,7 +506,7 @@ View details</string>
     <property name="geometry">
      <rect>
       <x>1180</x>
-      <y>850</y>
+      <y>835</y>
       <width>171</width>
       <height>41</height>
      </rect>
@@ -672,7 +695,7 @@ color:#393C44;</string>
    <widget class="QLabel" name="currentUserPhotoLabel">
     <property name="geometry">
      <rect>
-      <x>1790</x>
+      <x>1784</x>
       <y>20</y>
       <width>60</width>
       <height>60</height>
@@ -689,6 +712,88 @@ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);</string>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>850</y>
+      <width>28</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../images.qrc">:/compimg/language.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dashboard_5">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>850</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Franklin Gothic Book</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;
+color: rgb(158, 158, 158);</string>
+    </property>
+    <property name="text">
+     <string>About</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="aboutButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>840</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
     </property>
    </widget>
   </widget>

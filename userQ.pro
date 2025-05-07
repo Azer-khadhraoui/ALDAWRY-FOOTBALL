@@ -34,6 +34,8 @@ CONFIG += c++11
 QT += network
 
 SOURCES += \
+    about.cpp \
+    addtododialog.cpp \
     matchcpp/addmatch.cpp \
     matchcpp/arduino.cpp \
     matchcpp/chartmatch.cpp \
@@ -64,7 +66,7 @@ SOURCES += \
     teamcpp/modifyteam.cpp \
     teamcpp/tableau.cpp \
     teamcpp/teamwindow.cpp \
-    teamcpp/tododialog.cpp \
+    todolistview.cpp \
     usercpp/displayplayers_coach.cpp \
     teamcpp/formadd.cpp \
     teamcpp/team.cpp \
@@ -86,9 +88,12 @@ SOURCES += \
     usercpp/sessionmanager.cpp \
     usercpp/stats.cpp \
     usercpp/user.cpp \
-    usercpp/displaymatch_coach.cpp
+    usercpp/displaymatch_coach.cpp \
+    videointrowidget.cpp
 
 HEADERS += \
+    about.h \
+    addtododialog.h \
     matchheaders/addmatch.h \
     matchheaders/arduino.h \
     matchheaders/chartmatch.h \
@@ -119,7 +124,7 @@ HEADERS += \
     teamheaders/modifyteam.h \
     teamheaders/tableau.h \
     teamheaders/teamwindow.h \
-    teamheaders/tododialog.h \
+    todolistview.h \
     userheaders/displayplayers_coach.h \
     teamheaders/formadd.h \
     teamheaders/team.h \
@@ -141,9 +146,11 @@ HEADERS += \
     userheaders/sessionmanager.h \
     userheaders/stats.h \
     userheaders/user.h \
-    userheaders/displaymatch_coach.h
+    userheaders/displaymatch_coach.h \
+    videointrowidget.h
 
 FORMS += \
+    about.ui \
     compui/addcompetitionwindow.ui \
     compui/calendardialog.ui \
     compui/competitionview.ui \

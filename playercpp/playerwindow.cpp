@@ -45,6 +45,7 @@
 #include "../userheaders/employeview.h"
 #include "../compheaders/competitionview.h" // Ensure this header is included
 #include <QstackedWidget>
+#include "../about.h"
 
 
 
@@ -179,12 +180,12 @@ void playerwindow::handleLogoutButtonClicked()
         } else {
             qDebug() << "Failed to find email or password fields in MainWindow.";
         }
-        mainWindow->show();
+        mainWindow->showMaximized();
     } else {
         // Fallback: Create a new MainWindow
         qDebug() << "No parent MainWindow found, creating a new one.";
         MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
+        loginWindow->showMaximized();
     }
 
     // Close all parent windows up the chain (including stacked widgets)
@@ -194,6 +195,13 @@ void playerwindow::handleLogoutButtonClicked()
         w->close();
         w = parent;
     }
+}
+void playerwindow::on_aboutButton_clicked()
+{
+    qDebug() << "About button clicked.";
+    About *aboutDialog = new About(this);
+    aboutDialog->exec();
+    delete aboutDialog;
 }
 
 void playerwindow::openAddPlayer()

@@ -28,7 +28,7 @@ private slots:
     void handleLogoutButtonClicked();
     void handleAddUserButtonClicked();
     void handleProfileButtonClicked();
-
+    void on_aboutButton_clicked();
 private:
     Ui::EmployeeWindow *ui; // Changed from EmployeeView to EmployeeWindow
     MainWindow *mainWindowParent;

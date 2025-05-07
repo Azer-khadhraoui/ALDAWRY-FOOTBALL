@@ -62,6 +62,7 @@ public:
     QPushButton *teamButton;
     QPushButton *logout;
     QPushButton *matchButton;
+    QPushButton *aboutButton;
 
     void setupUi(QWidget *competitionview)
     {
@@ -130,7 +131,7 @@ public:
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(30, 320, 35, 35));
         label_4->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_4->setPixmap(QPixmap(QString::fromUtf8(":/compimg/Group 1.png")));
+        label_4->setPixmap(QPixmap(QString::fromUtf8(":/matchimg/Group 1.png")));
         label_4->setScaledContents(true);
         dashboard_3 = new QLabel(centralwidget);
         dashboard_3->setObjectName("dashboard_3");
@@ -466,6 +467,23 @@ public:
 "}"));
         matchButton->setIcon(icon2);
         matchButton->setIconSize(QSize(40, 40));
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 830, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon2);
+        aboutButton->setIconSize(QSize(40, 40));
         widget_2->raise();
         label->raise();
         label_8->raise();
@@ -505,6 +523,7 @@ public:
         teamButton->raise();
         logout->raise();
         matchButton->raise();
+        aboutButton->raise();
 
         retranslateUi(competitionview);
 
@@ -556,6 +575,7 @@ public:
         teamButton->setText(QString());
         logout->setText(QString());
         matchButton->setText(QString());
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

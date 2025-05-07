@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
@@ -58,17 +57,13 @@ public:
     QPushButton *pushButton_6;
     QLabel *label_19;
     QLabel *label_22;
-    QListView *listView;
-    QLabel *label_4;
-    QLabel *label_7;
-    QPushButton *pushButton_7;
-    QPushButton *pushButton_8;
     QLabel *currentUserPhotoLabel;
     QPushButton *logout;
     QPushButton *userbutton;
     QPushButton *playerButton;
     QPushButton *compButton;
     QPushButton *matchButton;
+    QPushButton *aboutButton;
     QStatusBar *statusbar;
 
     void setupUi(QWidget *teamwindow)
@@ -167,7 +162,7 @@ public:
         label_3->setObjectName("label_3");
         label_3->setGeometry(QRect(30, 320, 35, 35));
         label_3->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_3->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Group 1.png")));
+        label_3->setPixmap(QPixmap(QString::fromUtf8(":/matchimg/Group 1.png")));
         label_3->setScaledContents(true);
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName("label_5");
@@ -209,7 +204,7 @@ public:
         label_13->setObjectName("label_13");
         label_13->setGeometry(QRect(30, 850, 28, 29));
         label_13->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_13->setPixmap(QPixmap(QString::fromUtf8(":/img/language.png")));
+        label_13->setPixmap(QPixmap(QString::fromUtf8(":/compimg/language.png")));
         label_13->setScaledContents(true);
         label_14 = new QLabel(centralwidget);
         label_14->setObjectName("label_14");
@@ -412,78 +407,6 @@ public:
         font7.setBold(false);
         label_22->setFont(font7);
         label_22->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        listView = new QListView(centralwidget);
-        listView->setObjectName("listView");
-        listView->setGeometry(QRect(240, 540, 861, 371));
-        listView->setStyleSheet(QString::fromUtf8("QListView#listView {\n"
-"    background-color: #2D3748; /* Matches the sidebar background */\n"
-"    border: 1px solid #4A4E58; /* Subtle border matching chart borders */\n"
-"    border-radius: 5px; /* Slightly rounded corners for a modern look */\n"
-"    color: #FFFFFF; /* White text for contrast */\n"
-"    font: 12pt \"Arial\"; /* Matches the font style used elsewhere */\n"
-"}\n"
-"\n"
-"QListView#listView::item {\n"
-"    background-color: #2D3748; /* Item background matches the list background */\n"
-"    padding: 10px; /* Spacing for better readability */\n"
-"    color: #FFFFFF; /* White text for items */\n"
-"}\n"
-"\n"
-"QListView#listView::item:hover {\n"
-"    background-color: #F5A623; /* Golden highlight on hover to match accents */\n"
-"    color: #1A2526; /* Dark text for contrast on hover */\n"
-"}\n"
-"\n"
-"QListView#listView::item:selected {\n"
-"    background-color: #D8A353; /* Slightly lighter gold for selected items */\n"
-"    color: #1A2526; /* Dark text for contrast when selected */\n"
-"    border: n"
-                        "one; /* Remove any default border */\n"
-"}"));
-        label_4 = new QLabel(centralwidget);
-        label_4->setObjectName("label_4");
-        label_4->setGeometry(QRect(230, 490, 171, 41));
-        QFont font8;
-        font8.setBold(true);
-        label_4->setFont(font8);
-        label_4->setStyleSheet(QString::fromUtf8("/* Style for the Adjust Team title label */\n"
-"QLabel#label_4 {\n"
-"    background-color: transparent; /* Dark background matching the app */\n"
-"    color: #FFFFFF; /* White text for contrast */\n"
-"    font-size: 25px; /* Larger font for title emphasis */\n"
-"    font-weight: bold; /* Bold for a strong title appearance */\n"
-"    padding: 5px 10px; /* Padding for a balanced look */\n"
-"}"));
-        label_7 = new QLabel(centralwidget);
-        label_7->setObjectName("label_7");
-        label_7->setGeometry(QRect(380, 490, 171, 41));
-        QFont font9;
-        font9.setBold(false);
-        label_7->setFont(font9);
-        label_7->setStyleSheet(QString::fromUtf8("/* Style for the Adjust Team title label */\n"
-"QLabel#label_7 {\n"
-"    background-color: transparent; /* Dark background matching the app */\n"
-"	color: rgb(186, 186, 186);\n"
-"    font-size: 18px; /* Larger font for title emphasis */\n"
-"\n"
-"    padding: 5px 10px; /* Padding for a balanced look */\n"
-"}"));
-        pushButton_7 = new QPushButton(centralwidget);
-        pushButton_7->setObjectName("pushButton_7");
-        pushButton_7->setGeometry(QRect(1060, 920, 40, 40));
-        pushButton_7->setStyleSheet(QString::fromUtf8("background-color: #22252D;"));
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/teamimg/add.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        pushButton_7->setIcon(icon4);
-        pushButton_7->setIconSize(QSize(30, 30));
-        pushButton_8 = new QPushButton(centralwidget);
-        pushButton_8->setObjectName("pushButton_8");
-        pushButton_8->setGeometry(QRect(1010, 920, 40, 40));
-        pushButton_8->setStyleSheet(QString::fromUtf8("background-color: #22252D;"));
-        QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/teamimg/minus.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        pushButton_8->setIcon(icon5);
-        pushButton_8->setIconSize(QSize(30, 30));
         currentUserPhotoLabel = new QLabel(centralwidget);
         currentUserPhotoLabel->setObjectName("currentUserPhotoLabel");
         currentUserPhotoLabel->setGeometry(QRect(1800, 30, 60, 60));
@@ -507,9 +430,9 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/images/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        logout->setIcon(icon6);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/images/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        logout->setIcon(icon4);
         logout->setIconSize(QSize(40, 40));
         userbutton = new QPushButton(centralwidget);
         userbutton->setObjectName("userbutton");
@@ -526,7 +449,7 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        userbutton->setIcon(icon6);
+        userbutton->setIcon(icon4);
         userbutton->setIconSize(QSize(40, 40));
         playerButton = new QPushButton(centralwidget);
         playerButton->setObjectName("playerButton");
@@ -543,7 +466,7 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        playerButton->setIcon(icon6);
+        playerButton->setIcon(icon4);
         playerButton->setIconSize(QSize(40, 40));
         compButton = new QPushButton(centralwidget);
         compButton->setObjectName("compButton");
@@ -560,7 +483,7 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        compButton->setIcon(icon6);
+        compButton->setIcon(icon4);
         compButton->setIconSize(QSize(40, 40));
         matchButton = new QPushButton(centralwidget);
         matchButton->setObjectName("matchButton");
@@ -577,8 +500,25 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        matchButton->setIcon(icon6);
+        matchButton->setIcon(icon4);
         matchButton->setIconSize(QSize(40, 40));
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 830, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon4);
+        aboutButton->setIconSize(QSize(40, 40));
         label->raise();
         dashboard_2->raise();
         dashboard_7->raise();
@@ -610,17 +550,13 @@ public:
         pushButton_6->raise();
         label_19->raise();
         label_22->raise();
-        listView->raise();
-        label_4->raise();
-        label_7->raise();
-        pushButton_7->raise();
-        pushButton_8->raise();
         currentUserPhotoLabel->raise();
         logout->raise();
         userbutton->raise();
         playerButton->raise();
         compButton->raise();
         matchButton->raise();
+        aboutButton->raise();
         statusbar = new QStatusBar(teamwindow);
         statusbar->setObjectName("statusbar");
         statusbar->setGeometry(QRect(0, 0, 3, 22));
@@ -644,7 +580,7 @@ public:
         label_5->setText(QString());
         label_6->setText(QString());
         label_12->setText(QString());
-        dashboard_5->setText(QCoreApplication::translate("teamwindow", "Language", nullptr));
+        dashboard_5->setText(QCoreApplication::translate("teamwindow", "About", nullptr));
         dashboard_6->setText(QCoreApplication::translate("teamwindow", "Log Out", nullptr));
         label_13->setText(QString());
         label_14->setText(QString());
@@ -662,16 +598,13 @@ public:
         pushButton_6->setText(QString());
         label_19->setText(QCoreApplication::translate("teamwindow", "Edit  |  Adjust Team  |  Remove", nullptr));
         label_22->setText(QCoreApplication::translate("teamwindow", " You can download team details as a PDF.", nullptr));
-        label_4->setText(QCoreApplication::translate("teamwindow", "To-Do-List", nullptr));
-        label_7->setText(QCoreApplication::translate("teamwindow", "Training", nullptr));
-        pushButton_7->setText(QString());
-        pushButton_8->setText(QString());
         currentUserPhotoLabel->setText(QString());
         logout->setText(QString());
         userbutton->setText(QString());
         playerButton->setText(QString());
         compButton->setText(QString());
         matchButton->setText(QString());
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

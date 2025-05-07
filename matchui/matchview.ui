@@ -199,8 +199,8 @@ color:#393C44;</string>
      <rect>
       <x>30</x>
       <y>320</y>
-      <width>28</width>
-      <height>29</height>
+      <width>35</width>
+      <height>35</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -210,7 +210,7 @@ color:#393C44;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../images.qrc">:/compimg/Group 1.png</pixmap>
+     <pixmap resource="../images.qrc">:/matchimg/Group 1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -221,8 +221,8 @@ color:#393C44;</string>
      <rect>
       <x>30</x>
       <y>520</y>
-      <width>28</width>
-      <height>29</height>
+      <width>34</width>
+      <height>32</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -319,7 +319,7 @@ color:#393C44;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color:#393C44;</string>
+color: rgb(158, 158, 158);</string>
     </property>
     <property name="text">
      <string>Log Out</string>
@@ -358,7 +358,7 @@ color:#393C44;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: transparent;
-color:#393C44;</string>
+color: rgb(158, 158, 158);</string>
     </property>
     <property name="text">
      <string>About</string>
@@ -1033,6 +1033,65 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>850</y>
+      <width>28</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../images.qrc">:/compimg/language.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="aboutButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>830</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>widget_2</zorder>
    <zorder>label_4</zorder>
    <zorder>label_3</zorder>
@@ -1072,6 +1131,8 @@ QPushButton:pressed {
    <zorder>playerButton</zorder>
    <zorder>teamButton</zorder>
    <zorder>logout</zorder>
+   <zorder>label_19</zorder>
+   <zorder>aboutButton</zorder>
   </widget>
  </widget>
  <resources>

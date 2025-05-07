@@ -59,6 +59,9 @@ public:
     QPushButton *playerButton;
     QPushButton *compButton;
     QPushButton *matchButton;
+    QLabel *label_13;
+    QLabel *dashboard_5;
+    QPushButton *aboutButton;
 
     void setupUi(QMainWindow *AdminWindow)
     {
@@ -109,7 +112,7 @@ public:
         currentUserPhotoLabel->setScaledContents(true);
         widget_3 = new QWidget(centralwidget);
         widget_3->setObjectName("widget_3");
-        widget_3->setGeometry(QRect(200, 126, 1851, 971));
+        widget_3->setGeometry(QRect(200, 125, 1851, 971));
         widget_3->setStyleSheet(QString::fromUtf8("background-color: #22252D;\n"
 "border-radius:40px;\n"
 "border: 1px solid #FFFFFF; /* Subtle blue-gray border */\n"
@@ -175,7 +178,7 @@ public:
         dashboard_6->setGeometry(QRect(80, 926, 71, 31));
         dashboard_6->setFont(font);
         dashboard_6->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color:#393C44;"));
+"color: rgb(158, 158, 158);"));
         label_22 = new QLabel(centralwidget);
         label_22->setObjectName("label_22");
         label_22->setGeometry(QRect(30, 926, 28, 29));
@@ -384,6 +387,35 @@ public:
 "}"));
         matchButton->setIcon(icon5);
         matchButton->setIconSize(QSize(40, 40));
+        label_13 = new QLabel(centralwidget);
+        label_13->setObjectName("label_13");
+        label_13->setGeometry(QRect(30, 850, 28, 29));
+        label_13->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_13->setPixmap(QPixmap(QString::fromUtf8(":/compimg/language.png")));
+        label_13->setScaledContents(true);
+        dashboard_5 = new QLabel(centralwidget);
+        dashboard_5->setObjectName("dashboard_5");
+        dashboard_5->setGeometry(QRect(80, 850, 71, 31));
+        dashboard_5->setFont(font);
+        dashboard_5->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color: rgb(158, 158, 158);"));
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 830, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon5);
+        aboutButton->setIconSize(QSize(40, 40));
         AdminWindow->setCentralWidget(centralwidget);
         widget_3->raise();
         tabWidget->raise();
@@ -417,6 +449,9 @@ public:
         playerButton->raise();
         compButton->raise();
         matchButton->raise();
+        label_13->raise();
+        dashboard_5->raise();
+        aboutButton->raise();
 
         retranslateUi(AdminWindow);
 
@@ -461,6 +496,9 @@ public:
         playerButton->setText(QString());
         compButton->setText(QString());
         matchButton->setText(QString());
+        label_13->setText(QString());
+        dashboard_5->setText(QCoreApplication::translate("AdminWindow", "About", nullptr));
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

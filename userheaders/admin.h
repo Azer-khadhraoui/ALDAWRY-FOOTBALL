@@ -28,6 +28,7 @@ private slots:
     void handleLogoutButtonClicked();
     void handleAddUserButtonClicked(); // Slot for add_user button
     void handleProfileButtonClicked();
+    void on_aboutButton_clicked(); // Slot for about button
 
 private:
     Ui::AdminWindow *ui;

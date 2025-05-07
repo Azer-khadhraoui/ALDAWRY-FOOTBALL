@@ -11,6 +11,7 @@
         "utility": "cpp",
         "algorithm": "cpp",
         "fstream": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "exception": "cpp"
     }
 }

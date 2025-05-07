@@ -77,6 +77,7 @@ public:
     QLabel *currentUserPhotoLabel;
     QPushButton *compButton;
     QPushButton *matchButton;
+    QPushButton *aboutButton;
     QStatusBar *statusbar;
 
     void setupUi(QWidget *playerwindow)
@@ -405,7 +406,7 @@ public:
 "color:white;"));
         label_23 = new QLabel(centralwidget);
         label_23->setObjectName("label_23");
-        label_23->setGeometry(QRect(1870, 60, 16, 10));
+        label_23->setGeometry(QRect(1875, 60, 16, 10));
         label_23->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_23->setPixmap(QPixmap(QString::fromUtf8(":/img/Vectorrrr.png")));
         label_23->setScaledContents(true);
@@ -503,7 +504,7 @@ public:
         label_28->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         userbutton = new QPushButton(centralwidget);
         userbutton->setObjectName("userbutton");
-        userbutton->setGeometry(QRect(1870, 50, 21, 27));
+        userbutton->setGeometry(QRect(1863, 40, 41, 51));
         userbutton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -596,6 +597,23 @@ public:
 "}"));
         matchButton->setIcon(icon3);
         matchButton->setIconSize(QSize(40, 40));
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 840, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon3);
+        aboutButton->setIconSize(QSize(40, 40));
         label_17->raise();
         widget_2->raise();
         dashboard_4->raise();
@@ -635,6 +653,7 @@ public:
         currentUserPhotoLabel->raise();
         compButton->raise();
         matchButton->raise();
+        aboutButton->raise();
         statusbar = new QStatusBar(playerwindow);
         statusbar->setObjectName("statusbar");
         statusbar->setGeometry(QRect(0, 0, 20, 22));
@@ -688,6 +707,7 @@ public:
         currentUserPhotoLabel->setText(QString());
         compButton->setText(QString());
         matchButton->setText(QString());
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

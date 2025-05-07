@@ -1,3 +1,5 @@
+debug/about.o
+debug/addtododialog.o
 debug/addmatch.o
 debug/arduino.o
 debug/chartmatch.o
@@ -28,7 +30,7 @@ debug/chatdialog.o
 debug/modifyteam.o
 debug/tableau.o
 debug/teamwindow.o
-debug/tododialog.o
+debug/todolistview.o
 debug/displayplayers_coach.o
 debug/formadd.o
 debug/team.o
@@ -51,7 +53,10 @@ debug/sessionmanager.o
 debug/stats.o
 debug/user.o
 debug/displaymatch_coach.o
+debug/videointrowidget.o
 debug/qrc_images.o
+debug/moc_about.o
+debug/moc_addtododialog.o
 debug/moc_addmatch.o
 debug/moc_chartmatch.o
 debug/moc_displaymatch.o
@@ -78,7 +83,7 @@ debug/moc_chatdialog.o
 debug/moc_modifyteam.o
 debug/moc_tableau.o
 debug/moc_teamwindow.o
-debug/moc_tododialog.o
+debug/moc_todolistview.o
 debug/moc_displayplayers_coach.o
 debug/moc_formadd.o
 debug/moc_adduser.o
@@ -94,3 +99,4 @@ debug/moc_profile.o
 debug/moc_recoverpassword.o
 debug/moc_stats.o
 debug/moc_displaymatch_coach.o
+debug/moc_videointrowidget.o

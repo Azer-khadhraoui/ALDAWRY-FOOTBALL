@@ -49,6 +49,7 @@ private slots:
     void updateCompetitionStats(const QString &competitionName);
     void on_userbutton_clicked();
     void handleLogoutButtonClicked();
+    void on_aboutButton_clicked();
 
 private:
     Ui::playerwindow *ui;

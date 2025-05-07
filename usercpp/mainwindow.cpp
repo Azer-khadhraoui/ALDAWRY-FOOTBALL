@@ -236,21 +236,21 @@ void MainWindow::on_sign_in_clicked() {
 
             if (team == nullptr) {
                 FormAdd *formAdd = new FormAdd(this);
-                formAdd->show();
+                formAdd->showMaximized();
             } else {
                 qDebug() << "Team found for coach, opening CoachWindow...";
                 CoachWindow *coachWindow = new CoachWindow(this);
-                coachWindow->show();
+                coachWindow->showMaximized();
             }
         } else if (role.toLower() == "employee") {
             qDebug() << "User is an employee, opening EmployeeWindow...";
             EmployeeWindow *employeeWindow = new EmployeeWindow(this);
-            employeeWindow->show();
+            employeeWindow->showMaximized();
             qDebug() << "EmployeeWindow shown.";
         } else if (role.toLower() == "admin") {
             qDebug() << "User is an admin, opening AdminWindow...";
             AdminWindow *adminWindow = new AdminWindow(this);
-            adminWindow->show();
+            adminWindow->showMaximized();
         }
     } else {
         qDebug() << "Authentication failed for email:" << email;

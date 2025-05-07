@@ -15,6 +15,7 @@
 #include <QStackedWidget>
 #include "../playerheaders/playerwindow.h"
 #include "../matchheaders/matchview.h"
+#include "../about.h"
 
 
 EmployeeWindow::EmployeeWindow(MainWindow *mainWindowParent, QWidget *parent)
@@ -173,11 +174,11 @@ void EmployeeWindow::handleLogoutButtonClicked()
         } else {
             qDebug() << "Failed to find email or password fields in MainWindow.";
         }
-        mainWindowParent->show();
+        mainWindowParent->showMaximized();
     } else {
         qDebug() << "No parent MainWindow found, creating a new one.";
         MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
+        loginWindow->showMaximized();
     }
 
     // Close the current EmployeeWindow
@@ -190,4 +191,11 @@ void EmployeeWindow::handleProfileButtonClicked()
     profileDialog->setModal(true);
     profileDialog->exec();
     delete profileDialog;
+}
+void EmployeeWindow::on_aboutButton_clicked()
+{
+    qDebug() << "About button clicked.";
+    About *aboutDialog = new About(this);
+    aboutDialog->exec();
+    delete aboutDialog;
 }

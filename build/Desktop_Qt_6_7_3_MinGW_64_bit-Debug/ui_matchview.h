@@ -63,6 +63,8 @@ public:
     QPushButton *playerButton;
     QPushButton *teamButton;
     QPushButton *logout;
+    QLabel *label_19;
+    QPushButton *aboutButton;
 
     void setupUi(QMainWindow *matchview)
     {
@@ -132,13 +134,13 @@ public:
         label->setScaledContents(true);
         label_13 = new QLabel(centralwidget);
         label_13->setObjectName("label_13");
-        label_13->setGeometry(QRect(30, 320, 28, 29));
+        label_13->setGeometry(QRect(30, 320, 35, 35));
         label_13->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
-        label_13->setPixmap(QPixmap(QString::fromUtf8(":/compimg/Group 1.png")));
+        label_13->setPixmap(QPixmap(QString::fromUtf8(":/matchimg/Group 1.png")));
         label_13->setScaledContents(true);
         label_14 = new QLabel(centralwidget);
         label_14->setObjectName("label_14");
-        label_14->setGeometry(QRect(30, 520, 28, 29));
+        label_14->setGeometry(QRect(30, 520, 34, 32));
         label_14->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_14->setPixmap(QPixmap(QString::fromUtf8(":/matchimg/Vectorora.png")));
         label_14->setScaledContents(true);
@@ -169,7 +171,7 @@ public:
         dashboard_6->setGeometry(QRect(80, 920, 71, 31));
         dashboard_6->setFont(font1);
         dashboard_6->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color:#393C44;"));
+"color: rgb(158, 158, 158);"));
         line = new QFrame(centralwidget);
         line->setObjectName("line");
         line->setGeometry(QRect(30, 790, 135, 1));
@@ -181,7 +183,7 @@ public:
         dashboard_5->setGeometry(QRect(80, 850, 71, 31));
         dashboard_5->setFont(font1);
         dashboard_5->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color:#393C44;"));
+"color: rgb(158, 158, 158);"));
         addmatch = new QPushButton(centralwidget);
         addmatch->setObjectName("addmatch");
         addmatch->setGeometry(QRect(740, 280, 181, 41));
@@ -482,6 +484,29 @@ public:
 "}"));
         logout->setIcon(icon3);
         logout->setIconSize(QSize(40, 40));
+        label_19 = new QLabel(centralwidget);
+        label_19->setObjectName("label_19");
+        label_19->setGeometry(QRect(30, 850, 28, 29));
+        label_19->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_19->setPixmap(QPixmap(QString::fromUtf8(":/compimg/language.png")));
+        label_19->setScaledContents(true);
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 830, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon3);
+        aboutButton->setIconSize(QSize(40, 40));
         matchview->setCentralWidget(centralwidget);
         widget_2->raise();
         label_4->raise();
@@ -522,6 +547,8 @@ public:
         playerButton->raise();
         teamButton->raise();
         logout->raise();
+        label_19->raise();
+        aboutButton->raise();
 
         retranslateUi(matchview);
 
@@ -567,6 +594,8 @@ public:
         playerButton->setText(QString());
         teamButton->setText(QString());
         logout->setText(QString());
+        label_19->setText(QString());
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

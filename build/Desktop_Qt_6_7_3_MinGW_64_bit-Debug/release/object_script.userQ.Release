@@ -1,3 +1,5 @@
+release/about.o
+release/addtododialog.o
 release/addmatch.o
 release/arduino.o
 release/chartmatch.o
@@ -28,7 +30,7 @@ release/chatdialog.o
 release/modifyteam.o
 release/tableau.o
 release/teamwindow.o
-release/tododialog.o
+release/todolistview.o
 release/displayplayers_coach.o
 release/formadd.o
 release/team.o
@@ -51,7 +53,10 @@ release/sessionmanager.o
 release/stats.o
 release/user.o
 release/displaymatch_coach.o
+release/videointrowidget.o
 release/qrc_images.o
+release/moc_about.o
+release/moc_addtododialog.o
 release/moc_addmatch.o
 release/moc_chartmatch.o
 release/moc_displaymatch.o
@@ -78,7 +83,7 @@ release/moc_chatdialog.o
 release/moc_modifyteam.o
 release/moc_tableau.o
 release/moc_teamwindow.o
-release/moc_tododialog.o
+release/moc_todolistview.o
 release/moc_displayplayers_coach.o
 release/moc_formadd.o
 release/moc_adduser.o
@@ -94,3 +99,4 @@ release/moc_profile.o
 release/moc_recoverpassword.o
 release/moc_stats.o
 release/moc_displaymatch_coach.o
+release/moc_videointrowidget.o

@@ -41,6 +41,7 @@ private slots:
     void on_compButton_clicked();
     void on_teamButton_clicked();
     void on_logout_clicked();
+    void on_aboutButton_clicked();
 
 
 private:

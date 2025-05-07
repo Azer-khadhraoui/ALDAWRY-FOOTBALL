@@ -26,6 +26,8 @@ class Ui_CoachWindow
 public:
     QWidget *centralwidget;
     QWidget *widget_2;
+    QPushButton *delete_todo;
+    QPushButton *add_todo;
     QLabel *label;
     QFrame *line_2;
     QLabel *label_3;
@@ -34,7 +36,6 @@ public:
     QLabel *label_13;
     QLabel *label_14;
     QPushButton *LogOutButton;
-    QPushButton *LogOutButton_2;
     QLabel *label_2;
     QLabel *label_4;
     QListView *listView;
@@ -52,6 +53,9 @@ public:
     QLabel *dashboard_8;
     QLabel *dashboard_9;
     QLabel *currentUserPhotoLabel;
+    QLabel *label_15;
+    QLabel *dashboard_5;
+    QPushButton *aboutButton;
 
     void setupUi(QMainWindow *CoachWindow)
     {
@@ -68,6 +72,22 @@ public:
 "border-radius:40px;\n"
 "border: 1px solid #FFFFFF; /* Subtle blue-gray border */\n"
 ""));
+        delete_todo = new QPushButton(widget_2);
+        delete_todo->setObjectName("delete_todo");
+        delete_todo->setGeometry(QRect(680, 865, 40, 40));
+        delete_todo->setStyleSheet(QString::fromUtf8("background-color: #22252D;"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/teamimg/minus.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        delete_todo->setIcon(icon);
+        delete_todo->setIconSize(QSize(30, 30));
+        add_todo = new QPushButton(widget_2);
+        add_todo->setObjectName("add_todo");
+        add_todo->setGeometry(QRect(730, 865, 40, 40));
+        add_todo->setStyleSheet(QString::fromUtf8("background-color: #22252D;"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/teamimg/add.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        add_todo->setIcon(icon1);
+        add_todo->setIconSize(QSize(30, 30));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
         label->setGeometry(QRect(50, 30, 85, 85));
@@ -125,14 +145,6 @@ public:
 "color:#393C44;\n"
 "border:0px;"));
         LogOutButton->setIconSize(QSize(20, 20));
-        LogOutButton_2 = new QPushButton(centralwidget);
-        LogOutButton_2->setObjectName("LogOutButton_2");
-        LogOutButton_2->setGeometry(QRect(73, 850, 80, 24));
-        LogOutButton_2->setFont(font);
-        LogOutButton_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"color:#393C44;\n"
-"border:0px;"));
-        LogOutButton_2->setIconSize(QSize(20, 20));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
         label_2->setGeometry(QRect(200, 0, 1672, 515));
@@ -141,14 +153,14 @@ public:
         label_2->setScaledContents(true);
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName("label_4");
-        label_4->setGeometry(QRect(270, 530, 141, 51));
+        label_4->setGeometry(QRect(270, 515, 141, 51));
         QFont font1;
         font1.setPointSize(20);
         label_4->setFont(font1);
         label_4->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         listView = new QListView(centralwidget);
         listView->setObjectName("listView");
-        listView->setGeometry(QRect(270, 580, 701, 411));
+        listView->setGeometry(QRect(270, 565, 701, 411));
         listView->setStyleSheet(QString::fromUtf8("QListView#listView {\n"
 "    background-color: #2D3748; /* Matches the sidebar background */\n"
 "    border: 1px solid #4A4E58; /* Subtle border matching chart borders */\n"
@@ -176,13 +188,13 @@ public:
 "}"));
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName("label_5");
-        label_5->setGeometry(QRect(1480, 590, 389, 400));
+        label_5->setGeometry(QRect(1480, 575, 389, 400));
         label_5->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_5->setPixmap(QPixmap(QString::fromUtf8(":/img/viewLabel.png")));
         label_5->setScaledContents(true);
         Viewplayers = new QPushButton(centralwidget);
         Viewplayers->setObjectName("Viewplayers");
-        Viewplayers->setGeometry(QRect(1510, 620, 64, 64));
+        Viewplayers->setGeometry(QRect(1510, 605, 64, 64));
         Viewplayers->setStyleSheet(QString::fromUtf8("/* Style for the pushButton_4 */\n"
 "QPushButton#Viewplayers {\n"
 "    background-color: #F5A623; /* Original background color */\n"
@@ -207,24 +219,24 @@ public:
 "    min-height: 62px;\n"
 "   \n"
 "}"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/img/view.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        Viewplayers->setIcon(icon);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/img/view.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        Viewplayers->setIcon(icon2);
         Viewplayers->setIconSize(QSize(42, 42));
         label_6 = new QLabel(centralwidget);
         label_6->setObjectName("label_6");
-        label_6->setGeometry(QRect(1520, 710, 321, 41));
+        label_6->setGeometry(QRect(1520, 695, 321, 41));
         label_6->setFont(font);
         label_6->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_7 = new QLabel(centralwidget);
         label_7->setObjectName("label_7");
-        label_7->setGeometry(QRect(1060, 580, 401, 420));
+        label_7->setGeometry(QRect(1060, 565, 401, 420));
         label_7->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_7->setPixmap(QPixmap(QString::fromUtf8(":/img/matches.png")));
         label_7->setScaledContents(true);
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName("label_8");
-        label_8->setGeometry(QRect(1170, 620, 191, 51));
+        label_8->setGeometry(QRect(1170, 605, 191, 51));
         QFont font2;
         font2.setPointSize(30);
         font2.setBold(true);
@@ -232,7 +244,7 @@ public:
         label_8->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName("label_9");
-        label_9->setGeometry(QRect(1110, 690, 301, 91));
+        label_9->setGeometry(QRect(1110, 675, 301, 91));
         QFont font3;
         font3.setPointSize(16);
         font3.setBold(false);
@@ -240,7 +252,7 @@ public:
         label_9->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         MatchesButton = new QPushButton(centralwidget);
         MatchesButton->setObjectName("MatchesButton");
-        MatchesButton->setGeometry(QRect(1180, 850, 171, 41));
+        MatchesButton->setGeometry(QRect(1180, 835, 171, 41));
         QFont font4;
         font4.setPointSize(12);
         font4.setBold(true);
@@ -276,9 +288,9 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/images/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
-        logout->setIcon(icon1);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/images/logout.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        logout->setIcon(icon3);
         logout->setIconSize(QSize(40, 40));
         profileButton = new QPushButton(centralwidget);
         profileButton->setObjectName("profileButton");
@@ -295,7 +307,7 @@ public:
 " background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
 " transform: scale(0.9);\n"
 "}"));
-        profileButton->setIcon(icon1);
+        profileButton->setIcon(icon3);
         profileButton->setIconSize(QSize(40, 40));
         dashboard_8 = new QLabel(centralwidget);
         dashboard_8->setObjectName("dashboard_8");
@@ -318,12 +330,41 @@ public:
 "color:#393C44;"));
         currentUserPhotoLabel = new QLabel(centralwidget);
         currentUserPhotoLabel->setObjectName("currentUserPhotoLabel");
-        currentUserPhotoLabel->setGeometry(QRect(1790, 20, 60, 60));
+        currentUserPhotoLabel->setGeometry(QRect(1784, 20, 60, 60));
         currentUserPhotoLabel->setStyleSheet(QString::fromUtf8("background: #1E1F2D;\n"
 "border: 1px solid #3A3D4A;\n"
 "border-radius: 	30px;\n"
 "box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);"));
         currentUserPhotoLabel->setScaledContents(true);
+        label_15 = new QLabel(centralwidget);
+        label_15->setObjectName("label_15");
+        label_15->setGeometry(QRect(30, 850, 28, 29));
+        label_15->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
+        label_15->setPixmap(QPixmap(QString::fromUtf8(":/compimg/language.png")));
+        label_15->setScaledContents(true);
+        dashboard_5 = new QLabel(centralwidget);
+        dashboard_5->setObjectName("dashboard_5");
+        dashboard_5->setGeometry(QRect(80, 850, 71, 31));
+        dashboard_5->setFont(font5);
+        dashboard_5->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"color: rgb(158, 158, 158);"));
+        aboutButton = new QPushButton(centralwidget);
+        aboutButton->setObjectName("aboutButton");
+        aboutButton->setGeometry(QRect(20, 840, 121, 61));
+        aboutButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        aboutButton->setIcon(icon3);
+        aboutButton->setIconSize(QSize(40, 40));
         CoachWindow->setCentralWidget(centralwidget);
 
         retranslateUi(CoachWindow);
@@ -334,13 +375,14 @@ public:
     void retranslateUi(QMainWindow *CoachWindow)
     {
         CoachWindow->setWindowTitle(QCoreApplication::translate("CoachWindow", "MainWindow", nullptr));
+        delete_todo->setText(QString());
+        add_todo->setText(QString());
         label->setText(QString());
         label_3->setText(QString());
         coachButton->setText(QCoreApplication::translate("CoachWindow", "Coach", nullptr));
         label_13->setText(QString());
         label_14->setText(QString());
         LogOutButton->setText(QCoreApplication::translate("CoachWindow", "Log Out", nullptr));
-        LogOutButton_2->setText(QCoreApplication::translate("CoachWindow", "About", nullptr));
         label_2->setText(QString());
         label_4->setText(QCoreApplication::translate("CoachWindow", "Tasks :", nullptr));
         label_5->setText(QString());
@@ -358,6 +400,9 @@ public:
         dashboard_8->setText(QCoreApplication::translate("CoachWindow", "Role", nullptr));
         dashboard_9->setText(QCoreApplication::translate("CoachWindow", "User name", nullptr));
         currentUserPhotoLabel->setText(QString());
+        label_15->setText(QString());
+        dashboard_5->setText(QCoreApplication::translate("CoachWindow", "About", nullptr));
+        aboutButton->setText(QString());
     } // retranslateUi
 
 };

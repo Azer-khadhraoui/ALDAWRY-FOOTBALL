@@ -12,6 +12,7 @@
 #include "../compheaders/competitionview.h" // Include the new header
 #include <QScrollArea>
 #include <QStackedWidget>
+#include "../about.h"
 
 
 AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
@@ -124,6 +125,15 @@ void AdminWindow::handleAdminButtonClicked()
     displayUser->exec(); // Change from show() to exec() for modal dialog
 }
 
+void AdminWindow::on_aboutButton_clicked()
+{
+    qDebug() << "About button clicked.";
+    About *aboutDialog = new About(this);
+    aboutDialog->exec();
+    delete aboutDialog;
+}
+
+
 void AdminWindow::handleCoachButtonClicked()
 {
     qDebug() << "Coach button clicked.";
@@ -171,12 +181,12 @@ void AdminWindow::handleLogoutButtonClicked()
         } else {
             qDebug() << "Failed to find email or password fields in MainWindow.";
         }
-        mainWindowParent->show();
+        mainWindowParent->showMaximized();
     } else {
         // Fallback: Create a new MainWindow
         qDebug() << "No parent MainWindow found, creating a new one.";
         MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
+        loginWindow->showMaximized();
     }
 
     // Close the current AdminWindow

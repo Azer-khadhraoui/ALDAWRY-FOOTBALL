@@ -167,7 +167,7 @@ border: 1px solid #FFFFFF; /* Subtle blue-gray border */
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../images.qrc">:/compimg/Group 1.png</pixmap>
+     <pixmap resource="../images.qrc">:/matchimg/Group 1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1042,6 +1042,43 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="aboutButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>830</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>widget_2</zorder>
    <zorder>label</zorder>
    <zorder>label_8</zorder>
@@ -1081,6 +1118,7 @@ QPushButton:pressed {
    <zorder>teamButton</zorder>
    <zorder>logout</zorder>
    <zorder>matchButton</zorder>
+   <zorder>aboutButton</zorder>
   </widget>
  </widget>
  <resources>

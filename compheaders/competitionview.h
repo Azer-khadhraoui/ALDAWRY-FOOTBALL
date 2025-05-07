@@ -47,6 +47,7 @@ private slots:
     void on_pushButton_6_clicked();
     void on_userbutton_clicked();
     void on_logoutButton_clicked();
+    void on_aboutButton_clicked();
 
 private:
     Ui::competitionview *ui;

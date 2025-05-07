@@ -805,7 +805,7 @@ color:white;</string>
    <widget class="QLabel" name="label_23">
     <property name="geometry">
      <rect>
-      <x>1870</x>
+      <x>1875</x>
       <y>60</y>
       <width>16</width>
       <height>10</height>
@@ -1017,10 +1017,10 @@ cloro:white;</string>
    <widget class="QPushButton" name="userbutton">
     <property name="geometry">
      <rect>
-      <x>1870</x>
-      <y>50</y>
-      <width>21</width>
-      <height>27</height>
+      <x>1863</x>
+      <y>40</y>
+      <width>41</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1221,6 +1221,43 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="aboutButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>840</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>label_17</zorder>
    <zorder>widget_2</zorder>
    <zorder>dashboard_4</zorder>
@@ -1260,6 +1297,7 @@ QPushButton:pressed {
    <zorder>currentUserPhotoLabel</zorder>
    <zorder>compButton</zorder>
    <zorder>matchButton</zorder>
+   <zorder>aboutButton</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="geometry">

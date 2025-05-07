@@ -8,7 +8,6 @@
 
 #include "../../../teamheaders/teamwindow.h"
 #include <QtNetwork/QSslError>
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -180,16 +179,14 @@ constexpr auto qt_meta_stringdata_CLASSteamwindowENDCLASS = QtMocHelpers::string
     "on_pushButton_4_clicked",
     "on_pushButton_5_clicked",
     "on_pushButton_6_clicked",
-    "on_pushButton_7_clicked",
-    "on_pushButton_8_clicked",
     "onPieSliceHovered",
     "state",
-    "refreshTodoList",
     "handleLogoutButtonClicked",
     "on_userbutton_cliceked",
     "on_playerButton_clicked",
     "on_compButton_clicked",
-    "on_matchButton_clicked"
+    "on_matchButton_clicked",
+    "on_aboutButton_clicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -202,7 +199,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSteamwindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -210,22 +207,20 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSteamwindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  110,    2, 0x08,    1 /* Private */,
-       3,    0,  111,    2, 0x08,    2 /* Private */,
-       4,    0,  112,    2, 0x08,    3 /* Private */,
-       5,    0,  113,    2, 0x08,    4 /* Private */,
-       6,    0,  114,    2, 0x08,    5 /* Private */,
-       7,    0,  115,    2, 0x08,    6 /* Private */,
-       8,    0,  116,    2, 0x08,    7 /* Private */,
-       9,    0,  117,    2, 0x08,    8 /* Private */,
-      10,    0,  118,    2, 0x08,    9 /* Private */,
-      11,    1,  119,    2, 0x08,   10 /* Private */,
-      13,    0,  122,    2, 0x08,   12 /* Private */,
-      14,    0,  123,    2, 0x08,   13 /* Private */,
-      15,    0,  124,    2, 0x08,   14 /* Private */,
-      16,    0,  125,    2, 0x08,   15 /* Private */,
-      17,    0,  126,    2, 0x08,   16 /* Private */,
-      18,    0,  127,    2, 0x08,   17 /* Private */,
+       1,    0,   98,    2, 0x08,    1 /* Private */,
+       3,    0,   99,    2, 0x08,    2 /* Private */,
+       4,    0,  100,    2, 0x08,    3 /* Private */,
+       5,    0,  101,    2, 0x08,    4 /* Private */,
+       6,    0,  102,    2, 0x08,    5 /* Private */,
+       7,    0,  103,    2, 0x08,    6 /* Private */,
+       8,    0,  104,    2, 0x08,    7 /* Private */,
+       9,    1,  105,    2, 0x08,    8 /* Private */,
+      11,    0,  108,    2, 0x08,   10 /* Private */,
+      12,    0,  109,    2, 0x08,   11 /* Private */,
+      13,    0,  110,    2, 0x08,   12 /* Private */,
+      14,    0,  111,    2, 0x08,   13 /* Private */,
+      15,    0,  112,    2, 0x08,   14 /* Private */,
+      16,    0,  113,    2, 0x08,   15 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -235,9 +230,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSteamwindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   12,
+    QMetaType::Void, QMetaType::Bool,   10,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -271,15 +264,9 @@ Q_CONSTINIT const QMetaObject teamwindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_6_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButton_7_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButton_8_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onPieSliceHovered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
-        // method 'refreshTodoList'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'handleLogoutButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_userbutton_cliceked'
@@ -289,6 +276,8 @@ Q_CONSTINIT const QMetaObject teamwindow::staticMetaObject = { {
         // method 'on_compButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_matchButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_aboutButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -307,15 +296,13 @@ void teamwindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 4: _t->on_pushButton_4_clicked(); break;
         case 5: _t->on_pushButton_5_clicked(); break;
         case 6: _t->on_pushButton_6_clicked(); break;
-        case 7: _t->on_pushButton_7_clicked(); break;
-        case 8: _t->on_pushButton_8_clicked(); break;
-        case 9: _t->onPieSliceHovered((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 10: _t->refreshTodoList(); break;
-        case 11: _t->handleLogoutButtonClicked(); break;
-        case 12: _t->on_userbutton_cliceked(); break;
-        case 13: _t->on_playerButton_clicked(); break;
-        case 14: _t->on_compButton_clicked(); break;
-        case 15: _t->on_matchButton_clicked(); break;
+        case 7: _t->onPieSliceHovered((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 8: _t->handleLogoutButtonClicked(); break;
+        case 9: _t->on_userbutton_cliceked(); break;
+        case 10: _t->on_playerButton_clicked(); break;
+        case 11: _t->on_compButton_clicked(); break;
+        case 12: _t->on_matchButton_clicked(); break;
+        case 13: _t->on_aboutButton_clicked(); break;
         default: ;
         }
     }
@@ -340,13 +327,13 @@ int teamwindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 14)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 16;
+        _id -= 14;
     }
     return _id;
 }

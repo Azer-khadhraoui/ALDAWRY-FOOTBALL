@@ -52,6 +52,7 @@
 #include "../compheaders/competitionview.h"
 #include "../playerheaders/playerwindow.h"
 #include "../userheaders/mainwindow.h"
+#include "../about.h"
 
 matchview::matchview(QStackedWidget *stackedWidget, QWidget *parent)
     : QMainWindow(parent)
@@ -129,11 +130,11 @@ void matchview::on_logout_clicked()
     QWidget *parent = parentWidget();
     MainWindow *mainWindow = qobject_cast<MainWindow*>(parent);
     if (mainWindow) {
-        mainWindow->show();
+        mainWindow->showMaximized();
     } else {
         qDebug() << "No parent MainWindow found, creating a new one.";
         MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
+        loginWindow->showMaximized();
     }
 
     // Close all parent windows up the chain (including stacked widgets)
@@ -143,6 +144,14 @@ void matchview::on_logout_clicked()
         w->close();
         w = parent;
     }
+}
+
+void matchview::on_aboutButton_clicked()
+{
+    qDebug() << "About button clicked.";
+    About *aboutDialog = new About(this);
+    aboutDialog->exec();
+    delete aboutDialog;
 }
 void matchview::on_compButton_clicked() {
     // Use parent QStackedWidget to change view

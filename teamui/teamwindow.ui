@@ -258,7 +258,7 @@ background-color: #D9CEBD;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../images.qrc">:/teamimg/Group 1.png</pixmap>
+     <pixmap resource="../images.qrc">:/matchimg/Group 1.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -366,7 +366,7 @@ background-color: #D9CEBD;</string>
 color: rgb(158, 158, 158);</string>
     </property>
     <property name="text">
-     <string>Language</string>
+     <string>About</string>
     </property>
    </widget>
    <widget class="QLabel" name="dashboard_6">
@@ -408,7 +408,7 @@ color: rgb(158, 158, 158);</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/img/language.png</pixmap>
+     <pixmap resource="../images.qrc">:/compimg/language.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -860,152 +860,6 @@ QPushButton#pushButton_6:pressed {
      <string> You can download team details as a PDF.</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>540</y>
-      <width>861</width>
-      <height>371</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QListView#listView {
-    background-color: #2D3748; /* Matches the sidebar background */
-    border: 1px solid #4A4E58; /* Subtle border matching chart borders */
-    border-radius: 5px; /* Slightly rounded corners for a modern look */
-    color: #FFFFFF; /* White text for contrast */
-    font: 12pt &quot;Arial&quot;; /* Matches the font style used elsewhere */
-}
-
-QListView#listView::item {
-    background-color: #2D3748; /* Item background matches the list background */
-    padding: 10px; /* Spacing for better readability */
-    color: #FFFFFF; /* White text for items */
-}
-
-QListView#listView::item:hover {
-    background-color: #F5A623; /* Golden highlight on hover to match accents */
-    color: #1A2526; /* Dark text for contrast on hover */
-}
-
-QListView#listView::item:selected {
-    background-color: #D8A353; /* Slightly lighter gold for selected items */
-    color: #1A2526; /* Dark text for contrast when selected */
-    border: none; /* Remove any default border */
-}</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>490</y>
-      <width>171</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>-1</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">/* Style for the Adjust Team title label */
-QLabel#label_4 {
-    background-color: transparent; /* Dark background matching the app */
-    color: #FFFFFF; /* White text for contrast */
-    font-size: 25px; /* Larger font for title emphasis */
-    font-weight: bold; /* Bold for a strong title appearance */
-    padding: 5px 10px; /* Padding for a balanced look */
-}</string>
-    </property>
-    <property name="text">
-     <string>To-Do-List</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>490</y>
-      <width>171</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>-1</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">/* Style for the Adjust Team title label */
-QLabel#label_7 {
-    background-color: transparent; /* Dark background matching the app */
-	color: rgb(186, 186, 186);
-    font-size: 18px; /* Larger font for title emphasis */
-
-    padding: 5px 10px; /* Padding for a balanced look */
-}</string>
-    </property>
-    <property name="text">
-     <string>Training</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>1060</x>
-      <y>920</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #22252D;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../images.qrc">
-      <normaloff>:/teamimg/add.png</normaloff>:/teamimg/add.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>1010</x>
-      <y>920</y>
-      <width>40</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #22252D;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="../images.qrc">
-      <normaloff>:/teamimg/minus.png</normaloff>:/teamimg/minus.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>30</width>
-      <height>30</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QLabel" name="currentUserPhotoLabel">
     <property name="geometry">
      <rect>
@@ -1213,6 +1067,43 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="aboutButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>830</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>dashboard_2</zorder>
    <zorder>dashboard_7</zorder>
@@ -1244,17 +1135,13 @@ QPushButton:pressed {
    <zorder>pushButton_6</zorder>
    <zorder>label_19</zorder>
    <zorder>label_22</zorder>
-   <zorder>listView</zorder>
-   <zorder>label_4</zorder>
-   <zorder>label_7</zorder>
-   <zorder>pushButton_7</zorder>
-   <zorder>pushButton_8</zorder>
    <zorder>currentUserPhotoLabel</zorder>
    <zorder>logout</zorder>
    <zorder>userbutton</zorder>
    <zorder>playerButton</zorder>
    <zorder>compButton</zorder>
    <zorder>matchButton</zorder>
+   <zorder>aboutButton</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="geometry">
