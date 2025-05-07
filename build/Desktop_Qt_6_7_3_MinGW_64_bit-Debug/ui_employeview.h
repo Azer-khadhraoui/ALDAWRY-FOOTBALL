@@ -57,14 +57,15 @@ public:
     QLabel *dashboard_8;
     QPushButton *playerButton;
     QPushButton *compButton;
+    QPushButton *matchButton;
 
-    void setupUi(QMainWindow *MainWindow)
+    void setupUi(QMainWindow *EmployeeWindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        if (EmployeeWindow->objectName().isEmpty())
+            EmployeeWindow->setObjectName("EmployeeWindow");
+        EmployeeWindow->resize(1920, 1080);
+        EmployeeWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(EmployeeWindow);
         centralwidget->setObjectName("centralwidget");
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
@@ -356,7 +357,24 @@ public:
 "}"));
         compButton->setIcon(icon4);
         compButton->setIconSize(QSize(40, 40));
-        MainWindow->setCentralWidget(centralwidget);
+        matchButton = new QPushButton(centralwidget);
+        matchButton->setObjectName("matchButton");
+        matchButton->setGeometry(QRect(10, 510, 141, 61));
+        matchButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        matchButton->setIcon(icon4);
+        matchButton->setIconSize(QSize(40, 40));
+        EmployeeWindow->setCentralWidget(centralwidget);
         widget_3->raise();
         tabWidget->raise();
         currentUserPhotoLabel->raise();
@@ -385,18 +403,19 @@ public:
         dashboard_8->raise();
         playerButton->raise();
         compButton->raise();
+        matchButton->raise();
 
-        retranslateUi(MainWindow);
+        retranslateUi(EmployeeWindow);
 
         tabWidget->setCurrentIndex(0);
 
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(EmployeeWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
+    void retranslateUi(QMainWindow *EmployeeWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("EmployeeWindow", "MainWindow", nullptr));
+        EmployeeWindow->setWindowTitle(QCoreApplication::translate("EmployeeWindow", "MainWindow", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QCoreApplication::translate("EmployeeWindow", "Stats", nullptr));
         currentUserPhotoLabel->setText(QString());
         employeeButton->setText(QString());
@@ -427,6 +446,7 @@ public:
         dashboard_8->setText(QCoreApplication::translate("EmployeeWindow", "Role", nullptr));
         playerButton->setText(QString());
         compButton->setText(QString());
+        matchButton->setText(QString());
     } // retranslateUi
 
 };

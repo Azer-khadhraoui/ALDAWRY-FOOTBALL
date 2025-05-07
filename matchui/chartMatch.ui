@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>chartMatch</class>
+ <widget class="QWidget" name="chartMatch">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>885</width>
+    <height>590</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+  <widget class="QComboBox" name="chartOptionComboBox">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>50</y>
+     <width>231</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #1C1F2A;
+border: 1px solid #2A2D3A;
+border-radius: 5px;
+padding: 5px;
+color: white;
+margin-left: 15px;
+margin-right:15px;</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>Goals per Competition</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Goals per Team</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="goals_chart" native="true">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>851</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the QTableWidget */
+QTableView#allmatches {
+    background-color: #1E2633; /* Match tab pane and form widget */
+    border: 2px solid #2A3A4A; /* Subtle blue-gray border */
+    gridline-color: #3A4A5A; /* Light grid lines */
+    alternate-background-color: #252A38; /* Alternating row color */
+    color: #E0E6ED; /* Light gray text */
+    selection-background-color: #00FF7F; /* Green selection */
+    selection-color: #1A2633; /* Dark blue text on selection */
+    border-radius: 5px;
+}
+QTableView#allmatches::item {
+    padding: 5px;
+    border: none; /* Remove individual cell borders */
+}
+QTableView#allmatches::item:focus {
+    outline: none; /* Remove focus outline */
+}
+
+/* Style for the table header */
+QHeaderView::section {
+    background-color: #252A38; /* Match alternating row color */
+    color: #E0E6ED;
+    border: 1px solid #2A3A4A;
+    padding: 4px;
+    font-weight: bold;
+    border-radius: 0;
+}
+QTableView#allmatches QTableCornerButton::section {
+    background-color: #252A38;
+    border: 1px solid #2A3A4A;
+}</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

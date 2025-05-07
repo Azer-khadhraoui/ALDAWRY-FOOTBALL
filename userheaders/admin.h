@@ -6,6 +6,7 @@
 #include "../teamheaders/teamwindow.h"
 #include "../playerheaders/playerwindow.h"
 #include "stats.h"
+#include "../matchheaders/matchview.h"
 
 class MainWindow; // Forward declaration
 
@@ -36,6 +37,7 @@ private:
     teamwindow *teamWindow;
     playerwindow *playerWindow; // Add playerwindow pointer
     QWidget *adminDashboard;
+    matchview *matchView; // Add matchview pointer
 };
 
 #endif // ADMIN_H

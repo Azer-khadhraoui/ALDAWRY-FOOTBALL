@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CoachWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QMainWindow" name="CoachWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -76,9 +76,9 @@ border: 1px solid #FFFFFF; /* Subtle blue-gray border */
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>320</y>
-      <width>35</width>
-      <height>35</height>
+      <y>314</y>
+      <width>31</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">

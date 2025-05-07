@@ -58,18 +58,19 @@ public:
     QLabel *dashboard_8;
     QPushButton *playerButton;
     QPushButton *compButton;
+    QPushButton *matchButton;
 
-    void setupUi(QMainWindow *MainWindow)
+    void setupUi(QMainWindow *AdminWindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        if (AdminWindow->objectName().isEmpty())
+            AdminWindow->setObjectName("AdminWindow");
+        AdminWindow->resize(1920, 1080);
+        AdminWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(AdminWindow);
         centralwidget->setObjectName("centralwidget");
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setGeometry(QRect(230, 570, 1671, 441));
+        tabWidget->setGeometry(QRect(230, 576, 1671, 441));
         tabWidget->setStyleSheet(QString::fromUtf8("QTabWidget::pane {\n"
 " background: linear-gradient(135deg, #0F111A 0%, #1A1C2A 100%);\n"
 " border: 1px solid #2A2D3A;\n"
@@ -100,7 +101,7 @@ public:
         tabWidget->addTab(tab_5, QString());
         currentUserPhotoLabel = new QLabel(centralwidget);
         currentUserPhotoLabel->setObjectName("currentUserPhotoLabel");
-        currentUserPhotoLabel->setGeometry(QRect(1800, 30, 60, 60));
+        currentUserPhotoLabel->setGeometry(QRect(1800, 36, 60, 60));
         currentUserPhotoLabel->setStyleSheet(QString::fromUtf8("background: #1E1F2D;\n"
 "border: 1px solid #3A3D4A;\n"
 "border-radius: 	30px;\n"
@@ -108,14 +109,14 @@ public:
         currentUserPhotoLabel->setScaledContents(true);
         widget_3 = new QWidget(centralwidget);
         widget_3->setObjectName("widget_3");
-        widget_3->setGeometry(QRect(200, 120, 1851, 971));
+        widget_3->setGeometry(QRect(200, 126, 1851, 971));
         widget_3->setStyleSheet(QString::fromUtf8("background-color: #22252D;\n"
 "border-radius:40px;\n"
 "border: 1px solid #FFFFFF; /* Subtle blue-gray border */\n"
 ""));
         dashboard_7 = new QLabel(centralwidget);
         dashboard_7->setObjectName("dashboard_7");
-        dashboard_7->setGeometry(QRect(80, 420, 131, 31));
+        dashboard_7->setGeometry(QRect(80, 426, 131, 31));
         QFont font;
         font.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font.setPointSize(12);
@@ -124,72 +125,72 @@ public:
 "color:#393C44;"));
         dashboard_3 = new QLabel(centralwidget);
         dashboard_3->setObjectName("dashboard_3");
-        dashboard_3->setGeometry(QRect(80, 520, 71, 31));
+        dashboard_3->setGeometry(QRect(80, 526, 71, 31));
         dashboard_3->setFont(font);
         dashboard_3->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "color:#393C44;"));
         label_17 = new QLabel(centralwidget);
         label_17->setObjectName("label_17");
-        label_17->setGeometry(QRect(30, 420, 27, 27));
+        label_17->setGeometry(QRect(30, 426, 27, 27));
         label_17->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_17->setPixmap(QPixmap(QString::fromUtf8(":/img/Vector.png")));
         label_17->setScaledContents(true);
         dashboard_2 = new QLabel(centralwidget);
         dashboard_2->setObjectName("dashboard_2");
-        dashboard_2->setGeometry(QRect(80, 320, 71, 31));
+        dashboard_2->setGeometry(QRect(80, 326, 71, 31));
         dashboard_2->setFont(font);
         dashboard_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "color:#393C44;"));
         label_18 = new QLabel(centralwidget);
         label_18->setObjectName("label_18");
-        label_18->setGeometry(QRect(30, 320, 35, 35));
+        label_18->setGeometry(QRect(30, 326, 35, 35));
         label_18->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_18->setPixmap(QPixmap(QString::fromUtf8(":/img/Group 1.png")));
         label_18->setScaledContents(true);
         label_19 = new QLabel(centralwidget);
         label_19->setObjectName("label_19");
-        label_19->setGeometry(QRect(30, 520, 34, 32));
+        label_19->setGeometry(QRect(30, 526, 34, 32));
         label_19->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_19->setPixmap(QPixmap(QString::fromUtf8(":/img/Group 3.png")));
         label_19->setScaledContents(true);
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(50, 30, 85, 85));
+        label->setGeometry(QRect(50, 36, 85, 85));
         label->setPixmap(QPixmap(QString::fromUtf8(":/img/logo_football.png")));
         label->setScaledContents(true);
         dashboard_4 = new QLabel(centralwidget);
         dashboard_4->setObjectName("dashboard_4");
-        dashboard_4->setGeometry(QRect(80, 620, 71, 31));
+        dashboard_4->setGeometry(QRect(80, 626, 71, 31));
         dashboard_4->setFont(font);
         dashboard_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "color:#393C44;"));
         label_21 = new QLabel(centralwidget);
         label_21->setObjectName("label_21");
-        label_21->setGeometry(QRect(30, 620, 28, 29));
+        label_21->setGeometry(QRect(30, 626, 28, 29));
         label_21->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_21->setPixmap(QPixmap(QString::fromUtf8(":/teamimg/Group 2.png")));
         label_21->setScaledContents(true);
         dashboard_6 = new QLabel(centralwidget);
         dashboard_6->setObjectName("dashboard_6");
-        dashboard_6->setGeometry(QRect(80, 920, 71, 31));
+        dashboard_6->setGeometry(QRect(80, 926, 71, 31));
         dashboard_6->setFont(font);
         dashboard_6->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "color:#393C44;"));
         label_22 = new QLabel(centralwidget);
         label_22->setObjectName("label_22");
-        label_22->setGeometry(QRect(30, 920, 28, 29));
+        label_22->setGeometry(QRect(30, 926, 28, 29));
         label_22->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_22->setPixmap(QPixmap(QString::fromUtf8(":/img/logout.png")));
         label_22->setScaledContents(true);
         line = new QFrame(centralwidget);
         line->setObjectName("line");
-        line->setGeometry(QRect(30, 790, 135, 1));
+        line->setGeometry(QRect(30, 796, 135, 1));
         line->setStyleSheet(QString::fromUtf8("background-color: #393C44;"));
         line->setFrameShape(QFrame::Shape::HLine);
         line->setFrameShadow(QFrame::Shadow::Sunken);
         pushButton_4 = new QPushButton(centralwidget);
         pushButton_4->setObjectName("pushButton_4");
-        pushButton_4->setGeometry(QRect(1870, 60, 16, 10));
+        pushButton_4->setGeometry(QRect(1870, 66, 16, 10));
         pushButton_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border: 1px solid transparent ; /* Subtle border matching chart borders */\n"
 ""));
@@ -198,7 +199,7 @@ public:
         pushButton_4->setIcon(icon);
         label_20 = new QLabel(centralwidget);
         label_20->setObjectName("label_20");
-        label_20->setGeometry(QRect(300, 230, 471, 121));
+        label_20->setGeometry(QRect(300, 236, 471, 121));
         QFont font1;
         font1.setFamilies({QString::fromUtf8("Speedo")});
         font1.setPointSize(29);
@@ -207,7 +208,7 @@ public:
         label_20->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_23 = new QLabel(centralwidget);
         label_23->setObjectName("label_23");
-        label_23->setGeometry(QRect(300, 370, 561, 121));
+        label_23->setGeometry(QRect(300, 376, 561, 121));
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Gill Sans Nova")});
         font2.setPointSize(21);
@@ -218,13 +219,13 @@ public:
 "color: #B1B1B1;"));
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(1030, 200, 140, 350));
+        label_2->setGeometry(QRect(1030, 206, 140, 350));
         label_2->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
         label_2->setPixmap(QPixmap(QString::fromUtf8(":/img/ADDBACKG.png")));
         label_2->setScaledContents(true);
         add_user = new QPushButton(centralwidget);
         add_user->setObjectName("add_user");
-        add_user->setGeometry(QRect(1030, 200, 141, 341));
+        add_user->setGeometry(QRect(1030, 206, 141, 341));
         add_user->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 5px; /* Slightly rounded corners for a modern look */"));
         QIcon icon1;
@@ -232,7 +233,7 @@ public:
         add_user->setIcon(icon1);
         adminButton = new QPushButton(centralwidget);
         adminButton->setObjectName("adminButton");
-        adminButton->setGeometry(QRect(1280, 210, 200, 341));
+        adminButton->setGeometry(QRect(1280, 216, 200, 341));
         adminButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 5px; /* Slightly rounded corners for a modern look */"));
         QIcon icon2;
@@ -241,7 +242,7 @@ public:
         adminButton->setIconSize(QSize(500, 700));
         coachButton = new QPushButton(centralwidget);
         coachButton->setObjectName("coachButton");
-        coachButton->setGeometry(QRect(1490, 210, 200, 341));
+        coachButton->setGeometry(QRect(1490, 216, 200, 341));
         coachButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 5px; /* Slightly rounded corners for a modern look */"));
         QIcon icon3;
@@ -250,7 +251,7 @@ public:
         coachButton->setIconSize(QSize(500, 700));
         employeeButton = new QPushButton(centralwidget);
         employeeButton->setObjectName("employeeButton");
-        employeeButton->setGeometry(QRect(1700, 210, 200, 341));
+        employeeButton->setGeometry(QRect(1700, 216, 200, 341));
         employeeButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 5px; /* Slightly rounded corners for a modern look */"));
         QIcon icon4;
@@ -259,13 +260,13 @@ public:
         employeeButton->setIconSize(QSize(500, 700));
         line_2 = new QFrame(centralwidget);
         line_2->setObjectName("line_2");
-        line_2->setGeometry(QRect(1220, 200, 1, 351));
+        line_2->setGeometry(QRect(1220, 206, 1, 351));
         line_2->setStyleSheet(QString::fromUtf8("background-color: rgb(168, 168, 168);"));
         line_2->setFrameShape(QFrame::Shape::VLine);
         line_2->setFrameShadow(QFrame::Shadow::Sunken);
         logout = new QPushButton(centralwidget);
         logout->setObjectName("logout");
-        logout->setGeometry(QRect(20, 900, 121, 61));
+        logout->setGeometry(QRect(20, 906, 121, 61));
         logout->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -284,7 +285,7 @@ public:
         logout->setIconSize(QSize(40, 40));
         profileButton = new QPushButton(centralwidget);
         profileButton->setObjectName("profileButton");
-        profileButton->setGeometry(QRect(1800, 30, 61, 81));
+        profileButton->setGeometry(QRect(1800, 36, 61, 81));
         profileButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -301,7 +302,7 @@ public:
         profileButton->setIconSize(QSize(40, 40));
         teamButton = new QPushButton(centralwidget);
         teamButton->setObjectName("teamButton");
-        teamButton->setGeometry(QRect(20, 610, 121, 61));
+        teamButton->setGeometry(QRect(20, 616, 121, 61));
         teamButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -318,7 +319,7 @@ public:
         teamButton->setIconSize(QSize(40, 40));
         dashboard_9 = new QLabel(centralwidget);
         dashboard_9->setObjectName("dashboard_9");
-        dashboard_9->setGeometry(QRect(1720, 60, 81, 31));
+        dashboard_9->setGeometry(QRect(1720, 66, 81, 31));
         QFont font3;
         font3.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font3.setPointSize(12);
@@ -328,13 +329,13 @@ public:
 "color:white;"));
         dashboard_8 = new QLabel(centralwidget);
         dashboard_8->setObjectName("dashboard_8");
-        dashboard_8->setGeometry(QRect(1710, 40, 71, 31));
+        dashboard_8->setGeometry(QRect(1710, 46, 71, 31));
         dashboard_8->setFont(font);
         dashboard_8->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "color:#393C44;"));
         playerButton = new QPushButton(centralwidget);
         playerButton->setObjectName("playerButton");
-        playerButton->setGeometry(QRect(20, 310, 121, 61));
+        playerButton->setGeometry(QRect(20, 316, 121, 61));
         playerButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -351,7 +352,7 @@ public:
         playerButton->setIconSize(QSize(40, 40));
         compButton = new QPushButton(centralwidget);
         compButton->setObjectName("compButton");
-        compButton->setGeometry(QRect(30, 410, 141, 61));
+        compButton->setGeometry(QRect(30, 416, 141, 61));
         compButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
 "border-radius: 30px;\n"
 "transition: background 0.3s, transform 0.2s;\n"
@@ -366,7 +367,24 @@ public:
 "}"));
         compButton->setIcon(icon5);
         compButton->setIconSize(QSize(40, 40));
-        MainWindow->setCentralWidget(centralwidget);
+        matchButton = new QPushButton(centralwidget);
+        matchButton->setObjectName("matchButton");
+        matchButton->setGeometry(QRect(10, 510, 141, 61));
+        matchButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        matchButton->setIcon(icon5);
+        matchButton->setIconSize(QSize(40, 40));
+        AdminWindow->setCentralWidget(centralwidget);
         widget_3->raise();
         tabWidget->raise();
         currentUserPhotoLabel->raise();
@@ -398,18 +416,19 @@ public:
         dashboard_8->raise();
         playerButton->raise();
         compButton->raise();
+        matchButton->raise();
 
-        retranslateUi(MainWindow);
+        retranslateUi(AdminWindow);
 
         tabWidget->setCurrentIndex(0);
 
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(AdminWindow);
     } // setupUi
 
-    void retranslateUi(QMainWindow *MainWindow)
+    void retranslateUi(QMainWindow *AdminWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("AdminWindow", "MainWindow", nullptr));
+        AdminWindow->setWindowTitle(QCoreApplication::translate("AdminWindow", "MainWindow", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QCoreApplication::translate("AdminWindow", "Stats", nullptr));
         currentUserPhotoLabel->setText(QString());
         dashboard_7->setText(QCoreApplication::translate("AdminWindow", "Competition", nullptr));
@@ -441,6 +460,7 @@ public:
         dashboard_8->setText(QCoreApplication::translate("AdminWindow", "Role", nullptr));
         playerButton->setText(QString());
         compButton->setText(QString());
+        matchButton->setText(QString());
     } // retranslateUi
 
 };

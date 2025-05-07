@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>statsMatch</class>
+ <widget class="QWidget" name="statsMatch">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>942</width>
+    <height>660</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #1b1f2a, stop:1 #10131a);</string>
+  </property>
+  <widget class="QWidget" name="weather_impact" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>921</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#customWidget {
+    background-color: #1E2633;
+    border: 2px solid #2A3A4A;
+    color: #E0E6ED;
+    border-radius: 5px;
+}
+QWidget#customWidget QLabel {
+    color: #E0E6ED;
+    background-color: transparent;
+}</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="Matches_sum">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>921</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the QTableWidget */
+QTableView#allmatches {
+    background-color: #1E2633; /* Match tab pane and form widget */
+    border: 2px solid #2A3A4A; /* Subtle blue-gray border */
+    gridline-color: #3A4A5A; /* Light grid lines */
+    alternate-background-color: #252A38; /* Alternating row color */
+    color: #E0E6ED; /* Light gray text */
+    selection-background-color: #00FF7F; /* Green selection */
+    selection-color: #1A2633; /* Dark blue text on selection */
+    border-radius: 5px;
+}
+QTableView#allmatches::item {
+    padding: 5px;
+    border: none; /* Remove individual cell borders */
+}
+QTableView#allmatches::item:focus {
+    outline: none; /* Remove focus outline */
+}
+
+/* Style for the table header */
+QHeaderView::section {
+    background-color: #252A38; /* Match alternating row color */
+    color: #E0E6ED;
+    border: 1px solid #2A3A4A;
+    padding: 4px;
+    font-weight: bold;
+    border-radius: 0;
+}
+QTableView#allmatches QTableCornerButton::section {
+    background-color: #252A38;
+    border: 1px solid #2A3A4A;
+}</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="refrees">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>921</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the QTableWidget */
+QTableView#allmatches {
+    background-color: #1E2633; /* Match tab pane and form widget */
+    border: 2px solid #2A3A4A; /* Subtle blue-gray border */
+    gridline-color: #3A4A5A; /* Light grid lines */
+    alternate-background-color: #252A38; /* Alternating row color */
+    color: #E0E6ED; /* Light gray text */
+    selection-background-color: #00FF7F; /* Green selection */
+    selection-color: #1A2633; /* Dark blue text on selection */
+    border-radius: 5px;
+}
+QTableView#allmatches::item {
+    padding: 5px;
+    border: none; /* Remove individual cell borders */
+}
+QTableView#allmatches::item:focus {
+    outline: none; /* Remove focus outline */
+}
+
+/* Style for the table header */
+QHeaderView::section {
+    background-color: #252A38; /* Match alternating row color */
+    color: #E0E6ED;
+    border: 1px solid #2A3A4A;
+    padding: 4px;
+    font-weight: bold;
+    border-radius: 0;
+}
+QTableView#allmatches QTableCornerButton::section {
+    background-color: #252A38;
+    border: 1px solid #2A3A4A;
+}</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>20</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* Style for the Adjust Team title label */
+QLabel#label_3 {
+    background-color: transparent; /* Dark background matching the app */
+    color: #FFFFFF; /* White text for contrast */
+    font-size: 25px; /* Larger font for title emphasis */
+    font-weight: bold; /* Bold for a strong title appearance */
+
+
+    padding: 5px 10px; /* Padding for a balanced look */
+}</string>
+   </property>
+   <property name="text">
+    <string>Match Statistique</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

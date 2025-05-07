@@ -22,7 +22,8 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     stackedWidget(nullptr),
     teamWindow(nullptr),
     playerWindow(nullptr),
-    adminDashboard(nullptr)
+    adminDashboard(nullptr),
+    matchView(nullptr) // Initialize matchView to nullptr
 {
     ui->setupUi(this);
     setWindowTitle("Admin Dashboard");
@@ -42,6 +43,10 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     // Create and add the competitionview, pass stackedWidget pointer
     competitionview *competitionView = new competitionview(stackedWidget);
     stackedWidget->addWidget(competitionView);
+
+    // Create and add the matchview, pass stackedWidget pointer
+    matchView = new matchview(stackedWidget, this);
+    stackedWidget->addWidget(matchView);
     // Set stackedWidget as the central widget
     setCentralWidget(stackedWidget);
     // Show admin dashboard by default
@@ -57,12 +62,17 @@ AdminWindow::AdminWindow(MainWindow *mainWindowParent, QWidget *parent) :
     connect(ui->teamButton, &QPushButton::clicked, this, [this]() {
         stackedWidget->setCurrentWidget(teamWindow);
     });
+    // connect playerButton to show playerwindow in stackedWidget
     connect(ui->playerButton, &QPushButton::clicked, this, [this]() {
         stackedWidget->setCurrentWidget(playerWindow);
     });
     // Connect compButton to show competitionview in stackedWidget
     connect(ui->compButton, &QPushButton::clicked, this, [this, competitionView]() {
         stackedWidget->setCurrentWidget(competitionView);
+    });
+    // Connect matchButton to show matchview in stackedWidget
+    connect(ui->matchButton, &QPushButton::clicked, this, [this]() {
+        stackedWidget->setCurrentWidget(matchView);
     });
 
     // Load current user's photo and details
@@ -130,7 +140,6 @@ void AdminWindow::handleEmployeeButtonClicked()
     displayUser->exec(); // Change from show() to exec()
 }
 
-
 void AdminWindow::handleAddUserButtonClicked()
 {
     qDebug() << "Add User button clicked.";
@@ -180,3 +189,4 @@ void AdminWindow::handleProfileButtonClicked() {
     profileDialog->exec();
     delete profileDialog;
 }
+

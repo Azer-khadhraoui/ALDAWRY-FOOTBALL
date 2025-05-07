@@ -5,15 +5,17 @@
 #include "../userheaders/sessionmanager.h"
 #include "../userheaders/mainwindow.h"
 #include <QLineEdit> // Include QLineEdit header
+#include "../userheaders/displaymatch_coach.h"
+#include "../teamheaders/team.h"
 
 CoachWindow::CoachWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::CoachWindow)
-    , mainWindowParent(qobject_cast<MainWindow*>(parent)) // Initialize mainWindowParent
 {
     ui->setupUi(this);
     connect(ui->Viewplayers, &QPushButton::clicked, this, &CoachWindow::on_viewplayer_clicked);
     connect(ui->logout, &QPushButton::clicked, this, &CoachWindow::logout); // Connect logout button to close the window
+    connect(ui->MatchesButton, &QPushButton::clicked, this, &CoachWindow::on_MatchesButton_clicked); // Connect match button
 
     
     // Load current user's photo and details
@@ -29,6 +31,31 @@ CoachWindow::CoachWindow(QWidget *parent)
     } else {
         ui->currentUserPhotoLabel->setText("No Photo");
     }
+
+    // for the label_3 set it to the team logo of the current user
+    int coachId = currentUser.getId();
+    Team* team = Team::getTeamByCoachId(coachId);
+    if (team) {
+        QString teamName = team->getTeamName();
+        QSqlQuery logoQuery;
+        logoQuery.prepare("SELECT TEAM_LOGO FROM EQUIPE WHERE TEAM_NAME = :teamName");
+        logoQuery.bindValue(":teamName", teamName);
+        if (logoQuery.exec() && logoQuery.next()) {
+            QByteArray logoData = logoQuery.value("TEAM_LOGO").toByteArray();
+            QPixmap teamLogo;
+            if (teamLogo.loadFromData(logoData)) {
+                ui->label_3->setPixmap(teamLogo.scaled(ui->label_3->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            } else {
+                ui->label_3->setText("No Logo");
+            }
+        } else {
+            ui->label_3->setText("No Logo");
+        }
+        delete team;
+    } else {
+        ui->label_3->setText("No Logo");
+    }
+
     // Set username and role
     ui->dashboard_9->setText(currentUser.getFirstName() + " " + currentUser.getLastName());
     ui->dashboard_8->setText(currentUser.getRole());
@@ -49,6 +76,13 @@ void CoachWindow::on_viewplayer_clicked()
     displayPlayersWindow->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
     displayPlayersWindow->show();
 }
+void CoachWindow::on_MatchesButton_clicked()
+{
+    qDebug() << "Match button clicked, opening displaymatch_coach...";
+    displaymatch_coach *displayMatchWindow = new displaymatch_coach(this); // Set parent to this
+    displayMatchWindow->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
+    displayMatchWindow->show();
+}
 // logout function 
 void CoachWindow::logout()
 {
@@ -62,22 +96,10 @@ void CoachWindow::logout()
     ui->dashboard_9->setText("User name"); // Reset username label
     ui->dashboard_8->setText("Role");      // Reset role label
 
-    if (mainWindowParent) {
-        QLineEdit *emailField = mainWindowParent->findChild<QLineEdit*>("lineEdit");
-        QLineEdit *passwordField = mainWindowParent->findChild<QLineEdit*>("lineEdit_2");
-        if (emailField && passwordField) {
-            emailField->clear();
-            passwordField->clear();
-        } else {
-            qDebug() << "Failed to find email or password fields in MainWindow.";
-        }
-        mainWindowParent->show();
-    } else {
-        qDebug() << "No parent MainWindow found, creating a new one.";
-        MainWindow *loginWindow = new MainWindow();
-        loginWindow->show();
-    }
+    qDebug() << "No parent MainWindow found, creating a new one.";
+    MainWindow *loginWindow = new MainWindow();
+    loginWindow->show();
 
-    // Close the current CoachWindow
+    // Close the current AdminWindow
     this->close();
 }

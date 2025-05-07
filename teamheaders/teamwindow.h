@@ -137,7 +137,7 @@ class teamwindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit teamwindow(QStackedWidget *stack = nullptr, QWidget *parent = nullptr);
+    explicit teamwindow(QStackedWidget *stackedWidget = nullptr, QWidget *parent = nullptr);
     ~teamwindow();
 
 private slots:
@@ -156,11 +156,11 @@ private slots:
     void on_userbutton_cliceked();
     void on_playerButton_clicked();
     void on_compButton_clicked();
+    void on_matchButton_clicked();
 
 private:
     Ui::teamwindow *ui;
     QByteArray teamLogo;
-    QStackedWidget *stackedWidget; // <-- Add this member
 
     void setupBudgetPieChart();
     void updateBudgetPieChart();

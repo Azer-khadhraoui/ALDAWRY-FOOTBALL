@@ -30,7 +30,7 @@ public:
     void setBudget(int budget) { Budget = budget; }
     void setTeamABV(const QString &teamABV) { TeamABV = teamABV; }
     void setTeamLogo(const QByteArray &teamLogo) { TeamLogo = teamLogo; }
-    Team* getTeamByCoachId(int coachId);
+    static Team* getTeamByCoachId(int coachId);
 
 private:
     int Id;

@@ -68,18 +68,19 @@ public:
     QPushButton *userbutton;
     QPushButton *playerButton;
     QPushButton *compButton;
+    QPushButton *matchButton;
     QStatusBar *statusbar;
 
-    void setupUi(QWidget *MainWindow)
+    void setupUi(QWidget *teamwindow)
     {
-        if (MainWindow->objectName().isEmpty())
-            MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1920, 1080);
+        if (teamwindow->objectName().isEmpty())
+            teamwindow->setObjectName("teamwindow");
+        teamwindow->resize(1920, 1080);
         QFont font;
         font.setPointSize(10);
-        MainWindow->setFont(font);
-        MainWindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
-        centralwidget = new QWidget(MainWindow);
+        teamwindow->setFont(font);
+        teamwindow->setStyleSheet(QString::fromUtf8("background-color: #161A22;"));
+        centralwidget = new QWidget(teamwindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setGeometry(QRect(0, 0, 2041, 1121));
         label = new QLabel(centralwidget);
@@ -561,6 +562,23 @@ public:
 "}"));
         compButton->setIcon(icon6);
         compButton->setIconSize(QSize(40, 40));
+        matchButton = new QPushButton(centralwidget);
+        matchButton->setObjectName("matchButton");
+        matchButton->setGeometry(QRect(10, 510, 141, 61));
+        matchButton->setStyleSheet(QString::fromUtf8("background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);\n"
+"border-radius: 30px;\n"
+"transition: background 0.3s, transform 0.2s;\n"
+"}\n"
+"QPushButton:hover {\n"
+" background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);\n"
+" transform: scale(1.1);\n"
+"}\n"
+"QPushButton:pressed {\n"
+" background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);\n"
+" transform: scale(0.9);\n"
+"}"));
+        matchButton->setIcon(icon6);
+        matchButton->setIconSize(QSize(40, 40));
         label->raise();
         dashboard_2->raise();
         dashboard_7->raise();
@@ -602,18 +620,19 @@ public:
         userbutton->raise();
         playerButton->raise();
         compButton->raise();
-        statusbar = new QStatusBar(MainWindow);
+        matchButton->raise();
+        statusbar = new QStatusBar(teamwindow);
         statusbar->setObjectName("statusbar");
         statusbar->setGeometry(QRect(0, 0, 3, 22));
 
-        retranslateUi(MainWindow);
+        retranslateUi(teamwindow);
 
-        QMetaObject::connectSlotsByName(MainWindow);
+        QMetaObject::connectSlotsByName(teamwindow);
     } // setupUi
 
-    void retranslateUi(QWidget *MainWindow)
+    void retranslateUi(QWidget *teamwindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("teamwindow", "MainWindow", nullptr));
+        teamwindow->setWindowTitle(QCoreApplication::translate("teamwindow", "MainWindow", nullptr));
         label->setText(QString());
         dashboard_2->setText(QCoreApplication::translate("teamwindow", "Player", nullptr));
         dashboard_7->setText(QCoreApplication::translate("teamwindow", "Competition", nullptr));
@@ -652,6 +671,7 @@ public:
         userbutton->setText(QString());
         playerButton->setText(QString());
         compButton->setText(QString());
+        matchButton->setText(QString());
     } // retranslateUi
 
 };

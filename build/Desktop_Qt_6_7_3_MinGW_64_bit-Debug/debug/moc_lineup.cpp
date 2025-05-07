@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../userheaders/lineup.h"
+#include "C:/Users/azizg/OneDrive/Bureau/ALDAWRY-FOOTBALL-user_integration/userheaders/lineup.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

@@ -52,7 +52,6 @@ private slots:
 
 private:
     Ui::playerwindow *ui;
-    QStackedWidget *m_stackedWidget = nullptr; // Store stacked widget for navigation
     QMap<QString, int> teamMap;
     int currentDisplayedPlayerId;
     QComboBox *comboBoxCompetition;

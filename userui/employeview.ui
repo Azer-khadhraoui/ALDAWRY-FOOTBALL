@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>EmployeeWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QMainWindow" name="EmployeeWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -787,6 +787,43 @@ QPushButton:pressed {
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="matchButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>510</y>
+      <width>141</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: linear-gradient(45deg, #0288D1 0%, #03A9F4 100%);
+border-radius: 30px;
+transition: background 0.3s, transform 0.2s;
+}
+QPushButton:hover {
+ background: linear-gradient(45deg, #03A9F4 0%, #4FC3F7 100%);
+ transform: scale(1.1);
+}
+QPushButton:pressed {
+ background: linear-gradient(45deg, #01579B 0%, #0288D1 100%);
+ transform: scale(0.9);
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>:/images/logout.png</normaloff>:/images/logout.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
    <zorder>widget_3</zorder>
    <zorder>tabWidget</zorder>
    <zorder>currentUserPhotoLabel</zorder>
@@ -815,6 +852,7 @@ QPushButton:pressed {
    <zorder>dashboard_8</zorder>
    <zorder>playerButton</zorder>
    <zorder>compButton</zorder>
+   <zorder>matchButton</zorder>
   </widget>
  </widget>
  <resources>
