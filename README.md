@@ -75,8 +75,8 @@ Elle propose une interface graphique intuitive et des outils puissants pour orga
 |----------------|-------------------------------------|
 | 💻 C++         | Langage principal                   |
 | 🧱 Qt          | Framework graphique                 |
-| 🗃️ SQLite      | Base de données embarquée           |
-| 🎨 QML         | Design d'interface moderne         |
+| 🗃️ SQL developper      | Base de données embarquée           |
+
 
 ---
 
