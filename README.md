@@ -1,93 +1,95 @@
 # 🏆 Aldawry Football – Smart Football Competition
 
-**Aldawry Football** est une application **desktop** développée avec **Qt Creator** en **C++**, conçue pour gérer intelligemment des compétitions de football.  
-Elle propose une interface graphique intuitive et des outils puissants pour organiser des compétitions sportives de manière professionnelle.
+> A smart desktop application for managing football competitions, built with Qt and C++.  
+> Organize players, teams, matches, and tournaments efficiently with a modern interface.
+
+![GitHub stars](https://img.shields.io/github/stars/Azer-khadhraoui/ALDAWRY-FOOTBALL?style=social)
+![Last Commit](https://img.shields.io/github/last-commit/Azer-khadhraoui/ALDAWRY-FOOTBALL)
 
 ---
 
-## 🌟 Fonctionnalités clés
+## 🌟 Key Features
 
-### ⚽ Gestion des Joueurs  
-*Optimisez votre effectif avec des outils dédiés aux talents*  
-- Ajout/édition de joueurs via un formulaire intuitif  
-- Visualisation des statistiques individuelles  
-- Gestion des positions et statuts  
+### ⚽ Player Management  
+*Optimize your squad with dedicated talent management tools*  
+- Add/edit players using an intuitive form  
+- View individual player statistics  
+- Manage player positions and statuses  
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/f50cfb27-fa1a-41be-bddb-c2b018b3a22a" alt="Interface Joueurs" width="500"/>
-  <p><em>Tableau de gestion des joueurs avec statistiques détaillées</em></p>
+  <img src="https://github.com/user-attachments/assets/f50cfb27-fa1a-41be-bddb-c2b018b3a22a" alt="Player Interface" width="500"/>
+  <p><em>Player management table with detailed statistics</em></p>
 </div>
 
 ---
 
-### 🏆 Gestion des Équipes  
-*Créez et analysez des équipes compétitives*  
-- Système de budgets différenciés  
-- Composition d'équipes personnalisées  
+### 🏆 Team Management  
+*Create and analyze competitive teams*  
+- Differentiated budget system  
+- Custom team composition  
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/299334cd-178c-45af-b957-100da648be50" alt="Interface Équipes" width="500"/>
-  <p><em>Gestion visuelle des équipes et budgets</em></p>
+  <img src="https://github.com/user-attachments/assets/299334cd-178c-45af-b957-100da648be50" alt="Team Interface" width="500"/>
+  <p><em>Visual management of teams and budgets</em></p>
 </div>
 
 ---
 
-### 📅 Gestion des Matchs  
-*Planifiez et suivez les rencontres*  
-- Calendrier interactif  
-- Génération automatique  
+### 📅 Match Management  
+*Plan and follow matches*  
+- Interactive calendar  
+- Automatic match generation  
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/5bf58d89-7462-4bc5-85ce-90962d5a8d55" alt="Interface Matchs" width="500"/>
-  <p><em>Planning des matchs et résultats</em></p>
+  <img src="https://github.com/user-attachments/assets/5bf58d89-7462-4bc5-85ce-90962d5a8d55" alt="Match Interface" width="500"/>
+  <p><em>Match schedule and results</em></p>
 </div>
 
 ---
 
-### 🏟️ Gestion des Compétitions  
-*Organisez tournois et championnats*  
-- Choix entre ligue et tournoi  
-- Classements automatiques  
+### 🏟️ Competition Management  
+*Organize tournaments and leagues*  
+- Choice between league or knockout format  
+- Automatic standings and rankings  
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/d689fc2f-5754-4d0f-9e66-3a4901498d7b" alt="Interface Compétitions" width="500"/>
-  <p><em>Création de nouvelles compétitions</em></p>
+  <img src="https://github.com/user-attachments/assets/d689fc2f-5754-4d0f-9e66-3a4901498d7b" alt="Competition Interface" width="500"/>
+  <p><em>Creating new competitions</em></p>
 </div>
 
 ---
 
-### 🔐 Gestion des Utilisateurs 
-*Accès sécurisé et personnalisé*  
-- Tableau de bord par rôle  
-- Interface coach dédiée  
+### 🔐 User Management  
+*Secure and personalized access*  
+- Role-based dashboard  
+- Dedicated coach interface  
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/21f99a3d-ba06-4e49-97bf-834f3e52c7b6" alt="Login" width="300"/>
-  <img src="https://github.com/user-attachments/assets/9f2f89b9-09af-4e4a-b1f0-3481e9f20537" alt="Interface Coach" width="300"/>
-  <p><em>Login sécurisé et vue Coach</em></p>
+  <img src="https://github.com/user-attachments/assets/9f2f89b9-09af-4e4a-b1f0-3481e9f20537" alt="Coach Interface" width="300"/>
+  <p><em>Secure login and coach view</em></p>
 </div>
 
 ---
 
-## 🧰 Technologies utilisées
+## 🧰 Technologies Used
 
-| Technologie     | Description                         |
-|----------------|-------------------------------------|
-| 💻 C++         | Langage principal                   |
-| 🧱 Qt          | Framework graphique                 |
-| 🗃️ SQL developper      | Base de données embarquée           |
-
+| Technology       | Description                |
+|------------------|----------------------------|
+| 💻 C++            | Main programming language  |
+| 🧱 Qt             | Graphical user interface framework |
+| 🗃️ SQL Developer  | Embedded database system   |
 
 ---
 
-## 🏁 Guide d'installation
+## 🏁 Installation Guide
 
 ```bash
-# 1. Cloner le dépôt
+# 1. Clone the repository
 git clone https://github.com/Azer-khadhraoui/ALDAWRY-FOOTBALL.git
 
-# 2. Ouvrir avec Qt Creator
+# 2. Open with Qt Creator
 cd ALDAWRY-FOOTBALL
 qtcreator aldawry-football.pro
 
-# 3. Compiler et exécuter
+# 3. Build and run
