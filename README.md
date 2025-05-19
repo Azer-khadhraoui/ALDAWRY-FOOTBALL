@@ -87,6 +87,16 @@
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Azer-khadhraoui/ALDAWRY-FOOTBALL.git
+```
+---
+
+
+## 💻⚽ Trailer
+
+
+https://github.com/user-attachments/assets/cd2e0ede-0ecc-413c-affb-58815e9de7ec
+
+
 
 # 2. Open with Qt Creator
 cd ALDAWRY-FOOTBALL
